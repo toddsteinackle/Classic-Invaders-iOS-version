@@ -6,7 +6,7 @@
 //  Copyright Michael Daley 2009. All rights reserved.
 //
 
-#import "SLQTSORAppDelegate.h"
+#import "ClassicInvadersAppDelegate.h"
 #import "Global.h"
 #import "EAGLView.h"
 #import "SoundManager.h"
@@ -16,7 +16,7 @@
 #pragma mark -
 #pragma mark Private interface
 
-@interface SLQTSORAppDelegate (Private)
+@interface ClassicInvadersAppDelegate (Private)
 
 // Loads the settings from the settings plist file into the 
 // sound manager
@@ -27,7 +27,7 @@
 #pragma mark -
 #pragma mark Public implementation
 
-@implementation SLQTSORAppDelegate
+@implementation ClassicInvadersAppDelegate
 
 @synthesize window;
 @synthesize glView;

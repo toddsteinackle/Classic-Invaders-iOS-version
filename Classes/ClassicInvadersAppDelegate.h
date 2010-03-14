@@ -12,7 +12,7 @@
 @class SoundManager;
 @class GameController;
 
-@interface SLQTSORAppDelegate : NSObject <UIApplicationDelegate> {
+@interface ClassicInvadersAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
     EAGLView *glView;
 	

@@ -26,7 +26,7 @@
 		18B97166103AAB0F00809077 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B97165103AAB0F00809077 /* CoreGraphics.framework */; };
 		18B97168103AAB0F00809077 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B97167103AAB0F00809077 /* OpenAL.framework */; };
 		18B97330103AAB2F00809077 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 18B9732F103AAB2F00809077 /* libz.dylib */; };
-		1D3623260D0F684500981E51 /* SLQTSORAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* SLQTSORAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* ClassicInvadersAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* ClassicInvadersAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -159,8 +159,8 @@
 		18B97167103AAB0F00809077 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		18B9732F103AAB2F00809077 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* SLQTSORAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLQTSORAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* SLQTSORAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLQTSORAppDelegate.m; sourceTree = "<group>"; };
+		1D3623240D0F684500981E51 /* ClassicInvadersAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicInvadersAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* ClassicInvadersAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassicInvadersAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* ClassicInvaders.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClassicInvaders.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -316,8 +316,8 @@
 			isa = PBXGroup;
 			children = (
 				8FD15155105A99E600201E1F /* Views */,
-				1D3623240D0F684500981E51 /* SLQTSORAppDelegate.h */,
-				1D3623250D0F684500981E51 /* SLQTSORAppDelegate.m */,
+				1D3623240D0F684500981E51 /* ClassicInvadersAppDelegate.h */,
+				1D3623250D0F684500981E51 /* ClassicInvadersAppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -889,7 +889,7 @@
 				8FDE03FF112AB8D2008FF523 /* CreditsViewController.m in Sources */,
 				8FDE0400112AB8D2008FF523 /* HighScoreViewController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* SLQTSORAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* ClassicInvadersAppDelegate.m in Sources */,
 				18B970DB103AA64F00809077 /* NSDataAdditions.m in Sources */,
 				18B970DC103AA64F00809077 /* TBXML.m in Sources */,
 				18B9710F103AA7AF00809077 /* ParticleEmitter.m in Sources */,

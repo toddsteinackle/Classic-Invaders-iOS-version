@@ -7,7 +7,7 @@
 //
 
 #import "GameController.h"
-#import "SLQTSORAppDelegate.h"
+#import "ClassicInvadersAppDelegate.h"
 #import "AbstractScene.h"
 #import "SoundManager.h"
 #import "GameScene.h"
