@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="200" height="200" tilewidth="40" tileheight="40">
+ <tileset firstgid="1" name="Tiles" tilewidth="40" tileheight="40" spacing="1">
+  <image source="newTileAtlas.png"/>
+  <tile id="159">
+   <properties>
+    <property name="blocker" value="1"/>
+   </properties>
+  </tile>
+  <tile id="161">
+   <properties>
+    <property name="type" value="22"/>
+   </properties>
+  </tile>
+  <tile id="162">
+   <properties>
+    <property name="type" value=""/>
+   </properties>
+  </tile>
+  <tile id="164">
+   <properties>
+    <property name="type" value="21"/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="type" value="11"/>
+   </properties>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="type" value="20"/>
+   </properties>
+  </tile>
+  <tile id="167">
+   <properties>
+    <property name="type" value="10"/>
+   </properties>
+  </tile>
+  <tile id="168">
+   <properties>
+    <property name="type" value="19"/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="type" value="23"/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="type" value="24"/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="type" value="26"/>
+   </properties>
+  </tile>
+  <tile id="172">
+   <properties>
+    <property name="type" value="25"/>
+   </properties>
+  </tile>
+  <tile id="173">
+   <properties>
+    <property name="type" value="9"/>
+   </properties>
+  </tile>
+  <tile id="174">
+   <properties>
+    <property name="type" value="18"/>
+   </properties>
+  </tile>
+  <tile id="175">
+   <properties>
+    <property name="type" value="8"/>
+   </properties>
+  </tile>
+  <tile id="178">
+   <properties>
+    <property name="type" value="7"/>
+   </properties>
+  </tile>
+  <tile id="179">
+   <properties>
+    <property name="type" value="27"/>
+   </properties>
+  </tile>
+  <tile id="180">
+   <properties>
+    <property name="type" value="6"/>
+   </properties>
+  </tile>
+  <tile id="181">
+   <properties>
+    <property name="type" value="17"/>
+   </properties>
+  </tile>
+  <tile id="182">
+   <properties>
+    <property name="type" value="5"/>
+   </properties>
+  </tile>
+  <tile id="183">
+   <properties>
+    <property name="type" value="16"/>
+   </properties>
+  </tile>
+  <tile id="184">
+   <properties>
+    <property name="type" value="4"/>
+   </properties>
+  </tile>
+  <tile id="185">
+   <properties>
+    <property name="type" value="15"/>
+   </properties>
+  </tile>
+  <tile id="186">
+   <properties>
+    <property name="type" value="3"/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="type" value="14"/>
+   </properties>
+  </tile>
+  <tile id="190">
+   <properties>
+    <property name="type" value="2"/>
+   </properties>
+  </tile>
+  <tile id="191">
+   <properties>
+    <property name="type" value="13"/>
+   </properties>
+  </tile>
+  <tile id="192">
+   <properties>
+    <property name="type" value="1"/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="type" value="12"/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="type" value="0"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Map" width="200" height="200">
+  <properties>
+   <property name="visible" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   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
+  </data>
+ </layer>
+ <layer name="Objects" width="200" height="200">
+  <properties>
+   <property name="visible" value="1"/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3b607bMBQA4Dzl2ofYhtA2hLQJJu3yc5u4qNABU99lt8daImLN8wyBxjSi/j7pKImT2kbK6Ulq0TQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdfk+9QQAAAAAAAAAAAAAAAAAAABYy4+pJwAAAAAAAAAAAAAAAMAoL6aewID9gfMvB87/LDURAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAehZM2Tkf28bqNNwXmAlP6soExPm9gDMb71W/3orbfmbYaqRlA7dapA0fFZwFso7OpJ0AxoVak3/9pDUmPt61ePG9jp0A/7wr0Ebwv1M9xoX4AuLvwHT5r40kf83476/dTiwLj5p7R5tGY8+h4VmA87m7bnp2GHEb7T9t4lpwPeRHuzXQ/zpEuN1b9/jprFmEtpetnGbWnuTHLHOfs9tuDNebCv2pfv8gJ7xNx/YjzI3dflqgf55m2XP24LTeA2+0OXwIbtRq+BB6tVyM/n3s2uq+xayhj/wbYtA/J8cfMNeF9J7zDlFoDgW2yiAJqcdFcPzt1cXnDNXKDWn1t/q6RLDPtaQT+/4MadHmwav7Pj5T6QY2+Nde50d37V5nzi2QLNel+nzrvw29T1OhtgT4+FegDAHhYfwCsD1egAHECAA==
+  </data>
+ </layer>
+ <layer name="Collision" width="200" height="200" opacity="0.6">
+  <data encoding="base64" compression="gzip">
+   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
+  </data>
+ </layer>
+ <objectgroup name="Portals" width="0" height="0">
+  <object name="CavernPortal1" x="2578" y="5942" width="96" height="40">
+   <properties>
+    <property name="dest_x" value="8"/>
+    <property name="dest_y" value="160"/>
+   </properties>
+  </object>
+  <object name="P2" type="Portal" x="238" y="1690" width="40" height="40">
+   <properties>
+    <property name="dest_x" value="100"/>
+    <property name="dest_y" value="5"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ffcc66" name="Game Objects" width="0" height="0">
+  <object name="RedKey1" type="0" x="5078" y="7518" width="40" height="40">
+   <properties>
+    <property name="subtype" value="0"/>
+   </properties>
+  </object>
+  <object name="Lamp1" type="2" x="3920" y="7880" width="40" height="40">
+   <properties>
+    <property name="subtype" value="11"/>
+   </properties>
+  </object>
+  <object name="Lamp2" type="2" x="4040" y="7880" width="40" height="40">
+   <properties>
+    <property name="subtype" value="11"/>
+   </properties>
+  </object>
+  <object name="BlueKey1" type="0" x="3546" y="7670" width="69" height="40">
+   <properties>
+    <property name="subtype" value="2"/>
+   </properties>
+  </object>
+  <object name="GreenKey1" type="0" x="2916" y="7480" width="72" height="41">
+   <properties>
+    <property name="subtype" value="1"/>
+   </properties>
+  </object>
+  <object name="Ham1" type="1" x="3600" y="7800" width="40" height="40">
+   <properties>
+    <property name="subtype" value="9"/>
+   </properties>
+  </object>
+  <object name="Lollipop1" type="1" x="3684" y="7829" width="64" height="37">
+   <properties>
+    <property name="subtype" value="8"/>
+   </properties>
+  </object>
+  <object name="Drink1" type="1" x="2914" y="7354" width="59" height="40">
+   <properties>
+    <property name="subtype" value="7"/>
+   </properties>
+  </object>
+  <object name="Chicken1" type="1" x="3060" y="7272" width="73" height="42">
+   <properties>
+    <property name="subtype" value="6"/>
+   </properties>
+  </object>
+  <object name="Drink2" type="1" x="3574" y="7013" width="59" height="40">
+   <properties>
+    <property name="subtype" value="7"/>
+   </properties>
+  </object>
+  <object name="Cake1" type="1" x="3736" y="7146" width="40" height="40">
+   <properties>
+    <property name="subtype" value="5"/>
+   </properties>
+  </object>
+  <object name="Cake2" type="1" x="3960" y="7080" width="40" height="40">
+   <properties>
+    <property name="subtype" value="5"/>
+   </properties>
+  </object>
+  <object name="Candy1" type="1" x="4360" y="7120" width="64" height="40">
+   <properties>
+    <property name="subtype" value="4"/>
+   </properties>
+  </object>
+  <object name="Candy2" type="1" x="4560" y="7400" width="60" height="39">
+   <properties>
+    <property name="subtype" value="4"/>
+   </properties>
+  </object>
+  <object name="Ham3" type="1" x="4720" y="7440" width="40" height="40">
+   <properties>
+    <property name="subtype" value="9"/>
+   </properties>
+  </object>
+  <object name="Drink3" type="1" x="4880" y="7360" width="62" height="40">
+   <properties>
+    <property name="subtype" value="7"/>
+   </properties>
+  </object>
+  <object name="Cake3" type="1" x="4960" y="7520" width="40" height="40">
+   <properties>
+    <property name="subtype" value="5"/>
+   </properties>
+  </object>
+  <object name="Ham2" type="1" x="3680" y="7320" width="40" height="40">
+   <properties>
+    <property name="subtype" value="9"/>
+   </properties>
+  </object>
+  <object name="ParchTop" type="2" x="3909" y="7783" width="67" height="42">
+   <properties>
+    <property name="subtype" value="15"/>
+   </properties>
+  </object>
+  <object name="ParchMiddle" type="2" x="3851" y="7692" width="84" height="44">
+   <properties>
+    <property name="subtype" value="16"/>
+   </properties>
+  </object>
+  <object name="ParchBottom" type="2" x="3967" y="7650" width="94" height="40">
+   <properties>
+    <property name="subtype" value="17"/>
+   </properties>
+  </object>
+  <object name="Lamp3" type="2" x="4480" y="7640" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp4" type="2" x="4480" y="7800" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp5" type="2" x="5120" y="7320" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp5" type="2" x="5120" y="7480" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp8" type="2" x="4240" y="7480" width="40" height="40">
+   <properties>
+    <property name="subtype" value="12"/>
+   </properties>
+  </object>
+  <object name="Lamp7" type="2" x="4240" y="7320" width="40" height="40">
+   <properties>
+    <property name="subtype" value="12"/>
+   </properties>
+  </object>
+  <object name="Lamp10" type="2" x="4480" y="7160" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp9" type="2" x="4480" y="7000" width="40" height="40">
+   <properties>
+    <property name="subtype" value="14"/>
+   </properties>
+  </object>
+  <object name="Lamp11" type="2" x="3960" y="7000" width="40" height="40">
+   <properties>
+    <property name="subtype" value="11"/>
+   </properties>
+  </object>
+  <object name="Lamp12" type="2" x="3960" y="7160" width="40" height="40">
+   <properties>
+    <property name="subtype" value="13"/>
+   </properties>
+  </object>
+  <object name="Lamp14" type="2" x="3480" y="7160" width="40" height="40">
+   <properties>
+    <property name="subtype" value="12"/>
+   </properties>
+  </object>
+  <object name="Lamp13" type="2" x="3480" y="7000" width="40" height="40">
+   <properties>
+    <property name="subtype" value="12"/>
+   </properties>
+  </object>
+  <object name="Lamp15" type="2" x="3320" y="7320" width="40" height="40">
+   <properties>
+    <property name="subtype" value="11"/>
+   </properties>
+  </object>
+  <object name="Lamp16" type="2" x="3320" y="7480" width="40" height="40">
+   <properties>
+    <property name="subtype" value="13"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
