@@ -17,7 +17,6 @@
 #import "Image.h"
 #import "SpriteSheet.h"
 #import "Animation.h"
-#import "TiledMap.h"
 #import "BitmapFont.h"
 #import "ParticleEmitter.h"
 #import "Primatives.h"
@@ -970,27 +969,27 @@
     // Set the listener to the middle of the screen by default.  This will be changed as the player moves around the map
     [sharedSoundManager setListenerPosition:CGPointMake(240, 160)];
     
-    // Initialize the sound effects
-    [sharedSoundManager loadSoundWithKey:@"doorSlam" soundFile:@"doorSlam.caf"];
-    [sharedSoundManager loadSoundWithKey:@"doorOpen" soundFile:@"doorOpen.caf"];
-    [sharedSoundManager loadSoundWithKey:@"pop" soundFile:@"pop.caf"];
-    [sharedSoundManager loadSoundWithKey:@"hitWall" soundFile:@"hitwall.caf"];
-    [sharedSoundManager loadSoundWithKey:@"eatfood" soundFile:@"eatfood.caf"];
-	[sharedSoundManager loadSoundWithKey:@"scream" soundFile:@"scream.caf"];
-	[sharedSoundManager loadSoundWithKey:@"spell" soundFile:@"spell.caf"];
-    
-    // Initialize the background music
-    [sharedSoundManager loadMusicWithKey:@"ingame" musicFile:@"ingame.mp3"];
-	[sharedSoundManager loadMusicWithKey:@"loseIntro" musicFile:@"loseIntro.mp3"];
-	[sharedSoundManager loadMusicWithKey:@"loseLoop" musicFile:@"loseLoop.mp3"];
-	[sharedSoundManager loadMusicWithKey:@"winIntro" musicFile:@"winIntro.mp3"];
-	[sharedSoundManager loadMusicWithKey:@"winLoop" musicFile:@"winLoop.mp3"];
-	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winIntro"];
-	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winLoop"];
-	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseIntro"];
-	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseLoop"];
-	sharedSoundManager.usePlaylist = NO;
-	sharedSoundManager.loopLastPlaylistTrack = NO;
+//    // Initialize the sound effects
+//    [sharedSoundManager loadSoundWithKey:@"doorSlam" soundFile:@"doorSlam.caf"];
+//    [sharedSoundManager loadSoundWithKey:@"doorOpen" soundFile:@"doorOpen.caf"];
+//    [sharedSoundManager loadSoundWithKey:@"pop" soundFile:@"pop.caf"];
+//    [sharedSoundManager loadSoundWithKey:@"hitWall" soundFile:@"hitwall.caf"];
+//    [sharedSoundManager loadSoundWithKey:@"eatfood" soundFile:@"eatfood.caf"];
+//	[sharedSoundManager loadSoundWithKey:@"scream" soundFile:@"scream.caf"];
+//	[sharedSoundManager loadSoundWithKey:@"spell" soundFile:@"spell.caf"];
+//    
+//    // Initialize the background music
+//    [sharedSoundManager loadMusicWithKey:@"ingame" musicFile:@"ingame.mp3"];
+//	[sharedSoundManager loadMusicWithKey:@"loseIntro" musicFile:@"loseIntro.mp3"];
+//	[sharedSoundManager loadMusicWithKey:@"loseLoop" musicFile:@"loseLoop.mp3"];
+//	[sharedSoundManager loadMusicWithKey:@"winIntro" musicFile:@"winIntro.mp3"];
+//	[sharedSoundManager loadMusicWithKey:@"winLoop" musicFile:@"winLoop.mp3"];
+//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winIntro"];
+//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winLoop"];
+//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseIntro"];
+//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseLoop"];
+//	sharedSoundManager.usePlaylist = NO;
+//	sharedSoundManager.loopLastPlaylistTrack = NO;
 }
 
 

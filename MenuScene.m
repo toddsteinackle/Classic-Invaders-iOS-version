@@ -17,7 +17,6 @@
 #import "TextureManager.h"
 #import "PackedSpriteSheet.h"
 #import "SpriteSheet.h"
-#import "Player.h"
 
 @implementation MenuScene
 
