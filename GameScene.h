@@ -19,8 +19,6 @@
 @class TiledMap;
 @class BitmapFont;
 @class ParticleEmitter;
-@class Player;
-@class Axe;
 @class Primatives;
 @class Alien;
 
@@ -47,12 +45,12 @@
     int bottomOffsetInTiles, leftOffsetInTiles;		// Number of tiles from the center of the screen to the bottom and left
 
 	//////////////////////// Player
-    Player *player;									// Player
-	int playerTileX;								// Rounded x tile position
-	int playerTileY;								// Rounded y tile position
-	int playerTileOffsetX;							// Rounded number of x tiles to put player in the center of the screen
-	int playerTileOffsetY;							// Rounded number of x tiles to put player in the center of the screen
-	CGPoint playersLastLocation;					// Last location of the player so we can tell if they moved between updates
+//    Player *player;									// Player
+//	int playerTileX;								// Rounded x tile position
+//	int playerTileY;								// Rounded y tile position
+//	int playerTileOffsetX;							// Rounded number of x tiles to put player in the center of the screen
+//	int playerTileOffsetY;							// Rounded number of x tiles to put player in the center of the screen
+//	CGPoint playersLastLocation;					// Last location of the player so we can tell if they moved between updates
 	
 	//////////////////////// Arrays
 	NSMutableArray *portals;						// Portal objects defined in the tile map
@@ -64,7 +62,7 @@
 													// If the map size changes then the constants in Global.h need to change
 	
 	//////////////////////// Axe
-    Axe *axe;										// The axe that is thrown by the player
+    //Axe *axe;										// The axe that is thrown by the player
  
 	//////////////////////// Bounds
 	CGRect pauseButtonBounds;						// Pausebutton image
@@ -129,12 +127,12 @@
 	
 }
 
-@property (nonatomic, retain) TiledMap *castleTileMap;
-@property (nonatomic, retain) Player *player;
-@property (nonatomic, retain) NSMutableArray *doors;
+//@property (nonatomic, retain) TiledMap *castleTileMap;
+//@property (nonatomic, retain) Player *player;
+//@property (nonatomic, retain) NSMutableArray *doors;
 @property (nonatomic, retain) NSMutableArray *gameEntities;
 @property (nonatomic, retain) NSMutableArray *gameObjects;
-@property (nonatomic, retain) Axe *axe;
+//@property (nonatomic, retain) Axe *axe;
 @property (nonatomic, assign) CFTimeInterval gameStartTime;
 @property (nonatomic, assign) CFTimeInterval timeSinceGameStarted;
 @property (nonatomic, assign) int score;
@@ -142,14 +140,14 @@
 
 // Returns a boolean which identifies if the coordinates provided are on a blocked
 // tile on the tilemap
-- (BOOL)isBlocked:(float)x y:(float)y;
+//- (BOOL)isBlocked:(float)x y:(float)y;
 
 // Sets the map location within the blocked array to the provided state
-- (void)setBlocked:(float)aX y:(float)aY blocked:(BOOL)aState;
+//- (void)setBlocked:(float)aX y:(float)aY blocked:(BOOL)aState;
 
 // Checks all entities currently in the game to see if they are in the tilemap location
 // file specified
-- (BOOL)isEntityInTileAtCoords:(CGPoint)aPoint;
+//- (BOOL)isEntityInTileAtCoords:(CGPoint)aPoint;
 
 // Saves the current state of the game to be resumed later
 - (void)saveGameState;

@@ -7,7 +7,7 @@
 //
 
 #import "Global.h"
-#import "Player.h"
+//#import "Player.h"
 
 @class AbstractScene;
 @class AbstractEntity;

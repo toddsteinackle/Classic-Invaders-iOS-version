@@ -80,18 +80,18 @@
 #pragma mark -
 #pragma mark Bounds & collision
 
-- (CGRect)movementBounds { 
-	// Calculate the pixel position and return a CGRect that defines the bounds
+//- (CGRect)movementBounds { 
+//	// Calculate the pixel position and return a CGRect that defines the bounds
 //	pixelLocation = tileMapPositionToPixelPosition(tileLocation);
 //	return CGRectMake(pixelLocation.x - 20, pixelLocation.y - 10, 40, 20);
-    
-}
+//    
+//}
 
-- (CGRect)collisionBounds {
-	// Calculate the pixel position and return a CGRect that defines the bounds
+//- (CGRect)collisionBounds {
+//	// Calculate the pixel position and return a CGRect that defines the bounds
 //	pixelLocation = tileMapPositionToPixelPosition(tileLocation);
 //	return CGRectMake(pixelLocation.x - 19, pixelLocation.y - 7, 39, 14);
-}
+//}
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)aEntity {
 }
