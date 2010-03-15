@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -33,6 +33,9 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		5F1D43C3114D8B7A00797E5B /* Alien.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1D43C2114D8B7A00797E5B /* Alien.m */; };
+		5F1D43C7114D8DB200797E5B /* pss_coordinates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */; };
+		5F1D43C8114D8DB200797E5B /* pss.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C6114D8DB200797E5B /* pss.png */; };
 		8F0757AE10556F830098ACFE /* doorOpen.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8F0757AC10556F830098ACFE /* doorOpen.caf */; };
 		8F0757AF10556F830098ACFE /* doorSlam.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8F0757AD10556F830098ACFE /* doorSlam.caf */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
@@ -168,6 +171,10 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ClassicInvaders_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicInvaders_Prefix.pch; sourceTree = "<group>"; };
+		5F1D43C1114D8B7A00797E5B /* Alien.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alien.h; sourceTree = "<group>"; };
+		5F1D43C2114D8B7A00797E5B /* Alien.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alien.m; sourceTree = "<group>"; };
+		5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pss_coordinates.plist; sourceTree = "<group>"; };
+		5F1D43C6114D8DB200797E5B /* pss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pss.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F0757AC10556F830098ACFE /* doorOpen.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = doorOpen.caf; sourceTree = "<group>"; };
 		8F0757AD10556F830098ACFE /* doorSlam.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = doorSlam.caf; sourceTree = "<group>"; };
@@ -345,6 +352,8 @@
 		18B970D0103AA5CA00809077 /* Game Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */,
+				5F1D43C6114D8DB200797E5B /* pss.png */,
 				18B970E0103AA66E00809077 /* Sounds */,
 				8F8AE7ED10AEBEFE00D82C5B /* Particle Emitter Config */,
 				18B970E3103AA68300809077 /* Images */,
@@ -398,6 +407,8 @@
 			children = (
 				8FF37DEE1053FEC500C98F63 /* Moving */,
 				8FF37DED1053FEBB00C98F63 /* Fixed */,
+				5F1D43C1114D8B7A00797E5B /* Alien.h */,
+				5F1D43C2114D8B7A00797E5B /* Alien.m */,
 			);
 			name = "Game Entities";
 			sourceTree = "<group>";
@@ -801,10 +812,10 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				ORGANIZATIONNAME = "Michael Daley";
+				ORGANIZATIONNAME = "The No Quarter Arcade";
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ClassicInvaders" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
@@ -874,6 +885,8 @@
 				8FF40A8E1108A21D00D25E15 /* themeIntro.mp3 in Resources */,
 				8FF40A8F1108A21D00D25E15 /* themeLoop.mp3 in Resources */,
 				8F07D567112F04FA0094DEA2 /* star.png in Resources */,
+				5F1D43C7114D8DB200797E5B /* pss_coordinates.plist in Resources */,
+				5F1D43C8114D8DB200797E5B /* pss.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,6 +945,7 @@
 				8FB1F5F9112322C900D5356A /* SoundManager.m in Sources */,
 				8F5E0E20112AB4A7007EB939 /* InstructionsViewController.m in Sources */,
 				8F5E0E21112AB4A7007EB939 /* SettingsViewController.m in Sources */,
+				5F1D43C3114D8B7A00797E5B /* Alien.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -988,7 +1002,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = AdHoc;
 		};
@@ -1019,7 +1033,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = Debug;
 		};
@@ -1035,7 +1049,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.1.3;
 			};
 			name = Release;
 		};

@@ -22,6 +22,7 @@
 @class Player;
 @class Axe;
 @class Primatives;
+@class Alien;
 
 // This class is the core game scene.  It is responsible for game rendering, logic, user
 // input etc.
@@ -123,6 +124,8 @@
 	BOOL isMusicFading;								// YES if music is being faded i.e. during a transition
 	BOOL isLoseMusicPlaying;						// YES if the lose music is playing
 	BOOL isWinMusicPlaying;							// YES if the win music is playing
+    
+    Alien *myFirstAlien;
 	
 }
 

@@ -40,6 +40,8 @@
 #import "ParchmentObject.h"
 #import "Primatives.h"
 
+#import "Alien.h"
+
 #pragma mark -
 #pragma mark Private interface
 
@@ -135,14 +137,17 @@
 
         // Set the scenes fade speed which is used when fading the scene in and out and also set
         // the default alpha value for the scene
-        fadeSpeed = 1.0f;
-        alpha = 0.0f;
-		musicVolume = 0.0f;
+//        fadeSpeed = 1.0f;
+//        alpha = 0.0f;
+//		musicVolume = 0.0f;
 		
 		// Add observations on notifications we are interested in.  When the settings view is hidden we
 		// want to check to see if the joypad settings have changed.  For this reason we look for this
 		// notification
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
+//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
+		
+		myFirstAlien = [[Alien alloc] initWithLocation:CGPointMake((screenBounds.size.height - (45*.75)) / 2,
+																   (screenBounds.size.width - (30*.75)) / 2)];
     }
     
     return self;
@@ -152,384 +157,7 @@
 #pragma mark Update scene logic
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
-    
-	// Clear the screen before rendering
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	switch (state) {
-            
-        #pragma mark kSceneState_Running
-        case kSceneState_Running:
-            
-            // Update the game timer if the player is alive
-            if (player.state == kEntityState_Alive)
-                timeSinceGameStarted += aDelta;
-
-			// Calculate the minutes and seconds that have passed since the game started
-            gameSeconds = (int)timeSinceGameStarted % 60;
-            gameMinutes = (int)timeSinceGameStarted / 60;
-			
-            // Release the gameTime string before we create it and retain it.  We retain it to make sure 
-            // that it is available even if this code is not run i.e. the game is paused.  The release
-            // makes sure we release it and don't leak memory.
-            NSString *timeSeconds = [NSString stringWithFormat:@"%02d", gameSeconds];
-            NSString *timeMinutes = [NSString stringWithFormat:@"%03d", gameMinutes];
-            self.gameTimeToDisplay = [NSString stringWithFormat:@"%@.%@", timeMinutes, timeSeconds] ;
-            
-            // Update player
-            [player updateWithDelta:aDelta scene:self];
-
-			// Set the size of the healthbar to be rendered based on the players energy
-			[healthBar setImageSizeToRender:CGSizeMake(player.energy, 75)];
-
-            // Now we have updated the player we need to update their position relative to the tile map
-            [self calculatePlayersTileMapLocation];
-
-            // Update the players sword if its state is alive
-			if (axe.state == kEntityState_Alive)
-				[axe updateWithDelta:aDelta scene:self];
-
-			// Calculate the tile bounds around the player. We clamp the possbile values to between
-			// 0 and the width/height of the tile map.  We remove 1 from the width and height
-			// as the tile map is zero indexed in the game.  These values can then be used when
-			// checking if objects, portals or doors should be updated
-			int minScreenTile_x = CLAMP(player.tileLocation.x - 8, 0, kMax_Map_Width-1);
-			int maxScreenTile_x = CLAMP(player.tileLocation.x + 8, 0, kMax_Map_Width-1);
-			int minScreenTile_y = CLAMP(player.tileLocation.y - 6, 0, kMax_Map_Height-1);
-			int maxScreenTile_y = CLAMP(player.tileLocation.y + 6, 0, kMax_Map_Height-1);
-			
-			// Update the game objects that are inside the bounds calculated above
-			isPlayerOverObject = NO;
-            for(AbstractObject *gameObject in gameObjects) {
-                
-                if (gameObject.tileLocation.x >= minScreenTile_x && gameObject.tileLocation.x <= maxScreenTile_x &&
-                    gameObject.tileLocation.y >= minScreenTile_y && gameObject.tileLocation.y <= maxScreenTile_y) {
-
-                    // Update the object
-                    [gameObject updateWithDelta:aDelta scene:self];
-
-                    if (gameObject.state == kObjectState_Active) {
-						[player checkForCollisionWithObject:gameObject];
-						[gameObject checkForCollisionWithEntity:player];
-						if (gameObject.isCollectable) {
-							isPlayerOverObject = YES;
-						}
-                    }
-                }
-            }
-            
-            // Update entities, check if they have collided with anything and spawn new ones.  There are so few entities that updating 
-			// them all is not a performance issues and so no checks are performed to limit the number of entities that need to be
-			// updated.
-            for(AbstractEntity *entity in gameEntities) {
-
-				// Update the current entity
-				[entity updateWithDelta:aDelta scene:self];
-		
-				switch (entity.state) {
-					
-					case kEntityState_Alive:
-						// Get the player to see if it has hit the entity and also ask the entity to see if it has
-						// hit the player.  Each entity has its own way of resolving a collision so both checks are
-						// necessary.
-						[player checkForCollisionWithEntity:entity];
-						[entity checkForCollisionWithEntity:player];
-						
-						// Check to see if the axe has collided with the current entity
-						if(axe.state == kEntityState_Alive) {
-							[entity checkForCollisionWithEntity:axe];
-						}
-						break;
-						
-					// If the entity is dead then we can revive it somewhere new near the player
-					case kEntityState_Dead:
-					{
-						// We check to see what type of entity we have found and then check how long the player
-						// has been playing the game.  Only certain baddies are brought to life based on how
-						// long the game has been running.  Basially slowly introducing baddies as the player plays
-						BOOL resurectBaddie = NO;
-						
-						if ([entity isKindOfClass:[Ghost class]] && timeSinceGameStarted >= 15) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Pumpkin class]] && timeSinceGameStarted >= 60) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Bat class]] && timeSinceGameStarted >= 120) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Zombie class]] && timeSinceGameStarted >= 150) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Witch class]] && timeSinceGameStarted >= 240) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Vampire class]] && timeSinceGameStarted >= 180) {
-							resurectBaddie = YES;
-						} else if ([entity isKindOfClass:[Frank class]] && timeSinceGameStarted >= 300) {
-							resurectBaddie = YES;
-						}
-						
-						if (resurectBaddie) {
-							// Calculate a random position within 60 tiles of the players position
-							float entityx = player.tileLocation.x + ((80 * RANDOM_0_TO_1()) * RANDOM_MINUS_1_TO_1());
-							float entityy = player.tileLocation.y + ((80 * RANDOM_0_TO_1()) * RANDOM_MINUS_1_TO_1());
-							
-							// Set the entities position as calculated above
-							CGPoint entityLocation = CGPointMake(entityx, entityy);
-							[entity setTileLocation:entityLocation];
-							
-							// Check each corner of the entities bounding box to make sure they would not spawn in a blocked tile.
-							CGRect bRect = [entity movementBounds];
-							BoundingBoxTileQuad bbtq = getTileCoordsForBoundingRect(bRect, CGSizeMake(kTile_Width, kTile_Height));
-							
-							if(![self isBlocked:bbtq.x1 y:bbtq.y1] && 
-							   ![self isBlocked:bbtq.x2 y:bbtq.y2] &&
-							   ![self isBlocked:bbtq.x3 y:bbtq.y3] && 
-							   ![self isBlocked:bbtq.x4 y:bbtq.y4] &&
-							   (int)player.tileLocation.x != (int)entity.tileLocation.x &&
-							   (int)player.tileLocation.y != (int)entity.tileLocation.y)
-
-								// The spawn point is ok so set the entities state to appearing which will cause
-								// it to appear in the new location
-								entity.state = kEntityState_Appearing;
-						}
-
-						break;
-					}
-					default:
-						break;
-				}
-			}
-
-			// Update portals that are within the visible screen
-            for(AbstractEntity *portal in portals) {
-				if (portal.tileLocation.x >= minScreenTile_x && portal.tileLocation.x <= maxScreenTile_x &&
-                    portal.tileLocation.y >= minScreenTile_y && portal.tileLocation.y <= maxScreenTile_y) {
-					[portal updateWithDelta:aDelta scene:self];
-					[portal checkForCollisionWithEntity:player];
-				}
-			}
-			
-            // Populate the localDoors array with any doors that are found around the player.  This allows
-            // us to reduce the number of doors we are rendering and updating in any single frame.  We only
-			// perform this check if the player has moved from one tile to another on the tile map to save cycles
-            if ((int)player.tileLocation.x != (int)playersLastLocation.x || (int)player.tileLocation.y != (int)playersLastLocation.y) {
-                
-				// Clear the localDoors array as we are about to populate it again based on the 
-                // players new position
-                [localDoors removeAllObjects];
-                
-                // Find doors that are close to the player and add them to the localDoors loop.  Layer 3 in the 
-				// tile map holds the door information
-                Layer *layer = [[castleTileMap layers] objectAtIndex:2];
-                for (int yy=minScreenTile_y; yy < maxScreenTile_y; yy++) {
-                    for (int xx=minScreenTile_x; xx < maxScreenTile_x; xx++) {
-						
-                        // If the value property for this tile is not -1 then this must be a door and
-                        // we should add it to the localDoors array
-                        if ([layer valueAtTile:CGPointMake(xx, yy)] > -1) {
-                            int index = [layer valueAtTile:CGPointMake(xx, yy)];
-                            [localDoors addObject:[NSNumber numberWithInt:index]];
-                        }
-                    }
-                }
-            }
-			
-			// Update all doors in the localDoors array populated above
-            for (int index=0; index < [localDoors count]; index++) {
-                Door *door = [doors objectAtIndex:[[localDoors objectAtIndex:index] intValue]];
-                [door updateWithDelta:aDelta scene:self];
-            }
-
-			// Check to see if the player has all the parchment.  If so then unlock the front door.  If then block
-			// the front door
-			if (player.hasParchmentTop && player.hasParchmentMiddle && player.hasParchmentBottom) {
-				// Unblock the two tiles where the front door is.  This will allow the player to move through the door
-				// and we will then pick up a collision with a rectangle that lets us know they have moved through the
-				// door
-				blocked[99][2] = NO;
-				blocked[100][2] = NO;
-				blocked[99][1] = NO;
-				blocked[100][1] = NO;
-				blocked[99][0] = NO;
-				blocked[100][0] = NO;
-				isMainDoorOpen = YES;
-			} else {
-				// The player may drop a parchment piece when they are stood in the door way.  If they do that then we don't
-				// block the door while they are stood in it or they will get stuck
-				if (![player isEntityInTileAtCoords:CGPointMake(99, 2)] && ![player isEntityInTileAtCoords:CGPointMake(100, 2)]) {
-					blocked[99][2] = YES;
-					blocked[100][2] = YES;
-					blocked[99][1] = YES;
-					blocked[100][1] = YES;
-					blocked[99][0] = YES;
-					blocked[100][0] = YES;
-					isMainDoorOpen = NO;
-				}
-			}
-			
-			// Check to see if the player has collided with the exit rectangle.  If so then the game is over and they
-			// can go home for a nice cup of tea!!
-			if (CGRectIntersectsRect([player movementBounds], exitBounds)) {
-				state = kSceneState_GameCompleted;
-			}
-			
-			// Record the players current position previous position so we can check if the player has
-			// moved between updates
-            playersLastLocation = player.tileLocation;
-            
-            break;
-
-        #pragma mark kSceneState_TransportingOut
-        case kSceneState_TransportingOut:
-            alpha += (1.5) * aDelta;
-            fadeImage.color = Color4fMake(1, 1, 1, alpha);
-
-            if(alpha >= 1.0f) {
-                alpha = 1.0f;
-                state = kSceneState_TransportingIn;
-
-				// Now we have faded out the scene, set the players new position i.e. the beam location
-				// and make the scene transition in
-				player.tileLocation = player.beamLocation;
-				
-				// Now we have loaded the player we need to set up their position in the tilemap
-				[self calculatePlayersTileMapLocation];
-				
-				// Init the doors local to the players new position
-				[self initLocalDoors];
-            }
-            break;
-
-        #pragma mark kSceneState_TransportingIn
-        case kSceneState_TransportingIn:
-            alpha -= fadeSpeed * aDelta;
-            fadeImage.color = Color4fMake(1, 1, 1, alpha);
-
-			// Once the scene has faded in, start the scene running and
-			// also reset the joypad settings.  This removes any issues with
-			// the state of the joypad before the transportation takes place
-            if(alpha <= 0.0f) {
-                alpha = 0.0f;
-                state = kSceneState_Running;
-				isJoypadTouchMoving = NO;
-				joypadTouchHash = 0;
-				player.angleOfMovement = 0;
-				player.speedOfMovement = 0;
-            }
-            break;
-		
-		#pragma mark kSceneState_Loading
-		case kSceneState_Loading:
-			// If there is a game to resume and the game has not been initialized
-            // then use the saved game state to init the game else use the default
-            // game state
-            if (!isGameInitialized) {
-				isGameInitialized = YES;
-				
-				// Set the alpha to be used when fading
-				alpha = 1.0f;
-				
-                if(sharedGameController.shouldResumeGame) {
-                    [self loadGameState];
-                } else {
-					[self initNewGameState];
-                }
-				
-				// Setup the joypad based on the current settings
-				[self checkJoypadSettings];
-            }
-            
-            // Update the alpha for this scene using the scenes fadeSpeed.  We are not actually
-			// fading all the elements on the screen.  Instead we are changing the alpha value
-			// of a fully black image that is drawn over the entire scene and faded out.  This
-			// gives us a nice consistent fade across all objects, including those rendered ontop
-			// of other graphics such as objects on the tilemap
-            alpha -= fadeSpeed * aDelta;
-            fadeImage.color = Color4fMake(1, 1, 1, alpha);
-			
-            // Once the scene has faded in start playing the background music and set the
-			// scene to running
-			if(alpha < 0.0f) {
-				alpha = 0.0f;
-				fadeImage.color = Color4fMake(1, 1, 1, alpha);
-				isLoadingScreenVisible = NO;
-                state = kSceneState_Running;
-            }
-			break;
-			
-        #pragma mark kSceneState_TransitionIn
-        case kSceneState_TransitionIn:
-			if (!isSceneInitialized) {
-				isSceneInitialized = YES;
-				[self initScene];
-				[self initSound];
-			}
-			
-			if (isLoadingScreenVisible) {
-				// If music is not fading and no external music is playing then initialize the sounds
-				// and start fading in the music
-				if (!sharedSoundManager.isMusicPlaying && !sharedSoundManager.isExternalAudioPlaying) {
-					sharedSoundManager.currentMusicVolume = 0;	// Make sure the music volume is down before playing the music
-					[sharedSoundManager playMusicWithKey:@"ingame" timesToRepeat:-1];
-					[sharedSoundManager fadeMusicVolumeFrom:0 toVolume:sharedSoundManager.musicVolume duration:0.8f stop:NO];
-				}
-				
-				state = kSceneState_Loading;
-			}
-            break;
-			
-		#pragma mark kSceneState_TransitionOut
-        case kSceneState_TransitionOut:
-
-			if (!isMusicFading) {
-				isMusicFading = YES;
-				[sharedSoundManager fadeMusicVolumeFrom:sharedSoundManager.musicVolume toVolume:0 duration:0.8f stop:YES];
-				alpha = 0;
-			}
-			
-			alpha += fadeSpeed * aDelta;
-			fadeImage.color = Color4fMake(1, 1, 1, alpha);
-			
-            if(alpha > 1.0f) {
-                alpha = 1.0f;
-                state = kSceneState_Idle;
-				
-				// Deallocate the resources this scene has created
-				[self deallocResources];
-				
-				// Reset game flags
-				isGameInitialized = NO;
-				timeSinceGameStarted = 0;
-				score = 0;
-				isJoypadTouchMoving = NO;
-				isSceneInitialized = NO;
-				isLoadingScreenVisible = NO;
-				isMusicFading = NO;
-				
-				// Transition to the menu scene
-				[sharedGameController transitionToSceneWithKey:@"menu"];
-            }
-            break;
-
-		#pragma mark ksceneState_GameOver
-		case kSceneState_GameOver:
-			if (!isLoseMusicPlaying && !sharedSoundManager.isExternalAudioPlaying) {
-				isLoseMusicPlaying = YES;
-				sharedSoundManager.usePlaylist = YES;
-				sharedSoundManager.loopLastPlaylistTrack = YES;
-				[sharedSoundManager startPlaylistNamed:@"lose"];
-			}
-			break;
-
-		#pragma mark kSceneState_GameCompleted
-		case kSceneState_GameCompleted:
-			if (!isWinMusicPlaying && !sharedSoundManager.isExternalAudioPlaying) {
-				isWinMusicPlaying = YES;
-				sharedSoundManager.usePlaylist = YES;
-				sharedSoundManager.loopLastPlaylistTrack = YES;
-				[sharedSoundManager startPlaylistNamed:@"win"];
-			}
-			break;
-        default:
-            break;
-    }
+	[myFirstAlien updateWithDelta:aDelta scene:self];
 }
 
 #pragma mark -
@@ -811,6 +439,11 @@
 
 - (void)renderScene {
 
+	// Clear the screen before rendering
+	glClear(GL_COLOR_BUFFER_BIT);
+	[myFirstAlien render];
+	[sharedImageRenderManager renderImages];
+	
 	// If we are transitioning into the scene and we have initialized the scene then display the loading
 	// screen.  This will be displayed until the rest of the game content has been loaded.
 	if (state == kSceneState_TransitionIn && isSceneInitialized) {
@@ -873,6 +506,7 @@
 				
 				// Render the player
 				[player render];
+				[myFirstAlien render];
 				
 				// Render entities
 				for(AbstractEntity *entity in gameEntities) {
@@ -1680,6 +1314,7 @@
 	[portals release];
 	[castleTileMap release];
 	[player release];
+	[myFirstAlien release];
 
 	// Release sounds
 	[sharedSoundManager removeSoundWithKey:@"doorSlam"];

@@ -59,6 +59,8 @@
 // tilemap grid locations.
 - (id)initWithTileLocation:(CGPoint)aLocation;
 
+- (id)initWithLocation:(CGPoint)aLocation;
+
 // Selector that updates the entities logic i.e. location, collision status etc
 - (void)updateWithDelta:(float)aDelta scene:(AbstractScene*)aScene;
 

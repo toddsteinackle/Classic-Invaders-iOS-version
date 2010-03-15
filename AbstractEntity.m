@@ -48,6 +48,11 @@
 	return self;
 }
 
+- (id)initWithLocation:(CGPoint)aLocation {
+	self = [self init];
+	return self;
+}
+
 #pragma mark -
 #pragma mark Updating
 
