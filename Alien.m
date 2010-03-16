@@ -23,7 +23,7 @@
     pixelLocation.x += aDelta * dx;
     if (pixelLocation.x < 0) {
         dx = -dx;
-    } else if (pixelLocation.x > 480 - (45*.75)) {
+    } else if (pixelLocation.x > 480 - (45*scale_factor)) {
         dx = -dx;
     }
 }
@@ -37,7 +37,8 @@
 	if (self != nil) {
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        SpriteSheetImage.scale = Scale2fMake(0.75f, 0.75f);
+        scale_factor = .85;
+        SpriteSheetImage.scale = Scale2fMake(scale_factor, scale_factor);
         spriteSheet = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
 
         animation = [[Animation alloc] init];

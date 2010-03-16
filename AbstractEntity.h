@@ -48,8 +48,8 @@
 	float distanceFromPlayer;					// Distance the entity is from the player in tiles
 
     float dx, dy;                               // velocity -- speed in pixels/sec and direction
-    bool active;
     int coll_w, coll_h, coll_x_offset, coll_y_offset;
+    float height, width;
 }
 
 @property (nonatomic, readonly) Image *image;
@@ -58,7 +58,6 @@
 
 @property (nonatomic, assign) CGPoint tileLocation;
 @property (nonatomic, assign) uint state;
-@property (nonatomic, assign) bool active;
 
 // Designated initializer which allows this actor to be placed on the tilemap using a
 // tilemap grid locations.
