@@ -20,6 +20,7 @@
 @synthesize image;
 @synthesize energyDrain;
 @synthesize pixelLocation;
+@synthesize active;
 
 - (void)dealloc {
 //	SLQLOG(@"INFO - %@: Deallocating", [self description]);
@@ -49,8 +50,8 @@
 }
 
 - (id)initWithLocation:(CGPoint)aLocation {
-	self = [self init];
-	return self;
+    self = [self init];
+    return self;
 }
 
 #pragma mark -
@@ -64,7 +65,7 @@
 #pragma mark Rendering
 
 - (void)render {
-	
+
 // Debug code that allows us to draw bounding boxes for the entity
 #ifdef SCB
 		// Draw the collision bounds in green
@@ -75,7 +76,7 @@
 		glColor4f(0, 0, 1, 1);
 		drawBox([self movementBounds]);
 #endif
-	
+
 }
 
 #pragma mark -
@@ -89,7 +90,7 @@
        (int)bbtq.x3 == (int)aCoords.x && (int)bbtq.y3 == (int)aCoords.y ||
        (int)bbtq.x4 == (int)aCoords.x && (int)bbtq.y4 == (int)aCoords.y) {
         return YES;
-    } 
+    }
     return NO;
 }
 
@@ -102,25 +103,25 @@
 - (void)checkForCollisionWithObject:(AbstractObject*)aObject {}
 
 BoundingBoxTileQuad getTileCoordsForBoundingRect(CGRect aRect, CGSize aTileSize) {
-	
+
 	BoundingBoxTileQuad bbtq;
-	
+
 	// Bottom left
 	bbtq.x1 = (int)(aRect.origin.x / aTileSize.width);
 	bbtq.y1 = (int)(aRect.origin.y / aTileSize.height);
-	
+
 	// Bottom right
 	bbtq.x2 = (int)((aRect.origin.x + aRect.size.width) / aTileSize.width);
 	bbtq.y2 = bbtq.y1;
-	
+
 	// Top right
 	bbtq.x3 = bbtq.x2;
     bbtq.y3 = (int)((aRect.origin.y + aRect.size.height) / aTileSize.height);
-	
+
 	// Top left
 	bbtq.x4 = bbtq.x1;
 	bbtq.y4 = bbtq.y3;
-	
+
 	return bbtq;
 }
 

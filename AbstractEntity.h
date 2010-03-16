@@ -25,12 +25,12 @@
 	/////////////////// Singleton Managers
     SoundManager *sharedSoundManager;			// Sound Manager
     GameController *sharedGameController;		// Game Controller
-	
+
 	////////////////// Images
 	Image *image;								// Base entity image
 	SpriteSheet *spriteSheet;                   // Holds the animation frames we are going to be using for this entity
     Animation *animation;                       // Animation for this entity
-	
+
 	///////////////// Entity location
 	CGPoint tileLocation;						// Entities location in tile map tiles
 	CGPoint pixelLocation;						// Entities position in pixels
@@ -46,6 +46,10 @@
 	float offScreenTimer;						// Used to calculate how long the entity has been off the screen
 	float appearingTimer;						// Used to calculate how long the entity has been appearing for
 	float distanceFromPlayer;					// Distance the entity is from the player in tiles
+
+    float dx, dy;                               // velocity -- speed in pixels/sec and direction
+    bool active;
+    int coll_w, coll_h, coll_x_offset, coll_y_offset;
 }
 
 @property (nonatomic, readonly) Image *image;
@@ -54,6 +58,7 @@
 
 @property (nonatomic, assign) CGPoint tileLocation;
 @property (nonatomic, assign) uint state;
+@property (nonatomic, assign) bool active;
 
 // Designated initializer which allows this actor to be placed on the tilemap using a
 // tilemap grid locations.
@@ -67,13 +72,13 @@
 // Selector that renders the entity
 - (void)render;
 
-// Check to see if any corners of the entities bounds are in the tile location 
+// Check to see if any corners of the entities bounds are in the tile location
 // provided
 - (BOOL)isEntityInTileAtCoords:(CGPoint)aCoords;
 
 // Returns a CGRect which defines the movement bounds of the entity.  The movement bounds are
 // used then the entity moves on the map when checking if the the entity has entered a blocked
-// map tile.  This method must be subclassed so that an actual CGRect and be returned.  
+// map tile. This method must be subclassed so that an actual CGRect and be returned.
 // By default a zero sized CGRect is returned.
 - (CGRect)movementBounds;
 
@@ -88,12 +93,12 @@
 // its called a lot so this helps reduce the messaging overhead Objective-C introduces
 BoundingBoxTileQuad getTileCoordsForBoundingRect(CGRect aRect, CGSize aTileSize);
 
-// Checks to see if the entity has collided with the entity passed in.  This method is 
+// Checks to see if the entity has collided with the entity passed in.  This method is
 // subclassed to provide the entity specific functions that should be carried out when
 // checking for and identifying a collision with another entity
 - (void)checkForCollisionWithEntity:(AbstractEntity*)aEntity;
 
-// Checks to see if the entity has collided with the object passed in.  This method is 
+// Checks to see if the entity has collided with the object passed in.  This method is
 // subclassed to provide the entity specific functions that should be carried out when
 // checking for and identifying a collision with an object
 - (void)checkForCollisionWithObject:(AbstractObject*)aObject;
