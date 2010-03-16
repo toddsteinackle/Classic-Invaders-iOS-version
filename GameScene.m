@@ -126,7 +126,7 @@
 
 		myFirstAlien = [[Alien alloc] initWithLocation:CGPointMake((screenBounds.size.height - (45*.75)) / 2,
 																   (screenBounds.size.width - (30*.75)) / 2)
-													dx:1.0
+													dx:200.0
 													dy:1.0
 											  position:1
 										   fire_chance:1];
@@ -140,6 +140,7 @@
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 	[myFirstAlien updateWithDelta:aDelta scene:self];
+	[myFirstAlien movement:aDelta];
 }
 
 #pragma mark -

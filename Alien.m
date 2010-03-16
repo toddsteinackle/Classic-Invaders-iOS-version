@@ -18,6 +18,16 @@
 #import "PackedSpriteSheet.h"
 
 @implementation Alien
+
+- (void)movement:(float)aDelta {
+    pixelLocation.x += aDelta * dx;
+    if (pixelLocation.x < 0) {
+        dx = -dx;
+    } else if (pixelLocation.x > 480 - (45*.75)) {
+        dx = -dx;
+    }
+}
+
 #pragma mark -
 #pragma mark Initialization
 

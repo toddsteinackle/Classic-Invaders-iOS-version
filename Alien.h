@@ -15,5 +15,6 @@
 }
 
 - (id)initWithLocation:(CGPoint)aLocation dx:(float)hspeed dy:(float)vspeed position:(int)pos fire_chance:(int)chance;
+- (void)movement:(float)aDelta;
 
 @end
