@@ -21,6 +21,9 @@
 @class ParticleEmitter;
 @class Primatives;
 @class Alien;
+@class Alien2;
+@class Alien3;
+@class Player;
 
 // This class is the core game scene.  It is responsible for game rendering, logic, user
 // input etc.
@@ -32,11 +35,11 @@
     TextureManager *sharedTextureManager;			// Reference to the TextureManager that allows for reuse of textures
     SoundManager *sharedSoundManager;				// Reference to the SoundManager that handles all sounds in the game
 	GameController *sharedGameController;			// Reference to the GameController which handles global game state
-    
+
 	//////////////////////// Fonts
 	BitmapFont *largeFont;							// Font used to display the loading message
 	BitmapFont *smallFont;							// Font used for the HUD
-	
+
 	//////////////////////// Time Map
 	TiledMap *castleTileMap;						// Tile map used in the game
 	int screenTilesWide;							// Number of tiles to fill the screen width
@@ -51,7 +54,7 @@
 //	int playerTileOffsetX;							// Rounded number of x tiles to put player in the center of the screen
 //	int playerTileOffsetY;							// Rounded number of x tiles to put player in the center of the screen
 //	CGPoint playersLastLocation;					// Last location of the player so we can tell if they moved between updates
-	
+
 	//////////////////////// Arrays
 	NSMutableArray *portals;						// Portal objects defined in the tile map
 	NSMutableArray *gameObjects;					// Game objects defined in the tile map
@@ -60,10 +63,10 @@
 	NSMutableArray *localDoors;						// Doors that are within a screens distance of the player
     BOOL blocked[kMax_Map_Width][kMax_Map_Height];	// Collision map based on the collision layer in the tile map
 													// If the map size changes then the constants in Global.h need to change
-	
+
 	//////////////////////// Axe
     //Axe *axe;										// The axe that is thrown by the player
- 
+
 	//////////////////////// Bounds
 	CGRect pauseButtonBounds;						// Pausebutton image
 	CGRect pickupButtonBounds;						// Holds the bounds used to check for a touch of the pause button
@@ -81,7 +84,7 @@
 	Image *healthBarBackground;						// Image that is displayed behind the healthbar
 	Image *playerHead;								// Used to display the number of lives left
 	Image *grabButton;								// Pickup button
-	Image *play;									// Play button in HUD 
+	Image *play;									// Play button in HUD
 	Image *pause;									// Pause button in HUD
 	Image *gameOver;								// Game over screen
 	Image *torchMask;								// Alpha image placed over scene to look like torch light
@@ -105,13 +108,13 @@
 	int score;										// Game score
 	CGPoint joypadCenter;							// Center of the joypad
 	CGSize joypadRectangleSize;						// Height and Width of the joypad touch rectangle
-	int joypadTouchHash;							// Holds the unique hash value given to a touch on the joypad.  
+	int joypadTouchHash;							// Holds the unique hash value given to a touch on the joypad.
 													// This allows us to track the same touch during touchesMoved events
 	CGPoint settingsButtonCenter;					// Center of the settings button
 	CGSize settingsButtonSize;						// Height and Width of the settings button bounds
 	NSString *playersName;							// Players name entered when they complete a game of die
 	GLfloat musicVolume;							// Used to control the music volume for fading
-	
+
 	//////////////////////// Flags
 	BOOL isJoypadTouchMoving;						// YES if a touch is being tracked for the joypad
 	BOOL isPlayerOverObject;						// YES if the player is over a collectable object
@@ -122,9 +125,12 @@
 	BOOL isMusicFading;								// YES if music is being faded i.e. during a transition
 	BOOL isLoseMusicPlaying;						// YES if the lose music is playing
 	BOOL isWinMusicPlaying;							// YES if the win music is playing
-    
+
     Alien *myFirstAlien;
-	
+    Alien2 *alien2;
+    Alien3 *alien3;
+    Player *player;
+
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;

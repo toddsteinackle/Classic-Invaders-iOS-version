@@ -19,6 +19,9 @@
 #import "Layer.h"
 
 #import "Alien.h"
+#import "Alien2.h"
+#import "Alien3.h"
+#import "Player.h"
 
 #pragma mark -
 #pragma mark Private interface
@@ -130,6 +133,9 @@
 													dy:1.0
 											  position:1
 										   fire_chance:1];
+		alien2 = [[Alien2 alloc] initWithLocation:CGPointMake(50, 50) dx:200.0 dy:0.0 position:1 fire_chance:1];
+		alien3 = [[Alien3 alloc] initWithLocation:CGPointMake(200, 200) dx:200 dy:0 position:1 fire_chance:1];
+		player = [[Player alloc] initWithLocation:CGPointMake((screenBounds.size.height - (43*.75)) / 2, 10)];
     }
 
     return self;
@@ -141,6 +147,12 @@
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 	[myFirstAlien updateWithDelta:aDelta scene:self];
 	[myFirstAlien movement:aDelta];
+	[alien2 updateWithDelta:aDelta scene:self];
+	[alien2 movement:aDelta];
+	[alien3 updateWithDelta:aDelta scene:self];
+	[alien3 movement:aDelta];
+	[player updateWithDelta:aDelta scene:self];
+	[player movement:aDelta];
 }
 
 #pragma mark -
@@ -425,6 +437,9 @@
 	// Clear the screen before rendering
 	glClear(GL_COLOR_BUFFER_BIT);
 	[myFirstAlien render];
+	[alien2 render];
+	[alien3 render];
+	[player render];
 	[sharedImageRenderManager renderImages];
 
 	// If we are transitioning into the scene and we have initialized the scene then display the loading

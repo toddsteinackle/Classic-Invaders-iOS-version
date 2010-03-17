@@ -50,6 +50,7 @@
     float dx, dy;                               // velocity -- speed in pixels/sec and direction
     int coll_w, coll_h, coll_x_offset, coll_y_offset;
     float height, width;
+    float scale_factor;
 }
 
 @property (nonatomic, readonly) Image *image;
