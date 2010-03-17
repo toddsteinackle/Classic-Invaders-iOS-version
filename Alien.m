@@ -37,7 +37,7 @@
 	if (self != nil) {
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        scale_factor = .85;
+        scale_factor = .7;
         SpriteSheetImage.scale = Scale2fMake(scale_factor, scale_factor);
         spriteSheet = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
 

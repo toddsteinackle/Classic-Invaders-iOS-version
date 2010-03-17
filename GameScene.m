@@ -100,6 +100,54 @@
     [super dealloc];
 }
 
+- (void)initAliens:(int)alienSpeed {
+	Alien *alien;
+	int alien_count = 0;
+	int x = 65;
+	int y = 145;
+	int hspace = 35;
+	int vspace = 25;
+	// create a block of aliens (5 rows, by 10 columns)
+	for (int i = 0; i < 5; ++i) {
+		for (int j = 0; j < 10; ++j) {
+			switch (i) {
+				case 0:
+				{
+					// initialize the bottom row of aliens to fire
+					alien = [[Alien alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					[aliens addObject:alien];
+					[alien release];
+					break;
+				}
+				case 1:
+				{
+					alien = [[Alien alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					[aliens addObject:alien];
+					[alien release];
+					break;
+				}
+				case 2:
+				case 3:
+				{
+					alien = [[Alien2 alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					[aliens addObject:alien];
+					[alien release];
+					break;
+				}
+				case 4:
+				{
+					alien = [[Alien3 alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					[aliens addObject:alien];
+					[alien release];
+					break;
+				}
+				default:
+					break;
+			}
+			++alien_count;
+		}
+	}
+}
 - (id)init {
 
     if(self = [super init]) {
@@ -127,15 +175,9 @@
 		// notification
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
 
-		myFirstAlien = [[Alien alloc] initWithLocation:CGPointMake((screenBounds.size.height - (45*.75)) / 2,
-																   (screenBounds.size.width - (30*.75)) / 2)
-													dx:200.0
-													dy:1.0
-											  position:1
-										   fire_chance:1];
-		alien2 = [[Alien2 alloc] initWithLocation:CGPointMake(50, 50) dx:200.0 dy:0.0 position:1 fire_chance:1];
-		alien3 = [[Alien3 alloc] initWithLocation:CGPointMake(200, 200) dx:200 dy:0 position:1 fire_chance:1];
-		player = [[Player alloc] initWithLocation:CGPointMake((screenBounds.size.height - (43*.75)) / 2, 10)];
+		aliens = [[NSMutableArray alloc] init];
+		[self initAliens:0];
+		player = [[Player alloc] initWithLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
     }
 
     return self;
@@ -145,12 +187,12 @@
 #pragma mark Update scene logic
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
-	[myFirstAlien updateWithDelta:aDelta scene:self];
-	[myFirstAlien movement:aDelta];
-	[alien2 updateWithDelta:aDelta scene:self];
-	[alien2 movement:aDelta];
-	[alien3 updateWithDelta:aDelta scene:self];
-	[alien3 movement:aDelta];
+
+	for(Alien *alien in aliens) {
+		[alien updateWithDelta:aDelta scene:self];
+		[alien movement:aDelta];
+	}
+
 	[player updateWithDelta:aDelta scene:self];
 	[player movement:aDelta];
 }
@@ -436,9 +478,9 @@
 
 	// Clear the screen before rendering
 	glClear(GL_COLOR_BUFFER_BIT);
-	[myFirstAlien render];
-	[alien2 render];
-	[alien3 render];
+	for(Alien *alien in aliens) {
+		[alien render];
+	}
 	[player render];
 	[sharedImageRenderManager renderImages];
 
@@ -1312,7 +1354,7 @@
 	[portals release];
 	[castleTileMap release];
 	//	[player release];
-	[myFirstAlien release];
+	[aliens release];
 
 	// Release sounds
 	[sharedSoundManager removeSoundWithKey:@"doorSlam"];

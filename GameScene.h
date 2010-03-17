@@ -129,6 +129,7 @@
     Alien *myFirstAlien;
     Alien2 *alien2;
     Alien3 *alien3;
+    NSMutableArray *aliens;
     Player *player;
 
 }
@@ -157,5 +158,7 @@
 
 // Saves the current state of the game to be resumed later
 - (void)saveGameState;
+
+- (void)initAliens:(int)alienSpeed;
 
 @end
