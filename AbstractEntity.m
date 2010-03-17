@@ -15,11 +15,11 @@
 
 @implementation AbstractEntity
 
-@synthesize tileLocation;
-@synthesize state;
-@synthesize image;
-@synthesize energyDrain;
-@synthesize pixelLocation;
+@synthesize tileLocation_;
+@synthesize state_;
+@synthesize image_;
+//@synthesize energyDrain;
+@synthesize pixelLocation_;
 
 - (void)dealloc {
 //	SLQLOG(@"INFO - %@: Deallocating", [self description]);
@@ -33,11 +33,11 @@
 	self = [super init];
 	if (self != nil) {
 		// Grab references to the singleton managers
-		sharedGameController = [GameController sharedGameController];
-		sharedSoundManager = [SoundManager sharedSoundManager];
+		sharedGameController_ = [GameController sharedGameController];
+		sharedSoundManager_ = [SoundManager sharedSoundManager];
 
 		// Grab a reference to the current game screne
-		scene = (GameScene*)sharedGameController.currentScene;
+		scene_ = (GameScene*)sharedGameController_.currentScene;
 
 	}
 	return self;
@@ -48,7 +48,7 @@
 	return self;
 }
 
-- (id)initWithLocation:(CGPoint)aLocation {
+- (id)initWithPixelLocation:(CGPoint)aLocation {
     self = [self init];
     return self;
 }
@@ -129,23 +129,23 @@ BoundingBoxTileQuad getTileCoordsForBoundingRect(CGRect aRect, CGSize aTileSize)
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
 	[self initWithTileLocation:[aDecoder decodeCGPointForKey:@"position"]];
-	speed = [aDecoder decodeFloatForKey:@"speed"];
-	angle = [aDecoder decodeFloatForKey:@"angle"];
-	state = [aDecoder decodeIntForKey:@"entityState"];
-	if (state == kEntityState_Dying)
-		state = kEntityState_Dead;
-	offScreenTimer = [aDecoder decodeFloatForKey:@"offScreenTimer"];
-	appearingTimer = [aDecoder decodeFloatForKey:@"appearingTimer"];
+    //	speed = [aDecoder decodeFloatForKey:@"speed"];
+    //	angle = [aDecoder decodeFloatForKey:@"angle"];
+	state_ = [aDecoder decodeIntForKey:@"entityState"];
+	if (state_ == kEntityState_Dying)
+		state_ = kEntityState_Dead;
+	//offScreenTimer = [aDecoder decodeFloatForKey:@"offScreenTimer"];
+	//appearingTimer = [aDecoder decodeFloatForKey:@"appearingTimer"];
 	return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-	[aCoder encodeCGPoint:tileLocation forKey:@"position"];
-	[aCoder encodeFloat:speed forKey:@"speed"];
-	[aCoder encodeFloat:angle forKey:@"angle"];
-	[aCoder encodeInt:state forKey:@"entityState"];
-	[aCoder encodeFloat:offScreenTimer forKey:@"offScreenTimer"];
-	[aCoder encodeFloat:appearingTimer forKey:@"appearingTimer"];
+	[aCoder encodeCGPoint:tileLocation_ forKey:@"position"];
+	//[aCoder encodeFloat:speed forKey:@"speed"];
+	//[aCoder encodeFloat:angle forKey:@"angle"];
+	[aCoder encodeInt:state_ forKey:@"entityState"];
+	//[aCoder encodeFloat:offScreenTimer forKey:@"offScreenTimer"];
+	//[aCoder encodeFloat:appearingTimer forKey:@"appearingTimer"];
 }
 
 @end

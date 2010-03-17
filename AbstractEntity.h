@@ -23,48 +23,48 @@
 @interface AbstractEntity : NSObject <NSCoding> {
 
 	/////////////////// Singleton Managers
-    SoundManager *sharedSoundManager;			// Sound Manager
-    GameController *sharedGameController;		// Game Controller
+    SoundManager *sharedSoundManager_;			// Sound Manager
+    GameController *sharedGameController_;		// Game Controller
 
 	////////////////// Images
-	Image *image;								// Base entity image
-	SpriteSheet *spriteSheet;                   // Holds the animation frames we are going to be using for this entity
-    Animation *animation;                       // Animation for this entity
+	Image *image_;								// Base entity image
+	SpriteSheet *spriteSheet_;                   // Holds the animation frames we are going to be using for this entity
+    Animation *animation_;                       // Animation for this entity
 
 	///////////////// Entity location
-	CGPoint tileLocation;						// Entities location in tile map tiles
-	CGPoint pixelLocation;						// Entities position in pixels
+	CGPoint tileLocation_;						// Entities location in tile map tiles
+	CGPoint pixelLocation_;						// Entities position in pixels
 
 	///////////////// Entity state/ivars
-	GameScene *scene;							// Reference to the game scene
-	uint state;									// Entities state
-	float energyDrain;							// Amount of energy to drain from the player when they hit this entity
-    float speed;								// Speed at which the entity will move
-    float angle;								// Angle at which entity will move
-	ParticleEmitter *dyingEmitter;				// Particle emitter used when the entity dies
-	ParticleEmitter *appearingEmitter;			// Particle emitter used when the entity appears
-	float offScreenTimer;						// Used to calculate how long the entity has been off the screen
-	float appearingTimer;						// Used to calculate how long the entity has been appearing for
-	float distanceFromPlayer;					// Distance the entity is from the player in tiles
+	GameScene *scene_;							// Reference to the game scene
+	uint state_;									// Entities state
+    //float energyDrain;							// Amount of energy to drain from the player when they hit this entity
+    //float speed;								// Speed at which the entity will move
+    //float angle;								// Angle at which entity will move
+	ParticleEmitter *dyingEmitter_;				// Particle emitter used when the entity dies
+	ParticleEmitter *appearingEmitter_;			// Particle emitter used when the entity appears
+    //float offScreenTimer;						// Used to calculate how long the entity has been off the screen
+	//float appearingTimer;						// Used to calculate how long the entity has been appearing for
+	//float distanceFromPlayer;					// Distance the entity is from the player in tiles
 
-    float dx, dy;                               // velocity -- speed in pixels/sec and direction
-    int coll_w, coll_h, coll_x_offset, coll_y_offset;
-    float height, width;
-    float scale_factor;
+    float dx_, dy_;                               // velocity -- speed in pixels/sec and direction
+    int collisionWidth_, collisionHeight_, collisionXOffset_, collisionYOffset_;
+    float height_, width_;
+    float scaleFactor_;
 }
 
-@property (nonatomic, readonly) Image *image;
-@property (nonatomic, readonly) float energyDrain;
-@property (nonatomic, readonly) CGPoint pixelLocation;
+@property (nonatomic, readonly) Image *image_;
+//@property (nonatomic, readonly) float energyDrain;
+@property (nonatomic, readonly) CGPoint pixelLocation_;
 
-@property (nonatomic, assign) CGPoint tileLocation;
-@property (nonatomic, assign) uint state;
+@property (nonatomic, assign) CGPoint tileLocation_;
+@property (nonatomic, assign) uint state_;
 
 // Designated initializer which allows this actor to be placed on the tilemap using a
 // tilemap grid locations.
 - (id)initWithTileLocation:(CGPoint)aLocation;
 
-- (id)initWithLocation:(CGPoint)aLocation;
+- (id)initWithPixelLocation:(CGPoint)aLocation;
 
 // Selector that updates the entities logic i.e. location, collision status etc
 - (void)updateWithDelta:(float)aDelta scene:(AbstractScene*)aScene;

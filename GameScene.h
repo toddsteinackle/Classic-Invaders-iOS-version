@@ -159,6 +159,6 @@
 // Saves the current state of the game to be resumed later
 - (void)saveGameState;
 
-- (void)initAliens:(int)alienSpeed;
+- (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
 
 @end

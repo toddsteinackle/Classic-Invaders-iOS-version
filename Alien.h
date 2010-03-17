@@ -10,11 +10,12 @@
 
 
 @interface Alien : AbstractEntity {
-    int position, fire_chance; // used by Aliens to determine if and when to fire
-    int points;
+    int position_, fireChance_; // used by Aliens to determine if and when to fire
+    int points_;
 }
 
-- (id)initWithLocation:(CGPoint)aLocation dx:(float)hspeed dy:(float)vspeed position:(int)pos fire_chance:(int)chance;
+- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position chanceToFire:(int)chanceToFire;
 - (void)movement:(float)aDelta;
+- (void)description;
 
 @end

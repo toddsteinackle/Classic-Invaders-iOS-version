@@ -19,36 +19,42 @@
 
 @implementation Alien
 
+- (void)description {
+    NSLog(@"description of alien");
+    NSLog(@"position %d", position_);
+    NSLog(@"fireChance %d", fireChance_);
+}
+
 - (void)movement:(float)aDelta {
-    pixelLocation.x += aDelta * dx;
-    if (pixelLocation.x < 0) {
-        dx = -dx;
-    } else if (pixelLocation.x > 480 - (45*scale_factor)) {
-        dx = -dx;
+    pixelLocation_.x += aDelta * dx_;
+    if (pixelLocation_.x < 0) {
+        dx_ = -dx_;
+    } else if (pixelLocation_.x > 480 - (45*scaleFactor_)) {
+        dx_ = -dx_;
     }
 }
 
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithLocation:(CGPoint)aLocation dx:(float)hspeed dy:(float)vspeed position:(int)pos fire_chance:(int)chance {
+- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position chanceToFire:(int)chanceToFire {
 
     self = [super init];
 	if (self != nil) {
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        scale_factor = .7;
-        SpriteSheetImage.scale = Scale2fMake(scale_factor, scale_factor);
-        spriteSheet = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
+        scaleFactor_ = .7;
+        SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
 
-        animation = [[Animation alloc] init];
+        animation_ = [[Animation alloc] init];
 		float delay = 0.2;
-		[animation addFrameWithImage:[spriteSheet spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
-        [animation addFrameWithImage:[spriteSheet spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
-		[animation addFrameWithImage:[spriteSheet spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
-        [animation addFrameWithImage:[spriteSheet spriteImageAtCoords:CGPointMake(0, 3)] delay:delay];
-        animation.state = kAnimationState_Running;
-        animation.type = kAnimationType_PingPong;
+		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
+		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
+        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 3)] delay:delay];
+        animation_.state = kAnimationState_Running;
+        animation_.type = kAnimationType_PingPong;
 
 		[SpriteSheetImage release];
 
@@ -56,12 +62,12 @@
 //        tileLocation = aLocation;
 //        angle = (int)(360 * RANDOM_0_TO_1()) % 360;
 //        speed = (float)(RANDOM_0_TO_1() * MOVEMENT_SPEED);
-        pixelLocation.x = aLocation.x;
-        pixelLocation.y = aLocation.y;
-        dx = hspeed;
-        dy = vspeed;
-        position = pos;
-        fire_chance = chance;
+        pixelLocation_.x = aLocation.x;
+        pixelLocation_.y = aLocation.y;
+        dx_ = dx;
+        dy_ = dy;
+        position_ = position;
+        fireChance_ = chanceToFire;
 
 		// Set up the particle emitter used when the ghost dies, in a metaphysical kinda way of course
 //		dyingEmitter = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
@@ -80,7 +86,7 @@
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
 
     //scene = (GameScene*)aScene;
-    [animation updateWithDelta:aDelta];
+    [animation_ updateWithDelta:aDelta];
     //NSLog(@"Alien delta update");
 }
 
@@ -89,7 +95,7 @@
 
 - (void)render {
     [super render];
-    [animation renderAtPoint:CGPointMake(pixelLocation.x, pixelLocation.y)];
+    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
     //NSLog(@"Alien render");
 }
 
@@ -113,7 +119,7 @@
 }
 
 - (void)dealloc {
-    [animation release];
+    [animation_ release];
 	//[dyingEmitter release];
 	//[appearingEmitter release];
     [super dealloc];

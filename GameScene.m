@@ -100,9 +100,9 @@
     [super dealloc];
 }
 
-- (void)initAliens:(int)alienSpeed {
+- (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
-	int alien_count = 0;
+	int alienCount = 0;
 	int x = 65;
 	int y = 145;
 	int hspace = 35;
@@ -114,14 +114,18 @@
 				case 0:
 				{
 					// initialize the bottom row of aliens to fire
-					alien = [[Alien alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+														 dx:alienSpeed
+														 dy:0.0
+												   position:alienCount+1
+												chanceToFire:1];
 					[aliens addObject:alien];
 					[alien release];
 					break;
 				}
 				case 1:
 				{
-					alien = [[Alien alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
 					[aliens addObject:alien];
 					[alien release];
 					break;
@@ -129,14 +133,14 @@
 				case 2:
 				case 3:
 				{
-					alien = [[Alien2 alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
 					[aliens addObject:alien];
 					[alien release];
 					break;
 				}
 				case 4:
 				{
-					alien = [[Alien3 alloc] initWithLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alien_count+1 fire_chance:1];
+					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
 					[aliens addObject:alien];
 					[alien release];
 					break;
@@ -144,9 +148,10 @@
 				default:
 					break;
 			}
-			++alien_count;
+			++alienCount;
 		}
 	}
+	NSLog(@"%@", aliens);
 }
 - (id)init {
 
@@ -176,8 +181,8 @@
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
 
 		aliens = [[NSMutableArray alloc] init];
-		[self initAliens:0];
-		player = [[Player alloc] initWithLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
+		[self initAliensWithSpeed:0 chanceToFire:10];
+		player = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
     }
 
     return self;
