@@ -126,11 +126,8 @@
 	BOOL isLoseMusicPlaying;						// YES if the lose music is playing
 	BOOL isWinMusicPlaying;							// YES if the win music is playing
 
-    Alien *myFirstAlien;
-    Alien2 *alien2;
-    Alien3 *alien3;
-    NSMutableArray *aliens;
-    Player *player;
+    NSMutableArray *aliens_;
+    Player *player_;
 
 }
 

@@ -20,7 +20,7 @@
 #pragma mark -
 #pragma mark Initialization
 
-- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position chanceToFire:(int)chanceToFire {
+- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire {
 
     self = [super init];
 	if (self != nil) {
@@ -47,6 +47,7 @@
         dy_ = dy;
         position_ = position;
         fireChance_ = chanceToFire;
+        canFire_ = canFire;
     }
     return self;
 }

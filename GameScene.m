@@ -23,6 +23,8 @@
 #import "Alien3.h"
 #import "Player.h"
 
+#include <stdlib.h>
+
 #pragma mark -
 #pragma mark Private interface
 
@@ -118,30 +120,46 @@
 														 dx:alienSpeed
 														 dy:0.0
 												   position:alienCount+1
-												chanceToFire:1];
-					[aliens addObject:alien];
+													canFire:TRUE
+											   chanceToFire:arc4random() % chanceToFire + 1];
+					[aliens_ addObject:alien];
 					[alien release];
 					break;
 				}
 				case 1:
 				{
-					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
-					[aliens addObject:alien];
+					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+															  dx:alienSpeed
+															  dy:0.0
+														position:alienCount+1
+														 canFire:FALSE
+													chanceToFire:arc4random() % chanceToFire + 1];
+					[aliens_ addObject:alien];
 					[alien release];
 					break;
 				}
 				case 2:
 				case 3:
 				{
-					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
-					[aliens addObject:alien];
+					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+															   dx:alienSpeed
+															   dy:0.0
+														 position:alienCount+1
+														  canFire:FALSE
+													 chanceToFire:arc4random() % chanceToFire + 1];
+					[aliens_ addObject:alien];
 					[alien release];
 					break;
 				}
 				case 4:
 				{
-					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace)) dx:alienSpeed dy:0.0 position:alienCount+1 chanceToFire:1];
-					[aliens addObject:alien];
+					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+															   dx:alienSpeed
+															   dy:0.0
+														 position:alienCount+1
+														  canFire:FALSE
+													 chanceToFire:arc4random() % chanceToFire + 1];
+					[aliens_ addObject:alien];
 					[alien release];
 					break;
 				}
@@ -151,7 +169,7 @@
 			++alienCount;
 		}
 	}
-	NSLog(@"%@", aliens);
+	NSLog(@"%@", aliens_);
 }
 - (id)init {
 
@@ -180,9 +198,9 @@
 		// notification
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
 
-		aliens = [[NSMutableArray alloc] init];
+		aliens_ = [[NSMutableArray alloc] init];
 		[self initAliensWithSpeed:0 chanceToFire:10];
-		player = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
+		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
     }
 
     return self;
@@ -193,13 +211,13 @@
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 
-	for(Alien *alien in aliens) {
+	for(Alien *alien in aliens_) {
 		[alien updateWithDelta:aDelta scene:self];
 		[alien movement:aDelta];
 	}
 
-	[player updateWithDelta:aDelta scene:self];
-	[player movement:aDelta];
+	[player_ updateWithDelta:aDelta scene:self];
+	[player_ movement:aDelta];
 }
 
 #pragma mark -
@@ -483,10 +501,10 @@
 
 	// Clear the screen before rendering
 	glClear(GL_COLOR_BUFFER_BIT);
-	for(Alien *alien in aliens) {
+	for(Alien *alien in aliens_) {
 		[alien render];
 	}
-	[player render];
+	[player_ render];
 	[sharedImageRenderManager renderImages];
 
 	// If we are transitioning into the scene and we have initialized the scene then display the loading
@@ -1359,7 +1377,7 @@
 	[portals release];
 	[castleTileMap release];
 	//	[player release];
-	[aliens release];
+	[aliens_ release];
 
 	// Release sounds
 	[sharedSoundManager removeSoundWithKey:@"doorSlam"];
