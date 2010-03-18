@@ -20,6 +20,7 @@
 @synthesize image_;
 //@synthesize energyDrain;
 @synthesize pixelLocation_;
+@synthesize active_;
 
 - (void)dealloc {
 //	SLQLOG(@"INFO - %@: Deallocating", [self description]);

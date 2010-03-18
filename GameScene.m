@@ -22,6 +22,7 @@
 #import "Alien2.h"
 #import "Alien3.h"
 #import "Player.h"
+#import "Shot.h"
 
 #include <stdlib.h>
 
@@ -169,7 +170,7 @@
 			++alienCount;
 		}
 	}
-	NSLog(@"%@", aliens_);
+	//NSLog(@"%@", aliens_);
 }
 - (id)init {
 
@@ -201,6 +202,7 @@
 		aliens_ = [[NSMutableArray alloc] init];
 		[self initAliensWithSpeed:0 chanceToFire:10];
 		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
+		shot_ = [[Shot alloc] initWithPixelLocation:CGPointMake(20, 0)];
     }
 
     return self;
@@ -218,6 +220,9 @@
 
 	[player_ updateWithDelta:aDelta scene:self];
 	[player_ movement:aDelta];
+
+	[shot_ updateWithDelta:aDelta scene:self];
+	[shot_ movement:aDelta];
 }
 
 #pragma mark -
@@ -505,6 +510,7 @@
 		[alien render];
 	}
 	[player_ render];
+	[shot_ render];
 	[sharedImageRenderManager renderImages];
 
 	// If we are transitioning into the scene and we have initialized the scene then display the loading

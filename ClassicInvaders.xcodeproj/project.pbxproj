@@ -31,6 +31,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		5F1BCB741151B86300F33168 /* Shot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCB731151B86300F33168 /* Shot.m */; };
 		5F1C42DE115038C70025119B /* Alien2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C42DD115038C70025119B /* Alien2.m */; };
 		5F1C430411503B920025119B /* Alien3.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C430311503B920025119B /* Alien3.m */; };
 		5F1C433811503FD10025119B /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C433711503FD10025119B /* Player.m */; };
@@ -135,6 +136,8 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ClassicInvaders_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicInvaders_Prefix.pch; sourceTree = "<group>"; };
+		5F1BCB721151B86300F33168 /* Shot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shot.h; sourceTree = "<group>"; };
+		5F1BCB731151B86300F33168 /* Shot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shot.m; sourceTree = "<group>"; };
 		5F1C42DC115038C70025119B /* Alien2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alien2.h; sourceTree = "<group>"; };
 		5F1C42DD115038C70025119B /* Alien2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alien2.m; sourceTree = "<group>"; };
 		5F1C430211503B920025119B /* Alien3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alien3.h; sourceTree = "<group>"; };
@@ -333,6 +336,8 @@
 				5F1C430311503B920025119B /* Alien3.m */,
 				5F1C433611503FD10025119B /* Player.h */,
 				5F1C433711503FD10025119B /* Player.m */,
+				5F1BCB721151B86300F33168 /* Shot.h */,
+				5F1BCB731151B86300F33168 /* Shot.m */,
 			);
 			name = "Game Entities";
 			sourceTree = "<group>";
@@ -774,6 +779,7 @@
 				5F1C42DE115038C70025119B /* Alien2.m in Sources */,
 				5F1C430411503B920025119B /* Alien3.m in Sources */,
 				5F1C433811503FD10025119B /* Player.m in Sources */,
+				5F1BCB741151B86300F33168 /* Shot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

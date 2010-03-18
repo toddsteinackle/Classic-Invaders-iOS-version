@@ -23,6 +23,9 @@
     NSLog(@"description of alien");
     NSLog(@"position %d", position_);
     NSLog(@"fireChance %d", fireChance_);
+    NSLog(@"points %d", points_);
+    NSLog(@"canFire %d", canFire_);
+    [super description];
 }
 
 - (void)movement:(float)aDelta {

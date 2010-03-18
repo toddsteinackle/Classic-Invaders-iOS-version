@@ -24,6 +24,7 @@
 @class Alien2;
 @class Alien3;
 @class Player;
+@class Shot;
 
 // This class is the core game scene.  It is responsible for game rendering, logic, user
 // input etc.
@@ -61,7 +62,7 @@
 	NSMutableArray *gameEntities;					// Entities running arounf the game
     NSMutableArray *doors;							// Doors defined in the tile map
 	NSMutableArray *localDoors;						// Doors that are within a screens distance of the player
-    BOOL blocked[kMax_Map_Width][kMax_Map_Height];	// Collision map based on the collision layer in the tile map
+    //BOOL blocked[kMax_Map_Width][kMax_Map_Height];	// Collision map based on the collision layer in the tile map
 													// If the map size changes then the constants in Global.h need to change
 
 	//////////////////////// Axe
@@ -128,7 +129,7 @@
 
     NSMutableArray *aliens_;
     Player *player_;
-
+    Shot *shot_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;
