@@ -130,6 +130,7 @@
     NSMutableArray *aliens_;
     Player *player_;
     Shot *shot_;
+    Image *background_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;

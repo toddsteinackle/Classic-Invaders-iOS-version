@@ -203,6 +203,9 @@
 		[self initAliensWithSpeed:0 chanceToFire:10];
 		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
 		shot_ = [[Shot alloc] initWithPixelLocation:CGPointMake(20, 0)];
+
+		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+		background_ = [[pss imageForKey:@"background.png"] retain];
     }
 
     return self;
@@ -506,6 +509,7 @@
 
 	// Clear the screen before rendering
 	glClear(GL_COLOR_BUFFER_BIT);
+	[background_ renderAtPoint:CGPointMake(0, 0)];
 	for(Alien *alien in aliens_) {
 		[alien render];
 	}
@@ -1382,8 +1386,10 @@
 	[gameObjects release];
 	[portals release];
 	[castleTileMap release];
+
 	//	[player release];
 	[aliens_ release];
+	[background_ release];
 
 	// Release sounds
 	[sharedSoundManager removeSoundWithKey:@"doorSlam"];
