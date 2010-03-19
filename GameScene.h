@@ -134,6 +134,8 @@
     CGRect leftTouchControlBounds_;
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
+    NSUInteger numberOfPlayerShots_;
+    NSMutableArray *playerShots_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;
@@ -162,5 +164,7 @@
 - (void)saveGameState;
 
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
+- (void)playerFireShot;
+- (void)initPlayerShots;
 
 @end

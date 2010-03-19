@@ -11,7 +11,13 @@
 
 @interface Player : AbstractEntity {
 
+    int playerInitialXShotPostion_;
+    int playerInitialYShotPostion_;
+
 }
+
+@property (nonatomic, assign) int playerInitialXShotPostion_;
+@property (nonatomic, assign) int playerInitialYShotPostion_;
 
 - (void)movement:(float)aDelta;
 

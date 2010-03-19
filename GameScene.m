@@ -107,6 +107,25 @@ bool isRightTouchActive = FALSE;
     [super dealloc];
 }
 
+- (void)playerFireShot {
+	static double playerShotDelay = 0.5f;
+	static double lastShot = 0.0f;
+	static int playerShotCounter = 0;
+	// check that player has waited long enough to fire
+	if (CACurrentMediaTime() - lastShot < playerShotDelay) {
+		return;
+	}
+	// record time and fire
+	lastShot = CACurrentMediaTime();
+	Shot *shot = [playerShots_ objectAtIndex:playerShotCounter];
+	shot.pixelLocation_ = CGPointMake(player_.pixelLocation_.x + player_.playerInitialXShotPostion_,
+									  player_.pixelLocation_.y + player_.playerInitialYShotPostion_ + 1);
+	shot.active_ = TRUE;
+	if (++playerShotCounter == numberOfPlayerShots_) {
+		playerShotCounter = 0;
+	}
+}
+
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
 	int alienCount = 0;
@@ -207,8 +226,10 @@ bool isRightTouchActive = FALSE;
 		int touchBoxWidth = 65;
 		aliens_ = [[NSMutableArray alloc] init];
 		[self initAliensWithSpeed:0 chanceToFire:10];
-		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight)];
-		shot_ = [[Shot alloc] initWithPixelLocation:CGPointMake(playerBaseHeight, 0)];
+		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight+1)];
+		numberOfPlayerShots_ = 10;
+		playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
+		[self initPlayerShots];
 
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		background_ = [[pss imageForKey:@"background.png"] retain];
@@ -219,6 +240,15 @@ bool isRightTouchActive = FALSE;
     }
 
     return self;
+}
+
+- (void)initPlayerShots {
+	for (int i = 0; i < numberOfPlayerShots_; ++i) {
+		Shot *shot = [[Shot alloc] initWithPixelLocation:CGPointMake(0,0)];
+		[playerShots_ addObject:shot];
+		//playerShots_[numberOfPlayerShots_] = shot;
+	}
+	NSLog(@"%@", playerShots_);
 }
 
 #pragma mark -
@@ -234,8 +264,10 @@ bool isRightTouchActive = FALSE;
 	[player_ updateWithDelta:aDelta scene:self];
 	[player_ movement:aDelta];
 
-	[shot_ updateWithDelta:aDelta scene:self];
-	[shot_ movement:aDelta];
+	for (Shot *shot in playerShots_) {
+		[shot updateWithDelta:aDelta scene:self];
+		[shot	movement:aDelta];
+	}
 }
 
 #pragma mark -
@@ -363,6 +395,7 @@ bool isRightTouchActive = FALSE;
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
 			NSLog(@"fire shot");
+			[self playerFireShot];
 		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
@@ -447,7 +480,11 @@ bool isRightTouchActive = FALSE;
 		[alien render];
 	}
 	[player_ render];
-	[shot_ render];
+	for (Shot *shot in playerShots_) {
+		if (shot.active_) {
+			[shot render];
+		}
+	}
 
 	[sharedImageRenderManager renderImages];
 	drawBox(leftTouchControlBounds_);

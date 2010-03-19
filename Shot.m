@@ -21,6 +21,9 @@
 
 - (void)movement:(float)aDelta {
     pixelLocation_.y += aDelta * dy_;
+    if (pixelLocation_.y > 320) {
+        active_ = FALSE;
+    }
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation {

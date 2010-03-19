@@ -17,6 +17,9 @@
 
 @implementation Player
 
+@synthesize playerInitialXShotPostion_;
+@synthesize playerInitialYShotPostion_;
+
 #pragma mark -
 #pragma mark Initialization
 
@@ -45,6 +48,8 @@
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
+        playerInitialXShotPostion_ = scaleFactor_ * (43 - 5)  / 2;
+        playerInitialYShotPostion_ = scaleFactor_ * 16;
         //dx_ = 100;
 
     }

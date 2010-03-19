@@ -56,7 +56,7 @@
 
 @property (nonatomic, readonly) Image *image_;
 //@property (nonatomic, readonly) float energyDrain;
-@property (nonatomic, readonly) CGPoint pixelLocation_;
+@property (nonatomic, assign) CGPoint pixelLocation_;
 
 @property (nonatomic, assign) CGPoint tileLocation_;
 @property (nonatomic, assign) uint state_;
