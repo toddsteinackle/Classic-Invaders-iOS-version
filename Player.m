@@ -22,6 +22,7 @@
 
 - (void)movement:(float)aDelta {
 
+    pixelLocation_.x += aDelta * dx_;
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation {
@@ -44,6 +45,7 @@
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
+        //dx_ = 100;
 
     }
     return self;

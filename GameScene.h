@@ -131,6 +131,9 @@
     Player *player_;
     Shot *shot_;
     Image *background_;
+    CGRect leftTouchControlBounds_;
+    CGRect rightTouchControlBounds_;
+    CGRect fireTouchControlBounds_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;

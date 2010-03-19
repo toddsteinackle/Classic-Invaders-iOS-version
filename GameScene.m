@@ -26,6 +26,10 @@
 
 #include <stdlib.h>
 
+const float playerSpeed = 100;
+bool isLeftTouchActive = FALSE;
+bool isRightTouchActive = FALSE;
+
 #pragma mark -
 #pragma mark Private interface
 
@@ -199,13 +203,19 @@
 		// notification
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
 
+		int playerBaseHeight = 35;
+		int touchBoxWidth = 65;
 		aliens_ = [[NSMutableArray alloc] init];
 		[self initAliensWithSpeed:0 chanceToFire:10];
-		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.7)) / 2, 10)];
-		shot_ = [[Shot alloc] initWithPixelLocation:CGPointMake(20, 0)];
+		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight)];
+		shot_ = [[Shot alloc] initWithPixelLocation:CGPointMake(playerBaseHeight, 0)];
 
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		background_ = [[pss imageForKey:@"background.png"] retain];
+
+		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
+		rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
+		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
     }
 
     return self;
@@ -271,133 +281,39 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {
 
-    //for (UITouch *touch in touches) {
-//        // Get the point where the player has touched the screen
-//        CGPoint originalTouchLocation = [touch locationInView:nil];
-//
-//        // As we have the game in landscape mode we need to switch the touches
-//        // x and y coordinates
-//        CGPoint touchLocation = [sharedGameController adjustTouchOrientationForTouch:originalTouchLocation];
-//
-//		switch (state) {
-//			case kSceneState_Running:
-//				if (CGRectContainsPoint(joypadBounds, touchLocation) && !isJoypadTouchMoving) {
-//					isJoypadTouchMoving = YES;
-//					joypadTouchHash = [touch hash];
-//					break;
-//				}
-//
-//				// Check to see if the pickup button was pressed
-//				if (CGRectContainsPoint(pickupButtonBounds, touchLocation)) {
-//
-//					// Loop through the game objects and if an object is found to be collectable
-//					// then add it to the players inventory
-//					for(AbstractObject *gameObject in gameObjects) {
-//						if (gameObject.isCollectable || gameObject.state == kObjectState_Inventory) {
-//							[player placeInInventoryObject:gameObject];
-//						}
-//					}
-//					break;
-//				}
-//
-//				// Check to see if one of the inventory slots was selected
-//				if (CGRectContainsPoint(invItem1Bounds, touchLocation)) {
-//					[player dropInventoryFromSlot:0];
-//					break;
-//				}
-//				if (CGRectContainsPoint(invItem2Bounds, touchLocation)) {
-//					[player dropInventoryFromSlot:1];
-//					break;
-//				}
-//				if (CGRectContainsPoint(invItem3Bounds, touchLocation)) {
-//					[player dropInventoryFromSlot:2];
-//					break;
-//				}
-//
-//				// Check to see if the settings button has been pressed
-//				if (CGRectContainsPoint(settingsBounds, touchLocation)) {
-//					[[NSNotificationCenter defaultCenter] postNotificationName:@"showSettings" object:self];
-//					break;
-//				}
-//
-//				// Next check to see if the pause/play button has been pressed
-//				if (CGRectContainsPoint(pauseButtonBounds, touchLocation)) {
-//					[sharedSoundManager pauseMusic];
-//					state = kSceneState_Paused;
-//
-//					// If the joypad was being tracked then reset it
-//					isJoypadTouchMoving = NO;
-//					joypadTouchHash = 0;
-//					player.angleOfMovement = 0;
-//					player.speedOfMovement = 0;
-//					break;
-//				}
-//
-//				// As the player has tapped the screen then fire the axe.
-//				if(axe.state == kEntityState_Idle && player.state == kEntityState_Alive) {
-//					// Set the axe state to alive
-//					axe.state = kEntityState_Alive;
-//
-//					// Set the axe to the same location as the plaeyr
-//					axe.tileLocation = player.tileLocation;
-//
-//					// The player is always in the center of the screen, so calculate the angle of the
-//					// touch from that location.  This angle is then used to set the direction in
-//					// which the axe should travel
-//					float dx = (float)240 - (float)touchLocation.x;
-//					float dy = (float)160 - (float)touchLocation.y;
-//					axe.throwAngle = atan2(dy, dx);
-//				}
-//				break;
-//
-//			case kSceneState_GameCompleted:
-//			case kSceneState_GameOver:
-//			{
-//				// The game is over and we want to get the players name for the score board.  We are going to a UIAlertview
-//				// to do this for us.  The message which is defined as "anything" cannot be blank else the buttons on the
-//				// alertview will overlap the textfield.
-//				UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@"anything"
-//																			  delegate:self cancelButtonTitle:@"Dismiss"
-//																	 otherButtonTitles:@"OK", nil];
-//
-//				// A normal alterview is in the middle of the screen, so we move it up else the keyboard for the textfield
-//				// will be rendered over the alert view
-//				CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
-//				playersNameAlertView.transform = transform;
-//
-//				// Now we have moved the view we need to create a UITextfield to add to the view
-//				UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 20)];
-//
-//				// We set the background to white and the tag to 99.  This allows us to reference the text field in the alert
-//				// view later on to get the text that is typed in.  We also set it to becomeFirstResponder so that the keyboard
-//				// automatically shows
-//				playersNameTextField.backgroundColor = [UIColor whiteColor];
-//				playersNameTextField.tag = 99;
-//				[playersNameTextField becomeFirstResponder];
-//
-//				// Add the textfield to the alert view
-//				[playersNameAlertView addSubview:playersNameTextField];
-//
-//				// Show the alert view and then release it and the textfield.  As they are shown a retain is held.  If
-//				// we do not release then we will leak memory when the view is dismissed.
-//				[playersNameAlertView show];
-//				[playersNameAlertView release];
-//				[playersNameTextField release];
-//				break;
-//			}
-//
-//			case kSceneState_Paused:
-//				// Check to see if the pause/play button has been pressed
-//				if (CGRectContainsPoint(pauseButtonBounds, touchLocation)) {
-//					[sharedSoundManager resumeMusic];
-//					state = kSceneState_Running;
-//				}
-//				break;
-//
-//			default:
-//				break;
-//		}
-//    }
+	for (UITouch *touch in touches) {
+        // Get the point where the player has touched the screen
+        CGPoint originalTouchLocation = [touch locationInView:nil];
+		//NSLog(@"x: %f", originalTouchLocation.x);
+		//NSLog(@"y: %f", originalTouchLocation.y);
+
+        // As we have the game in landscape mode we need to switch the touches
+        // x and y coordinates
+		CGPoint touchLocation = [sharedGameController adjustTouchOrientationForTouch:originalTouchLocation];
+
+		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
+			NSLog(@"left touch");
+			isLeftTouchActive = TRUE;
+			if (isLeftTouchActive && !isRightTouchActive) {
+				player_.dx_ = -playerSpeed;
+			}
+			if (isLeftTouchActive && isRightTouchActive) {
+				player_.dx_ = 0;
+			}
+		}
+		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
+			NSLog(@"right touch");
+			isRightTouchActive = TRUE;
+			if (isRightTouchActive && !isLeftTouchActive) {
+				player_.dx_ = playerSpeed;
+			}
+			if (isLeftTouchActive && isRightTouchActive) {
+				player_.dx_ = 0;
+			}
+		}
+		//NSLog(@"x: %f", touchLocation.x);
+		//NSLog(@"y: %f", touchLocation.y);
+	}
 }
 
 
@@ -435,25 +351,42 @@
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {
 
-    //switch (state) {
-//        case kSceneState_Running:
-//            // Loop through the touches checking to see if the joypad touch has finished
-//            for (UITouch *touch in touches) {
-//                // If the hash for the joypad has reported that its ended, then set the
-//                // state as necessary
-//                if ([touch hash] == joypadTouchHash) {
-//                    isJoypadTouchMoving = NO;
-//                    joypadTouchHash = 0;
-//                    player.angleOfMovement = 0;
-//					player.speedOfMovement = 0;
-//                    return;
-//                }
-//            }
-//            break;
-//
-//        default:
-//            break;
-//    }
+	for (UITouch *touch in touches) {
+        // Get the point where the player has touched the screen
+        CGPoint originalTouchLocation = [touch locationInView:nil];
+		//NSLog(@"x: %f", originalTouchLocation.x);
+		//NSLog(@"y: %f", originalTouchLocation.y);
+
+        // As we have the game in landscape mode we need to switch the touches
+        // x and y coordinates
+        CGPoint touchLocation = [sharedGameController adjustTouchOrientationForTouch:originalTouchLocation];
+
+		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
+			NSLog(@"fire shot");
+		}
+
+		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
+			NSLog(@"left touch release");
+			isLeftTouchActive = FALSE;
+			if (isRightTouchActive) {
+				player_.dx_ = playerSpeed;
+			} else {
+				player_.dx_ = 0;
+			}
+		}
+		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
+			NSLog(@"right touch release");
+			isRightTouchActive = FALSE;
+			if (isLeftTouchActive) {
+				player_.dx_ = -playerSpeed;
+			} else {
+				player_.dx_ = 0;
+			}
+		}
+		//NSLog(@"x: %f", touchLocation.x);
+		//NSLog(@"y: %f", touchLocation.y);
+	}
+
 }
 
 #pragma mark -
@@ -508,14 +441,18 @@
 - (void)renderScene {
 
 	// Clear the screen before rendering
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT);
 	[background_ renderAtPoint:CGPointMake(0, 0)];
 	for(Alien *alien in aliens_) {
 		[alien render];
 	}
 	[player_ render];
 	[shot_ render];
+
 	[sharedImageRenderManager renderImages];
+	drawBox(leftTouchControlBounds_);
+	drawBox(rightTouchControlBounds_);
+	drawBox(fireTouchControlBounds_);
 
 	// If we are transitioning into the scene and we have initialized the scene then display the loading
 	// screen.  This will be displayed until the rest of the game content has been loaded.
