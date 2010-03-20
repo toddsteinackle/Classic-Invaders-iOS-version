@@ -26,7 +26,7 @@
 	if (self != nil) {
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        scaleFactor_ = .85;
+        scaleFactor_ = .7;
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
 
@@ -48,8 +48,8 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
-        collisionWidth_ = scaleFactor_ * 45 * .7;
-        collisionHeight_ = scaleFactor_ * 30 *.8;
+        collisionWidth_ = scaleFactor_ * 45 * .8f;
+        collisionHeight_ = scaleFactor_ * 30 *.8f;
         collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
         active_ = TRUE;

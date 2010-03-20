@@ -223,22 +223,22 @@ bool isRightTouchActive = FALSE;
 		// notification
 //		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkJoypadSettings) name:@"hidingSettings" object:nil];
 
-		int playerBaseHeight = 35;
-		int touchBoxWidth = 65;
-		aliens_ = [[NSMutableArray alloc] init];
-		[self initAliensWithSpeed:0 chanceToFire:10];
-		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight+1)];
-		numberOfPlayerShots_ = 10;
-		playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
-		[self initPlayerShots];
-
-		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
-		background_ = [[pss imageForKey:@"background.png"] retain];
-
-		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
-		rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
-		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
-		screenSidePadding_ = 20.0f;
+		//int playerBaseHeight = 35;
+//		int touchBoxWidth = 65;
+//		aliens_ = [[NSMutableArray alloc] init];
+//		[self initAliensWithSpeed:0 chanceToFire:10];
+//		player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight+1)];
+//		numberOfPlayerShots_ = 10;
+//		playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
+//		[self initPlayerShots];
+//
+//		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+//		background_ = [[pss imageForKey:@"background.png"] retain];
+//
+//		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
+//		rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
+//		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
+//		screenSidePadding_ = 20.0f;
 		//NSLog(@"in init %f", screenSidePadding_);
     }
 
@@ -257,29 +257,60 @@ bool isRightTouchActive = FALSE;
 #pragma mark Update scene logic
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
+	int playerBaseHeight = 35;
+	int touchBoxWidth = 65;
+	switch (state) {
+		case kSceneState_TransitionIn:
 
-	for(Alien *alien in aliens_) {
-		[alien updateWithDelta:aDelta scene:self];
-		[alien movement:aDelta];
-	}
+			aliens_ = [[NSMutableArray alloc] init];
+			[self initAliensWithSpeed:0 chanceToFire:10];
+			player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight+1)];
+			numberOfPlayerShots_ = 10;
+			playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
+			[self initPlayerShots];
 
-	[player_ updateWithDelta:aDelta scene:self];
-	[player_ movement:aDelta];
+			PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+			background_ = [[pss imageForKey:@"background.png"] retain];
 
-	for (Shot *shot in playerShots_) {
-		[shot updateWithDelta:aDelta scene:self];
-		[shot movement:aDelta];
-	}
+			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
+			rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
+			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
+			screenSidePadding_ = 20.0f;
 
-	for (Alien *alien in aliens_) {
-		if (alien.active_) {
-			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
-					[alien checkForCollisionWithEntity:shot];
+			state = kSceneState_Running;
+
+			break;
+
+		case kSceneState_Running:
+		for(Alien *alien in aliens_) {
+			[alien updateWithDelta:aDelta scene:self];
+			[alien movement:aDelta];
+		}
+
+		[player_ updateWithDelta:aDelta scene:self];
+		[player_ movement:aDelta];
+
+		for (Shot *shot in playerShots_) {
+			[shot updateWithDelta:aDelta scene:self];
+			[shot movement:aDelta];
+		}
+
+		for (Alien *alien in aliens_) {
+			if (alien.active_) {
+				for (Shot *shot in playerShots_) {
+					if (shot.active_) {
+						[alien checkForCollisionWithEntity:shot];
+					}
 				}
 			}
 		}
+			break;
+
+		default:
+			break;
 	}
+
+
 }
 
 #pragma mark -
@@ -504,6 +535,10 @@ bool isRightTouchActive = FALSE;
 	drawBox(leftTouchControlBounds_);
 	drawBox(rightTouchControlBounds_);
 	drawBox(fireTouchControlBounds_);
+//	for(Alien *alien in aliens_) {
+//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
+//						   alien.collisionWidth_, alien.collisionHeight_));
+//	}
 
 	// If we are transitioning into the scene and we have initialized the scene then display the loading
 	// screen.  This will be displayed until the rest of the game content has been loaded.

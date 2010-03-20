@@ -25,14 +25,12 @@
 
 - (void)movement:(float)aDelta {
 
-    static CGFloat screenSidePadding = 10.0f;
     // don't move off left hand side of the screen
-    if (dx_ < 0 && pixelLocation_.x < screenSidePadding) {
+    if (dx_ < 0 && pixelLocation_.x < scene_.screenSidePadding_) {
         return;
     }
-    //NSLog(@"side padding %f", scene_.screenSidePadding_);
     // don't move off right hand side of the screen
-    if (dx_ > 0 && pixelLocation_.x > rightScreenBoundary_ - screenSidePadding) {
+    if (dx_ > 0 && pixelLocation_.x > rightScreenBoundary_ - scene_.screenSidePadding_) {
         return;
     }
     pixelLocation_.x += aDelta * dx_;
