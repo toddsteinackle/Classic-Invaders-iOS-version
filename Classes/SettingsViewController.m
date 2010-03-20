@@ -33,7 +33,7 @@
 	// Remove observers that have been set up
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSettings" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"updateSettingsSliders" object:nil];
-	
+
     [super dealloc];
 }
 
@@ -45,7 +45,7 @@
 		// Set up the settings view
 		sharedSoundManager = [SoundManager sharedSoundManager];
 		sharedGameController = [GameController sharedGameController];
-		
+
 		// Set up a notification observers
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:@"showSettings" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateControlValues) name:@"updateSettingsSliders" object:nil];
@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
 	// Set the slider buttons to match our game theme
 	[musicVolume setThumbImage:[UIImage imageNamed:@"ui_scrollbutton.png"] forState:UIControlStateNormal];
 	[fxVolume setThumbImage:[UIImage imageNamed:@"ui_scrollbutton.png"] forState:UIControlStateNormal];
@@ -92,20 +92,20 @@
 #pragma mark UI Actions
 
 - (IBAction)musicValueChanged:(UISlider*)sender {
-	
+
 	// Change the music volume in the sound manager using the slider value
 	sharedSoundManager.musicVolume = [sender value];
 }
 
 - (IBAction)fxValueChanged:(UISlider*)sender {
-	
+
 	// Change the music volume in the sound manager using the slider value
 	sharedSoundManager.fxVolume = [sender value];
-	
+
 }
 
 - (IBAction)joypadSideChanged:(UISegmentedControl*)sender {
-	
+
 	// Change the leftHanded property in the GameController
 	sharedGameController.joypadPosition = sender.selectedSegmentIndex;
 }
@@ -119,12 +119,12 @@
 }
 
 - (IBAction)hide:(id)sender {
-	
+
 	// Tell any interested parties that the settings view is being hidden.  This allows the gameScene
 	// if running to check the values and switch the joypad as necessary
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"startGame" object:self];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"hidingSettings" object:self];
-	
+
 	// Fade out the view using core animation.  We do not want to remove this view from EAGLView
 	// until the fade has ended, so we use the animation delegate and AnimationDidStopSelector
 	// to call the hideFinished method when the animation is done.  This then removes this
@@ -146,10 +146,10 @@
 
 	// Set up the alert view that will check of the player really wants to return to the menu
 	UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:@"Return To Menu" message:@"Are you sure?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-	
+
 	// Show the alert view
 	[alterView show];
-	
+
 	// Now the view is visible we can release it
 	[alterView release];
 }
@@ -159,17 +159,17 @@
 
 - (void)alertView:(UIAlertView*)alterView clickedButtonAtIndex:(NSInteger)buttonIndex {
 
-	// Check to see which button has been pressed. Index 1 is the YES button and that is 
+	// Check to see which button has been pressed. Index 1 is the YES button and that is
 	// all we are interested in
 	if (buttonIndex == 1) {
 		// Hide the settings view
 		[self hide:nil];
-		
+
 		// The user wants to finish so save the state of the game
 		[sharedGameController.currentScene saveGameState];
-		
+
 		// The user wants to move to the menu so transition out of this scene.
-		[(AbstractScene*)sharedGameController.currentScene setState:kSceneState_TransitionOut];
+		[(AbstractScene*)sharedGameController.currentScene setState_:kSceneState_TransitionOut];
 	}
 
 	// Start the game again as the alter view will now be hidden
@@ -184,17 +184,17 @@
 @implementation SettingsViewController (Private)
 
 - (void)show {
-	
+
 	// Add this view as a subview of EAGLView
 	[sharedGameController.eaglView addSubview:self.view];
-	
+
 	// If the current scene name is not name, then hide the menu button
-	if (![sharedGameController.currentScene.name isEqualToString:@"game"]) {
+	if (![sharedGameController.currentScene.name_ isEqualToString:@"game"]) {
 		menuButton.hidden = YES;
 	} else {
 		menuButton.hidden = NO;
 	}
-	
+
 	// ...then fade it in using core animation
 	[UIView beginAnimations:nil context:NULL];
 	self.view.alpha = 1.0f;

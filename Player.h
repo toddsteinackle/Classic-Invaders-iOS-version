@@ -8,7 +8,6 @@
 
 #import "AbstractEntity.h"
 
-
 @interface Player : AbstractEntity {
 
     int playerInitialXShotPostion_;

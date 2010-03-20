@@ -15,7 +15,13 @@
     bool canFire_;
 }
 
-- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire;
+- (id)initWithPixelLocation:(CGPoint)aLocation
+                         dx:(float)dx
+                         dy:(float)dy
+                   position:(int)position
+                    canFire:(bool)canFire
+               chanceToFire:(int)chanceToFire;
+
 - (void)movement:(float)aDelta;
 - (void)doAlienLogic;
 - (void)description;

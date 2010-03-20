@@ -8,7 +8,6 @@
 
 #import "AbstractEntity.h"
 
-
 @interface Shot : AbstractEntity {
 
 }

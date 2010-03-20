@@ -7,7 +7,6 @@
 //
 
 #import "Player.h"
-
 #import "GameScene.h"
 #import "GameController.h"
 #import "SoundManager.h"
@@ -19,9 +18,6 @@
 
 @synthesize playerInitialXShotPostion_;
 @synthesize playerInitialYShotPostion_;
-
-#pragma mark -
-#pragma mark Initialization
 
 - (void)movement:(float)aDelta {
 
@@ -59,30 +55,21 @@
         pixelLocation_.y = aLocation.y;
         playerInitialXShotPostion_ = scaleFactor_ * (43 - 5)  / 2;
         playerInitialYShotPostion_ = scaleFactor_ * 16;
-        //dx_ = 100;
         rightScreenBoundary_ = 480 - (43 * scaleFactor_);
 
     }
     return self;
 }
 
-#pragma mark -
-#pragma mark Updating
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
     [animation_ updateWithDelta:aDelta];
 }
 
-#pragma mark -
-#pragma mark Rendering
-
 - (void)render {
     [super render];
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
 }
-
-#pragma mark -
-#pragma mark Collision
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)aEntity {
 }

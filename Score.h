@@ -1,17 +1,10 @@
-//
 //  Score.h
-//  SLQTSOR
-//
-//  Created by Mike Daley on 10/12/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
-//
-
 
 // This class is used to store a single score for the game.  A class instance
 // is created when a game is completed and is then stored in the high scores
 // array.  This array is then stored to disk and also used from within the
 // high score view controller.
-//
+
 @interface Score : NSObject <NSCoding> {
 
 	NSDate *dateTime;		// Date and time the score was achieved

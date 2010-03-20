@@ -1,13 +1,6 @@
-//
 //  Score.m
-//  SLQTSOR
-//
-//  Created by Mike Daley on 10/12/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
-//
 
 #import "Score.h"
-
 
 #pragma mark -
 #pragma mark Public implementation
@@ -46,14 +39,14 @@
 	NSString *aTime = [aDecoder decodeObjectForKey:@"gameTime"];
 	NSString *aName = [aDecoder decodeObjectForKey:@"name"];
 	BOOL won = [aDecoder decodeIntForKey:@"didWin"];
-	
+
 	// Create a new instance of Score
 	[self initWithScore:aScore gameTime:aTime playersName:aName didWin:won];
-	
+
 	// dateTime is set to "Now" by default so we set it to the dateTime that
 	// was stored
 	self.dateTime = [aDecoder decodeObjectForKey:@"dateTime"];
-	
+
 	return self;
 }
 

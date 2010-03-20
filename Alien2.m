@@ -17,9 +17,6 @@
 
 @implementation Alien2
 
-#pragma mark -
-#pragma mark Initialization
-
 - (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire {
 
     self = [super init];
@@ -58,16 +55,9 @@
     return self;
 }
 
-
-#pragma mark -
-#pragma mark Updating
-
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
     [animation_ updateWithDelta:aDelta];
 }
-
-#pragma mark -
-#pragma mark Rendering
 
 - (void)render {
     [super render];

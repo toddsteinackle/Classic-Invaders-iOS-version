@@ -60,7 +60,6 @@
 		8F8AE7F310AEBF2A00D82C5B /* portalEmitter.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8F8AE7F010AEBF2A00D82C5B /* portalEmitter.xml */; };
 		8F92D74B10CD4C2B00775211 /* doorCoords.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F92D74A10CD4C2B00775211 /* doorCoords.plist */; };
 		8F92D80F10CD60B500775211 /* HighScoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F92D80E10CD60B500775211 /* HighScoreView.xib */; };
-		8F97547410BD99A20046DAC8 /* AbstractObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F97547310BD99A20046DAC8 /* AbstractObject.m */; };
 		8F9F6E4F109C90AB0075FB0A /* PackedSpriteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F9F6E4E109C90AB0075FB0A /* PackedSpriteSheet.m */; };
 		8F9F6E9F109CBCE80075FB0A /* atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F9F6E9E109CBCE80075FB0A /* atlas.png */; };
 		8F9F6EA1109CBCEF0075FB0A /* coordinates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F9F6EA0109CBCEF0075FB0A /* coordinates.plist */; };
@@ -183,8 +182,6 @@
 		8F8AE7F010AEBF2A00D82C5B /* portalEmitter.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = portalEmitter.xml; sourceTree = "<group>"; };
 		8F92D74A10CD4C2B00775211 /* doorCoords.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = doorCoords.plist; sourceTree = "<group>"; };
 		8F92D80E10CD60B500775211 /* HighScoreView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HighScoreView.xib; sourceTree = "<group>"; };
-		8F97547210BD99A20046DAC8 /* AbstractObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractObject.h; sourceTree = "<group>"; };
-		8F97547310BD99A20046DAC8 /* AbstractObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractObject.m; sourceTree = "<group>"; };
 		8F9F6E4D109C90AB0075FB0A /* PackedSpriteSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackedSpriteSheet.h; sourceTree = "<group>"; };
 		8F9F6E4E109C90AB0075FB0A /* PackedSpriteSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackedSpriteSheet.m; sourceTree = "<group>"; };
 		8F9F6E9E109CBCE80075FB0A /* atlas.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = atlas.png; sourceTree = "<group>"; };
@@ -319,8 +316,6 @@
 				18B9713D103AA8DA00809077 /* AbstractEntity.m */,
 				18B9713E103AA8DA00809077 /* AbstractScene.h */,
 				18B9713F103AA8DA00809077 /* AbstractScene.m */,
-				8F97547210BD99A20046DAC8 /* AbstractObject.h */,
-				8F97547310BD99A20046DAC8 /* AbstractObject.m */,
 			);
 			name = "Abstract Classes";
 			sourceTree = "<group>";
@@ -520,7 +515,6 @@
 				18B970D1103AA5D400809077 /* Global Headers */,
 				18B970D2103AA5DA00809077 /* Game Engine */,
 				18B970D3103AA5E000809077 /* Abstract Classes */,
-				8FE7905410B449460000F268 /* Game Objects */,
 				18B970D4103AA5E800809077 /* Game Entities */,
 				18B970D5103AA5F000809077 /* Game Scenes */,
 				18B970CB103AA59100809077 /* Game Controller */,
@@ -632,13 +626,6 @@
 				8FDCC42A10D0C217000C15E4 /* Score.m */,
 			);
 			name = Menu;
-			sourceTree = "<group>";
-		};
-		8FE7905410B449460000F268 /* Game Objects */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Game Objects";
 			sourceTree = "<group>";
 		};
 		8FF37B331053BA1100C98F63 /* Primatives */ = {
@@ -769,7 +756,6 @@
 				8F9F6E4F109C90AB0075FB0A /* PackedSpriteSheet.m in Sources */,
 				8FDE722A10B9A0E5008177E7 /* Image.m in Sources */,
 				8FDE728F10B9A5EE008177E7 /* Layer.m in Sources */,
-				8F97547410BD99A20046DAC8 /* AbstractObject.m in Sources */,
 				8FDCC42B10D0C217000C15E4 /* Score.m in Sources */,
 				8FB43D5B10DD29F400A88C94 /* TBXMLParticleAdditions.m in Sources */,
 				8FB1F5F9112322C900D5356A /* SoundManager.m in Sources */,

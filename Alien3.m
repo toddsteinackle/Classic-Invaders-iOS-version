@@ -7,7 +7,6 @@
 //
 
 #import "Alien3.h"
-
 #import "GameScene.h"
 #import "GameController.h"
 #import "SoundManager.h"
@@ -17,10 +16,12 @@
 
 @implementation Alien3
 
-#pragma mark -
-#pragma mark Initialization
-
-- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire {
+- (id)initWithPixelLocation:(CGPoint)aLocation
+                         dx:(float)dx
+                         dy:(float)dy
+                   position:(int)position
+                    canFire:(bool)canFire
+               chanceToFire:(int)chanceToFire {
 
     self = [super init];
 	if (self != nil) {
@@ -57,16 +58,9 @@
     return self;
 }
 
-
-#pragma mark -
-#pragma mark Updating
-
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
     [animation_ updateWithDelta:aDelta];
 }
-
-#pragma mark -
-#pragma mark Rendering
 
 - (void)render {
     [super render];

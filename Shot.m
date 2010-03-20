@@ -14,7 +14,6 @@
 #import "PackedSpriteSheet.h"
 #import "Shot.h"
 
-
 @implementation Shot
 
 - (void)movement:(float)aDelta {

@@ -51,10 +51,12 @@
     pixelLocation_.x += aDelta * dx_;
 }
 
-#pragma mark -
-#pragma mark Initialization
-
-- (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire {
+- (id)initWithPixelLocation:(CGPoint)aLocation
+                         dx:(float)dx
+                         dy:(float)dy
+                   position:(int)position
+                    canFire:(bool)canFire
+               chanceToFire:(int)chanceToFire {
 
     self = [super init];
 	if (self != nil) {
@@ -75,10 +77,6 @@
 
 		[SpriteSheetImage release];
 
-        // Set the actors location to the CGPoint location which was passed in
-//        tileLocation = aLocation;
-//        angle = (int)(360 * RANDOM_0_TO_1()) % 360;
-//        speed = (float)(RANDOM_0_TO_1() * MOVEMENT_SPEED);
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         dx_ = dx;
@@ -91,20 +89,10 @@
         collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
         active_ = TRUE;
-
-		// Set up the particle emitter used when the ghost dies, in a metaphysical kinda way of course
-//		dyingEmitter = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-//		appearingEmitter = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"appearingEmitter" ofType:@"xml"];
-//
-//		state = kEntityState_Dead;
-//		energyDrain = 10;
     }
     //NSLog(@"Alien init");
     return self;
 }
-
-#pragma mark -
-#pragma mark Updating
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
 
@@ -113,30 +101,11 @@
     //NSLog(@"Alien delta update");
 }
 
-#pragma mark -
-#pragma mark Rendering
-
 - (void)render {
     [super render];
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
     //NSLog(@"Alien render");
 }
-
-#pragma mark -
-#pragma mark Bounds & collision
-
-//- (CGRect)movementBounds {
-//	// Calculate the pixel position and return a CGRect that defines the bounds
-//	pixelLocation = tileMapPositionToPixelPosition(tileLocation);
-//	return CGRectMake(pixelLocation.x - 20, pixelLocation.y - 10, 40, 20);
-//
-//}
-
-//- (CGRect)collisionBounds {
-//	// Calculate the pixel position and return a CGRect that defines the bounds
-//	pixelLocation = tileMapPositionToPixelPosition(tileLocation);
-//	return CGRectMake(pixelLocation.x - 19, pixelLocation.y - 7, 39, 14);
-//}
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
     if ((self.pixelLocation_.y + self.collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
@@ -154,8 +123,6 @@
 
 - (void)dealloc {
     [animation_ release];
-	//[dyingEmitter release];
-	//[appearingEmitter release];
     [super dealloc];
 }
 

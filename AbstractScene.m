@@ -10,9 +10,9 @@
 
 @implementation AbstractScene
 
-@synthesize state;
-@synthesize alpha;
-@synthesize name;
+@synthesize state_;
+@synthesize alpha_;
+@synthesize name_;
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {}
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {}
