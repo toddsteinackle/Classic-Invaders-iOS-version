@@ -48,7 +48,7 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
-        collisionWidth_ = scaleFactor_ * 45;
+        collisionWidth_ = scaleFactor_ * 45 * .7;
         collisionHeight_ = scaleFactor_ * 30 *.8;
         collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
