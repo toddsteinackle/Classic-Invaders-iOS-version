@@ -136,6 +136,7 @@
     CGRect fireTouchControlBounds_;
     NSUInteger numberOfPlayerShots_;
     NSMutableArray *playerShots_;
+    CGFloat screenSidePadding_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;
@@ -148,6 +149,7 @@
 @property (nonatomic, assign) CFTimeInterval timeSinceGameStarted;
 @property (nonatomic, assign) int score;
 @property (nonatomic, retain) NSString *gameTimeToDisplay;
+@property (nonatomic, assign) CGFloat screenSidePadding_;
 
 // Returns a boolean which identifies if the coordinates provided are on a blocked
 // tile on the tilemap

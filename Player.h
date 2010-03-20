@@ -13,6 +13,7 @@
 
     int playerInitialXShotPostion_;
     int playerInitialYShotPostion_;
+    CGFloat rightScreenBoundary_;
 
 }
 

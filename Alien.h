@@ -13,6 +13,7 @@
     int position_, fireChance_; // used by Aliens to determine if and when to fire
     int points_;
     bool canFire_;
+    CGFloat rightScreenBoundary_;
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation dx:(float)dx dy:(float)dy position:(int)position canFire:(bool)canFire chanceToFire:(int)chanceToFire;

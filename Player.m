@@ -25,7 +25,18 @@
 
 - (void)movement:(float)aDelta {
 
+    static CGFloat screenSidePadding = 10.0f;
+    // don't move off left hand side of the screen
+    if (dx_ < 0 && pixelLocation_.x < screenSidePadding) {
+        return;
+    }
+    //NSLog(@"side padding %f", scene_.screenSidePadding_);
+    // don't move off right hand side of the screen
+    if (dx_ > 0 && pixelLocation_.x > rightScreenBoundary_ - screenSidePadding) {
+        return;
+    }
     pixelLocation_.x += aDelta * dx_;
+
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation {
@@ -51,6 +62,7 @@
         playerInitialXShotPostion_ = scaleFactor_ * (43 - 5)  / 2;
         playerInitialYShotPostion_ = scaleFactor_ * 16;
         //dx_ = 100;
+        rightScreenBoundary_ = 480 - (43 * scaleFactor_);
 
     }
     return self;

@@ -95,6 +95,7 @@ bool isRightTouchActive = FALSE;
 @synthesize timeSinceGameStarted;
 @synthesize score;
 @synthesize gameTimeToDisplay;
+@synthesize screenSidePadding_;
 
 - (void)dealloc {
 
@@ -237,6 +238,8 @@ bool isRightTouchActive = FALSE;
 		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
 		rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
 		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
+		screenSidePadding_ = 20.0f;
+		//NSLog(@"in init %f", screenSidePadding_);
     }
 
     return self;

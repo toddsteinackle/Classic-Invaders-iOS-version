@@ -47,10 +47,10 @@
 	//float appearingTimer;						// Used to calculate how long the entity has been appearing for
 	//float distanceFromPlayer;					// Distance the entity is from the player in tiles
 
-    float dx_, dy_;                               // velocity -- speed in pixels/sec and direction
-    int collisionWidth_, collisionHeight_, collisionXOffset_, collisionYOffset_;
-    float height_, width_;
-    float scaleFactor_;
+    CGFloat dx_, dy_;                               // velocity -- speed in pixels/sec and direction
+    CGFloat collisionWidth_, collisionHeight_, collisionXOffset_, collisionYOffset_;
+    CGFloat height_, width_;
+    CGFloat scaleFactor_;
     bool active_;
 }
 
@@ -61,11 +61,11 @@
 @property (nonatomic, assign) CGPoint tileLocation_;
 @property (nonatomic, assign) uint state_;
 @property (nonatomic, assign) bool active_;
-@property (nonatomic, assign) float dx_;
-@property (nonatomic, assign) int collisionWidth_;
-@property (nonatomic, assign) int collisionHeight_;
-@property (nonatomic, assign) int collisionXOffset_;
-@property (nonatomic, assign) int collisionYOffset_;
+@property (nonatomic, assign) CGFloat dx_;
+@property (nonatomic, assign) CGFloat collisionWidth_;
+@property (nonatomic, assign) CGFloat collisionHeight_;
+@property (nonatomic, assign) CGFloat collisionXOffset_;
+@property (nonatomic, assign) CGFloat collisionYOffset_;
 
 
 // Designated initializer which allows this actor to be placed on the tilemap using a

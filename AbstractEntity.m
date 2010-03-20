@@ -44,6 +44,7 @@
 
 		// Grab a reference to the current game screne
 		scene_ = (GameScene*)sharedGameController_.currentScene;
+        //NSLog(@"%@", scene_);
 
 	}
 	return self;
