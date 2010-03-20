@@ -136,18 +136,18 @@ bool isRightTouchActive = FALSE;
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
 	int alienCount = 0;
-	int x = 65;
-	int y = 145;
-	int hspace = 35;
-	int vspace = 25;
-	// create a block of aliens (5 rows, by 10 columns)
+	CGFloat x = 65.0f;
+	CGFloat y = 170.0f;
+	CGFloat horizontalSpace = 35;
+	CGFloat verticalSpace = 25;
+	// create a block of aliens
 	for (int i = 0; i < 5; ++i) {
 		for (int j = 0; j < 10; ++j) {
 			switch (i) {
 				case 0:
 				{
 					// initialize the bottom row of aliens to fire
-					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 														 dx:alienSpeed
 														 dy:0.0
 												   position:alienCount+1
@@ -159,7 +159,7 @@ bool isRightTouchActive = FALSE;
 				}
 				case 1:
 				{
-					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															  dx:alienSpeed
 															  dy:0.0
 														position:alienCount+1
@@ -172,7 +172,7 @@ bool isRightTouchActive = FALSE;
 				case 2:
 				case 3:
 				{
-					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
 														 position:alienCount+1
@@ -184,7 +184,7 @@ bool isRightTouchActive = FALSE;
 				}
 				case 4:
 				{
-					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*hspace), y+(i*vspace))
+					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
 														 position:alienCount+1
@@ -281,7 +281,7 @@ bool isRightTouchActive = FALSE;
 			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 			rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight_);
 			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
-			screenSidePadding_ = 20.0f;
+			screenSidePadding_ = 10.0f;
 
 			state = kSceneState_Running;
 
@@ -384,6 +384,11 @@ bool isRightTouchActive = FALSE;
         // x and y coordinates
 		CGPoint touchLocation = [sharedGameController adjustTouchOrientationForTouch:originalTouchLocation];
 
+		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
+			NSLog(@"fire shot");
+			[self playerFireShot];
+		}
+
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
 			NSLog(@"left touch");
 			isLeftTouchActive = TRUE;
@@ -453,11 +458,6 @@ bool isRightTouchActive = FALSE;
         // As we have the game in landscape mode we need to switch the touches
         // x and y coordinates
         CGPoint touchLocation = [sharedGameController adjustTouchOrientationForTouch:originalTouchLocation];
-
-		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
-			NSLog(@"fire shot");
-			[self playerFireShot];
-		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
 			NSLog(@"left touch release");
