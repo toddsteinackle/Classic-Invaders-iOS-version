@@ -26,7 +26,7 @@
 
 #include <stdlib.h>
 
-const float playerSpeed = 100;
+const float playerSpeed = 115;
 bool isLeftTouchActive = FALSE;
 bool isRightTouchActive = FALSE;
 
@@ -246,9 +246,8 @@ bool isRightTouchActive = FALSE;
 	for (int i = 0; i < numberOfPlayerShots_; ++i) {
 		Shot *shot = [[Shot alloc] initWithPixelLocation:CGPointMake(0,0)];
 		[playerShots_ addObject:shot];
-		//playerShots_[numberOfPlayerShots_] = shot;
 	}
-	NSLog(@"%@", playerShots_);
+	//NSLog(@"%@", playerShots_);
 }
 
 #pragma mark -
@@ -266,7 +265,17 @@ bool isRightTouchActive = FALSE;
 
 	for (Shot *shot in playerShots_) {
 		[shot updateWithDelta:aDelta scene:self];
-		[shot	movement:aDelta];
+		[shot movement:aDelta];
+	}
+
+	for (Alien *alien in aliens_) {
+		if (alien.active_) {
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					[alien checkForCollisionWithEntity:shot];
+				}
+			}
+		}
 	}
 }
 
@@ -477,7 +486,9 @@ bool isRightTouchActive = FALSE;
 	//glClear(GL_COLOR_BUFFER_BIT);
 	[background_ renderAtPoint:CGPointMake(0, 0)];
 	for(Alien *alien in aliens_) {
-		[alien render];
+		if (alien.active_) {
+			[alien render];
+		}
 	}
 	[player_ render];
 	for (Shot *shot in playerShots_) {

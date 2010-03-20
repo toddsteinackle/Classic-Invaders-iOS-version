@@ -16,6 +16,7 @@
 //#import "ParticleEmitter.h"
 //#import "BitmapFont.h"
 #import "PackedSpriteSheet.h"
+#import "Shot.h"
 
 @implementation Alien
 
@@ -72,6 +73,11 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
+        collisionWidth_ = scaleFactor_ * 45;
+        collisionHeight_ = scaleFactor_ * 30 *.8;
+        collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
+        active_ = TRUE;
 
 		// Set up the particle emitter used when the ghost dies, in a metaphysical kinda way of course
 //		dyingEmitter = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
@@ -119,7 +125,18 @@
 //	return CGRectMake(pixelLocation.x - 19, pixelLocation.y - 7, 39, 14);
 //}
 
-- (void)checkForCollisionWithEntity:(AbstractEntity *)aEntity {
+- (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
+    if ((self.pixelLocation_.y + self.collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
+        (self.pixelLocation_.x + self.collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
+        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= self.pixelLocation_.y + self.collisionYOffset_ + self.collisionHeight_) ||
+        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= self.pixelLocation_.x + self.collisionXOffset_ + self.collisionWidth_)) {
+        return;
+    }
+
+    if ([otherEntity isKindOfClass:[Shot class]]) {
+        self.active_ = FALSE;
+        otherEntity.active_ = FALSE;
+    }
 }
 
 - (void)dealloc {

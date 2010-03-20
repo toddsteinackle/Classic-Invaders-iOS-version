@@ -48,6 +48,11 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
+        collisionWidth_ = scaleFactor_ * 45 *.8;
+        collisionHeight_ = scaleFactor_ * 30 *.8;
+        collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
+        active_ = TRUE;
     }
     return self;
 }
@@ -66,12 +71,6 @@
 - (void)render {
     [super render];
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
-}
-
-#pragma mark -
-#pragma mark Collision
-
-- (void)checkForCollisionWithEntity:(AbstractEntity *)aEntity {
 }
 
 - (void)dealloc {

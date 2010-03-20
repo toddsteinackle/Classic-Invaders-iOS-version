@@ -10,10 +10,8 @@
 
 
 @interface Shot : AbstractEntity {
-    bool hit_;
-}
 
-@property (assign, nonatomic) bool hit_;
+}
 
 - (void)movement:(float)aDelta;
 

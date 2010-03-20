@@ -62,6 +62,11 @@
 @property (nonatomic, assign) uint state_;
 @property (nonatomic, assign) bool active_;
 @property (nonatomic, assign) float dx_;
+@property (nonatomic, assign) int collisionWidth_;
+@property (nonatomic, assign) int collisionHeight_;
+@property (nonatomic, assign) int collisionXOffset_;
+@property (nonatomic, assign) int collisionYOffset_;
+
 
 // Designated initializer which allows this actor to be placed on the tilemap using a
 // tilemap grid locations.

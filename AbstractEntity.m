@@ -22,6 +22,10 @@
 @synthesize pixelLocation_;
 @synthesize active_;
 @synthesize dx_;
+@synthesize collisionWidth_;
+@synthesize collisionHeight_;
+@synthesize collisionXOffset_;
+@synthesize collisionYOffset_;
 
 - (void)dealloc {
 //	SLQLOG(@"INFO - %@: Deallocating", [self description]);

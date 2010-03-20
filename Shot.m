@@ -17,8 +17,6 @@
 
 @implementation Shot
 
-@synthesize hit_;
-
 - (void)movement:(float)aDelta {
     pixelLocation_.y += aDelta * dy_;
     if (pixelLocation_.y > 320) {
@@ -45,7 +43,11 @@
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
-        dy_ = 100;
+        collisionWidth_ = scaleFactor_ * 5;
+        collisionHeight_ = scaleFactor_ * 16 *.7;
+        collisionXOffset_ = ((scaleFactor_ * 5) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * 16) - collisionHeight_) / 2;
+        dy_ = 140;
     }
     return self;
 }
