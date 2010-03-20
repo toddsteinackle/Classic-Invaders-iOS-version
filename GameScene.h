@@ -137,6 +137,8 @@
     NSUInteger numberOfPlayerShots_;
     NSMutableArray *playerShots_;
     CGFloat screenSidePadding_;
+    bool isAlienLogicNeeded_;
+    int playerBaseHeight_;
 }
 
 //@property (nonatomic, retain) TiledMap *castleTileMap;
@@ -150,6 +152,8 @@
 @property (nonatomic, assign) int score;
 @property (nonatomic, retain) NSString *gameTimeToDisplay;
 @property (nonatomic, assign) CGFloat screenSidePadding_;
+@property (nonatomic, assign) bool isAlienLogicNeeded_;
+@property (nonatomic, assign) int playerBaseHeight_;
 
 // Returns a boolean which identifies if the coordinates provided are on a blocked
 // tile on the tilemap
@@ -168,5 +172,6 @@
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
 - (void)playerFireShot;
 - (void)initPlayerShots;
+- (void)aliensHaveLanded;
 
 @end

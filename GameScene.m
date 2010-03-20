@@ -96,6 +96,8 @@ bool isRightTouchActive = FALSE;
 @synthesize score;
 @synthesize gameTimeToDisplay;
 @synthesize screenSidePadding_;
+@synthesize isAlienLogicNeeded_;
+@synthesize playerBaseHeight_;
 
 - (void)dealloc {
 
@@ -106,6 +108,10 @@ bool isRightTouchActive = FALSE;
 	[self deallocResources];
 
     [super dealloc];
+}
+
+- (void)aliensHaveLanded {
+	//NSLog(@"the aliens have landed");
 }
 
 - (void)playerFireShot {
@@ -257,14 +263,14 @@ bool isRightTouchActive = FALSE;
 #pragma mark Update scene logic
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
-	int playerBaseHeight = 35;
+
 	int touchBoxWidth = 65;
 	switch (state) {
 		case kSceneState_TransitionIn:
-
+			playerBaseHeight_ = 35;
 			aliens_ = [[NSMutableArray alloc] init];
-			[self initAliensWithSpeed:0 chanceToFire:10];
-			player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight+1)];
+			[self initAliensWithSpeed:50 chanceToFire:10];
+			player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds.size.height - (43*.85)) / 2, playerBaseHeight_+1)];
 			numberOfPlayerShots_ = 10;
 			playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 			[self initPlayerShots];
@@ -272,9 +278,9 @@ bool isRightTouchActive = FALSE;
 			PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 			background_ = [[pss imageForKey:@"background.png"] retain];
 
-			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight);
-			rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight);
-			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight);
+			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
+			rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight_);
+			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
 			screenSidePadding_ = 20.0f;
 
 			state = kSceneState_Running;
@@ -282,28 +288,40 @@ bool isRightTouchActive = FALSE;
 			break;
 
 		case kSceneState_Running:
-		for(Alien *alien in aliens_) {
-			[alien updateWithDelta:aDelta scene:self];
-			[alien movement:aDelta];
-		}
 
-		[player_ updateWithDelta:aDelta scene:self];
-		[player_ movement:aDelta];
+			for(Alien *alien in aliens_) {
+				if (alien.active_) {
+					[alien updateWithDelta:aDelta scene:self];
+					[alien movement:aDelta];
+				}
+			}
 
-		for (Shot *shot in playerShots_) {
-			[shot updateWithDelta:aDelta scene:self];
-			[shot movement:aDelta];
-		}
+			[player_ updateWithDelta:aDelta scene:self];
+			[player_ movement:aDelta];
 
-		for (Alien *alien in aliens_) {
-			if (alien.active_) {
-				for (Shot *shot in playerShots_) {
-					if (shot.active_) {
-						[alien checkForCollisionWithEntity:shot];
+			for (Shot *shot in playerShots_) {
+				[shot updateWithDelta:aDelta scene:self];
+				[shot movement:aDelta];
+			}
+
+			for (Alien *alien in aliens_) {
+				if (alien.active_) {
+					for (Shot *shot in playerShots_) {
+						if (shot.active_) {
+							[alien checkForCollisionWithEntity:shot];
+						}
 					}
 				}
 			}
-		}
+
+			if (isAlienLogicNeeded_) {
+				//NSLog(@"inside alien logic");
+				for (Alien *alien in aliens_) {
+					[alien doAlienLogic];
+				}
+				isAlienLogicNeeded_ = FALSE;
+			}
+
 			break;
 
 		default:

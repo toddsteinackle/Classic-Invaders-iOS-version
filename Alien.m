@@ -29,13 +29,26 @@
     [super description];
 }
 
+- (void)doAlienLogic {
+    dx_ = -dx_;
+    pixelLocation_.y -= 8.0f;
+}
+
 - (void)movement:(float)aDelta {
-    pixelLocation_.x += aDelta * dx_;
-    if (pixelLocation_.x < 0) {
-        dx_ = -dx_;
-    } else if (pixelLocation_.x > 480 - (45*scaleFactor_)) {
-        dx_ = -dx_;
+
+    // bottom of the screen, game over
+    if (pixelLocation_.y < scene_.playerBaseHeight_) {
+        [scene_ aliensHaveLanded];
     }
+    // change direction and move down
+    if (dx_ < 0 && pixelLocation_.x < scene_.screenSidePadding_) {
+        scene_.isAlienLogicNeeded_ = TRUE;
+    }
+    else if (dx_ > 0 && pixelLocation_.x > 480 - (45 * scaleFactor_) - scene_.screenSidePadding_) {
+        scene_.isAlienLogicNeeded_ = TRUE;
+    }
+
+    pixelLocation_.x += aDelta * dx_;
 }
 
 #pragma mark -
