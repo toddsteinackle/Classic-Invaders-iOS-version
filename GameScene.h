@@ -35,6 +35,7 @@
 	BitmapFont *smallFont_;							// Font used for the HUD
 
     NSMutableArray *aliens_;
+    NSMutableArray *playerShots_;
     Player *player_;
     Shot *shot_;
     Image *background_;
@@ -42,20 +43,15 @@
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
     NSUInteger numberOfPlayerShots_;
-    NSMutableArray *playerShots_;
     CGFloat screenSidePadding_;
+    CGFloat playerBaseHeight_;
     bool isAlienLogicNeeded_;
-    int playerBaseHeight_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;
+@property (nonatomic, assign) CGFloat playerBaseHeight_;
 @property (nonatomic, assign) bool isAlienLogicNeeded_;
-@property (nonatomic, assign) int playerBaseHeight_;
 
 - (void)saveGameState;
-- (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
-- (void)playerFireShot;
-- (void)initPlayerShots;
-- (void)aliensHaveLanded;
 
 @end

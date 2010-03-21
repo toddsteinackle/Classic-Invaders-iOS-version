@@ -24,7 +24,21 @@
 
 #include <stdlib.h>
 
-const float playerSpeed = 115;
+// Scene States
+enum {
+	SceneState_Idle,
+	SceneState_Credits,
+	SceneState_Loading,
+	SceneState_TransitionIn,
+	SceneState_TransitionOut,
+	SceneState_Running,
+	SceneState_Paused,
+	SceneState_GameOver,
+	SceneState_SaveScore,
+	SceneState_GameCompleted
+};
+
+const CGFloat playerSpeed = 115.0f;
 bool isLeftTouchActive = FALSE;
 bool isRightTouchActive = FALSE;
 
@@ -43,27 +57,17 @@ bool isRightTouchActive = FALSE;
 // Deallocates resources this scene has created
 - (void)deallocResources;
 
+- (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
+- (void)playerFireShot;
+- (void)initPlayerShots;
+- (void)aliensHaveLanded;
+
 @end
 
 #pragma mark -
-#pragma mark Public implementation
+#pragma mark Private implementation
 
-@implementation GameScene
-
-@synthesize screenSidePadding_;
-@synthesize isAlienLogicNeeded_;
-@synthesize playerBaseHeight_;
-
-- (void)dealloc {
-
-    // Remove observers that have been set up
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidingSettings" object:nil];
-
-	// Dealloc resources this scene has created
-	[self deallocResources];
-
-    [super dealloc];
-}
+@implementation GameScene (Private)
 
 - (void)aliensHaveLanded {
 	//NSLog(@"the aliens have landed");
@@ -103,11 +107,11 @@ bool isRightTouchActive = FALSE;
 				{
 					// initialize the bottom row of aliens to fire
 					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
-														 dx:alienSpeed
-														 dy:0.0
-												   position:alienCount+1
-													canFire:TRUE
-											   chanceToFire:arc4random() % chanceToFire + 1];
+															  dx:alienSpeed
+															  dy:0.0
+														position:alienCount+1
+														 canFire:TRUE
+													chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
 					[alien release];
 					break;
@@ -157,25 +161,6 @@ bool isRightTouchActive = FALSE;
 	}
 	//NSLog(@"%@", aliens_);
 }
-- (id)init {
-
-    if(self = [super init]) {
-
-		// Name of this scene
-        self.name_ = @"game";
-
-        // Grab an instance of our singleton classes
-        sharedImageRenderManager_ = [ImageRenderManager sharedImageRenderManager];
-        sharedTextureManager_ = [TextureManager sharedTextureManager];
-        sharedSoundManager_ = [SoundManager sharedSoundManager];
-        sharedGameController_ = [GameController sharedGameController];
-
-        // Grab the bounds of the screen
-        screenBounds_ = [[UIScreen mainScreen] bounds];
-	}
-
-    return self;
-}
 
 - (void)initPlayerShots {
 	for (int i = 0; i < numberOfPlayerShots_; ++i) {
@@ -185,14 +170,79 @@ bool isRightTouchActive = FALSE;
 	//NSLog(@"%@", playerShots_);
 }
 
+- (void)loadGameState {
+
+}
+
+- (void)initSound {
+
+    // Set the listener to the middle of the screen by default.  This will be changed as the player moves around the map
+    [sharedSoundManager_ setListenerPosition:CGPointMake(240, 160)];
+
+	//    // Initialize the sound effects
+	//    [sharedSoundManager loadSoundWithKey:@"doorSlam" soundFile:@"doorSlam.caf"];
+	//    [sharedSoundManager loadSoundWithKey:@"doorOpen" soundFile:@"doorOpen.caf"];
+	//    [sharedSoundManager loadSoundWithKey:@"pop" soundFile:@"pop.caf"];
+	//    [sharedSoundManager loadSoundWithKey:@"hitWall" soundFile:@"hitwall.caf"];
+	//    [sharedSoundManager loadSoundWithKey:@"eatfood" soundFile:@"eatfood.caf"];
+	//	[sharedSoundManager loadSoundWithKey:@"scream" soundFile:@"scream.caf"];
+	//	[sharedSoundManager loadSoundWithKey:@"spell" soundFile:@"spell.caf"];
+	//
+	//    // Initialize the background music
+	//    [sharedSoundManager loadMusicWithKey:@"ingame" musicFile:@"ingame.mp3"];
+	//	[sharedSoundManager loadMusicWithKey:@"loseIntro" musicFile:@"loseIntro.mp3"];
+	//	[sharedSoundManager loadMusicWithKey:@"loseLoop" musicFile:@"loseLoop.mp3"];
+	//	[sharedSoundManager loadMusicWithKey:@"winIntro" musicFile:@"winIntro.mp3"];
+	//	[sharedSoundManager loadMusicWithKey:@"winLoop" musicFile:@"winLoop.mp3"];
+	//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winIntro"];
+	//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winLoop"];
+	//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseIntro"];
+	//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseLoop"];
+	//	sharedSoundManager.usePlaylist = NO;
+	//	sharedSoundManager.loopLastPlaylistTrack = NO;
+}
+
+- (void)deallocResources {
+
+	[aliens_ release];
+	[background_ release];
+
+	// Release fonts
+	[smallFont_ release];
+	[largeFont_ release];
+
+	// Release sounds
+	[sharedSoundManager_ removeSoundWithKey:@"doorSlam"];
+	[sharedSoundManager_ removeSoundWithKey:@"doorOpen"];
+	[sharedSoundManager_ removeSoundWithKey:@"pop"];
+	[sharedSoundManager_ removeSoundWithKey:@"hitWall"];
+	[sharedSoundManager_ removeSoundWithKey:@"eatfood"];
+	[sharedSoundManager_ removeSoundWithKey:@"scream"];
+	[sharedSoundManager_ removeSoundWithKey:@"spell"];
+	[sharedSoundManager_ removeMusicWithKey:@"ingame"];
+	[sharedSoundManager_ removeMusicWithKey:@"winIntro"];
+	[sharedSoundManager_ removeMusicWithKey:@"winLoop"];
+	[sharedSoundManager_ removeMusicWithKey:@"loseIntro"];
+	[sharedSoundManager_ removeMusicWithKey:@"loseLoop"];
+	[sharedSoundManager_ removePlaylistNamed:@"win"];
+	[sharedSoundManager_ removePlaylistNamed:@"lose"];
+}
+@end
+
 #pragma mark -
-#pragma mark Update scene logic
+#pragma mark Public implementation
+
+@implementation GameScene
+
+@synthesize screenSidePadding_;
+@synthesize isAlienLogicNeeded_;
+@synthesize playerBaseHeight_;
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 
 	int touchBoxWidth = 65;
 	switch (state_) {
-		case kSceneState_TransitionIn:
+		case SceneState_TransitionIn:
 			playerBaseHeight_ = 35;
 			aliens_ = [[NSMutableArray alloc] init];
 			[self initAliensWithSpeed:50 chanceToFire:10];
@@ -209,11 +259,11 @@ bool isRightTouchActive = FALSE;
 			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
 			screenSidePadding_ = 10.0f;
 
-			state_ = kSceneState_Running;
+			state_ = SceneState_Running;
 
 			break;
 
-		case kSceneState_Running:
+		case SceneState_Running:
 
 			for(Alien *alien in aliens_) {
 				if (alien.active_) {
@@ -254,11 +304,35 @@ bool isRightTouchActive = FALSE;
 			break;
 	}
 
-
 }
 
-#pragma mark -
-#pragma mark Touch events
+- (void)renderScene {
+
+	// Clear the screen before rendering
+	//glClear(GL_COLOR_BUFFER_BIT);
+	[background_ renderAtPoint:CGPointMake(0, 0)];
+	for(Alien *alien in aliens_) {
+		if (alien.active_) {
+			[alien render];
+		}
+	}
+	[player_ render];
+	for (Shot *shot in playerShots_) {
+		if (shot.active_) {
+			[shot render];
+		}
+	}
+
+	[sharedImageRenderManager_ renderImages];
+	drawBox(leftTouchControlBounds_);
+	drawBox(rightTouchControlBounds_);
+	drawBox(fireTouchControlBounds_);
+	//	for(Alien *alien in aliens_) {
+	//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
+	//						   alien.collisionWidth_, alien.collisionHeight_));
+	//	}
+
+}
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {
 
@@ -342,9 +416,6 @@ bool isRightTouchActive = FALSE;
 
 }
 
-#pragma mark -
-#pragma mark Transition
-
 - (void)transitionToSceneWithKey:(NSString*)theKey {
     state_ = kSceneState_TransitionOut;
 }
@@ -353,107 +424,42 @@ bool isRightTouchActive = FALSE;
     state_ = kSceneState_TransitionIn;
 }
 
-#pragma mark -
-#pragma mark Render scene
-
-- (void)renderScene {
-
-	// Clear the screen before rendering
-	//glClear(GL_COLOR_BUFFER_BIT);
-	[background_ renderAtPoint:CGPointMake(0, 0)];
-	for(Alien *alien in aliens_) {
-		if (alien.active_) {
-			[alien render];
-		}
-	}
-	[player_ render];
-	for (Shot *shot in playerShots_) {
-		if (shot.active_) {
-			[shot render];
-		}
-	}
-
-	[sharedImageRenderManager_ renderImages];
-	drawBox(leftTouchControlBounds_);
-	drawBox(rightTouchControlBounds_);
-	drawBox(fireTouchControlBounds_);
-//	for(Alien *alien in aliens_) {
-//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
-//						   alien.collisionWidth_, alien.collisionHeight_));
-//	}
-
-}
-
-#pragma mark -
-#pragma mark Save game state
 
 - (void)saveGameState {
 
 }
 
+- (void)dealloc {
+
+    // Remove observers that have been set up
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidingSettings" object:nil];
+
+	// Dealloc resources this scene has created
+	[self deallocResources];
+
+    [super dealloc];
+}
+
+- (id)init {
+
+    if(self = [super init]) {
+
+		// Name of this scene
+        self.name_ = @"game";
+
+        // Grab an instance of our singleton classes
+        sharedImageRenderManager_ = [ImageRenderManager sharedImageRenderManager];
+        sharedTextureManager_ = [TextureManager sharedTextureManager];
+        sharedSoundManager_ = [SoundManager sharedSoundManager];
+        sharedGameController_ = [GameController sharedGameController];
+
+        // Grab the bounds of the screen
+        screenBounds_ = [[UIScreen mainScreen] bounds];
+	}
+
+    return self;
+}
+
 @end
 
-#pragma mark -
-#pragma mark Private implementation
-
-@implementation GameScene (Private)
-
-- (void)loadGameState {
-
-}
-
-- (void)initSound {
-
-    // Set the listener to the middle of the screen by default.  This will be changed as the player moves around the map
-    [sharedSoundManager_ setListenerPosition:CGPointMake(240, 160)];
-
-//    // Initialize the sound effects
-//    [sharedSoundManager loadSoundWithKey:@"doorSlam" soundFile:@"doorSlam.caf"];
-//    [sharedSoundManager loadSoundWithKey:@"doorOpen" soundFile:@"doorOpen.caf"];
-//    [sharedSoundManager loadSoundWithKey:@"pop" soundFile:@"pop.caf"];
-//    [sharedSoundManager loadSoundWithKey:@"hitWall" soundFile:@"hitwall.caf"];
-//    [sharedSoundManager loadSoundWithKey:@"eatfood" soundFile:@"eatfood.caf"];
-//	[sharedSoundManager loadSoundWithKey:@"scream" soundFile:@"scream.caf"];
-//	[sharedSoundManager loadSoundWithKey:@"spell" soundFile:@"spell.caf"];
-//
-//    // Initialize the background music
-//    [sharedSoundManager loadMusicWithKey:@"ingame" musicFile:@"ingame.mp3"];
-//	[sharedSoundManager loadMusicWithKey:@"loseIntro" musicFile:@"loseIntro.mp3"];
-//	[sharedSoundManager loadMusicWithKey:@"loseLoop" musicFile:@"loseLoop.mp3"];
-//	[sharedSoundManager loadMusicWithKey:@"winIntro" musicFile:@"winIntro.mp3"];
-//	[sharedSoundManager loadMusicWithKey:@"winLoop" musicFile:@"winLoop.mp3"];
-//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winIntro"];
-//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winLoop"];
-//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseIntro"];
-//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseLoop"];
-//	sharedSoundManager.usePlaylist = NO;
-//	sharedSoundManager.loopLastPlaylistTrack = NO;
-}
-
-- (void)deallocResources {
-
-	[aliens_ release];
-	[background_ release];
-
-	// Release fonts
-	[smallFont_ release];
-	[largeFont_ release];
-
-	// Release sounds
-	[sharedSoundManager_ removeSoundWithKey:@"doorSlam"];
-	[sharedSoundManager_ removeSoundWithKey:@"doorOpen"];
-	[sharedSoundManager_ removeSoundWithKey:@"pop"];
-	[sharedSoundManager_ removeSoundWithKey:@"hitWall"];
-	[sharedSoundManager_ removeSoundWithKey:@"eatfood"];
-	[sharedSoundManager_ removeSoundWithKey:@"scream"];
-	[sharedSoundManager_ removeSoundWithKey:@"spell"];
-	[sharedSoundManager_ removeMusicWithKey:@"ingame"];
-	[sharedSoundManager_ removeMusicWithKey:@"winIntro"];
-	[sharedSoundManager_ removeMusicWithKey:@"winLoop"];
-	[sharedSoundManager_ removeMusicWithKey:@"loseIntro"];
-	[sharedSoundManager_ removeMusicWithKey:@"loseLoop"];
-	[sharedSoundManager_ removePlaylistNamed:@"win"];
-	[sharedSoundManager_ removePlaylistNamed:@"lose"];
-}
-@end
 
