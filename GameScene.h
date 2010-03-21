@@ -53,5 +53,7 @@
 @property (nonatomic, assign) bool isAlienLogicNeeded_;
 
 - (void)saveGameState;
+- (void)aliensHaveLanded;
+- (void)playerKilled;
 
 @end

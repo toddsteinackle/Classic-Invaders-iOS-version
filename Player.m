@@ -13,6 +13,7 @@
 #import "SpriteSheet.h"
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
+#import "Alien.h"
 
 @implementation Player
 
@@ -56,7 +57,11 @@
         playerInitialXShotPostion_ = scaleFactor_ * (43 - 5)  / 2;
         playerInitialYShotPostion_ = scaleFactor_ * 16;
         rightScreenBoundary_ = 480 - (43 * scaleFactor_);
-
+        collisionWidth_ = scaleFactor_ * 43 * .9f;
+        collisionHeight_ = scaleFactor_ * 25 *.9f;
+        collisionXOffset_ = ((scaleFactor_ * 43) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * 25) - collisionHeight_) / 2;
+        active_ = TRUE;
     }
     return self;
 }
@@ -71,7 +76,19 @@
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
 }
 
-- (void)checkForCollisionWithEntity:(AbstractEntity *)aEntity {
+- (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
+    if ((self.pixelLocation_.y + self.collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
+        (self.pixelLocation_.x + self.collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
+        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= self.pixelLocation_.y + self.collisionYOffset_ + self.collisionHeight_) ||
+        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= self.pixelLocation_.x + self.collisionXOffset_ + self.collisionWidth_)) {
+        return;
+    }
+
+    if ([otherEntity isKindOfClass:[Alien class]]) {
+        self.active_ = FALSE;
+        otherEntity.active_ = FALSE;
+        [scene_ playerKilled];
+    }
 }
 
 - (void)dealloc {

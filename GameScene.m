@@ -60,7 +60,7 @@ bool isRightTouchActive = FALSE;
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
 - (void)playerFireShot;
 - (void)initPlayerShots;
-- (void)aliensHaveLanded;
+- (void)initNewGame;
 
 @end
 
@@ -69,8 +69,25 @@ bool isRightTouchActive = FALSE;
 
 @implementation GameScene (Private)
 
-- (void)aliensHaveLanded {
-	//NSLog(@"the aliens have landed");
+- (void)initNewGame {
+	aliens_ = [[NSMutableArray alloc] init];
+	[self initAliensWithSpeed:50 chanceToFire:10];
+	playerBaseHeight_ = 35;
+	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.height - (43*.85)) / 2, playerBaseHeight_+1)];
+	numberOfPlayerShots_ = 10;
+	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
+	[self initPlayerShots];
+
+	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+	background_ = [[pss imageForKey:@"background.png"] retain];
+
+	int touchBoxWidth = 65;
+	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
+	rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight_);
+	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
+	screenSidePadding_ = 10.0f;
+
+	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 }
 
 - (void)playerFireShot {
@@ -240,25 +257,10 @@ bool isRightTouchActive = FALSE;
 
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 
-	int touchBoxWidth = 65;
 	switch (state_) {
 		case SceneState_TransitionIn:
-			playerBaseHeight_ = 35;
-			aliens_ = [[NSMutableArray alloc] init];
-			[self initAliensWithSpeed:50 chanceToFire:10];
-			player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.height - (43*.85)) / 2, playerBaseHeight_+1)];
-			numberOfPlayerShots_ = 10;
-			playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
-			[self initPlayerShots];
 
-			PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
-			background_ = [[pss imageForKey:@"background.png"] retain];
-
-			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
-			rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight_);
-			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
-			screenSidePadding_ = 10.0f;
-
+			[self initNewGame];
 			state_ = SceneState_Running;
 
 			break;
@@ -287,6 +289,9 @@ bool isRightTouchActive = FALSE;
 							[alien checkForCollisionWithEntity:shot];
 						}
 					}
+					if (player_.active_) {
+						[player_ checkForCollisionWithEntity:alien];
+					}
 				}
 			}
 
@@ -299,6 +304,11 @@ bool isRightTouchActive = FALSE;
 			}
 
 			break;
+		case SceneState_GameOver:
+			//Game over
+			//[smallFont_ renderStringAt:CGPointMake(150, 200) text:@"Game Over"];
+			break;
+
 
 		default:
 			break;
@@ -311,19 +321,27 @@ bool isRightTouchActive = FALSE;
 	// Clear the screen before rendering
 	//glClear(GL_COLOR_BUFFER_BIT);
 	[background_ renderAtPoint:CGPointMake(0, 0)];
+
 	for(Alien *alien in aliens_) {
 		if (alien.active_) {
 			[alien render];
 		}
 	}
-	[player_ render];
+
+	if (player_.active_) {
+		[player_ render];
+	}
+
 	for (Shot *shot in playerShots_) {
 		if (shot.active_) {
 			[shot render];
 		}
 	}
-
+	if (state_ == SceneState_GameOver) {
+		[smallFont_ renderStringAt:CGPointMake(150, 200) text:@"Game Over"];
+	}
 	[sharedImageRenderManager_ renderImages];
+
 	drawBox(leftTouchControlBounds_);
 	drawBox(rightTouchControlBounds_);
 	drawBox(fireTouchControlBounds_);
@@ -331,6 +349,15 @@ bool isRightTouchActive = FALSE;
 	//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
 	//						   alien.collisionWidth_, alien.collisionHeight_));
 	//	}
+
+}
+
+- (void)aliensHaveLanded {
+	//NSLog(@"the aliens have landed");
+	state_ = SceneState_GameOver;
+}
+
+- (void)playerKilled {
 
 }
 
