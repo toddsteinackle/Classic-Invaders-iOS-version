@@ -1,10 +1,4 @@
-//
-//  SLQTSORAppDelegate.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 18/08/2009.
-//  Copyright Michael Daley 2009. All rights reserved.
-//
+//  ClassicInvadersAppDelegate.h
 
 #import <UIKit/UIKit.h>
 
@@ -13,16 +7,16 @@
 @class GameController;
 
 @interface ClassicInvadersAppDelegate : NSObject <UIApplicationDelegate> {
-    UIWindow *window;
-    EAGLView *glView;
-	
+    UIWindow *window_;
+    EAGLView *glView_;
+
 	// Sound manager reference
-	SoundManager *sharedSoundManager;
-	GameController *sharedGameController;
+	SoundManager *sharedSoundManager_;
+	GameController *sharedGameController_;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet EAGLView *glView;
+@property (nonatomic, retain) IBOutlet UIWindow *window_;
+@property (nonatomic, retain) IBOutlet EAGLView *glView_;
 
 @end
 
