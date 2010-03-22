@@ -26,21 +26,14 @@
 
 // Scene States
 enum {
-	SceneState_Idle,
-	SceneState_Credits,
-	SceneState_Loading,
+	SceneState_WaveMessage,
+	SceneState_WaveOver,
 	SceneState_TransitionIn,
 	SceneState_TransitionOut,
 	SceneState_Running,
 	SceneState_Paused,
-	SceneState_GameOver,
-	SceneState_SaveScore,
-	SceneState_GameCompleted
+	SceneState_GameOver
 };
-
-const CGFloat playerSpeed = 115.0f;
-bool isLeftTouchActive = FALSE;
-bool isRightTouchActive = FALSE;
 
 #pragma mark -
 #pragma mark Private interface
@@ -61,6 +54,7 @@ bool isRightTouchActive = FALSE;
 - (void)playerFireShot;
 - (void)initPlayerShots;
 - (void)initNewGame;
+- (void)initWave;
 
 @end
 
@@ -69,25 +63,40 @@ bool isRightTouchActive = FALSE;
 
 @implementation GameScene (Private)
 
+- (void)initWave {
+	++wave_;
+	lastTimeInLoop_ = 0;
+
+	[aliens_ removeAllObjects];
+	[self initAliensWithSpeed:50 chanceToFire:10];
+
+	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
+
+	[playerShots_ removeAllObjects];
+	[self initPlayerShots];
+}
+
 - (void)initNewGame {
 	aliens_ = [[NSMutableArray alloc] init];
-	[self initAliensWithSpeed:50 chanceToFire:10];
-	playerBaseHeight_ = 35;
-	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.height - (43*.85)) / 2, playerBaseHeight_+1)];
 	numberOfPlayerShots_ = 10;
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
-	[self initPlayerShots];
+
+	player_ = [Player alloc];
 
 	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 	background_ = [[pss imageForKey:@"background.png"] retain];
 
+	playerBaseHeight_ = 35;
 	int touchBoxWidth = 65;
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
-	rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth, playerBaseHeight_);
+	rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth-1, playerBaseHeight_);
 	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
 	screenSidePadding_ = 10.0f;
 
 	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
+	playerSpeed_ = 115.0f;
+	waveMessageInterval_ = 2.0f;
+	wave_ = 1;
 }
 
 - (void)playerFireShot {
@@ -111,7 +120,7 @@ bool isRightTouchActive = FALSE;
 
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
-	int alienCount = 0;
+	alienCount_ = 0;
 	CGFloat x = 65.0f;
 	CGFloat y = 170.0f;
 	CGFloat horizontalSpace = 35;
@@ -126,7 +135,7 @@ bool isRightTouchActive = FALSE;
 					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															  dx:alienSpeed
 															  dy:0.0
-														position:alienCount+1
+														position:alienCount_+1
 														 canFire:TRUE
 													chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -138,7 +147,7 @@ bool isRightTouchActive = FALSE;
 					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															  dx:alienSpeed
 															  dy:0.0
-														position:alienCount+1
+														position:alienCount_+1
 														 canFire:FALSE
 													chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -151,7 +160,7 @@ bool isRightTouchActive = FALSE;
 					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
-														 position:alienCount+1
+														 position:alienCount_+1
 														  canFire:FALSE
 													 chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -163,7 +172,7 @@ bool isRightTouchActive = FALSE;
 					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
-														 position:alienCount+1
+														 position:alienCount_+1
 														  canFire:FALSE
 													 chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -173,7 +182,7 @@ bool isRightTouchActive = FALSE;
 				default:
 					break;
 			}
-			++alienCount;
+			++alienCount_;
 		}
 	}
 	//NSLog(@"%@", aliens_);
@@ -183,6 +192,7 @@ bool isRightTouchActive = FALSE;
 	for (int i = 0; i < numberOfPlayerShots_; ++i) {
 		Shot *shot = [[Shot alloc] initWithPixelLocation:CGPointMake(0,0)];
 		[playerShots_ addObject:shot];
+		[shot release];
 	}
 	//NSLog(@"%@", playerShots_);
 }
@@ -261,8 +271,24 @@ bool isRightTouchActive = FALSE;
 		case SceneState_TransitionIn:
 
 			[self initNewGame];
-			state_ = SceneState_Running;
+			state_ = SceneState_WaveMessage;
+			break;
 
+		case SceneState_WaveMessage:
+			if (CACurrentMediaTime() - lastTimeInLoop_ < waveMessageInterval_) {
+				return;
+			}
+			if (lastTimeInLoop_) {
+				[self initWave];
+				state_ = SceneState_Running;
+			}
+			lastTimeInLoop_ = CACurrentMediaTime();
+			break;
+
+		case SceneState_WaveOver:
+			NSLog(@"Wave Over");
+			lastTimeInLoop_ = 0;
+			state_ = SceneState_WaveMessage;
 			break;
 
 		case SceneState_Running:
@@ -318,6 +344,12 @@ bool isRightTouchActive = FALSE;
 
 - (void)renderScene {
 
+	if (state_ == SceneState_WaveMessage) {
+		glClear(GL_COLOR_BUFFER_BIT);
+		[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
+		[sharedImageRenderManager_ renderImages];
+		return;
+	}
 	// Clear the screen before rendering
 	//glClear(GL_COLOR_BUFFER_BIT);
 	[background_ renderAtPoint:CGPointMake(0, 0)];
@@ -338,8 +370,10 @@ bool isRightTouchActive = FALSE;
 		}
 	}
 	if (state_ == SceneState_GameOver) {
-		[smallFont_ renderStringAt:CGPointMake(150, 200) text:@"Game Over"];
+		[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Game Over"];
+
 	}
+	[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_TopCentered text:[NSString stringWithFormat:@"%i", score_]];
 	[sharedImageRenderManager_ renderImages];
 
 	drawBox(leftTouchControlBounds_);
@@ -353,7 +387,6 @@ bool isRightTouchActive = FALSE;
 }
 
 - (void)aliensHaveLanded {
-	//NSLog(@"the aliens have landed");
 	state_ = SceneState_GameOver;
 }
 
@@ -361,45 +394,46 @@ bool isRightTouchActive = FALSE;
 
 }
 
+- (void)alienKilled:(int)position points:(int)points {
+
+	score_ += points;
+	if (--alienCount_ == 0) {
+		state_ = SceneState_WaveOver;
+	}
+}
+
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {
 
 	for (UITouch *touch in touches) {
         // Get the point where the player has touched the screen
         CGPoint originalTouchLocation = [touch locationInView:nil];
-		//NSLog(@"x: %f", originalTouchLocation.x);
-		//NSLog(@"y: %f", originalTouchLocation.y);
 
         // As we have the game in landscape mode we need to switch the touches
         // x and y coordinates
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
-			NSLog(@"fire shot");
 			[self playerFireShot];
 		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
-			NSLog(@"left touch");
-			isLeftTouchActive = TRUE;
-			if (isLeftTouchActive && !isRightTouchActive) {
-				player_.dx_ = -playerSpeed;
+			isLeftTouchActive_ = TRUE;
+			if (isLeftTouchActive_ && !isRightTouchActive_) {
+				player_.dx_ = -playerSpeed_;
 			}
-			if (isLeftTouchActive && isRightTouchActive) {
+			if (isLeftTouchActive_ && isRightTouchActive_) {
 				player_.dx_ = 0;
 			}
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
-			NSLog(@"right touch");
-			isRightTouchActive = TRUE;
-			if (isRightTouchActive && !isLeftTouchActive) {
-				player_.dx_ = playerSpeed;
+			isRightTouchActive_ = TRUE;
+			if (isRightTouchActive_ && !isLeftTouchActive_) {
+				player_.dx_ = playerSpeed_;
 			}
-			if (isLeftTouchActive && isRightTouchActive) {
+			if (isLeftTouchActive_ && isRightTouchActive_) {
 				player_.dx_ = 0;
 			}
 		}
-		//NSLog(@"x: %f", touchLocation.x);
-		//NSLog(@"y: %f", touchLocation.y);
 	}
 }
 
@@ -412,35 +446,28 @@ bool isRightTouchActive = FALSE;
 	for (UITouch *touch in touches) {
         // Get the point where the player has touched the screen
         CGPoint originalTouchLocation = [touch locationInView:nil];
-		//NSLog(@"x: %f", originalTouchLocation.x);
-		//NSLog(@"y: %f", originalTouchLocation.y);
 
         // As we have the game in landscape mode we need to switch the touches
         // x and y coordinates
         CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
-			NSLog(@"left touch release");
-			isLeftTouchActive = FALSE;
-			if (isRightTouchActive) {
-				player_.dx_ = playerSpeed;
+			isLeftTouchActive_ = FALSE;
+			if (isRightTouchActive_) {
+				player_.dx_ = playerSpeed_;
 			} else {
 				player_.dx_ = 0;
 			}
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
-			NSLog(@"right touch release");
-			isRightTouchActive = FALSE;
-			if (isLeftTouchActive) {
-				player_.dx_ = -playerSpeed;
+			isRightTouchActive_ = FALSE;
+			if (isLeftTouchActive_) {
+				player_.dx_ = -playerSpeed_;
 			} else {
 				player_.dx_ = 0;
 			}
 		}
-		//NSLog(@"x: %f", touchLocation.x);
-		//NSLog(@"y: %f", touchLocation.y);
 	}
-
 }
 
 - (void)transitionToSceneWithKey:(NSString*)theKey {
@@ -448,7 +475,7 @@ bool isRightTouchActive = FALSE;
 }
 
 - (void)transitionIn {
-    state_ = kSceneState_TransitionIn;
+    state_ = SceneState_TransitionIn;
 }
 
 
@@ -481,7 +508,7 @@ bool isRightTouchActive = FALSE;
         sharedGameController_ = [GameController sharedGameController];
 
         // Grab the bounds of the screen
-        screenBounds_ = [[UIScreen mainScreen] bounds];
+		screenBounds_ = CGRectMake(0, 0, 480, 320);
 	}
 
     return self;

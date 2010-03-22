@@ -20,8 +20,8 @@
 @synthesize bounceFrame;
 
 - (void)dealloc {
-//	SLQLOG(@"INFO - Animation: Deallocating");
-    
+	//SLQLOG(@"INFO - Animation: Deallocating");
+
 	// Loop through the frames array and release all the frames which we have
 	if (frames) {
 		for(int i=0; i<frameCount; i++) {
@@ -44,7 +44,7 @@
         type = kAnimationType_Once;
         direction = 1;
 		bounceFrame = -1;
-		
+
 		// Initialize the array that will store the animation frames
         frames = calloc(maxFrames, sizeof(AnimationFrame));
 
@@ -55,17 +55,17 @@
 #define FRAMES_TO_EXTEND 5
 
 - (void)addFrameWithImage:(Image*)aImage delay:(float)aDelay {
-	
+
     // If we try to add more frames than we have storage for then increase the storage
     if(frameCount+1 > maxFrames) {
         maxFrames += FRAMES_TO_EXTEND;
 		frames = realloc(frames, sizeof(AnimationFrame) * maxFrames);
     }
-	
+
     // Set the image and delay based on the arguments passed in
     frames[frameCount].image = [aImage retain];
     frames[frameCount].delay = aDelay;
-	
+
 	frameCount++;
 
 }
@@ -78,13 +78,13 @@
 
     // Increment the displayTime with the delta value sent in from the game loop
     displayTime += aDelta;
-    
+
     // If the displayTime has exceeded the current frames delay then switch frames
     if(displayTime > frames[currentFrame].delay) {
         currentFrame += direction;
 		displayTime = 0;
-        
-        // If we have reached the end or start of the animation, decide on what needs to be 
+
+        // If we have reached the end or start of the animation, decide on what needs to be
         // done based on the animations type
         if (type == kAnimationType_PingPong && (currentFrame == 0 || currentFrame == frameCount-1 || currentFrame == bounceFrame)) {
             direction = -direction;
@@ -128,7 +128,7 @@
 }
 
 - (void)renderAtPoint:(CGPoint)aPoint scale:(Scale2f)aScale rotation:(float)aRotation {
-    [frames[currentFrame].image renderAtPoint:aPoint scale:aScale rotation:aRotation];    
+    [frames[currentFrame].image renderAtPoint:aPoint scale:aScale rotation:aRotation];
 }
 
 - (void)renderCenteredAtPoint:(CGPoint)aPoint {
@@ -136,7 +136,7 @@
 }
 
 - (void)renderCenteredAtPoint:(CGPoint)aPoint scale:(Scale2f)aScale rotation:(float)aRotation {
-    [frames[currentFrame].image renderCenteredAtPoint:aPoint scale:aScale rotation:aRotation];    
+    [frames[currentFrame].image renderCenteredAtPoint:aPoint scale:aScale rotation:aRotation];
 }
 
 @end

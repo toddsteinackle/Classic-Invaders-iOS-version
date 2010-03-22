@@ -46,6 +46,14 @@
     CGFloat screenSidePadding_;
     CGFloat playerBaseHeight_;
     bool isAlienLogicNeeded_;
+    int score_;
+    int alienCount_;
+    CGFloat playerSpeed_;
+    bool isLeftTouchActive_;
+    bool isRightTouchActive_;
+    double waveMessageInterval_;
+    double lastTimeInLoop_;
+    int wave_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;
@@ -55,5 +63,6 @@
 - (void)saveGameState;
 - (void)aliensHaveLanded;
 - (void)playerKilled;
+- (void)alienKilled:(int)position points:(int)points;
 
 @end

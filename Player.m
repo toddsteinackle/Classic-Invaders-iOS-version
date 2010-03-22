@@ -77,22 +77,21 @@
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
-    if ((self.pixelLocation_.y + self.collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
-        (self.pixelLocation_.x + self.collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
-        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= self.pixelLocation_.y + self.collisionYOffset_ + self.collisionHeight_) ||
-        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= self.pixelLocation_.x + self.collisionXOffset_ + self.collisionWidth_)) {
+    if ((pixelLocation_.y + collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
+        (pixelLocation_.x + collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
+        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= pixelLocation_.y + collisionYOffset_ + collisionHeight_) ||
+        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= pixelLocation_.x + collisionXOffset_ + collisionWidth_)) {
         return;
     }
 
     if ([otherEntity isKindOfClass:[Alien class]]) {
-        self.active_ = FALSE;
+        active_ = FALSE;
         otherEntity.active_ = FALSE;
         [scene_ playerKilled];
     }
 }
 
 - (void)dealloc {
-    [animation_ release];
     [super dealloc];
 }
 

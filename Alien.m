@@ -89,6 +89,7 @@
         collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
         active_ = TRUE;
+        points_ = 25;
     }
     //NSLog(@"Alien init");
     return self;
@@ -108,21 +109,21 @@
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
-    if ((self.pixelLocation_.y + self.collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
-        (self.pixelLocation_.x + self.collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
-        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= self.pixelLocation_.y + self.collisionYOffset_ + self.collisionHeight_) ||
-        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= self.pixelLocation_.x + self.collisionXOffset_ + self.collisionWidth_)) {
+    if ((pixelLocation_.y + collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
+        (pixelLocation_.x + collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
+        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= pixelLocation_.y + collisionYOffset_ + collisionHeight_) ||
+        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= pixelLocation_.x + collisionXOffset_ + collisionWidth_)) {
         return;
     }
 
     if ([otherEntity isKindOfClass:[Shot class]]) {
-        self.active_ = FALSE;
+        active_ = FALSE;
         otherEntity.active_ = FALSE;
+        [scene_ alienKilled:position_ points:points_];
     }
 }
 
 - (void)dealloc {
-    [animation_ release];
     [super dealloc];
 }
 

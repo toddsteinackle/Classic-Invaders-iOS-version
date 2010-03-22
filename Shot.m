@@ -64,7 +64,6 @@
 }
 
 - (void)dealloc {
-    [animation_ release];
     [super dealloc];
 }
 

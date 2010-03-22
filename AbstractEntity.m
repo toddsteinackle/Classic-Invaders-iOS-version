@@ -18,6 +18,7 @@
 @synthesize collisionYOffset_;
 
 - (void)dealloc {
+    [animation_ release];
 	[super dealloc];
 }
 

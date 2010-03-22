@@ -54,6 +54,7 @@
         collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
         active_ = TRUE;
+        points_ = 100;
     }
     return self;
 }
@@ -68,7 +69,6 @@
 }
 
 - (void)dealloc {
-    [animation_ release];
     [super dealloc];
 }
 
