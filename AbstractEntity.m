@@ -12,6 +12,7 @@
 @synthesize pixelLocation_;
 @synthesize active_;
 @synthesize dx_;
+@synthesize dy_;
 @synthesize collisionWidth_;
 @synthesize collisionHeight_;
 @synthesize collisionXOffset_;

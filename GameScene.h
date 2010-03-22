@@ -36,6 +36,7 @@
 
     NSMutableArray *aliens_;
     NSMutableArray *playerShots_;
+    NSMutableArray *alienShots_;
     Player *player_;
     Shot *shot_;
     Image *background_;
@@ -43,6 +44,7 @@
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
     NSUInteger numberOfPlayerShots_;
+    NSUInteger numberOfAlienShots_;
     CGFloat screenSidePadding_;
     CGFloat playerBaseHeight_;
     bool isAlienLogicNeeded_;
@@ -54,6 +56,7 @@
     double waveMessageInterval_;
     double lastTimeInLoop_;
     int wave_;
+    int alienOddRange_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;

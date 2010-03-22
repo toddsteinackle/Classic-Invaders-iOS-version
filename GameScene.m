@@ -53,8 +53,10 @@ enum {
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
 - (void)playerFireShot;
 - (void)initPlayerShots;
+- (void)initAlienShots;
 - (void)initNewGame;
 - (void)initWave;
+- (void)alienFire;
 
 @end
 
@@ -68,7 +70,10 @@ enum {
 	lastTimeInLoop_ = 0;
 
 	[aliens_ removeAllObjects];
-	[self initAliensWithSpeed:40 chanceToFire:10];
+	[self initAliensWithSpeed:25 chanceToFire:10];
+	alienOddRange_ = 10;
+	[alienShots_ removeAllObjects];
+	[self initAlienShots];
 
 	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
 
@@ -78,6 +83,8 @@ enum {
 
 - (void)initNewGame {
 	aliens_ = [[NSMutableArray alloc] init];
+	numberOfAlienShots_ = 25;
+	alienShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfAlienShots_];
 	numberOfPlayerShots_ = 10;
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 
@@ -99,6 +106,34 @@ enum {
 	wave_ = 1;
 }
 
+- (void)alienFire {
+	// check that aliens have waited long enough to fire
+	static double alienShotDelay = 2.0f;
+	static double lastShot = 0.0f;
+	static int alienShotCounter = 0;
+	// check that player has waited long enough to fire
+	if (CACurrentMediaTime() - lastShot < alienShotDelay) {
+		return;
+	}
+	// record time and fire
+	lastShot = CACurrentMediaTime();
+	static int alienToFire = 0;
+	++alienToFire;
+	for (Alien *alien in aliens_) {
+		if (alien.active_ && alien.canFire_ && alien.fireChance_ == alienToFire) {
+			Shot *shot = [alienShots_ objectAtIndex:alienShotCounter];
+			shot.pixelLocation_ = CGPointMake(alien.pixelLocation_.x + alien.alienInitialXShotPostion_,
+											  alien.pixelLocation_.y - alien.alienInitialYShotPostion_);
+			shot.active_ = TRUE;
+			if (++alienShotCounter == numberOfAlienShots_) {
+				alienShotCounter = 0;
+			}
+		}
+	}
+	if (alienToFire >= alienOddRange_) {
+		alienToFire = 0;
+	}
+}
 - (void)playerFireShot {
 	static double playerShotDelay = 0.5f;
 	static double lastShot = 0.0f;
@@ -120,7 +155,7 @@ enum {
 
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
-	alienCount_ = 0;
+	alienCount_ = 50;
 	CGFloat x = 65.0f;
 	CGFloat y = 170.0f;
 	CGFloat horizontalSpace = 35;
@@ -135,7 +170,7 @@ enum {
 					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															  dx:alienSpeed
 															  dy:0.0
-														position:alienCount_+1
+														position:alienCount_
 														 canFire:TRUE
 													chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -147,7 +182,7 @@ enum {
 					alien = [[Alien alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															  dx:alienSpeed
 															  dy:0.0
-														position:alienCount_+1
+														position:alienCount_
 														 canFire:FALSE
 													chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -160,7 +195,7 @@ enum {
 					alien = [[Alien2 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
-														 position:alienCount_+1
+														 position:alienCount_
 														  canFire:FALSE
 													 chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -172,7 +207,7 @@ enum {
 					alien = [[Alien3 alloc] initWithPixelLocation:CGPointMake(x+(j*horizontalSpace), y+(i*verticalSpace))
 															   dx:alienSpeed
 															   dy:0.0
-														 position:alienCount_+1
+														 position:alienCount_
 														  canFire:FALSE
 													 chanceToFire:arc4random() % chanceToFire + 1];
 					[aliens_ addObject:alien];
@@ -182,7 +217,7 @@ enum {
 				default:
 					break;
 			}
-			++alienCount_;
+			--alienCount_;
 		}
 	}
 	//NSLog(@"%@", aliens_);
@@ -195,6 +230,15 @@ enum {
 		[shot release];
 	}
 	//NSLog(@"%@", playerShots_);
+}
+
+- (void)initAlienShots {
+	for (int i = 0; i < numberOfAlienShots_; ++i) {
+		Shot *shot = [[Shot alloc] initWithPixelLocation:CGPointMake(0,0)];
+		shot.dy_ = -60.0f;
+		[alienShots_ addObject:shot];
+		[shot release];
+	}
 }
 
 - (void)loadGameState {
@@ -293,6 +337,7 @@ enum {
 
 		case SceneState_Running:
 
+			[self alienFire];
 			for(Alien *alien in aliens_) {
 				if (alien.active_) {
 					[alien updateWithDelta:aDelta scene:self];
@@ -304,6 +349,11 @@ enum {
 			[player_ movement:aDelta];
 
 			for (Shot *shot in playerShots_) {
+				[shot updateWithDelta:aDelta scene:self];
+				[shot movement:aDelta];
+			}
+
+			for (Shot *shot in alienShots_) {
 				[shot updateWithDelta:aDelta scene:self];
 				[shot movement:aDelta];
 			}
@@ -353,6 +403,17 @@ enum {
 	//glClear(GL_COLOR_BUFFER_BIT);
 	[background_ renderAtPoint:CGPointMake(0, 0)];
 
+	for (Shot *shot in playerShots_) {
+		if (shot.active_) {
+			[shot render];
+		}
+	}
+	for (Shot *shot in alienShots_) {
+		if (shot.active_) {
+			[shot render];
+		}
+	}
+
 	for(Alien *alien in aliens_) {
 		if (alien.active_) {
 			[alien render];
@@ -363,11 +424,6 @@ enum {
 		[player_ render];
 	}
 
-	for (Shot *shot in playerShots_) {
-		if (shot.active_) {
-			[shot render];
-		}
-	}
 	if (state_ == SceneState_GameOver) {
 		[smallFont_ renderStringJustifiedInFrame:screenBounds_
 								   justification:BitmapFontJustification_MiddleCentered
@@ -400,7 +456,7 @@ enum {
 - (void)alienKilled:(int)position points:(int)points {
 
 	score_ += points;
-	if (--alienCount_ == 0) {
+	if (++alienCount_ == 50) {
 		state_ = SceneState_WaveOver;
 	}
 

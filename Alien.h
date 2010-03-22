@@ -13,10 +13,15 @@
     int position_, fireChance_; // used by Aliens to determine if and when to fire
     int points_;
     bool canFire_;
+    CGFloat alienInitialXShotPostion_;
+    CGFloat alienInitialYShotPostion_;
 }
 
 @property (nonatomic, assign) int position_;
 @property (nonatomic, assign) bool canFire_;
+@property (nonatomic, assign) int fireChance_;
+@property (nonatomic, assign) CGFloat alienInitialXShotPostion_;
+@property (nonatomic, assign) CGFloat alienInitialYShotPostion_;
 
 - (id)initWithPixelLocation:(CGPoint)aLocation
                          dx:(float)dx

@@ -21,6 +21,9 @@
     if (pixelLocation_.y > 320) {
         active_ = FALSE;
     }
+    if (pixelLocation_.y < scene_.playerBaseHeight_) {
+        active_ = FALSE;
+    }
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation {

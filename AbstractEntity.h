@@ -45,6 +45,7 @@
 @property (nonatomic, assign) uint state_;
 @property (nonatomic, assign) bool active_;
 @property (nonatomic, assign) CGFloat dx_;
+@property (nonatomic, assign) CGFloat dy_;
 @property (nonatomic, assign) CGFloat collisionWidth_;
 @property (nonatomic, assign) CGFloat collisionHeight_;
 @property (nonatomic, assign) CGFloat collisionXOffset_;

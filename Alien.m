@@ -22,6 +22,9 @@
 
 @synthesize position_;
 @synthesize canFire_;
+@synthesize fireChance_;
+@synthesize alienInitialXShotPostion_;
+@synthesize alienInitialYShotPostion_;
 
 - (void)description {
     NSLog(@"description of alien");
@@ -93,6 +96,8 @@
         collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
         active_ = TRUE;
         points_ = 25;
+        alienInitialXShotPostion_ = scaleFactor_ * (45 - 5)  / 2;
+        alienInitialYShotPostion_ = scaleFactor_ * 13;
     }
     //NSLog(@"Alien init");
     return self;
