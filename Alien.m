@@ -20,6 +20,9 @@
 
 @implementation Alien
 
+@synthesize position_;
+@synthesize canFire_;
+
 - (void)description {
     NSLog(@"description of alien");
     NSLog(@"position %d", position_);

@@ -15,6 +15,9 @@
     bool canFire_;
 }
 
+@property (nonatomic, assign) int position_;
+@property (nonatomic, assign) bool canFire_;
+
 - (id)initWithPixelLocation:(CGPoint)aLocation
                          dx:(float)dx
                          dy:(float)dy

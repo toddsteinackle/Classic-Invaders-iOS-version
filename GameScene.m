@@ -68,7 +68,7 @@ enum {
 	lastTimeInLoop_ = 0;
 
 	[aliens_ removeAllObjects];
-	[self initAliensWithSpeed:50 chanceToFire:10];
+	[self initAliensWithSpeed:40 chanceToFire:10];
 
 	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
 
@@ -322,7 +322,6 @@ enum {
 			}
 
 			if (isAlienLogicNeeded_) {
-				//NSLog(@"inside alien logic");
 				for (Alien *alien in aliens_) {
 					[alien doAlienLogic];
 				}
@@ -331,8 +330,6 @@ enum {
 
 			break;
 		case SceneState_GameOver:
-			//Game over
-			//[smallFont_ renderStringAt:CGPointMake(150, 200) text:@"Game Over"];
 			break;
 
 
@@ -346,7 +343,9 @@ enum {
 
 	if (state_ == SceneState_WaveMessage) {
 		glClear(GL_COLOR_BUFFER_BIT);
-		[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
+		[smallFont_ renderStringJustifiedInFrame:screenBounds_
+								   justification:BitmapFontJustification_MiddleCentered
+											text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
 		[sharedImageRenderManager_ renderImages];
 		return;
 	}
@@ -370,10 +369,14 @@ enum {
 		}
 	}
 	if (state_ == SceneState_GameOver) {
-		[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Game Over"];
+		[smallFont_ renderStringJustifiedInFrame:screenBounds_
+								   justification:BitmapFontJustification_MiddleCentered
+											text:@"Game Over"];
 
 	}
-	[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_TopCentered text:[NSString stringWithFormat:@"%i", score_]];
+	[smallFont_ renderStringJustifiedInFrame:screenBounds_
+							   justification:BitmapFontJustification_TopCentered
+										text:[NSString stringWithFormat:@"%i", score_]];
 	[sharedImageRenderManager_ renderImages];
 
 	drawBox(leftTouchControlBounds_);
@@ -399,6 +402,28 @@ enum {
 	score_ += points;
 	if (--alienCount_ == 0) {
 		state_ = SceneState_WaveOver;
+	}
+
+	for (Alien *alien in aliens_) {
+		if (alien.position_ == position - 10) {
+			alien.canFire_ = TRUE;
+		}
+		alien.dx_ *= 1.027f;
+		switch (alienCount_) {
+			case 4:
+				alien.dx_ *= 1.15f;
+				break;
+			case 3:
+				break;
+			case 2:
+				alien.dx_ *= 1.15f;
+				break;
+			case 1:
+				alien.dx_ *= 1.15f;
+				break;
+			default:
+				break;
+		}
 	}
 }
 
