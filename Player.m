@@ -13,7 +13,8 @@
 #import "SpriteSheet.h"
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
-#import "Alien.h"
+//#import "Alien.h"
+//#import "Shot.h"
 
 @implementation Player
 
@@ -82,13 +83,18 @@
         (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= pixelLocation_.y + collisionYOffset_ + collisionHeight_) ||
         (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= pixelLocation_.x + collisionXOffset_ + collisionWidth_)) {
         return;
-    }
-
-    if ([otherEntity isKindOfClass:[Alien class]]) {
+    } else {
         active_ = FALSE;
         otherEntity.active_ = FALSE;
         [scene_ playerKilled];
     }
+
+//    if ([otherEntity isKindOfClass:[Alien class]] ||
+//        [otherEntity isKindOfClass:[Shot class]]) {
+//        active_ = FALSE;
+//        otherEntity.active_ = FALSE;
+//        [scene_ playerKilled];
+//    }
 }
 
 - (void)dealloc {

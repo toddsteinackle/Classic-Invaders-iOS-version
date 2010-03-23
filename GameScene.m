@@ -28,6 +28,7 @@
 enum {
 	SceneState_WaveMessage,
 	SceneState_WaveOver,
+	SceneState_PlayerRebirth,
 	SceneState_TransitionIn,
 	SceneState_TransitionOut,
 	SceneState_Running,
@@ -104,6 +105,7 @@ enum {
 	playerSpeed_ = 115.0f;
 	waveMessageInterval_ = 2.0f;
 	wave_ = 1;
+	playerLives_ = 3;
 }
 
 - (void)alienFire {
@@ -318,6 +320,19 @@ enum {
 			state_ = SceneState_WaveMessage;
 			break;
 
+		case SceneState_PlayerRebirth:
+			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
+				return;
+			}
+			if (lastTimeInLoop_) {
+				[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
+				state_ = SceneState_Running;
+				lastTimeInLoop_ = 0;
+				return;
+			}
+			lastTimeInLoop_ = CACurrentMediaTime();
+			break;
+
 		case SceneState_WaveMessage:
 			if (CACurrentMediaTime() - lastTimeInLoop_ < waveMessageInterval_) {
 				return;
@@ -325,13 +340,15 @@ enum {
 			if (lastTimeInLoop_) {
 				[self initWave];
 				state_ = SceneState_Running;
+				lastTimeInLoop_ = 0;
+				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
 			break;
 
 		case SceneState_WaveOver:
 			NSLog(@"Wave Over");
-			lastTimeInLoop_ = 0;
+			//lastTimeInLoop_ = 0;
 			state_ = SceneState_WaveMessage;
 			break;
 
@@ -370,6 +387,12 @@ enum {
 					}
 				}
 			}
+			for (Shot *shot in alienShots_) {
+				if (shot.active_ && player_.active_) {
+					[player_ checkForCollisionWithEntity:shot];
+				}
+
+			}
 
 			if (isAlienLogicNeeded_) {
 				for (Alien *alien in aliens_) {
@@ -382,7 +405,6 @@ enum {
 		case SceneState_GameOver:
 			break;
 
-
 		default:
 			break;
 	}
@@ -391,53 +413,74 @@ enum {
 
 - (void)renderScene {
 
-	if (state_ == SceneState_WaveMessage) {
-		glClear(GL_COLOR_BUFFER_BIT);
-		[smallFont_ renderStringJustifiedInFrame:screenBounds_
-								   justification:BitmapFontJustification_MiddleCentered
-											text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
-		[sharedImageRenderManager_ renderImages];
-		return;
-	}
-	// Clear the screen before rendering
-	//glClear(GL_COLOR_BUFFER_BIT);
-	[background_ renderAtPoint:CGPointMake(0, 0)];
+	switch (state_) {
+		case SceneState_WaveMessage:
+			glClear(GL_COLOR_BUFFER_BIT);
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_MiddleCentered
+												text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
+			[sharedImageRenderManager_ renderImages];
+			break;
 
-	for (Shot *shot in playerShots_) {
-		if (shot.active_) {
-			[shot render];
-		}
-	}
-	for (Shot *shot in alienShots_) {
-		if (shot.active_) {
-			[shot render];
-		}
+		case SceneState_Running:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					[shot render];
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					[shot render];
+				}
+			}
+
+			for(Alien *alien in aliens_) {
+				if (alien.active_) {
+					[alien render];
+				}
+			}
+
+			if (player_.active_) {
+				[player_ render];
+			}
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_TopCentered
+												text:[NSString stringWithFormat:@"%i", score_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
+		case SceneState_GameOver:
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_MiddleCentered
+												text:@"Game Over"];
+			[sharedImageRenderManager_ renderImages];
+			break;
+
+		case SceneState_PlayerRebirth:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+			for(Alien *alien in aliens_) {
+				if (alien.active_) {
+					[alien render];
+				}
+			}
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_TopCentered
+												text:[NSString stringWithFormat:@"%i", score_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
+		default:
+			break;
 	}
 
-	for(Alien *alien in aliens_) {
-		if (alien.active_) {
-			[alien render];
-		}
-	}
-
-	if (player_.active_) {
-		[player_ render];
-	}
-
-	if (state_ == SceneState_GameOver) {
-		[smallFont_ renderStringJustifiedInFrame:screenBounds_
-								   justification:BitmapFontJustification_MiddleCentered
-											text:@"Game Over"];
-
-	}
-	[smallFont_ renderStringJustifiedInFrame:screenBounds_
-							   justification:BitmapFontJustification_TopCentered
-										text:[NSString stringWithFormat:@"%i", score_]];
-	[sharedImageRenderManager_ renderImages];
-
-	drawBox(leftTouchControlBounds_);
-	drawBox(rightTouchControlBounds_);
-	drawBox(fireTouchControlBounds_);
 	//	for(Alien *alien in aliens_) {
 	//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
 	//						   alien.collisionWidth_, alien.collisionHeight_));
@@ -450,14 +493,23 @@ enum {
 }
 
 - (void)playerKilled {
-
+	--playerLives_;
+	NSLog(@"player killed: %i lives left", playerLives_);
+	if (!playerLives_) {
+		state_ = SceneState_GameOver;
+		return;
+	}
+	state_ = SceneState_PlayerRebirth;
 }
 
 - (void)alienKilled:(int)position points:(int)points {
 
 	score_ += points;
-	if (++alienCount_ == 50) {
+	++alienCount_;
+	NSLog(@"%i", alienCount_);
+	if (alienCount_ == 50) {
 		state_ = SceneState_WaveOver;
+		return;
 	}
 
 	for (Alien *alien in aliens_) {

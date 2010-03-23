@@ -57,6 +57,7 @@
     double lastTimeInLoop_;
     int wave_;
     int alienOddRange_;
+    int playerLives_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;
