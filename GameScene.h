@@ -31,8 +31,8 @@
 	GameController *sharedGameController_;			// Reference to the GameController which handles global game state
 
 	//////////////////////// Fonts
-	BitmapFont *largeFont_;							// Font used to display the loading message
-	BitmapFont *smallFont_;							// Font used for the HUD
+	BitmapFont *smallFont_;
+    BitmapFont *statusFont_;
 
     NSMutableArray *aliens_;
     NSMutableArray *playerShots_;

@@ -102,9 +102,10 @@ enum {
 	screenSidePadding_ = 10.0f;
 
 	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
+	statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16" ofType:@"png" controlFile:@"franklin16" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 	playerSpeed_ = 115.0f;
 	waveMessageInterval_ = 2.0f;
-	wave_ = 1;
+	wave_ = 0;
 	playerLives_ = 3;
 }
 
@@ -282,7 +283,7 @@ enum {
 
 	// Release fonts
 	[smallFont_ release];
-	[largeFont_ release];
+	[statusFont_ release];
 
 	// Release sounds
 	[sharedSoundManager_ removeSoundWithKey:@"doorSlam"];
@@ -418,7 +419,7 @@ enum {
 			glClear(GL_COLOR_BUFFER_BIT);
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
 									   justification:BitmapFontJustification_MiddleCentered
-												text:[NSString stringWithFormat:@"Prepare for wave %i", wave_]];
+												text:[NSString stringWithFormat:@"Prepare for wave %i", wave_+1]];
 			[sharedImageRenderManager_ renderImages];
 			break;
 
@@ -445,9 +446,15 @@ enum {
 			if (player_.active_) {
 				[player_ render];
 			}
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_TopCentered
-												text:[NSString stringWithFormat:@"%i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -455,6 +462,7 @@ enum {
 			break;
 
 		case SceneState_GameOver:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
 									   justification:BitmapFontJustification_MiddleCentered
 												text:@"Game Over"];
@@ -468,9 +476,15 @@ enum {
 					[alien render];
 				}
 			}
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_TopCentered
-												text:[NSString stringWithFormat:@"%i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
