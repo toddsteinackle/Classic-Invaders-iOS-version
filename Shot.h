@@ -12,6 +12,6 @@
 
 }
 
-- (void)movement:(float)aDelta;
+- (void)movementWithDelta:(float)aDelta;
 
 @end

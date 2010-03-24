@@ -16,7 +16,7 @@
 
 @implementation Shot
 
-- (void)movement:(float)aDelta {
+- (void)movementWithDelta:(float)aDelta {
     pixelLocation_.y += aDelta * dy_;
     if (pixelLocation_.y > 320) {
         active_ = FALSE;

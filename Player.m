@@ -13,7 +13,7 @@
 #import "SpriteSheet.h"
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
-//#import "Alien.h"
+#import "Alien.h"
 //#import "Shot.h"
 
 @implementation Player
@@ -21,7 +21,7 @@
 @synthesize playerInitialXShotPostion_;
 @synthesize playerInitialYShotPostion_;
 
-- (void)movement:(float)aDelta {
+- (void)movementWithDelta:(float)aDelta {
 
     // don't move off left hand side of the screen
     if (dx_ < 0 && pixelLocation_.x < scene_.screenSidePadding_) {
@@ -83,18 +83,17 @@
         (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= pixelLocation_.y + collisionYOffset_ + collisionHeight_) ||
         (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= pixelLocation_.x + collisionXOffset_ + collisionWidth_)) {
         return;
+    }
+
+    if ([otherEntity isKindOfClass:[Alien class]]) {
+        active_ = FALSE;
+        otherEntity.active_ = FALSE;
+        [scene_ playerKilledWithAlienFlag:TRUE];
     } else {
         active_ = FALSE;
         otherEntity.active_ = FALSE;
-        [scene_ playerKilled];
+        [scene_ playerKilledWithAlienFlag:FALSE];
     }
-
-//    if ([otherEntity isKindOfClass:[Alien class]] ||
-//        [otherEntity isKindOfClass:[Shot class]]) {
-//        active_ = FALSE;
-//        otherEntity.active_ = FALSE;
-//        [scene_ playerKilled];
-//    }
 }
 
 - (void)dealloc {

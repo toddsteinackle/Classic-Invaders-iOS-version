@@ -30,7 +30,7 @@
                     canFire:(bool)canFire
                chanceToFire:(int)chanceToFire;
 
-- (void)movement:(float)aDelta;
+- (void)movementWithDelta:(float)aDelta;
 - (void)doAlienLogic;
 - (void)description;
 

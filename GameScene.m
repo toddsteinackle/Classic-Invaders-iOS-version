@@ -358,21 +358,21 @@ enum {
 			for(Alien *alien in aliens_) {
 				if (alien.active_) {
 					[alien updateWithDelta:aDelta scene:self];
-					[alien movement:aDelta];
+					[alien movementWithDelta:aDelta];
 				}
 			}
 
 			[player_ updateWithDelta:aDelta scene:self];
-			[player_ movement:aDelta];
+			[player_ movementWithDelta:aDelta];
 
 			for (Shot *shot in playerShots_) {
 				[shot updateWithDelta:aDelta scene:self];
-				[shot movement:aDelta];
+				[shot movementWithDelta:aDelta];
 			}
 
 			for (Shot *shot in alienShots_) {
 				[shot updateWithDelta:aDelta scene:self];
-				[shot movement:aDelta];
+				[shot movementWithDelta:aDelta];
 			}
 
 			for (Alien *alien in aliens_) {
@@ -492,9 +492,14 @@ enum {
 	state_ = SceneState_GameOver;
 }
 
-- (void)playerKilled {
+- (void)playerKilledWithAlienFlag:(bool)killedByAlien {
 	--playerLives_;
 	NSLog(@"player killed: %i lives left", playerLives_);
+
+	if (killedByAlien) {
+		++alienCount_;
+		NSLog(@"%i", alienCount_);
+	}
 	if (!playerLives_) {
 		state_ = SceneState_GameOver;
 		return;
@@ -502,7 +507,7 @@ enum {
 	state_ = SceneState_PlayerRebirth;
 }
 
-- (void)alienKilled:(int)position points:(int)points {
+- (void)alienKilledWithPosition:(int)position points:(int)points {
 
 	score_ += points;
 	++alienCount_;

@@ -40,7 +40,7 @@
     pixelLocation_.y -= 8.0f;
 }
 
-- (void)movement:(float)aDelta {
+- (void)movementWithDelta:(float)aDelta {
 
     // bottom of the screen, game over
     if (pixelLocation_.y < scene_.playerBaseHeight_) {
@@ -127,7 +127,7 @@
     if ([otherEntity isKindOfClass:[Shot class]]) {
         active_ = FALSE;
         otherEntity.active_ = FALSE;
-        [scene_ alienKilled:position_ points:points_];
+        [scene_ alienKilledWithPosition:position_ points:points_];
     }
 }
 

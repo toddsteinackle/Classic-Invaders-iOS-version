@@ -19,6 +19,6 @@
 @property (nonatomic, assign) CGFloat playerInitialXShotPostion_;
 @property (nonatomic, assign) CGFloat playerInitialYShotPostion_;
 
-- (void)movement:(float)aDelta;
+- (void)movementWithDelta:(float)aDelta;
 
 @end

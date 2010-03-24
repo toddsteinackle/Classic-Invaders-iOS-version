@@ -66,7 +66,7 @@
 
 - (void)saveGameState;
 - (void)aliensHaveLanded;
-- (void)playerKilled;
-- (void)alienKilled:(int)position points:(int)points;
+- (void)playerKilledWithAlienFlag:(bool)killedByAlien;
+- (void)alienKilledWithPosition:(int)position points:(int)points;
 
 @end
