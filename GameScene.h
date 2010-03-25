@@ -18,6 +18,8 @@
 @class Alien3;
 @class Player;
 @class Shot;
+@class BigBonusShip;
+@class SmallBonusShip;
 
 // This class is the core game scene.  It is responsible for game rendering, logic, user
 // input etc.
@@ -39,6 +41,8 @@
     NSMutableArray *alienShots_;
     Player *player_;
     Shot *shot_;
+    BigBonusShip *bigBonus_;
+    SmallBonusShip *smallBonus_;
     Image *background_;
     CGRect leftTouchControlBounds_;
     CGRect rightTouchControlBounds_;

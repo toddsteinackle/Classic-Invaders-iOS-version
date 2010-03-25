@@ -21,6 +21,8 @@
 #import "Alien3.h"
 #import "Player.h"
 #import "Shot.h"
+#import "BigBonusShip.h"
+#import "SmallBonusShip.h"
 
 #include <stdlib.h>
 
@@ -77,6 +79,8 @@ enum {
 	[self initAlienShots];
 
 	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
+	[bigBonus_ initWithPixelLocation:CGPointMake(0, 290)];
+	[smallBonus_ initWithPixelLocation:CGPointMake(380, 290)];
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
@@ -90,6 +94,8 @@ enum {
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 
 	player_ = [Player alloc];
+	bigBonus_ = [BigBonusShip alloc];
+	smallBonus_ = [SmallBonusShip alloc];
 
 	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 	background_ = [[pss imageForKey:@"background.png"] retain];
@@ -366,6 +372,9 @@ enum {
 			[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
+			[bigBonus_ updateWithDelta:aDelta scene:self];
+			[smallBonus_ updateWithDelta:aDelta scene:self];
+
 			for (Shot *shot in playerShots_) {
 				[shot updateWithDelta:aDelta scene:self];
 				[shot movementWithDelta:aDelta];
@@ -446,6 +455,8 @@ enum {
 			if (player_.active_) {
 				[player_ render];
 			}
+			[bigBonus_ render];
+			[smallBonus_ render];
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
 										justification:BitmapFontJustification_MiddleLeft
 												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];

@@ -39,11 +39,19 @@
 
     self = [super init];
 	if (self != nil) {
-		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+        width_ = 43;
+        height_ = 25;
+		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+                                                                       controlFile:@"pss_coordinates"
+                                                                       imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"ship.png"] retain];
         scaleFactor_ = .85;
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
-        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"ship.png" spriteSize:CGSizeMake(43, 25) spacing:1 margin:0];
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
+                                               sheetKey:@"ship.png"
+                                             spriteSize:CGSizeMake(width_, height_)
+                                                spacing:1
+                                                 margin:0];
 
         animation_ = [[Animation alloc] init];
 		float delay = 0.2;
@@ -55,13 +63,13 @@
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
-        playerInitialXShotPostion_ = scaleFactor_ * (43 - 5)  / 2;
+        playerInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         playerInitialYShotPostion_ = scaleFactor_ * 16;
-        rightScreenBoundary_ = 480 - (43 * scaleFactor_);
-        collisionWidth_ = scaleFactor_ * 43 * .9f;
-        collisionHeight_ = scaleFactor_ * 25 *.9f;
-        collisionXOffset_ = ((scaleFactor_ * 43) - collisionWidth_) / 2;
-        collisionYOffset_ = ((scaleFactor_ * 25) - collisionHeight_) / 2;
+        rightScreenBoundary_ = scene_.screenBounds_.size.width - (width_ * scaleFactor_);
+        collisionWidth_ = scaleFactor_ * width_ * .9f;
+        collisionHeight_ = scaleFactor_ * height_ *.9f;
+        collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         active_ = TRUE;
     }
     return self;

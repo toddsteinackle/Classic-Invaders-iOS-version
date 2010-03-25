@@ -50,7 +50,7 @@
     if (dx_ < 0 && pixelLocation_.x < scene_.screenSidePadding_) {
         scene_.isAlienLogicNeeded_ = TRUE;
     }
-    else if (dx_ > 0 && pixelLocation_.x > 480 - (45 * scaleFactor_) - scene_.screenSidePadding_) {
+    else if (dx_ > 0 && pixelLocation_.x > scene_.screenBounds_.size.width - (width_ * scaleFactor_) - scene_.screenSidePadding_) {
         scene_.isAlienLogicNeeded_ = TRUE;
     }
 
@@ -66,11 +66,19 @@
 
     self = [super init];
 	if (self != nil) {
-		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
+        width_ = 45;
+        height_ = 30;
+		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+                                                                       controlFile:@"pss_coordinates"
+                                                                       imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
         scaleFactor_ = .7;
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
-        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage sheetKey:@"aliens.png" spriteSize:CGSizeMake(45, 30) spacing:1 margin:0];
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
+                                               sheetKey:@"aliens.png"
+                                             spriteSize:CGSizeMake(width_, height_)
+                                                spacing:1
+                                                 margin:0];
 
         animation_ = [[Animation alloc] init];
 		float delay = 0.2;
@@ -90,13 +98,13 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
-        collisionWidth_ = scaleFactor_ * 45 * .8f;
-        collisionHeight_ = scaleFactor_ * 30 *.8f;
-        collisionXOffset_ = ((scaleFactor_ * 45) - collisionWidth_) / 2;
-        collisionYOffset_ = ((scaleFactor_ * 30) - collisionHeight_) / 2;
+        collisionWidth_ = scaleFactor_ * width_ * .8f;
+        collisionHeight_ = scaleFactor_ * height_ *.8f;
+        collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
+        collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         active_ = TRUE;
         points_ = 25;
-        alienInitialXShotPostion_ = scaleFactor_ * (45 - 5)  / 2;
+        alienInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         alienInitialYShotPostion_ = scaleFactor_ * 13;
     }
     //NSLog(@"Alien init");

@@ -24,6 +24,7 @@
 @property (nonatomic, assign) uint state_;
 @property (nonatomic, assign) GLfloat alpha_;
 @property (nonatomic, retain) NSString *name_;
+@property (nonatomic, assign) CGRect screenBounds_;
 
 #pragma mark -
 #pragma mark Selectors
