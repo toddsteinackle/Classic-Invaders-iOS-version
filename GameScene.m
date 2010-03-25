@@ -318,15 +318,19 @@ enum {
 @synthesize isAlienLogicNeeded_;
 @synthesize playerBaseHeight_;
 
+#pragma mark -
 - (void)updateSceneWithDelta:(GLfloat)aDelta {
 
 	switch (state_) {
+
+#pragma mark TransitionIn
 		case SceneState_TransitionIn:
 
 			[self initNewGame];
 			state_ = SceneState_WaveMessage;
 			break;
 
+#pragma mark PlayerRebirth
 		case SceneState_PlayerRebirth:
 			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
 				return;
@@ -340,6 +344,7 @@ enum {
 			lastTimeInLoop_ = CACurrentMediaTime();
 			break;
 
+#pragma mark WaveMessage
 		case SceneState_WaveMessage:
 			if (CACurrentMediaTime() - lastTimeInLoop_ < waveMessageInterval_) {
 				return;
@@ -353,12 +358,14 @@ enum {
 			lastTimeInLoop_ = CACurrentMediaTime();
 			break;
 
+#pragma mark WaveOver
 		case SceneState_WaveOver:
 			NSLog(@"Wave Over");
 			//lastTimeInLoop_ = 0;
 			state_ = SceneState_WaveMessage;
 			break;
 
+#pragma mark Running
 		case SceneState_Running:
 
 			[self alienFire];
@@ -412,6 +419,8 @@ enum {
 			}
 
 			break;
+
+#pragma mark GameOver
 		case SceneState_GameOver:
 			break;
 
@@ -421,9 +430,12 @@ enum {
 
 }
 
+#pragma mark -
 - (void)renderScene {
 
 	switch (state_) {
+
+#pragma mark WaveMessage
 		case SceneState_WaveMessage:
 			glClear(GL_COLOR_BUFFER_BIT);
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
@@ -432,6 +444,7 @@ enum {
 			[sharedImageRenderManager_ renderImages];
 			break;
 
+#pragma mark Running
 		case SceneState_Running:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 
@@ -472,6 +485,7 @@ enum {
 			drawBox(fireTouchControlBounds_);
 			break;
 
+#pragma mark GameOver
 		case SceneState_GameOver:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
@@ -480,6 +494,7 @@ enum {
 			[sharedImageRenderManager_ renderImages];
 			break;
 
+#pragma mark PlayerRebirth
 		case SceneState_PlayerRebirth:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 			for(Alien *alien in aliens_) {
@@ -505,13 +520,14 @@ enum {
 		default:
 			break;
 	}
-
 	//	for(Alien *alien in aliens_) {
 	//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
 	//						   alien.collisionWidth_, alien.collisionHeight_));
 	//	}
 
 }
+
+#pragma mark -
 
 - (void)aliensHaveLanded {
 	state_ = SceneState_GameOver;
@@ -640,7 +656,6 @@ enum {
 - (void)transitionIn {
     state_ = SceneState_TransitionIn;
 }
-
 
 - (void)saveGameState {
 
