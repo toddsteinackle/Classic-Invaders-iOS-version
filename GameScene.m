@@ -677,21 +677,17 @@ enum {
 		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
+			player_.dx_ = 0;
 			isLeftTouchActive_ = TRUE;
 			if (isLeftTouchActive_ && !isRightTouchActive_) {
 				player_.dx_ = -playerSpeed_;
 			}
-			if (isLeftTouchActive_ && isRightTouchActive_) {
-				player_.dx_ = 0;
-			}
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
+			player_.dx_ = 0;
 			isRightTouchActive_ = TRUE;
 			if (isRightTouchActive_ && !isLeftTouchActive_) {
 				player_.dx_ = playerSpeed_;
-			}
-			if (isLeftTouchActive_ && isRightTouchActive_) {
-				player_.dx_ = 0;
 			}
 		}
 	}
@@ -712,19 +708,17 @@ enum {
         CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
+			player_.dx_ = 0;
 			isLeftTouchActive_ = FALSE;
 			if (isRightTouchActive_) {
 				player_.dx_ = playerSpeed_;
-			} else {
-				player_.dx_ = 0;
 			}
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
+			player_.dx_ = 0;
 			isRightTouchActive_ = FALSE;
 			if (isLeftTouchActive_) {
 				player_.dx_ = -playerSpeed_;
-			} else {
-				player_.dx_ = 0;
 			}
 		}
 	}
