@@ -66,8 +66,8 @@
         playerInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         playerInitialYShotPostion_ = scaleFactor_ * 16;
         rightScreenBoundary_ = scene_.screenBounds_.size.width - (width_ * scaleFactor_);
-        collisionWidth_ = scaleFactor_ * width_ * .9f;
-        collisionHeight_ = scaleFactor_ * height_ *.9f;
+        collisionWidth_ = scaleFactor_ * width_ * .8f;
+        collisionHeight_ = scaleFactor_ * height_ *.4f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         active_ = TRUE;

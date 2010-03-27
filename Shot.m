@@ -57,7 +57,8 @@
         collisionHeight_ = scaleFactor_ * height_ *.7;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        dy_ = 140;
+        dy_ = 140.0f;
+        active_ = FALSE;
     }
     return self;
 }
