@@ -10,7 +10,7 @@
 
 
 @interface BigBonusShip : AbstractEntity {
-
+    int points_;
 }
 
 - (void)movementWithDelta:(float)aDelta;

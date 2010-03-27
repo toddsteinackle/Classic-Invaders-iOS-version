@@ -35,11 +35,11 @@
                                                 spacing:1 margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.2;
+		float delay = 0.06;
 		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
         [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
         animation_.state = kAnimationState_Running;
-        animation_.type = kAnimationType_PingPong;
+        animation_.type = kAnimationType_Repeating;
 
 		[SpriteSheetImage release];
 
@@ -50,6 +50,7 @@
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         active_ = FALSE;
+        points_ = 1000;
     }
     return self;
 }
@@ -62,9 +63,6 @@
 - (void)render {
     [super render];
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
-}
-
-- (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
 }
 
 - (void)dealloc {

@@ -19,6 +19,13 @@
 
 - (void)movementWithDelta:(float)aDelta {
 
+    pixelLocation_.x += aDelta * dx_;
+    if (dx_ > 0 && pixelLocation_.x > scene_.screenBounds_.size.width) {
+        active_ = FALSE;
+    } else if (dx_ < 0 && pixelLocation_.x < -width_ * scaleFactor_) {
+        active_ = FALSE;
+    }
+
 }
 
 - (id)initWithPixelLocation:(CGPoint)aLocation {
@@ -40,11 +47,11 @@
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.2;
+		float delay = 0.06;
 		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
         [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
         animation_.state = kAnimationState_Running;
-        animation_.type = kAnimationType_PingPong;
+        animation_.type = kAnimationType_Repeating;
 
 		[SpriteSheetImage release];
 
@@ -55,6 +62,7 @@
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         active_ = FALSE;
+        points_ = 500;
     }
     return self;
 }
@@ -69,6 +77,17 @@
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
+    if ((pixelLocation_.y + collisionYOffset_ >= otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ + otherEntity.collisionHeight_) ||
+        (pixelLocation_.x + collisionXOffset_ >= otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ + otherEntity.collisionWidth_) ||
+        (otherEntity.pixelLocation_.y + otherEntity.collisionYOffset_ >= pixelLocation_.y + collisionYOffset_ + collisionHeight_) ||
+        (otherEntity.pixelLocation_.x + otherEntity.collisionXOffset_ >= pixelLocation_.x + collisionXOffset_ + collisionWidth_)) {
+        return;
+    }
+
+    active_ = FALSE;
+    otherEntity.active_ = FALSE;
+    [scene_ bonusShipDestroyedWithPoints:points_];
+
 }
 
 - (void)dealloc {

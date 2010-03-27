@@ -39,18 +39,25 @@
     NSMutableArray *aliens_;
     NSMutableArray *playerShots_;
     NSMutableArray *alienShots_;
+    NSMutableArray *bonusDirection_;
+    NSMutableArray *bonusSelection_;
+    NSMutableArray *additionalBonusDelay_;
+    int bonusLaunchDelay_;
     Player *player_;
     Shot *shot_;
     BigBonusShip *bigBonus_;
     SmallBonusShip *smallBonus_;
+    BigBonusShip *bonus_;
     Image *background_;
     CGRect leftTouchControlBounds_;
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
     NSUInteger numberOfPlayerShots_;
     NSUInteger numberOfAlienShots_;
+    NSUInteger randomListLength_;
     CGFloat screenSidePadding_;
     CGFloat playerBaseHeight_;
+    CGFloat bonusSpeed_;
     bool isAlienLogicNeeded_;
     int score_;
     int alienCount_;
@@ -59,6 +66,9 @@
     bool isRightTouchActive_;
     double waveMessageInterval_;
     double lastTimeInLoop_;
+    double baseLaunchDelay_;
+    double lastBonusLaunch_;
+    double lastAlienShot_;
     int wave_;
     int alienOddRange_;
     int playerLives_;
@@ -72,5 +82,6 @@
 - (void)aliensHaveLanded;
 - (void)playerKilledWithAlienFlag:(bool)killedByAlien;
 - (void)alienKilledWithPosition:(int)position points:(int)points;
+- (void)bonusShipDestroyedWithPoints:(int)points;
 
 @end

@@ -60,6 +60,7 @@ enum {
 - (void)initNewGame;
 - (void)initWave;
 - (void)alienFire;
+- (void)launchBonusShip;
 
 @end
 
@@ -79,14 +80,41 @@ enum {
 	[self initAlienShots];
 
 	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
-	[bigBonus_ initWithPixelLocation:CGPointMake(0, 290)];
-	[smallBonus_ initWithPixelLocation:CGPointMake(380, 290)];
+	[bigBonus_ initWithPixelLocation:CGPointMake(0, 0)];
+	[smallBonus_ initWithPixelLocation:CGPointMake(0, 0)];
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
+
+
+	for (int i = 0; i < randomListLength_; ++i) {
+		[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+		[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+	    [additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+	}
+
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[bonusSelection_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[bonusDirection_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[additionalBonusDelay_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+
 }
 
 - (void)initNewGame {
+
+	randomListLength_ = 5;
+	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+	bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+	additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+
 	aliens_ = [[NSMutableArray alloc] init];
 	numberOfAlienShots_ = 25;
 	alienShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfAlienShots_];
@@ -113,19 +141,54 @@ enum {
 	waveMessageInterval_ = 2.0f;
 	wave_ = 0;
 	playerLives_ = 3;
+	bonusSpeed_ = 75;
+	bonusLaunchDelay_ =  baseLaunchDelay_ = 6.0f;
 }
 
+- (void)launchBonusShip {
+
+	static CGFloat top = 295.0f;
+	if (CACurrentMediaTime() - lastBonusLaunch_ < bonusLaunchDelay_) {
+		return;
+	}
+	lastBonusLaunch_ = CACurrentMediaTime();
+	//NSLog(@"launch bonus ship");
+	static int randomListCount = 0;
+	//NSLog(@"randomListCount %i", randomListCount);
+	//NSLog(@"%i", [[bonusSelection_ objectAtIndex:randomListCount] intValue]);
+	if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
+		bonus_ = bigBonus_;
+		//NSLog(@"big bonus");
+	} else {
+		bonus_ = smallBonus_;
+		//NSLog(@"small bonus");
+	}
+	if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
+		bonus_.pixelLocation_ = CGPointMake(0, top);
+		bonus_.dx_ = bonusSpeed_;
+		bonus_.active_ = TRUE;
+	} else {
+		bonus_.pixelLocation_ = CGPointMake(screenBounds_.size.width, top);
+		bonus_.dx_ = -bonusSpeed_;
+		bonus_.active_ = TRUE;
+	}
+	//sound.play_bonus();
+	bonusLaunchDelay_ = baseLaunchDelay_ + [[additionalBonusDelay_ objectAtIndex:randomListCount] intValue];
+	if (++randomListCount == randomListLength_) {
+		randomListCount = 0;
+	}
+	//NSLog(@"randomListCount %i", randomListCount);
+}
 - (void)alienFire {
 	// check that aliens have waited long enough to fire
 	static double alienShotDelay = 2.0f;
-	static double lastShot = 0.0f;
 	static int alienShotCounter = 0;
 	// check that player has waited long enough to fire
-	if (CACurrentMediaTime() - lastShot < alienShotDelay) {
+	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay) {
 		return;
 	}
 	// record time and fire
-	lastShot = CACurrentMediaTime();
+	lastAlienShot_ = CACurrentMediaTime();
 	static int alienToFire = 0;
 	++alienToFire;
 	for (Alien *alien in aliens_) {
@@ -350,9 +413,11 @@ enum {
 				return;
 			}
 			if (lastTimeInLoop_) {
+				NSLog(@"call init wave");
 				[self initWave];
 				state_ = SceneState_Running;
 				lastTimeInLoop_ = 0;
+				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
@@ -369,6 +434,7 @@ enum {
 		case SceneState_Running:
 
 			[self alienFire];
+			[self launchBonusShip];
 			for(Alien *alien in aliens_) {
 				if (alien.active_) {
 					[alien updateWithDelta:aDelta scene:self];
@@ -379,8 +445,10 @@ enum {
 			[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
-			[bigBonus_ updateWithDelta:aDelta scene:self];
-			[smallBonus_ updateWithDelta:aDelta scene:self];
+			if (bonus_.active_) {
+				[bonus_ updateWithDelta:aDelta scene:self];
+				[bonus_ movementWithDelta:aDelta];
+			}
 
 			for (Shot *shot in playerShots_) {
 				[shot updateWithDelta:aDelta scene:self];
@@ -392,6 +460,7 @@ enum {
 				[shot movementWithDelta:aDelta];
 			}
 
+#pragma mark Collision Detection
 			for (Alien *alien in aliens_) {
 				if (alien.active_) {
 					for (Shot *shot in playerShots_) {
@@ -409,6 +478,11 @@ enum {
 					[player_ checkForCollisionWithEntity:shot];
 				}
 
+			}
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					[bonus_	checkForCollisionWithEntity:shot];
+				}
 			}
 
 			if (isAlienLogicNeeded_) {
@@ -468,8 +542,11 @@ enum {
 			if (player_.active_) {
 				[player_ render];
 			}
-			[bigBonus_ render];
-			[smallBonus_ render];
+
+			if (bonus_.active_) {
+				[bonus_ render];
+			}
+
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
 										justification:BitmapFontJustification_MiddleLeft
 												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
@@ -531,6 +608,10 @@ enum {
 
 - (void)aliensHaveLanded {
 	state_ = SceneState_GameOver;
+}
+
+- (void)bonusShipDestroyedWithPoints:(int)points {
+	score_ += points;
 }
 
 - (void)playerKilledWithAlienFlag:(bool)killedByAlien {
