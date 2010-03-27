@@ -17,6 +17,8 @@
 @synthesize collisionHeight_;
 @synthesize collisionXOffset_;
 @synthesize collisionYOffset_;
+@synthesize scaleFactor_;
+@synthesize width_;
 
 - (void)dealloc {
     [animation_ release];

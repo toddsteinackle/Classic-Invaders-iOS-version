@@ -164,7 +164,7 @@ enum {
 		//NSLog(@"small bonus");
 	}
 	if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
-		bonus_.pixelLocation_ = CGPointMake(0, top);
+		bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, top);
 		bonus_.dx_ = bonusSpeed_;
 		bonus_.active_ = TRUE;
 	} else {

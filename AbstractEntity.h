@@ -50,6 +50,9 @@
 @property (nonatomic, assign) CGFloat collisionHeight_;
 @property (nonatomic, assign) CGFloat collisionXOffset_;
 @property (nonatomic, assign) CGFloat collisionYOffset_;
+@property (nonatomic, assign) CGFloat scaleFactor_;
+@property (nonatomic, assign) CGFloat width_;
+
 
 - (id)initWithPixelLocation:(CGPoint)aLocation;
 
