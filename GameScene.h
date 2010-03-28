@@ -60,7 +60,7 @@
     CGFloat playerBaseHeight_;
     CGFloat bonusSpeed_;
     bool isAlienLogicNeeded_;
-    bool waveOver_;
+    bool canPlayerFire_;
     int score_;
     int alienCount_;
     CGFloat playerSpeed_;

@@ -84,7 +84,7 @@ enum {
 - (void)initWave {
 	++wave_;
 	lastTimeInLoop_ = 0;
-	waveOver_ = FALSE;
+	canPlayerFire_ = TRUE;
 
 	[aliens_ removeAllObjects];
 	[self initAliensWithSpeed:25 chanceToFire:10];
@@ -484,9 +484,11 @@ enum {
 				[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
 				state_ = SceneState_Running;
 				lastTimeInLoop_ = 0;
+				lastAlienShot_ = CACurrentMediaTime();
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
+			canPlayerFire_ = FALSE;
 			// deactiveate shots to give player a chance to recover
 			for (Shot *shot in alienShots_) {
 				shot.active_ = FALSE;
@@ -504,7 +506,6 @@ enum {
 			if (lastTimeInLoop_) {
 				[self initWave];
 				state_ = SceneState_Running;
-				lastTimeInLoop_ = 0;
 				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
 				return;
 			}
@@ -515,7 +516,7 @@ enum {
 		case SceneState_WaveOver:
 
 			if (!bonus_.active_) {
-				waveOver_ = TRUE;
+				canPlayerFire_ = FALSE;
 			}
 			if (!bonus_.active_
 				&& [self noneActiveWithEntityArray:alienShots_]
@@ -585,7 +586,7 @@ enum {
 				}
 			}
 
-			[player_ updateWithDelta:aDelta scene:self];
+			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
 			if (bonus_.active_) {
@@ -594,47 +595,20 @@ enum {
 			}
 
 			for (Shot *shot in playerShots_) {
-				[shot updateWithDelta:aDelta scene:self];
-				[shot movementWithDelta:aDelta];
-			}
-
-			for (Shot *shot in alienShots_) {
-				[shot updateWithDelta:aDelta scene:self];
-				[shot movementWithDelta:aDelta];
-			}
-
-#pragma mark Running Collision Detection
-			for (Alien *alien in aliens_) {
-				if (alien.active_) {
-					for (Shot *shot in playerShots_) {
-						if (shot.active_) {
-							[alien checkForCollisionWithEntity:shot];
-						}
-					}
-					if (player_.active_) {
-						[player_ checkForCollisionWithEntity:alien];
-					}
-					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
-							[alien checkForCollisionWithEntity:shieldPiece];
-						}
-					}
+				if (shot.active_) {
+					//[shot updateWithDelta:aDelta scene:self];
+					[shot movementWithDelta:aDelta];
 				}
 			}
 
 			for (Shot *shot in alienShots_) {
 				if (shot.active_) {
-					if (player_.active_) {
-						[player_ checkForCollisionWithEntity:shot];
-					}
-					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
-							[shot checkForCollisionWithEntity:shieldPiece];
-						}
-					}
+					//[shot updateWithDelta:aDelta scene:self];
+					[shot movementWithDelta:aDelta];
 				}
 			}
 
+#pragma mark Running Collision Detection
 			for (Shot *shot in playerShots_) {
 				if (shot.active_) {
 					if (bonus_.active_) {
@@ -648,6 +622,35 @@ enum {
 					for (Shot *alienShot in alienShots_) {
 						if (alienShot.active_) {
 							[alienShot checkForCollisionWithEntity:shot];
+						}
+					}
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					if (player_.active_) {
+						[player_ checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+				}
+			}
+			for (Alien *alien in aliens_) {
+				if (alien.active_) {
+					for (Shot *shot in playerShots_) {
+						if (shot.active_) {
+							[alien checkForCollisionWithEntity:shot];
+						}
+					}
+					if (player_.active_) {
+						[player_ checkForCollisionWithEntity:alien];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[alien checkForCollisionWithEntity:shieldPiece];
 						}
 					}
 				}
@@ -688,6 +691,7 @@ enum {
 
 #pragma mark Running
 		case SceneState_Running:
+			canPlayerFire_ = TRUE;
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 
 			for (ShieldPiece *shieldPiece in shields_) {
@@ -847,7 +851,7 @@ enum {
 
 	if (killedByAlien) {
 		++alienCount_;
-		//NSLog(@"%i", alienCount_);
+		NSLog(@"%i", alienCount_);
 		if (alienCount_ == 50 && !playerLives_) {
 			state_ = SceneState_GameOver;
 			return;
@@ -867,7 +871,7 @@ enum {
 
 	score_ += points;
 	++alienCount_;
-	//NSLog(@"%i", alienCount_);
+	NSLog(@"%i", alienCount_);
 	if (alienCount_ == 50) {
 		state_ = SceneState_WaveOver;
 		return;
@@ -907,7 +911,7 @@ enum {
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
-			if (!waveOver_) {
+			if (canPlayerFire_) {
 				[self playerFireShot];
 			}
 		}
