@@ -156,7 +156,7 @@ enum {
 	CGFloat dimension = shieldPiece.width_ * shieldPiece.scaleFactor_; // shield height and width
 	[shieldPiece release];
 	CGFloat space = (int)(screenBounds_.size.width / 7) * 2 + 5;
-	CGFloat bottom = playerBaseHeight_ + 30;
+	CGFloat bottom = playerBaseHeight_ + 35;
 	for (int j = 0; j < 2; ++j) {
 		for (int i = 0; i < 6; ++i) {
 			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom)];
@@ -568,6 +568,11 @@ enum {
 					for (ShieldPiece *shieldPiece in shields_) {
 						if (shieldPiece.active_) {
 							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+					for (Shot *alienShot in alienShots_) {
+						if (alienShot.active_) {
+							[alienShot checkForCollisionWithEntity:shot];
 						}
 					}
 				}
