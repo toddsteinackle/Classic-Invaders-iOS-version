@@ -40,6 +40,7 @@
 		5F1D43C8114D8DB200797E5B /* pss.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C6114D8DB200797E5B /* pss.png */; };
 		5F224D451159A82600A4AFBC /* BigBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D441159A82600A4AFBC /* BigBonusShip.m */; };
 		5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D471159A86200A4AFBC /* SmallBonusShip.m */; };
+		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
@@ -153,6 +154,8 @@
 		5F224D441159A82600A4AFBC /* BigBonusShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigBonusShip.m; sourceTree = "<group>"; };
 		5F224D461159A86200A4AFBC /* SmallBonusShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallBonusShip.h; sourceTree = "<group>"; };
 		5F224D471159A86200A4AFBC /* SmallBonusShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallBonusShip.m; sourceTree = "<group>"; };
+		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
+		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F07D566112F04FA0094DEA2 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
@@ -343,6 +346,8 @@
 				5F224D441159A82600A4AFBC /* BigBonusShip.m */,
 				5F224D461159A86200A4AFBC /* SmallBonusShip.h */,
 				5F224D471159A86200A4AFBC /* SmallBonusShip.m */,
+				5F5FB329115EBD9000290A1F /* ShieldPiece.h */,
+				5F5FB32A115EBD9000290A1F /* ShieldPiece.m */,
 			);
 			name = "Game Entities";
 			sourceTree = "<group>";
@@ -778,6 +783,7 @@
 				5F1BCB741151B86300F33168 /* Shot.m in Sources */,
 				5F224D451159A82600A4AFBC /* BigBonusShip.m in Sources */,
 				5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */,
+				5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

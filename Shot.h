@@ -9,8 +9,10 @@
 #import "AbstractEntity.h"
 
 @interface Shot : AbstractEntity {
-
+    bool hit_;
 }
+
+@property (nonatomic, assign) bool hit_;
 
 - (void)movementWithDelta:(float)aDelta;
 

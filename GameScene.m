@@ -23,6 +23,7 @@
 #import "Shot.h"
 #import "BigBonusShip.h"
 #import "SmallBonusShip.h"
+#import "ShieldPiece.h"
 
 #include <stdlib.h>
 
@@ -61,6 +62,7 @@ enum {
 - (void)initWave;
 - (void)alienFire;
 - (void)launchBonusShip;
+- (void)initShields;
 
 @end
 
@@ -86,6 +88,8 @@ enum {
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
 
+	[shields_ removeAllObjects];
+	[self initShields];
 
 	for (int i = 0; i < randomListLength_; ++i) {
 		[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
@@ -118,8 +122,9 @@ enum {
 	aliens_ = [[NSMutableArray alloc] init];
 	numberOfAlienShots_ = 10;
 	alienShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfAlienShots_];
-	numberOfPlayerShots_ = 5;
+	numberOfPlayerShots_ = 10;
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
+	shields_ = [[NSMutableArray alloc] initWithCapacity:20];
 
 	player_ = [Player alloc];
 	bigBonus_ = [BigBonusShip alloc];
@@ -137,12 +142,65 @@ enum {
 
 	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 	statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16" ofType:@"png" controlFile:@"franklin16" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
-	playerSpeed_ = 115.0f;
+	playerSpeed_ = 110.0f;
 	waveMessageInterval_ = 2.0f;
 	wave_ = 0;
 	playerLives_ = 3;
 	bonusSpeed_ = 75;
-	bonusLaunchDelay_ =  baseLaunchDelay_ = 6.0f;
+	bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
+}
+
+- (void)initShields {
+
+	ShieldPiece *shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake(0, 0)];
+	CGFloat dimension = shieldPiece.width_ * shieldPiece.scaleFactor_; // shield height and width
+	[shieldPiece release];
+	CGFloat space = (int)(screenBounds_.size.width / 7) * 2 + 5;
+	CGFloat bottom = playerBaseHeight_ + 30;
+	for (int j = 0; j < 2; ++j) {
+		for (int i = 0; i < 6; ++i) {
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom)];
+			[shields_ addObject:shieldPiece];
+			[shieldPiece release];
+		}
+		for (int i = 0; i < 6; ++i) {
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom + dimension)];
+			[shields_ addObject:shieldPiece];
+			[shieldPiece release];
+		}
+		for (int i = 0; i < 6; ++i) {
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom + dimension*2)];
+			[shields_ addObject:shieldPiece];
+			[shieldPiece release];
+		}
+		for (int i = 0; i < 4; ++i) {
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+dimension+(i*dimension), bottom + dimension*3)];
+			[shields_ addObject:shieldPiece];
+			[shieldPiece release];
+		}
+	}
+	//draw the last shield moved over a small amount
+	for (int i = 0; i < 6; ++i) {
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom)];
+		[shields_ addObject:shieldPiece];
+		[shieldPiece release];
+	}
+	for (int i = 0; i < 6; ++i) {
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom + dimension)];
+		[shields_ addObject:shieldPiece];
+		[shieldPiece release];
+	}
+	for (int i = 0; i < 6; ++i) {
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom + dimension*2)];
+		[shields_ addObject:shieldPiece];
+		[shieldPiece release];
+	}
+	for (int i = 0; i < 4; ++i) {
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+dimension+(i*dimension), bottom + dimension*3)];
+		[shields_ addObject:shieldPiece];
+		[shieldPiece release];
+	}
+
 }
 
 - (void)launchBonusShip {
@@ -172,7 +230,6 @@ enum {
 		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
 	}
 
-
 	//sound.play_bonus();
 	bonusLaunchDelay_ = baseLaunchDelay_ + [[additionalBonusDelay_ objectAtIndex:randomListCount] intValue];
 	if (++randomListCount == randomListLength_) {
@@ -199,6 +256,7 @@ enum {
 				shot.pixelLocation_ = CGPointMake(alien.pixelLocation_.x + alien.alienInitialXShotPostion_,
 												  alien.pixelLocation_.y - alien.alienInitialYShotPostion_);
 				shot.active_ = TRUE;
+				shot.hit_ = FALSE;
 			} else {
 				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_");
 			}
@@ -213,7 +271,7 @@ enum {
 	}
 }
 - (void)playerFireShot {
-	static double playerShotDelay = 0.5f;
+	static double playerShotDelay = 0.275f;
 	static double lastShot = 0.0f;
 	static int playerShotCounter = 0;
 	// check that player has waited long enough to fire
@@ -227,6 +285,7 @@ enum {
 		shot.pixelLocation_ = CGPointMake(player_.pixelLocation_.x + player_.playerInitialXShotPostion_,
 										  player_.pixelLocation_.y + player_.playerInitialYShotPostion_ + 1);
 		shot.active_ = TRUE;
+		shot.hit_ = FALSE;
 	} else {
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
 	}
@@ -480,17 +539,37 @@ enum {
 					if (player_.active_) {
 						[player_ checkForCollisionWithEntity:alien];
 					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[alien checkForCollisionWithEntity:shieldPiece];
+						}
+					}
 				}
 			}
-			for (Shot *shot in alienShots_) {
-				if (shot.active_ && player_.active_) {
-					[player_ checkForCollisionWithEntity:shot];
-				}
 
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					if (player_.active_) {
+						[player_ checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+				}
 			}
+
 			for (Shot *shot in playerShots_) {
 				if (shot.active_) {
-					[bonus_	checkForCollisionWithEntity:shot];
+					if (bonus_.active_) {
+						[bonus_	checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
 				}
 			}
 
@@ -531,6 +610,11 @@ enum {
 		case SceneState_Running:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.active_) {
+					[shieldPiece render];
+				}
+			}
 			for (Shot *shot in playerShots_) {
 				if (shot.active_) {
 					[shot render];

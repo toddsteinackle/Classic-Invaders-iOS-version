@@ -42,6 +42,7 @@
     NSMutableArray *bonusDirection_;
     NSMutableArray *bonusSelection_;
     NSMutableArray *additionalBonusDelay_;
+    NSMutableArray *shields_;
     int bonusLaunchDelay_;
     Player *player_;
     Shot *shot_;

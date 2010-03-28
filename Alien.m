@@ -136,7 +136,11 @@
         active_ = FALSE;
         otherEntity.active_ = FALSE;
         [scene_ alienKilledWithPosition:position_ points:points_];
+    } else {
+        // otherEntity would only be ShieldPiece
+        otherEntity.active_ = FALSE;
     }
+
 }
 
 - (void)dealloc {
