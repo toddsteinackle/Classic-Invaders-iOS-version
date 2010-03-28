@@ -64,8 +64,6 @@
     int score_;
     int alienCount_;
     CGFloat playerSpeed_;
-    bool isLeftTouchActive_;
-    bool isRightTouchActive_;
     double waveMessageInterval_;
     double lastTimeInLoop_;
     double baseLaunchDelay_;

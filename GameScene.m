@@ -523,7 +523,7 @@ enum {
 				&& [self noneActiveWithEntityArray:playerShots_]) {
 				state_ = SceneState_WaveMessage;
 			}
-			[player_ updateWithDelta:aDelta scene:self];
+			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
 			if (bonus_.active_) {
@@ -532,12 +532,12 @@ enum {
 			}
 
 			for (Shot *shot in playerShots_) {
-				[shot updateWithDelta:aDelta scene:self];
+				//[shot updateWithDelta:aDelta scene:self];
 				[shot movementWithDelta:aDelta];
 			}
 
 			for (Shot *shot in alienShots_) {
-				[shot updateWithDelta:aDelta scene:self];
+				//[shot updateWithDelta:aDelta scene:self];
 				[shot movementWithDelta:aDelta];
 			}
 
@@ -847,7 +847,7 @@ enum {
 
 - (void)playerKilledWithAlienFlag:(bool)killedByAlien {
 	--playerLives_;
-	//NSLog(@"player killed: %i lives left", playerLives_);
+	NSLog(@"player killed: %i lives left", playerLives_);
 
 	if (killedByAlien) {
 		++alienCount_;
@@ -917,18 +917,10 @@ enum {
 		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
-			player_.dx_ = 0;
-			isLeftTouchActive_ = TRUE;
-			if (isLeftTouchActive_ && !isRightTouchActive_) {
-				player_.dx_ = -playerSpeed_;
-			}
+			player_.dx_ = -playerSpeed_;
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
-			player_.dx_ = 0;
-			isRightTouchActive_ = TRUE;
-			if (isRightTouchActive_ && !isLeftTouchActive_) {
-				player_.dx_ = playerSpeed_;
-			}
+			player_.dx_ = playerSpeed_;
 		}
 	}
 }
@@ -949,17 +941,9 @@ enum {
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
 			player_.dx_ = 0;
-			isLeftTouchActive_ = FALSE;
-			if (isRightTouchActive_) {
-				player_.dx_ = playerSpeed_;
-			}
 		}
 		if (CGRectContainsPoint(rightTouchControlBounds_, touchLocation)) {
 			player_.dx_ = 0;
-			isRightTouchActive_ = FALSE;
-			if (isLeftTouchActive_) {
-				player_.dx_ = -playerSpeed_;
-			}
 		}
 	}
 }
