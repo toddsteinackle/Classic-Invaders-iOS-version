@@ -720,7 +720,14 @@ enum {
 
 	if (killedByAlien) {
 		++alienCount_;
-		//NSLog(@"%i", alienCount_);
+		NSLog(@"%i", alienCount_);
+		if (alienCount_ == 50 && !playerLives_) {
+			state_ = SceneState_GameOver;
+			return;
+		} else if (alienCount_ == 50) {
+			state_ = SceneState_WaveOver;
+			return;
+		}
 	}
 	if (!playerLives_) {
 		state_ = SceneState_GameOver;
@@ -733,7 +740,7 @@ enum {
 
 	score_ += points;
 	++alienCount_;
-	//NSLog(@"%i", alienCount_);
+	NSLog(@"%i", alienCount_);
 	if (alienCount_ == 50) {
 		state_ = SceneState_WaveOver;
 		return;
