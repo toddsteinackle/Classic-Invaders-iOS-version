@@ -487,6 +487,13 @@ enum {
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
+			// deactiveate shots to give player a chance to recover
+			for (Shot *shot in alienShots_) {
+				shot.active_ = FALSE;
+			}
+			for (Shot *shot in playerShots_) {
+				shot.active_ = FALSE;
+			}
 			break;
 
 #pragma mark WaveMessage
@@ -784,9 +791,17 @@ enum {
 #pragma mark PlayerRebirth
 		case SceneState_PlayerRebirth:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (bonus_.active_) {
+				[bonus_ render];
+			}
 			for(Alien *alien in aliens_) {
 				if (alien.active_) {
 					[alien render];
+				}
+			}
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.active_) {
+					[shieldPiece render];
 				}
 			}
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
@@ -832,7 +847,7 @@ enum {
 
 	if (killedByAlien) {
 		++alienCount_;
-		NSLog(@"%i", alienCount_);
+		//NSLog(@"%i", alienCount_);
 		if (alienCount_ == 50 && !playerLives_) {
 			state_ = SceneState_GameOver;
 			return;
@@ -852,7 +867,7 @@ enum {
 
 	score_ += points;
 	++alienCount_;
-	NSLog(@"%i", alienCount_);
+	//NSLog(@"%i", alienCount_);
 	if (alienCount_ == 50) {
 		state_ = SceneState_WaveOver;
 		return;
