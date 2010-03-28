@@ -63,6 +63,7 @@ enum {
 - (void)alienFire;
 - (void)launchBonusShip;
 - (void)initShields;
+- (bool)noneActiveWithEntityArray:(NSMutableArray *)entityArray;
 
 @end
 
@@ -71,9 +72,19 @@ enum {
 
 @implementation GameScene (Private)
 
+- (bool)noneActiveWithEntityArray:(NSMutableArray *)entityArray {
+	for (AbstractEntity *entity in entityArray) {
+		if (entity.active_) {
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+
 - (void)initWave {
 	++wave_;
 	lastTimeInLoop_ = 0;
+	waveOver_ = FALSE;
 
 	[aliens_ removeAllObjects];
 	[self initAliensWithSpeed:25 chanceToFire:10];
@@ -495,7 +506,64 @@ enum {
 
 #pragma mark WaveOver
 		case SceneState_WaveOver:
-			state_ = SceneState_WaveMessage;
+
+			if (!bonus_.active_) {
+				waveOver_ = TRUE;
+			}
+			if (!bonus_.active_
+				&& [self noneActiveWithEntityArray:alienShots_]
+				&& [self noneActiveWithEntityArray:playerShots_]) {
+				state_ = SceneState_WaveMessage;
+			}
+			[player_ updateWithDelta:aDelta scene:self];
+			[player_ movementWithDelta:aDelta];
+
+			if (bonus_.active_) {
+				[bonus_ updateWithDelta:aDelta scene:self];
+				[bonus_ movementWithDelta:aDelta];
+			}
+
+			for (Shot *shot in playerShots_) {
+				[shot updateWithDelta:aDelta scene:self];
+				[shot movementWithDelta:aDelta];
+			}
+
+			for (Shot *shot in alienShots_) {
+				[shot updateWithDelta:aDelta scene:self];
+				[shot movementWithDelta:aDelta];
+			}
+
+#pragma mark WaveOver Collision Detection
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					if (player_.active_) {
+						[player_ checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+				}
+			}
+
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					if (bonus_.active_) {
+						[bonus_	checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+					for (Shot *alienShot in alienShots_) {
+						if (alienShot.active_) {
+							[alienShot checkForCollisionWithEntity:shot];
+						}
+					}
+				}
+			}
 			break;
 
 #pragma mark Running
@@ -528,7 +596,7 @@ enum {
 				[shot movementWithDelta:aDelta];
 			}
 
-#pragma mark Collision Detection
+#pragma mark Running Collision Detection
 			for (Alien *alien in aliens_) {
 				if (alien.active_) {
 					for (Shot *shot in playerShots_) {
@@ -660,6 +728,50 @@ enum {
 			drawBox(fireTouchControlBounds_);
 			break;
 
+#pragma mark WaveOver
+		case SceneState_WaveOver:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.active_) {
+					[shieldPiece render];
+				}
+			}
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					[shot render];
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					[shot render];
+				}
+			}
+
+			if (player_.active_) {
+				[player_ render];
+			}
+
+			if (bonus_.active_) {
+				[bonus_ render];
+			}
+
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+
+			break;
+
 #pragma mark GameOver
 		case SceneState_GameOver:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
@@ -780,7 +892,9 @@ enum {
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
-			[self playerFireShot];
+			if (!waveOver_) {
+				[self playerFireShot];
+			}
 		}
 
 		if (CGRectContainsPoint(leftTouchControlBounds_, touchLocation)) {
