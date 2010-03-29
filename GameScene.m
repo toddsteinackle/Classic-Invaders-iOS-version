@@ -157,7 +157,7 @@ enum {
 	waveMessageInterval_ = 2.0f;
 	wave_ = 0;
 	playerLives_ = 3;
-	bonusSpeed_ = 80;
+	bonusSpeed_ = 75;
 	bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
 }
 
@@ -487,6 +487,46 @@ enum {
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
 			canPlayerFire_ = FALSE;
+			for (Shot *shot in playerShots_) {
+				if (shot.active_) {
+					if (bonus_.active_) {
+						[bonus_	checkForCollisionWithEntity:shot];
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+					for (Shot *alienShot in alienShots_) {
+						if (alienShot.active_) {
+							[alienShot checkForCollisionWithEntity:shot];
+						}
+					}
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.active_) {
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[shot checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+				}
+			}
+			for (Alien *alien in aliens_) {
+				if (alien.active_) {
+					for (Shot *shot in playerShots_) {
+						if (shot.active_) {
+							[alien checkForCollisionWithEntity:shot];
+						}
+					}
+					for (ShieldPiece *shieldPiece in shields_) {
+						if (shieldPiece.active_) {
+							[alien checkForCollisionWithEntity:shieldPiece];
+						}
+					}
+				}
+			}
 			// deactiveate shots to give player a chance to recover
 			for (Shot *shot in alienShots_) {
 				shot.active_ = FALSE;
