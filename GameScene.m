@@ -135,7 +135,7 @@ enum {
 	alienShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfAlienShots_];
 	numberOfPlayerShots_ = 10;
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
-	shields_ = [[NSMutableArray alloc] initWithCapacity:20];
+	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 
 	player_ = [Player alloc];
 	bigBonus_ = [BigBonusShip alloc];
@@ -157,8 +157,8 @@ enum {
 	waveMessageInterval_ = 2.0f;
 	wave_ = 0;
 	playerLives_ = 3;
-	bonusSpeed_ = 75;
-	bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
+	bonusSpeed_ = 80;
+	bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
 }
 
 - (void)initShields {
@@ -167,7 +167,7 @@ enum {
 	CGFloat dimension = shieldPiece.width_ * shieldPiece.scaleFactor_; // shield height and width
 	[shieldPiece release];
 	CGFloat space = (int)(screenBounds_.size.width / 7) * 2 + 5;
-	CGFloat bottom = playerBaseHeight_ + 35;
+	CGFloat bottom = playerBaseHeight_ + 38;
 	for (int j = 0; j < 2; ++j) {
 		for (int i = 0; i < 6; ++i) {
 			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom)];
@@ -282,7 +282,7 @@ enum {
 	}
 }
 - (void)playerFireShot {
-	static double playerShotDelay = 0.275f;
+	static double playerShotDelay = 0.4f;
 	static double lastShot = 0.0f;
 	static int playerShotCounter = 0;
 	// check that player has waited long enough to fire
@@ -300,8 +300,6 @@ enum {
 	} else {
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
 	}
-
-
 	if (++playerShotCounter == numberOfPlayerShots_) {
 		playerShotCounter = 0;
 	}
