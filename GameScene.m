@@ -92,9 +92,7 @@ enum {
 	[alienShots_ removeAllObjects];
 	[self initAlienShots];
 
-	[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
-	[bigBonus_ initWithPixelLocation:CGPointMake(0, 0)];
-	[smallBonus_ initWithPixelLocation:CGPointMake(0, 0)];
+	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
@@ -137,9 +135,9 @@ enum {
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 
-	player_ = [Player alloc];
-	bigBonus_ = [BigBonusShip alloc];
-	smallBonus_ = [SmallBonusShip alloc];
+	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
+	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
+	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 
 	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 	background_ = [[pss imageForKey:@"background.png"] retain];
