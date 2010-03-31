@@ -14,7 +14,7 @@
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
 #import "Alien.h"
-//#import "Shot.h"
+#import "ParticleEmitter.h"
 
 @implementation Player
 
@@ -59,6 +59,10 @@
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 
+        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"appearingEmitter" ofType:@"xml"];
+        state_ = EntityState_Alive;
+
 		[SpriteSheetImage release];
 
         pixelLocation_.x = aLocation.x;
@@ -70,19 +74,42 @@
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = TRUE;
+        middleX_ = scaleFactor_ * width_ / 2;
+        middleY_ = scaleFactor_ * height_ / 2;
+        //active_ = TRUE;
     }
     return self;
 }
 
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
-    [animation_ updateWithDelta:aDelta];
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ updateWithDelta:aDelta];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ updateWithDelta:aDelta];
+            break;
+
+        default:
+            break;
+    }
 }
 
 - (void)render {
     [super render];
-    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ renderParticles];
+            break;
+
+        default:
+            break;
+    }
+
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
@@ -93,18 +120,23 @@
         return;
     }
 
+    //active_ = FALSE;
+    otherEntity.active_ = FALSE;
+    state_ = EntityState_Dying;
+    dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
+    [dyingEmitter_ setDuration:1.0f];
+    [dyingEmitter_ setActive:TRUE];
+
     if ([otherEntity isKindOfClass:[Alien class]]) {
-        active_ = FALSE;
-        otherEntity.active_ = FALSE;
         [scene_ playerKilledWithAlienFlag:TRUE];
     } else {
-        active_ = FALSE;
-        otherEntity.active_ = FALSE;
         [scene_ playerKilledWithAlienFlag:FALSE];
     }
 }
 
 - (void)dealloc {
+    [dyingEmitter_ release];
+	[appearingEmitter_ release];
     [super dealloc];
 }
 

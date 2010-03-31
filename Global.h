@@ -54,11 +54,11 @@ enum {
 
 // Entity states
 enum entityState {
-	kEntityState_Idle,
-	kEntityState_Dead,
-	kEntityState_Dying,
-	kEntityState_Alive,
-	kEntityState_Appearing
+	EntityState_Idle,
+	EntityState_Dead,
+	EntityState_Dying,
+	EntityState_Alive,
+	EntityState_Appearing
 };
 
 // Object states
@@ -164,7 +164,7 @@ static inline BOOL isPointInPoly(int sides, float *px, float *py, CGPoint point)
 	int sideCount;
 	int totalSides = sides - 1;
 	BOOL inside = NO;
-	
+
 	for (sideCount = 0; sideCount < sides; sideCount++) {
 		if ((py[sideCount] < point.y && py[totalSides] >= point.y) ||
 			(py[totalSides] < point.y && py[sideCount] >= point.y)) {
@@ -179,10 +179,10 @@ static inline BOOL isPointInPoly(int sides, float *px, float *py, CGPoint point)
 // Returns YES if the rectangle and circle interset each other.  This include the circle being fulling inside
 // the rectangle.
 static inline BOOL RectIntersectsCircle(CGRect aRect, Circle aCircle) {
-	
+
 	float testX = aCircle.x;
 	float testY = aCircle.y;
-	
+
 	if (testX < aRect.origin.x)
 		testX = aRect.origin.x;
 	if (testX > (aRect.origin.x + aRect.size.width))
@@ -191,8 +191,8 @@ static inline BOOL RectIntersectsCircle(CGRect aRect, Circle aCircle) {
 		testY = aRect.origin.y;
 	if (testY > (aRect.origin.y + aRect.size.height))
 		testY = (aRect.origin.y + aRect.size.height);
-	
-	return ((aCircle.x - testX) * (aCircle.x - testX) + (aCircle.y - testY) * (aCircle.y - testY)) < aCircle.radius * aCircle.radius;		
+
+	return ((aCircle.x - testX) * (aCircle.x - testX) + (aCircle.y - testY) * (aCircle.y - testY)) < aCircle.radius * aCircle.radius;
 }
 
 // Returns YES if the two circles provided intersect each other
@@ -200,7 +200,7 @@ static inline BOOL CircleIntersectsCircle(Circle aCircle1, Circle aCircle2) {
 	float dx = aCircle2.x - aCircle1.x;
 	float dy = aCircle2.y - aCircle1.y;
 	float radii = aCircle1.radius + aCircle2.radius;
-	
+
 	return ((dx * dx) + (dy * dy)) < radii * radii;
 }
 

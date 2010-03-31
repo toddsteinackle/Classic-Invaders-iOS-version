@@ -37,6 +37,8 @@
     CGFloat collisionWidth_, collisionHeight_, collisionXOffset_, collisionYOffset_;
     CGFloat height_, width_;
     CGFloat scaleFactor_;
+    CGFloat middleX_;
+    CGFloat middleY_;
     bool active_;
 }
 

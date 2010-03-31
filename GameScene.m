@@ -31,6 +31,7 @@
 enum {
 	SceneState_WaveMessage,
 	SceneState_WaveOver,
+	SceneState_PlayerDeath,
 	SceneState_PlayerRebirth,
 	SceneState_TransitionIn,
 	SceneState_TransitionOut,
@@ -83,7 +84,6 @@ enum {
 
 - (void)initWave {
 	++wave_;
-	lastTimeInLoop_ = 0;
 	canPlayerFire_ = TRUE;
 
 	[aliens_ removeAllObjects];
@@ -93,6 +93,7 @@ enum {
 	[self initAlienShots];
 
 	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
+	player_.dx_ = 0;
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
@@ -153,7 +154,7 @@ enum {
 	statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16" ofType:@"png" controlFile:@"franklin16" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 	playerSpeed_ = 110.0f;
 	waveMessageInterval_ = 2.0f;
-	wave_ = 0;
+	wave_ = lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	bonusSpeed_ = 75;
 	bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
@@ -471,16 +472,31 @@ enum {
 			state_ = SceneState_WaveMessage;
 			break;
 
-#pragma mark PlayerRebirth
-		case SceneState_PlayerRebirth:
+#pragma mark PlayerDeath
+		case SceneState_PlayerDeath:
+			[player_ updateWithDelta:aDelta scene:self];
 			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
 				return;
 			}
 			if (lastTimeInLoop_) {
-				[player_ initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
-				state_ = SceneState_Running;
+				player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
+				player_.dx_ = 0;
 				lastTimeInLoop_ = 0;
 				lastAlienShot_ = CACurrentMediaTime();
+				player_.state_ = EntityState_Alive;
+				if (alienCount_ == 50 && !playerLives_) {
+					state_ = SceneState_GameOver;
+					return;
+				}
+				if (alienCount_ == 50) {
+					state_ = SceneState_WaveOver;
+					return;
+				}
+				if (!playerLives_) {
+					state_ = SceneState_GameOver;
+					return;
+				}
+				state_ = SceneState_Running;
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
@@ -543,6 +559,7 @@ enum {
 				[self initWave];
 				state_ = SceneState_Running;
 				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
+				lastTimeInLoop_ = 0;
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
@@ -580,7 +597,7 @@ enum {
 #pragma mark WaveOver Collision Detection
 			for (Shot *shot in alienShots_) {
 				if (shot.active_) {
-					if (player_.active_) {
+					if (player_.state_ == EntityState_Alive) {
 						[player_ checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
@@ -664,7 +681,7 @@ enum {
 			}
 			for (Shot *shot in alienShots_) {
 				if (shot.active_) {
-					if (player_.active_) {
+					if (player_.state_ == EntityState_Alive) {
 						[player_ checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
@@ -681,7 +698,7 @@ enum {
 							[alien checkForCollisionWithEntity:shot];
 						}
 					}
-					if (player_.active_) {
+					if (player_.state_ == EntityState_Alive) {
 						[player_ checkForCollisionWithEntity:alien];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
@@ -729,6 +746,7 @@ enum {
 		case SceneState_Running:
 			canPlayerFire_ = TRUE;
 			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[player_ render];
 
 			for (ShieldPiece *shieldPiece in shields_) {
 				if (shieldPiece.active_) {
@@ -750,10 +768,6 @@ enum {
 				if (alien.active_) {
 					[alien render];
 				}
-			}
-
-			if (player_.active_) {
-				[player_ render];
 			}
 
 			if (bonus_.active_) {
@@ -779,6 +793,8 @@ enum {
 		case SceneState_WaveOver:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 
+			[player_ render];
+
 			for (ShieldPiece *shieldPiece in shields_) {
 				if (shieldPiece.active_) {
 					[shieldPiece render];
@@ -793,10 +809,6 @@ enum {
 				if (shot.active_) {
 					[shot render];
 				}
-			}
-
-			if (player_.active_) {
-				[player_ render];
 			}
 
 			if (bonus_.active_) {
@@ -828,9 +840,11 @@ enum {
 			[sharedImageRenderManager_ renderImages];
 			break;
 
-#pragma mark PlayerRebirth
-		case SceneState_PlayerRebirth:
+#pragma mark PlayerDeath
+		case SceneState_PlayerDeath:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[sharedImageRenderManager_ renderImages];
+			[player_ render];
 			if (bonus_.active_) {
 				[bonus_ render];
 			}
@@ -888,19 +902,9 @@ enum {
 	if (killedByAlien) {
 		++alienCount_;
 		NSLog(@"%i", alienCount_);
-		if (alienCount_ == 50 && !playerLives_) {
-			state_ = SceneState_GameOver;
-			return;
-		} else if (alienCount_ == 50) {
-			state_ = SceneState_WaveOver;
-			return;
-		}
+
 	}
-	if (!playerLives_) {
-		state_ = SceneState_GameOver;
-		return;
-	}
-	state_ = SceneState_PlayerRebirth;
+	state_ = SceneState_PlayerDeath;
 }
 
 - (void)alienKilledWithPosition:(int)position points:(int)points {
