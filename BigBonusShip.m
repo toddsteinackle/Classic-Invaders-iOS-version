@@ -13,6 +13,7 @@
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
 #import "BigBonusShip.h"
+#import "ParticleEmitter.h"
 
 
 @implementation BigBonusShip
@@ -21,9 +22,9 @@
 
     pixelLocation_.x += aDelta * dx_;
     if (dx_ > 0 && pixelLocation_.x > scene_.screenBounds_.size.width) {
-        active_ = FALSE;
+        state_ = EntityState_Idle;
     } else if (dx_ < 0 && pixelLocation_.x < -width_ * scaleFactor_) {
-        active_ = FALSE;
+        state_ = EntityState_Idle;
     }
 
 }
@@ -55,25 +56,50 @@
 
 		[SpriteSheetImage release];
 
+        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         collisionWidth_ = scaleFactor_ * width_ * .9f;
         collisionHeight_ = scaleFactor_ * height_ *.9f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = FALSE;
+        //active_ = FALSE;
+        middleX_ = scaleFactor_ * width_ / 2;
+        middleY_ = scaleFactor_ * height_ / 2;
         points_ = 500;
     }
     return self;
 }
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
-    [animation_ updateWithDelta:aDelta];
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ updateWithDelta:aDelta];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ updateWithDelta:aDelta];
+            break;
+
+        default:
+            break;
+    }
 }
 
 - (void)render {
     [super render];
-    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ renderParticles];
+            break;
+
+        default:
+            break;
+    }
+
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
@@ -84,13 +110,18 @@
         return;
     }
 
-    active_ = FALSE;
+    //active_ = FALSE;
     otherEntity.active_ = FALSE;
+    state_ = EntityState_Dying;
+    dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
+    [dyingEmitter_ setDuration:0.5f];
+    [dyingEmitter_ setActive:TRUE];
     [scene_ bonusShipDestroyedWithPoints:points_];
 
 }
 
 - (void)dealloc {
+    [dyingEmitter_ release];
     [super dealloc];
 }
 

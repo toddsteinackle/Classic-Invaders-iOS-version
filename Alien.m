@@ -12,9 +12,7 @@
 #import "SoundManager.h"
 #import "SpriteSheet.h"
 #import "Animation.h"
-//#import "Player.h"
-//#import "ParticleEmitter.h"
-//#import "BitmapFont.h"
+#import "ParticleEmitter.h"
 #import "PackedSpriteSheet.h"
 #import "Shot.h"
 
@@ -91,6 +89,10 @@
 
 		[SpriteSheetImage release];
 
+        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"appearingEmitter" ofType:@"xml"];
+        state_ = EntityState_Alive;
+
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         dx_ = dx;
@@ -102,26 +104,45 @@
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = TRUE;
+        //active_ = TRUE;
         points_ = 25;
         alienInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         alienInitialYShotPostion_ = scaleFactor_ * 13;
+        middleX_ = scaleFactor_ * width_ / 2;
+        middleY_ = scaleFactor_ * height_ / 2;
     }
     //NSLog(@"Alien init");
     return self;
 }
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ updateWithDelta:aDelta];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ updateWithDelta:aDelta];
+            break;
 
-    //scene = (GameScene*)aScene;
-    [animation_ updateWithDelta:aDelta];
-    //NSLog(@"Alien delta update");
+        default:
+            break;
+    }
 }
 
 - (void)render {
     [super render];
-    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
-    //NSLog(@"Alien render");
+    switch (state_) {
+        case EntityState_Alive:
+            [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
+            break;
+        case EntityState_Dying:
+            [dyingEmitter_ renderParticles];
+            break;
+
+        default:
+            break;
+    }
+
 }
 
 - (void)checkForCollisionWithEntity:(AbstractEntity *)otherEntity {
@@ -132,9 +153,15 @@
         return;
     }
 
+
+
     if ([otherEntity isKindOfClass:[Shot class]]) {
-        active_ = FALSE;
+        //active_ = FALSE;
         otherEntity.active_ = FALSE;
+        state_ = EntityState_Dying;
+        dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
+        [dyingEmitter_ setDuration:0.005f];
+        [dyingEmitter_ setActive:TRUE];
         [scene_ alienKilledWithPosition:position_ points:points_];
     } else {
         // otherEntity would only be ShieldPiece
@@ -144,6 +171,8 @@
 }
 
 - (void)dealloc {
+    [dyingEmitter_ release];
+	[appearingEmitter_ release];
     [super dealloc];
 }
 

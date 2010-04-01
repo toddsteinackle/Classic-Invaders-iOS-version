@@ -14,6 +14,7 @@
 #import "SpriteSheet.h"
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
+#import "ParticleEmitter.h"
 
 @implementation Alien2
 
@@ -51,6 +52,10 @@
 
 		[SpriteSheetImage release];
 
+        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"appearingEmitter" ofType:@"xml"];
+        state_ = EntityState_Alive;
+
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         dx_ = dx;
@@ -62,26 +67,15 @@
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = TRUE;
+        //active_ = TRUE;
         points_ = 50;
         alienInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         alienInitialYShotPostion_ = scaleFactor_ * 13;
+        middleX_ = scaleFactor_ * width_ / 2;
+        middleY_ = scaleFactor_ * height_ / 2;
     }
     //NSLog(@"Alien2 init");
     return self;
-}
-
-- (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
-    [animation_ updateWithDelta:aDelta];
-}
-
-- (void)render {
-    [super render];
-    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
-}
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 @end

@@ -13,6 +13,7 @@
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
 #import "SmallBonusShip.h"
+#import "ParticleEmitter.h"
 
 
 @implementation SmallBonusShip
@@ -43,30 +44,20 @@
 
 		[SpriteSheetImage release];
 
+        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         collisionWidth_ = scaleFactor_ * width_ * .9f;
         collisionHeight_ = scaleFactor_ * height_ *.9f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = FALSE;
+        //active_ = FALSE;
+        middleX_ = scaleFactor_ * width_ / 2;
+        middleY_ = scaleFactor_ * height_ / 2;
         points_ = 1000;
     }
     return self;
-}
-
-
-- (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
-    [animation_ updateWithDelta:aDelta];
-}
-
-- (void)render {
-    [super render];
-    [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
-}
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 @end

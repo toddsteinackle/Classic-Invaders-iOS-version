@@ -230,11 +230,11 @@ enum {
 		if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
 			bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, top);
 			bonus_.dx_ = bonusSpeed_;
-			bonus_.active_ = TRUE;
+			bonus_.state_ = EntityState_Alive;
 		} else {
 			bonus_.pixelLocation_ = CGPointMake(screenBounds_.size.width, top);
 			bonus_.dx_ = -bonusSpeed_;
-			bonus_.active_ = TRUE;
+			bonus_.state_ = EntityState_Alive;
 		}
 	} else {
 		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
@@ -528,7 +528,7 @@ enum {
 				}
 			}
 			for (Alien *alien in aliens_) {
-				if (alien.active_) {
+				if (alien.state_ == EntityState_Alive) {
 					for (Shot *shot in playerShots_) {
 						if (shot.active_) {
 							[alien checkForCollisionWithEntity:shot];
@@ -633,8 +633,8 @@ enum {
 			[self alienFire];
 			[self launchBonusShip];
 			for(Alien *alien in aliens_) {
-				if (alien.active_) {
-					[alien updateWithDelta:aDelta scene:self];
+				[alien updateWithDelta:aDelta scene:self];
+				if (alien.state_ == EntityState_Alive) {
 					[alien movementWithDelta:aDelta];
 				}
 			}
@@ -642,8 +642,8 @@ enum {
 			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
-			if (bonus_.active_) {
-				[bonus_ updateWithDelta:aDelta scene:self];
+			[bonus_ updateWithDelta:aDelta scene:self];
+			if (bonus_.state_ == EntityState_Alive) {
 				[bonus_ movementWithDelta:aDelta];
 			}
 
@@ -664,7 +664,7 @@ enum {
 #pragma mark Running Collision Detection
 			for (Shot *shot in playerShots_) {
 				if (shot.active_) {
-					if (bonus_.active_) {
+					if (bonus_.state_ == EntityState_Alive) {
 						[bonus_	checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
@@ -692,7 +692,7 @@ enum {
 				}
 			}
 			for (Alien *alien in aliens_) {
-				if (alien.active_) {
+				if (alien.state_ == EntityState_Alive) {
 					for (Shot *shot in playerShots_) {
 						if (shot.active_) {
 							[alien checkForCollisionWithEntity:shot];
@@ -746,13 +746,6 @@ enum {
 		case SceneState_Running:
 			canPlayerFire_ = TRUE;
 			[background_ renderAtPoint:CGPointMake(0, 0)];
-			[player_ render];
-
-			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.active_) {
-					[shieldPiece render];
-				}
-			}
 			for (Shot *shot in playerShots_) {
 				if (shot.active_) {
 					[shot render];
@@ -763,15 +756,18 @@ enum {
 					[shot render];
 				}
 			}
+			[sharedImageRenderManager_ renderImages];
+			[player_ render];
+			[bonus_	render];
 
-			for(Alien *alien in aliens_) {
-				if (alien.active_) {
-					[alien render];
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.active_) {
+					[shieldPiece render];
 				}
 			}
 
-			if (bonus_.active_) {
-				[bonus_ render];
+			for(Alien *alien in aliens_) {
+				[alien render];
 			}
 
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
@@ -794,6 +790,7 @@ enum {
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 
 			[player_ render];
+			[bonus_ render];
 
 			for (ShieldPiece *shieldPiece in shields_) {
 				if (shieldPiece.active_) {
@@ -809,10 +806,6 @@ enum {
 				if (shot.active_) {
 					[shot render];
 				}
-			}
-
-			if (bonus_.active_) {
-				[bonus_ render];
 			}
 
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
@@ -845,13 +838,10 @@ enum {
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[sharedImageRenderManager_ renderImages];
 			[player_ render];
-			if (bonus_.active_) {
-				[bonus_ render];
-			}
+			[bonus_ render];
+
 			for(Alien *alien in aliens_) {
-				if (alien.active_) {
-					[alien render];
-				}
+				[alien render];
 			}
 			for (ShieldPiece *shieldPiece in shields_) {
 				if (shieldPiece.active_) {
