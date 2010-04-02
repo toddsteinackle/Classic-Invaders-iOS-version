@@ -66,7 +66,6 @@
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        //active_ = TRUE;
         points_ = 100;
         alienInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         alienInitialYShotPostion_ = scaleFactor_ * 13;

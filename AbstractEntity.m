@@ -10,7 +10,6 @@
 @synthesize state_;
 @synthesize image_;
 @synthesize pixelLocation_;
-@synthesize active_;
 @synthesize dx_;
 @synthesize dy_;
 @synthesize collisionWidth_;

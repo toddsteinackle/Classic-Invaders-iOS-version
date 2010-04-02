@@ -50,7 +50,7 @@
         collisionHeight_ = scaleFactor_ * height_ *.9f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        active_ = TRUE;
+        state_ = EntityState_Alive;
     }
     return self;
 }

@@ -52,7 +52,7 @@
         collisionHeight_ = scaleFactor_ * height_ *.9f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        //active_ = FALSE;
+        state_ = EntityState_Idle;
         middleX_ = scaleFactor_ * width_ / 2;
         middleY_ = scaleFactor_ * height_ / 2;
         points_ = 1000;

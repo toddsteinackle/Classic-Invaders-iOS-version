@@ -21,10 +21,10 @@
 - (void)movementWithDelta:(float)aDelta {
     pixelLocation_.y += aDelta * dy_;
     if (pixelLocation_.y > scene_.screenBounds_.size.height) {
-        active_ = FALSE;
+        state_ = EntityState_Idle;
     }
     if (pixelLocation_.y < scene_.playerBaseHeight_) {
-        active_ = FALSE;
+        state_ = EntityState_Idle;
     }
 }
 
@@ -60,7 +60,7 @@
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         dy_ = 140.0f;
-        active_ = FALSE;
+        state_ = EntityState_Idle;
     }
     return self;
 }
@@ -83,12 +83,12 @@
     }
 
     if ([otherEntity isKindOfClass:[Shot class]]) {
-        active_ = FALSE;
-        otherEntity.active_ = FALSE;
+        state_ = EntityState_Idle;
+        otherEntity.state_ = EntityState_Idle;
     } else {
         if (hit_) return;
-        active_ = FALSE;
-        otherEntity.active_ = FALSE;
+        state_ = EntityState_Idle;
+        otherEntity.state_ = EntityState_Idle;
         hit_ = TRUE;
     }
 }

@@ -39,13 +39,11 @@
     CGFloat scaleFactor_;
     CGFloat middleX_;
     CGFloat middleY_;
-    bool active_;
 }
 
 @property (nonatomic, readonly) Image *image_;
 @property (nonatomic, assign) CGPoint pixelLocation_;
 @property (nonatomic, assign) uint state_;
-@property (nonatomic, assign) bool active_;
 @property (nonatomic, assign) CGFloat dx_;
 @property (nonatomic, assign) CGFloat dy_;
 @property (nonatomic, assign) CGFloat collisionWidth_;

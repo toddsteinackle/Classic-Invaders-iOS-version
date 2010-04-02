@@ -31,6 +31,7 @@
 enum {
 	SceneState_WaveMessage,
 	SceneState_WaveOver,
+	SceneState_WaveCleanup,
 	SceneState_PlayerDeath,
 	SceneState_PlayerRebirth,
 	SceneState_TransitionIn,
@@ -64,7 +65,7 @@ enum {
 - (void)alienFire;
 - (void)launchBonusShip;
 - (void)initShields;
-- (bool)noneActiveWithEntityArray:(NSMutableArray *)entityArray;
+- (bool)noneAliveWithEntityArray:(NSMutableArray *)entityArray;
 
 @end
 
@@ -73,9 +74,9 @@ enum {
 
 @implementation GameScene (Private)
 
-- (bool)noneActiveWithEntityArray:(NSMutableArray *)entityArray {
+- (bool)noneAliveWithEntityArray:(NSMutableArray *)entityArray {
 	for (AbstractEntity *entity in entityArray) {
-		if (entity.active_) {
+		if (entity.state_ == EntityState_Alive) {
 			return FALSE;
 		}
 	}
@@ -221,12 +222,19 @@ enum {
 	}
 	lastBonusLaunch_ = CACurrentMediaTime();
 	static int randomListCount = 0;
-	if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
-		bonus_ = bigBonus_;
+
+	if (bonus_.state_ == EntityState_Alive) {
+
+		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
+
 	} else {
-		bonus_ = smallBonus_;
-	}
-	if (!bonus_.active_) {
+
+		if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
+			bonus_ = bigBonus_;
+		} else {
+			bonus_ = smallBonus_;
+		}
+
 		if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
 			bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, top);
 			bonus_.dx_ = bonusSpeed_;
@@ -236,8 +244,6 @@ enum {
 			bonus_.dx_ = -bonusSpeed_;
 			bonus_.state_ = EntityState_Alive;
 		}
-	} else {
-		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
 	}
 
 	//sound.play_bonus();
@@ -260,12 +266,12 @@ enum {
 	static int alienToFire = 0;
 	++alienToFire;
 	for (Alien *alien in aliens_) {
-		if (alien.active_ && alien.canFire_ && alien.fireChance_ == alienToFire) {
+		if (alien.state_ == EntityState_Alive && alien.canFire_ && alien.fireChance_ == alienToFire) {
 			Shot *shot = [alienShots_ objectAtIndex:alienShotCounter];
-			if (!shot.active_) {
+			if (shot.state_ == EntityState_Idle) {
 				shot.pixelLocation_ = CGPointMake(alien.pixelLocation_.x + alien.alienInitialXShotPostion_,
 												  alien.pixelLocation_.y - alien.alienInitialYShotPostion_);
-				shot.active_ = TRUE;
+				shot.state_ = EntityState_Alive;
 				shot.hit_ = FALSE;
 			} else {
 				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_");
@@ -291,10 +297,10 @@ enum {
 	// record time and fire
 	lastShot = CACurrentMediaTime();
 	Shot *shot = [playerShots_ objectAtIndex:playerShotCounter];
-	if (!shot.active_) {
+	if (shot_.state_ == EntityState_Idle) {
 		shot.pixelLocation_ = CGPointMake(player_.pixelLocation_.x + player_.playerInitialXShotPostion_,
 										  player_.pixelLocation_.y + player_.playerInitialYShotPostion_ + 1);
-		shot.active_ = TRUE;
+		shot.state_ = EntityState_Alive;
 		shot.hit_ = FALSE;
 	} else {
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
@@ -475,6 +481,7 @@ enum {
 #pragma mark PlayerDeath
 		case SceneState_PlayerDeath:
 			[player_ updateWithDelta:aDelta scene:self];
+			[bonus_ updateWithDelta:aDelta scene:self];
 			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
 				return;
 			}
@@ -502,26 +509,26 @@ enum {
 			lastTimeInLoop_ = CACurrentMediaTime();
 			canPlayerFire_ = FALSE;
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
-					if (bonus_.active_) {
+				if (shot.state_ == EntityState_Alive) {
+					if (bonus_.state_ == EntityState_Alive) {
 						[bonus_	checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
 					for (Shot *alienShot in alienShots_) {
-						if (alienShot.active_) {
+						if (alienShot.state_ == EntityState_Alive) {
 							[alienShot checkForCollisionWithEntity:shot];
 						}
 					}
 				}
 			}
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
@@ -530,12 +537,12 @@ enum {
 			for (Alien *alien in aliens_) {
 				if (alien.state_ == EntityState_Alive) {
 					for (Shot *shot in playerShots_) {
-						if (shot.active_) {
+						if (shot.state_ == EntityState_Alive) {
 							[alien checkForCollisionWithEntity:shot];
 						}
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[alien checkForCollisionWithEntity:shieldPiece];
 						}
 					}
@@ -543,10 +550,10 @@ enum {
 			}
 			// deactiveate shots to give player a chance to recover
 			for (Shot *shot in alienShots_) {
-				shot.active_ = FALSE;
+				shot.state_ = EntityState_Idle;
 			}
 			for (Shot *shot in playerShots_) {
-				shot.active_ = FALSE;
+				shot.state_ = EntityState_Idle;
 			}
 			break;
 
@@ -565,24 +572,52 @@ enum {
 			lastTimeInLoop_ = CACurrentMediaTime();
 			break;
 
+#pragma mark WaveCleanup
+		case SceneState_WaveCleanup:
+			if (CACurrentMediaTime() - lastTimeInLoop_ < 3.0f) {
+				for(Alien *alien in aliens_) {
+					[alien updateWithDelta:aDelta scene:self];
+				}
+				[player_ movementWithDelta:aDelta];
+				[bonus_ updateWithDelta:aDelta scene:self];
+				[bonus_ movementWithDelta:aDelta];
+				for (Shot *shot in playerShots_) {
+					//[shot updateWithDelta:aDelta scene:self];
+					[shot movementWithDelta:aDelta];
+				}
+
+				for (Shot *shot in alienShots_) {
+					//[shot updateWithDelta:aDelta scene:self];
+					[shot movementWithDelta:aDelta];
+				}
+				return;
+			}
+			state_ = SceneState_WaveMessage;
+			lastTimeInLoop_ = 0;
+			break;
+
 #pragma mark WaveOver
 		case SceneState_WaveOver:
 
-			if (!bonus_.active_) {
+			for(Alien *alien in aliens_) {
+				[alien updateWithDelta:aDelta scene:self];
+			}
+
+			if (bonus_.state_ == EntityState_Dying || bonus_.state_ == EntityState_Idle) {
 				canPlayerFire_ = FALSE;
 			}
-			if (!bonus_.active_
-				&& [self noneActiveWithEntityArray:alienShots_]
-				&& [self noneActiveWithEntityArray:playerShots_]) {
-				state_ = SceneState_WaveMessage;
+			if (bonus_.state_ == EntityState_Dying || bonus_.state_ == EntityState_Idle
+				&& [self noneAliveWithEntityArray:alienShots_]
+				&& [self noneAliveWithEntityArray:playerShots_]) {
+				lastTimeInLoop_ = CACurrentMediaTime();
+				state_ = SceneState_WaveCleanup;
+				NSLog(@"everything is idle");
 			}
 			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
-			if (bonus_.active_) {
-				[bonus_ updateWithDelta:aDelta scene:self];
-				[bonus_ movementWithDelta:aDelta];
-			}
+			[bonus_ updateWithDelta:aDelta scene:self];
+			[bonus_ movementWithDelta:aDelta];
 
 			for (Shot *shot in playerShots_) {
 				//[shot updateWithDelta:aDelta scene:self];
@@ -596,12 +631,12 @@ enum {
 
 #pragma mark WaveOver Collision Detection
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					if (player_.state_ == EntityState_Alive) {
 						[player_ checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
@@ -609,17 +644,17 @@ enum {
 			}
 
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
-					if (bonus_.active_) {
+				if (shot.state_ == EntityState_Alive) {
+					if (bonus_.state_ == EntityState_Alive) {
 						[bonus_	checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
 					for (Shot *alienShot in alienShots_) {
-						if (alienShot.active_) {
+						if (alienShot.state_ == EntityState_Alive) {
 							[alienShot checkForCollisionWithEntity:shot];
 						}
 					}
@@ -648,14 +683,14 @@ enum {
 			}
 
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
 			}
 
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
@@ -663,29 +698,29 @@ enum {
 
 #pragma mark Running Collision Detection
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					if (bonus_.state_ == EntityState_Alive) {
 						[bonus_	checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
 					for (Shot *alienShot in alienShots_) {
-						if (alienShot.active_) {
+						if (alienShot.state_ == EntityState_Alive) {
 							[alienShot checkForCollisionWithEntity:shot];
 						}
 					}
 				}
 			}
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					if (player_.state_ == EntityState_Alive) {
 						[player_ checkForCollisionWithEntity:shot];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[shot checkForCollisionWithEntity:shieldPiece];
 						}
 					}
@@ -694,7 +729,7 @@ enum {
 			for (Alien *alien in aliens_) {
 				if (alien.state_ == EntityState_Alive) {
 					for (Shot *shot in playerShots_) {
-						if (shot.active_) {
+						if (shot.state_ == EntityState_Alive) {
 							[alien checkForCollisionWithEntity:shot];
 						}
 					}
@@ -702,7 +737,7 @@ enum {
 						[player_ checkForCollisionWithEntity:alien];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
-						if (shieldPiece.active_) {
+						if (shieldPiece.state_ == EntityState_Alive) {
 							[alien checkForCollisionWithEntity:shieldPiece];
 						}
 					}
@@ -747,21 +782,22 @@ enum {
 			canPlayerFire_ = TRUE;
 			[background_ renderAtPoint:CGPointMake(0, 0)];
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					[shot render];
 				}
 			}
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					[shot render];
 				}
 			}
 			[sharedImageRenderManager_ renderImages];
+
 			[player_ render];
 			[bonus_	render];
 
 			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.active_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
 					[shieldPiece render];
 				}
 			}
@@ -785,25 +821,69 @@ enum {
 			drawBox(fireTouchControlBounds_);
 			break;
 
-#pragma mark WaveOver
-		case SceneState_WaveOver:
+#pragma mark WaveCleanup
+		case SceneState_WaveCleanup:
 			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
 			[bonus_ render];
-
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
 			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.active_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
 					[shieldPiece render];
 				}
 			}
 			for (Shot *shot in playerShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
 					[shot render];
 				}
 			}
 			for (Shot *shot in alienShots_) {
-				if (shot.active_) {
+				if (shot.state_ == EntityState_Alive) {
+					[shot render];
+				}
+			}
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
+#pragma mark WaveOver
+		case SceneState_WaveOver:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[sharedImageRenderManager_ renderImages];
+
+			[player_ render];
+			[bonus_ render];
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
+
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
+					[shieldPiece render];
+				}
+			}
+			for (Shot *shot in playerShots_) {
+				if (shot.state_ == EntityState_Alive) {
+					[shot render];
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.state_ == EntityState_Alive) {
 					[shot render];
 				}
 			}
@@ -844,7 +924,7 @@ enum {
 				[alien render];
 			}
 			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.active_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
 					[shieldPiece render];
 				}
 			}

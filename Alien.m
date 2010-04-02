@@ -104,7 +104,6 @@
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        //active_ = TRUE;
         points_ = 25;
         alienInitialXShotPostion_ = scaleFactor_ * (width_ - 5)  / 2;
         alienInitialYShotPostion_ = scaleFactor_ * 13;
@@ -153,21 +152,17 @@
         return;
     }
 
-
-
     if ([otherEntity isKindOfClass:[Shot class]]) {
-        //active_ = FALSE;
-        otherEntity.active_ = FALSE;
+        otherEntity.state_ = EntityState_Idle;
         state_ = EntityState_Dying;
         dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
-        [dyingEmitter_ setDuration:0.005f];
+        [dyingEmitter_ setDuration:0.0001f];
         [dyingEmitter_ setActive:TRUE];
         [scene_ alienKilledWithPosition:position_ points:points_];
     } else {
         // otherEntity would only be ShieldPiece
-        otherEntity.active_ = FALSE;
+        otherEntity.state_ = EntityState_Idle;
     }
-
 }
 
 - (void)dealloc {

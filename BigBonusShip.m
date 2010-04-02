@@ -64,7 +64,7 @@
         collisionHeight_ = scaleFactor_ * height_ *.9f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        //active_ = FALSE;
+        state_ = EntityState_Idle;
         middleX_ = scaleFactor_ * width_ / 2;
         middleY_ = scaleFactor_ * height_ / 2;
         points_ = 500;
@@ -110,14 +110,12 @@
         return;
     }
 
-    //active_ = FALSE;
-    otherEntity.active_ = FALSE;
+    otherEntity.state_ = EntityState_Idle;
     state_ = EntityState_Dying;
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
-    [dyingEmitter_ setDuration:0.5f];
+    [dyingEmitter_ setDuration:0.25f];
     [dyingEmitter_ setActive:TRUE];
     [scene_ bonusShipDestroyedWithPoints:points_];
-
 }
 
 - (void)dealloc {
