@@ -158,7 +158,7 @@ enum {
 	wave_ = lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	bonusSpeed_ = 75;
-	bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
+	bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
 }
 
 - (void)initShields {
@@ -478,19 +478,41 @@ enum {
 			state_ = SceneState_WaveMessage;
 			break;
 
-#pragma mark PlayerDeath
-		case SceneState_PlayerDeath:
+#pragma mark PlayerRebirth
+		case SceneState_PlayerRebirth:
 			[player_ updateWithDelta:aDelta scene:self];
-			[bonus_ updateWithDelta:aDelta scene:self];
 			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
 				return;
 			}
 			if (lastTimeInLoop_) {
-				player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
-				player_.dx_ = 0;
 				lastTimeInLoop_ = 0;
 				lastAlienShot_ = CACurrentMediaTime();
+				state_ = SceneState_Running;
+				canPlayerFire_ = TRUE;
 				player_.state_ = EntityState_Alive;
+				return;
+			}
+			lastTimeInLoop_ = CACurrentMediaTime();
+			player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
+			player_.dx_ = 0;
+			break;
+
+#pragma mark PlayerDeath
+		case SceneState_PlayerDeath:
+			[player_ updateWithDelta:aDelta scene:self];
+			if (bonus_.state_ == EntityState_Dying) {
+				[bonus_ updateWithDelta:aDelta scene:self];
+			}
+			for(Alien *alien in aliens_) {
+				if (alien.state_ == EntityState_Dying) {
+					[alien updateWithDelta:aDelta scene:self];
+				}
+			}
+			if (CACurrentMediaTime() - lastTimeInLoop_ < 2.0f) {
+				return;
+			}
+			if (lastTimeInLoop_) {
+				lastTimeInLoop_ = 0;
 				if (alienCount_ == 50 && !playerLives_) {
 					state_ = SceneState_GameOver;
 					return;
@@ -503,7 +525,8 @@ enum {
 					state_ = SceneState_GameOver;
 					return;
 				}
-				state_ = SceneState_Running;
+				state_ = SceneState_PlayerRebirth;
+				player_.state_ = EntityState_Appearing;
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
@@ -945,6 +968,37 @@ enum {
 
 		default:
 			break;
+
+#pragma mark PlayerRebirth
+		case SceneState_PlayerRebirth:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[sharedImageRenderManager_ renderImages];
+			[player_ render];
+			[bonus_ render];
+
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
+					[shieldPiece render];
+				}
+			}
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
 	}
 //	for(Alien *alien in aliens_) {
 //		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,

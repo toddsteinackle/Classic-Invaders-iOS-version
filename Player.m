@@ -89,6 +89,9 @@
         case EntityState_Dying:
             [dyingEmitter_ updateWithDelta:aDelta];
             break;
+        case EntityState_Appearing:
+            [appearingEmitter_ updateWithDelta:aDelta];
+            break;
 
         default:
             break;
@@ -103,6 +106,9 @@
             break;
         case EntityState_Dying:
             [dyingEmitter_ renderParticles];
+            break;
+        case EntityState_Appearing:
+            [appearingEmitter_ renderParticles];
             break;
 
         default:
@@ -124,6 +130,9 @@
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
     [dyingEmitter_ setDuration:1.0f];
     [dyingEmitter_ setActive:TRUE];
+    appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + middleX_, pixelLocation_.y + middleY_);
+    [appearingEmitter_ setDuration:1.0f];
+    [appearingEmitter_ setActive:TRUE];
 
     if ([otherEntity isKindOfClass:[Alien class]]) {
         [scene_ playerKilledWithAlienFlag:TRUE];
