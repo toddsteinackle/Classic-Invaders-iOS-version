@@ -32,6 +32,7 @@ enum {
 	SceneState_WaveMessage,
 	SceneState_WaveOver,
 	SceneState_WaveCleanup,
+	SceneState_WaveIntro,
 	SceneState_PlayerDeath,
 	SceneState_PlayerRebirth,
 	SceneState_TransitionIn,
@@ -85,7 +86,7 @@ enum {
 
 - (void)initWave {
 	++wave_;
-	canPlayerFire_ = TRUE;
+	canPlayerFire_ = FALSE;
 
 	[aliens_ removeAllObjects];
 	[self initAliensWithSpeed:25 chanceToFire:10];
@@ -137,6 +138,7 @@ enum {
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 
+	playerBaseHeight_ = 35;
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
@@ -144,7 +146,6 @@ enum {
 	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 	background_ = [[pss imageForKey:@"background.png"] retain];
 
-	playerBaseHeight_ = 35;
 	int touchBoxWidth = 65;
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 	rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth-1, playerBaseHeight_);
@@ -585,6 +586,29 @@ enum {
 			}
 			break;
 
+#pragma mark WaveIntro
+		case SceneState_WaveIntro:
+			[player_ updateWithDelta:aDelta scene:self];
+			for(Alien *alien in aliens_) {
+				[alien updateWithDelta:aDelta scene:self];
+			}
+			if (CACurrentMediaTime() - lastTimeInLoop_ < 3.25f) {
+				return;
+			}
+			if (lastTimeInLoop_) {
+				player_.state_ = EntityState_Alive;
+				canPlayerFire_ = TRUE;
+				for(Alien *alien in aliens_) {
+					alien.state_ = EntityState_Alive;
+				}
+				state_ = SceneState_Running;
+				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
+				lastTimeInLoop_ = 0;
+				return;
+			}
+			lastTimeInLoop_ = CACurrentMediaTime();
+			break;
+
 #pragma mark WaveMessage
 		case SceneState_WaveMessage:
 			if (CACurrentMediaTime() - lastTimeInLoop_ < waveMessageInterval_) {
@@ -592,8 +616,12 @@ enum {
 			}
 			if (lastTimeInLoop_) {
 				[self initWave];
-				state_ = SceneState_Running;
-				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
+				state_ = SceneState_WaveIntro;
+				player_.state_ = EntityState_Appearing;
+				[player_ initAppearingEmitter];
+				for(Alien *alien in aliens_) {
+					alien.state_ = EntityState_Appearing;
+				}
 				lastTimeInLoop_ = 0;
 				return;
 			}
@@ -832,6 +860,34 @@ enum {
 
 			for(Alien *alien in aliens_) {
 				[alien render];
+			}
+
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
+#pragma mark WaveIntro
+		case SceneState_WaveIntro:
+			[background_ renderAtPoint:CGPointMake(0, 0)];
+			[sharedImageRenderManager_ renderImages];
+
+			[player_ render];
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
+			for (ShieldPiece *shieldPiece in shields_) {
+				[shieldPiece render];
 			}
 
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_

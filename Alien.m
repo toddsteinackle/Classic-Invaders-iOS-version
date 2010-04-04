@@ -90,7 +90,7 @@
 		[SpriteSheetImage release];
 
         dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"appearingEmitter" ofType:@"xml"];
+		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
         state_ = EntityState_Alive;
 
         pixelLocation_.x = aLocation.x;
@@ -109,6 +109,9 @@
         alienInitialYShotPostion_ = scaleFactor_ * 13;
         middleX_ = scaleFactor_ * width_ / 2;
         middleY_ = scaleFactor_ * height_ / 2;
+        appearingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
+        [appearingEmitter_ setDuration:0.5f];
+        [appearingEmitter_ setActive:TRUE];
     }
     //NSLog(@"Alien init");
     return self;
@@ -121,6 +124,9 @@
             break;
         case EntityState_Dying:
             [dyingEmitter_ updateWithDelta:aDelta];
+            break;
+        case EntityState_Appearing:
+            [appearingEmitter_ updateWithDelta:aDelta];
             break;
 
         default:
@@ -136,6 +142,9 @@
             break;
         case EntityState_Dying:
             [dyingEmitter_ renderParticles];
+            break;
+        case EntityState_Appearing:
+            [appearingEmitter_ renderParticles];
             break;
 
         default:

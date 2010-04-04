@@ -20,5 +20,6 @@
 @property (nonatomic, assign) CGFloat playerInitialYShotPostion_;
 
 - (void)movementWithDelta:(float)aDelta;
+- (void)initAppearingEmitter;
 
 @end
