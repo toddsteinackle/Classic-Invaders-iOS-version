@@ -76,16 +76,8 @@
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         middleX_ = scaleFactor_ * width_ / 2;
         middleY_ = scaleFactor_ * height_ / 2;
-        [self initAppearingEmitter];
     }
     return self;
-}
-
-- (void)initAppearingEmitter {
-    appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + middleX_,
-                                                    pixelLocation_.y + middleY_);
-    [appearingEmitter_ setDuration:0.5f];
-    [appearingEmitter_ setActive:TRUE];
 }
 
 - (void)updateWithDelta:(GLfloat)aDelta scene:(AbstractScene*)aScene {
@@ -137,7 +129,9 @@
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
     [dyingEmitter_ setDuration:1.0f];
     [dyingEmitter_ setActive:TRUE];
-    [appearingEmitter_ setDuration:0.5f];
+    appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + middleX_,
+                                                    pixelLocation_.y + middleY_);
+    [appearingEmitter_ setDuration:1.0f];
     [appearingEmitter_ setActive:TRUE];
 
     if ([otherEntity isKindOfClass:[Alien class]]) {

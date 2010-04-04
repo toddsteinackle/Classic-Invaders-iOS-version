@@ -596,7 +596,6 @@ enum {
 				return;
 			}
 			if (lastTimeInLoop_) {
-				player_.state_ = EntityState_Alive;
 				canPlayerFire_ = TRUE;
 				for(Alien *alien in aliens_) {
 					alien.state_ = EntityState_Alive;
@@ -617,8 +616,6 @@ enum {
 			if (lastTimeInLoop_) {
 				[self initWave];
 				state_ = SceneState_WaveIntro;
-				player_.state_ = EntityState_Appearing;
-				[player_ initAppearingEmitter];
 				for(Alien *alien in aliens_) {
 					alien.state_ = EntityState_Appearing;
 				}
