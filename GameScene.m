@@ -487,7 +487,11 @@ enum {
 			if (lastTimeInLoop_) {
 				lastTimeInLoop_ = 0;
 				lastAlienShot_ = CACurrentMediaTime();
-				state_ = SceneState_Running;
+				if (alienCount_ == 50) {
+					state_ = SceneState_WaveOver;
+				} else {
+					state_ = SceneState_Running;
+				}
 				canPlayerFire_ = TRUE;
 				player_.state_ = EntityState_Alive;
 				return;
@@ -518,7 +522,8 @@ enum {
 					return;
 				}
 				if (alienCount_ == 50) {
-					state_ = SceneState_WaveOver;
+					state_ = SceneState_PlayerRebirth;
+					player_.state_ = EntityState_Appearing;
 					return;
 				}
 				if (!playerLives_) {
