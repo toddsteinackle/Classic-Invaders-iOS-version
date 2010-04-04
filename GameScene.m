@@ -89,7 +89,7 @@ enum {
 	canPlayerFire_ = FALSE;
 
 	[aliens_ removeAllObjects];
-	[self initAliensWithSpeed:25 chanceToFire:10];
+	[self initAliensWithSpeed:20 chanceToFire:10];
 	alienOddRange_ = 10;
 	[alienShots_ removeAllObjects];
 	[self initAlienShots];
