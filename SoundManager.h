@@ -33,21 +33,21 @@
 	NSMutableDictionary *musicLibrary;		// Dictionary of all music/ambient sounds loaded and their keys
 	NSMutableDictionary *musicPlaylists;	// Dictionary of playlists
 	NSMutableArray *currentPlaylistTracks;	// Array of tracks for the current play list
-	
+
 	//////////////////// Music
 	AVAudioPlayer *musicPlayer;			// AVAudioPlayer instance for the music
-	
+
 	//////////////////// Volume
 	float currentMusicVolume;			// Volume of music/ambient sounds played through AVAudioPlayer
 	float fxVolume;					// Volume of OpenAL sound effects
 	float musicVolume;					// The master music volume.  This value is not affected by fading music
-	
+
 	//////////////////// Fading sound
 	NSTimer *timer;						// Timer used fade the music volume up or down
 	float fadeAmount;					// Amount the volume should be faded each timer call
 	float fadeDuration;					// The amount of time the fade has been running
 	float targetFadeDuration;			// The duration the current fade should run for
-	
+
 	//////////////////// Flags
 	BOOL isExternalAudioPlaying;		// YES if music was playing before the sound engine was initialized i.e.
 	BOOL isFading;						// YES if the sound manager is currently fading music
@@ -56,7 +56,7 @@
 	BOOL usePlaylist;					// YES if tracks in the playlist should be played one after the other
 	BOOL loopPlaylist;					// YES if the playlist should loop when it reaches the end
 	BOOL loopLastPlaylistTrack;			// YES if you want the last track of the playlist to be looped forever
-	
+
 	//////////////////// Playlist tracking
 	int playlistIndex;					// Current index being played in the playlist
 	NSString *currentPlaylistName;		// Holds the name of the currently playing play list
@@ -83,10 +83,12 @@
 // loop
 - (NSUInteger)playSoundWithKey:(NSString *)aSoundKey location:(CGPoint)aLocation;
 
+- (NSUInteger)playSoundWithKey:(NSString*)aSoundKey gain:(float)aGain;
+
 // Plays the sound which is found with |aSoundKey| using the provided |aGain| and |aPitch|.
 // |aLocation| is used to set the location of the sound source in relation to the listener
 // and |aLoop| specifies if the sound should be continuously looped or not.
-- (NSUInteger)playSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch 
+- (NSUInteger)playSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch
                        location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop;
 
 // Stops all sounds playing with the supplied sound key

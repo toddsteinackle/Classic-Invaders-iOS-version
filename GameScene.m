@@ -126,6 +126,7 @@ enum {
 
 - (void)initNewGame {
 
+	[self initSound];
 	randomListLength_ = 15;
 	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
 	bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
@@ -303,6 +304,7 @@ enum {
 										  player_.pixelLocation_.y + player_.playerInitialYShotPostion_ + 1);
 		shot.state_ = EntityState_Alive;
 		shot.hit_ = FALSE;
+		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.3f];
 	} else {
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
 	}
@@ -405,30 +407,11 @@ enum {
 
 - (void)initSound {
 
-    // Set the listener to the middle of the screen by default.  This will be changed as the player moves around the map
-    [sharedSoundManager_ setListenerPosition:CGPointMake(240, 160)];
+	sharedSoundManager_.fxVolume = 1.0f;
+	// Initialize the sound effects
+	[sharedSoundManager_ loadSoundWithKey:@"shot" soundFile:@"shot.caf"];
+	[sharedSoundManager_ loadSoundWithKey:@"alien_death" soundFile:@"alien_death.caf"];
 
-	//    // Initialize the sound effects
-	//    [sharedSoundManager loadSoundWithKey:@"doorSlam" soundFile:@"doorSlam.caf"];
-	//    [sharedSoundManager loadSoundWithKey:@"doorOpen" soundFile:@"doorOpen.caf"];
-	//    [sharedSoundManager loadSoundWithKey:@"pop" soundFile:@"pop.caf"];
-	//    [sharedSoundManager loadSoundWithKey:@"hitWall" soundFile:@"hitwall.caf"];
-	//    [sharedSoundManager loadSoundWithKey:@"eatfood" soundFile:@"eatfood.caf"];
-	//	[sharedSoundManager loadSoundWithKey:@"scream" soundFile:@"scream.caf"];
-	//	[sharedSoundManager loadSoundWithKey:@"spell" soundFile:@"spell.caf"];
-	//
-	//    // Initialize the background music
-	//    [sharedSoundManager loadMusicWithKey:@"ingame" musicFile:@"ingame.mp3"];
-	//	[sharedSoundManager loadMusicWithKey:@"loseIntro" musicFile:@"loseIntro.mp3"];
-	//	[sharedSoundManager loadMusicWithKey:@"loseLoop" musicFile:@"loseLoop.mp3"];
-	//	[sharedSoundManager loadMusicWithKey:@"winIntro" musicFile:@"winIntro.mp3"];
-	//	[sharedSoundManager loadMusicWithKey:@"winLoop" musicFile:@"winLoop.mp3"];
-	//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winIntro"];
-	//	[sharedSoundManager addToPlaylistNamed:@"win" track:@"winLoop"];
-	//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseIntro"];
-	//	[sharedSoundManager addToPlaylistNamed:@"lose" track:@"loseLoop"];
-	//	sharedSoundManager.usePlaylist = NO;
-	//	sharedSoundManager.loopLastPlaylistTrack = NO;
 }
 
 - (void)deallocResources {
@@ -441,20 +424,8 @@ enum {
 	[statusFont_ release];
 
 	// Release sounds
-	[sharedSoundManager_ removeSoundWithKey:@"doorSlam"];
-	[sharedSoundManager_ removeSoundWithKey:@"doorOpen"];
-	[sharedSoundManager_ removeSoundWithKey:@"pop"];
-	[sharedSoundManager_ removeSoundWithKey:@"hitWall"];
-	[sharedSoundManager_ removeSoundWithKey:@"eatfood"];
-	[sharedSoundManager_ removeSoundWithKey:@"scream"];
-	[sharedSoundManager_ removeSoundWithKey:@"spell"];
-	[sharedSoundManager_ removeMusicWithKey:@"ingame"];
-	[sharedSoundManager_ removeMusicWithKey:@"winIntro"];
-	[sharedSoundManager_ removeMusicWithKey:@"winLoop"];
-	[sharedSoundManager_ removeMusicWithKey:@"loseIntro"];
-	[sharedSoundManager_ removeMusicWithKey:@"loseLoop"];
-	[sharedSoundManager_ removePlaylistNamed:@"win"];
-	[sharedSoundManager_ removePlaylistNamed:@"lose"];
+	[sharedSoundManager_ removeSoundWithKey:@"shot"];
+	[sharedSoundManager_ removeSoundWithKey:@"alien_death"];
 }
 @end
 
@@ -1091,6 +1062,7 @@ enum {
 
 - (void)alienKilledWithPosition:(int)position points:(int)points {
 
+	[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.1f];
 	score_ += points;
 	++alienCount_;
 	NSLog(@"%i", alienCount_);

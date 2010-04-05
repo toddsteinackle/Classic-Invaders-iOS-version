@@ -31,6 +31,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		5F07B9FF116969CD004F0449 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F07B9FE116969CD004F0449 /* shot.caf */; };
 		5F1BCB741151B86300F33168 /* Shot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1BCB731151B86300F33168 /* Shot.m */; };
 		5F1C42DE115038C70025119B /* Alien2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C42DD115038C70025119B /* Alien2.m */; };
 		5F1C430411503B920025119B /* Alien3.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C430311503B920025119B /* Alien3.m */; };
@@ -41,6 +42,7 @@
 		5F224D451159A82600A4AFBC /* BigBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D441159A82600A4AFBC /* BigBonusShip.m */; };
 		5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D471159A86200A4AFBC /* SmallBonusShip.m */; };
 		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
+		5F73BF0B1169832C0009AC9E /* alien_death.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F73BF0A1169832C0009AC9E /* alien_death.caf */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
@@ -138,6 +140,7 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ClassicInvaders_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicInvaders_Prefix.pch; sourceTree = "<group>"; };
+		5F07B9FE116969CD004F0449 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F1BCB721151B86300F33168 /* Shot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shot.h; sourceTree = "<group>"; };
 		5F1BCB731151B86300F33168 /* Shot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Shot.m; sourceTree = "<group>"; };
 		5F1C42DC115038C70025119B /* Alien2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alien2.h; sourceTree = "<group>"; };
@@ -156,6 +159,7 @@
 		5F224D471159A86200A4AFBC /* SmallBonusShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallBonusShip.m; sourceTree = "<group>"; };
 		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
 		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
+		5F73BF0A1169832C0009AC9E /* alien_death.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alien_death.caf; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F07D566112F04FA0094DEA2 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
@@ -364,6 +368,8 @@
 		18B970E0103AA66E00809077 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				5F73BF0A1169832C0009AC9E /* alien_death.caf */,
+				5F07B9FE116969CD004F0449 /* shot.caf */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -736,6 +742,8 @@
 				8F07D567112F04FA0094DEA2 /* star.png in Resources */,
 				5F1D43C7114D8DB200797E5B /* pss_coordinates.plist in Resources */,
 				5F1D43C8114D8DB200797E5B /* pss.png in Resources */,
+				5F07B9FF116969CD004F0449 /* shot.caf in Resources */,
+				5F73BF0B1169832C0009AC9E /* alien_death.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
