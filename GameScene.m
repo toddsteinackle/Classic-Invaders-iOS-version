@@ -609,10 +609,40 @@ enum {
 					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
-
 				for (Shot *shot in alienShots_) {
 					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
+				}
+
+#pragma mark WaveCleanup Collision Detection
+				for (Shot *shot in alienShots_) {
+					if (shot.state_ == EntityState_Alive) {
+						if (player_.state_ == EntityState_Alive) {
+							[player_ checkForCollisionWithEntity:shot];
+						}
+						for (ShieldPiece *shieldPiece in shields_) {
+							if (shieldPiece.state_ == EntityState_Alive) {
+								[shot checkForCollisionWithEntity:shieldPiece];
+							}
+						}
+					}
+				}
+				for (Shot *shot in playerShots_) {
+					if (shot.state_ == EntityState_Alive) {
+						if (bonus_.state_ == EntityState_Alive) {
+							[bonus_	checkForCollisionWithEntity:shot];
+						}
+						for (ShieldPiece *shieldPiece in shields_) {
+							if (shieldPiece.state_ == EntityState_Alive) {
+								[shot checkForCollisionWithEntity:shieldPiece];
+							}
+						}
+						for (Shot *alienShot in alienShots_) {
+							if (alienShot.state_ == EntityState_Alive) {
+								[alienShot checkForCollisionWithEntity:shot];
+							}
+						}
+					}
 				}
 				return;
 			}
