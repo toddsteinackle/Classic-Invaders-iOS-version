@@ -289,7 +289,7 @@ enum {
 	}
 }
 - (void)playerFireShot {
-	static double playerShotDelay = 0.4f;
+	static double playerShotDelay = 0.3f;
 	static double lastShot = 0.0f;
 	static int playerShotCounter = 0;
 	// check that player has waited long enough to fire
@@ -304,7 +304,7 @@ enum {
 										  player_.pixelLocation_.y + player_.playerInitialYShotPostion_ + 1);
 		shot.state_ = EntityState_Alive;
 		shot.hit_ = FALSE;
-		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.3f];
+		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.2f];
 	} else {
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
 	}
@@ -809,6 +809,7 @@ enum {
 
 #pragma mark GameOver
 		case SceneState_GameOver:
+			canPlayerFire_ = FALSE;
 			break;
 
 		default:
