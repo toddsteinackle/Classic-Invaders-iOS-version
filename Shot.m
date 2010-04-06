@@ -83,6 +83,7 @@
     }
 
     if ([otherEntity isKindOfClass:[Shot class]]) {
+        [sharedSoundManager_ playSoundWithKey:@"shot_collision" gain:0.2f];
         state_ = EntityState_Idle;
         otherEntity.state_ = EntityState_Idle;
     } else {

@@ -124,6 +124,7 @@
         return;
     }
 
+    [sharedSoundManager_ playSoundWithKey:@"explosion" gain:0.6f];
     otherEntity.state_ = EntityState_Idle;
     state_ = EntityState_Dying;
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);

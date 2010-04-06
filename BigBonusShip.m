@@ -13,6 +13,7 @@
 #import "Animation.h"
 #import "PackedSpriteSheet.h"
 #import "BigBonusShip.h"
+#import "SmallBonusShip.h"
 #import "ParticleEmitter.h"
 
 
@@ -23,8 +24,10 @@
     pixelLocation_.x += aDelta * dx_;
     if (dx_ > 0 && pixelLocation_.x > scene_.screenBounds_.size.width) {
         state_ = EntityState_Idle;
+        [sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
     } else if (dx_ < 0 && pixelLocation_.x < -width_ * scaleFactor_) {
         state_ = EntityState_Idle;
+        [sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
     }
 
 }
@@ -110,6 +113,12 @@
         return;
     }
 
+    [sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
+    if ([self isKindOfClass:[SmallBonusShip class]]) {
+        [sharedSoundManager_ playSoundWithKey:@"small_bonus" gain:0.25f];
+    } else {
+        [sharedSoundManager_ playSoundWithKey:@"big_bonus" gain:0.25f];
+    }
     otherEntity.state_ = EntityState_Idle;
     state_ = EntityState_Dying;
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
