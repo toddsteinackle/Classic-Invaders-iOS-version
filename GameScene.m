@@ -150,6 +150,17 @@ enum {
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
 		playerSpeed_ = 200.0f;
 		screenSidePadding_ = 25.0f;
+		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
+														 ofType:@"png"
+													controlFile:@"bookAntiqua32"
+														  scale:Scale2fMake(2.0f, 2.0f)
+														 filter:GL_LINEAR];
+
+		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16"
+														  ofType:@"png"
+													 controlFile:@"franklin16"
+														   scale:Scale2fMake(2.0f, 2.0f)
+														  filter:GL_LINEAR];
 	} else {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
@@ -158,6 +169,17 @@ enum {
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
 		playerSpeed_ = 110.0f;
 		screenSidePadding_ = 10.0f;
+		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
+														 ofType:@"png"
+													controlFile:@"bookAntiqua32"
+														  scale:Scale2fMake(1.0f, 1.0f)
+														 filter:GL_LINEAR];
+
+		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16"
+														  ofType:@"png"
+													 controlFile:@"franklin16"
+														   scale:Scale2fMake(1.0f, 1.0f)
+														  filter:GL_LINEAR];
 	}
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1)];
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
@@ -170,8 +192,6 @@ enum {
 	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
 
-	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
-	statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16" ofType:@"png" controlFile:@"franklin16" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 	waveMessageInterval_ = 2.0f;
 	wave_ = lastTimeInLoop_ = 0;
 	playerLives_ = 3;
