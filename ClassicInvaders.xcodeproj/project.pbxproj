@@ -59,6 +59,7 @@
 		5F585F6B116AA3E2000DE830 /* Impact3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F6A116AA3E2000DE830 /* Impact3.caf */; };
 		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
 		5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2EF6116FDA3F00E9541B /* Lost3.caf */; };
+		5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
@@ -192,6 +193,7 @@
 		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
 		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
 		5F9D2EF6116FDA3F00E9541B /* Lost3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost3.caf; sourceTree = "<group>"; };
+		5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F07D566112F04FA0094DEA2 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
@@ -590,6 +592,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				5F9D2FCD11701ABD00E9541B /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -644,6 +647,14 @@
 				5F1D43C6114D8DB200797E5B /* pss.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		5F9D2FCD11701ABD00E9541B /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */,
+			);
+			name = "Resources-iPad";
 			sourceTree = "<group>";
 		};
 		8F8AE7ED10AEBEFE00D82C5B /* Particle Emitter Config */ = {
@@ -808,6 +819,7 @@
 				5F419796116ACFD300DD6A61 /* bg_4.caf in Resources */,
 				5F419797116ACFD300DD6A61 /* bg.caf in Resources */,
 				5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */,
+				5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -880,7 +892,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ClassicInvaders;
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -888,14 +901,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				BUILD_STYLE = Release;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ClassicInvaders_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PRODUCT_NAME = ClassicInvaders;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -920,14 +936,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				BUILD_STYLE = Release;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ClassicInvaders_Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PRODUCT_NAME = ClassicInvaders;
-				SDKROOT = iphoneos3.1.2;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AdHoc;
 		};
