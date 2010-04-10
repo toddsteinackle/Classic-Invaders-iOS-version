@@ -108,19 +108,20 @@ enum {
 		[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
 	    [additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
 	}
-
-//	for (int i = 0; i < randomListLength_; ++i) {
-//		NSLog(@"%i", [[bonusSelection_ objectAtIndex:i] intValue]);
-//	}
-//	NSLog(@"==========================");
-//	for (int i = 0; i < randomListLength_; ++i) {
-//		NSLog(@"%i", [[bonusDirection_ objectAtIndex:i] intValue]);
-//	}
-//	NSLog(@"==========================");
-//	for (int i = 0; i < randomListLength_; ++i) {
-//		NSLog(@"%i", [[additionalBonusDelay_ objectAtIndex:i] intValue]);
-//	}
-//	NSLog(@"==========================");
+#ifdef MYDEBUG
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[bonusSelection_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[bonusDirection_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+	for (int i = 0; i < randomListLength_; ++i) {
+		NSLog(@"%i", [[additionalBonusDelay_ objectAtIndex:i] intValue]);
+	}
+	NSLog(@"==========================");
+#endif
 
 }
 
@@ -226,9 +227,9 @@ enum {
 	static int randomListCount = 0;
 
 	if (bonus_.state_ == EntityState_Alive) {
-
+#ifdef MYDEBUG
 		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
-
+#endif
 	} else {
 
 		if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
@@ -276,7 +277,9 @@ enum {
 				shot.state_ = EntityState_Alive;
 				shot.hit_ = FALSE;
 			} else {
+#ifdef MYDEBUG
 				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_");
+#endif
 			}
 
 			if (++alienShotCounter == numberOfAlienShots_) {
@@ -306,7 +309,9 @@ enum {
 		shot.hit_ = FALSE;
 		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.075f];
 	} else {
+#ifdef MYDEBUG
 		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
+#endif
 	}
 	if (++playerShotCounter == numberOfPlayerShots_) {
 		playerShotCounter = 0;
@@ -380,7 +385,10 @@ enum {
 			--alienCount_;
 		}
 	}
+#ifdef MYDEBUG
 	//NSLog(@"%@", aliens_);
+#endif
+
 }
 
 - (void)initPlayerShots {
@@ -389,7 +397,10 @@ enum {
 		[playerShots_ addObject:shot];
 		[shot release];
 	}
+#ifdef MYDEBUG
 	//NSLog(@"%@", playerShots_);
+#endif
+
 }
 
 - (void)initAlienShots {
@@ -502,23 +513,33 @@ enum {
 					switch (alienCount_) {
 						case 46:
 							[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+#ifdef MYDEBUG
 							NSLog(@"player rebirth 46");
+#endif
 							break;
 						case 47:
 							[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+#ifdef MYDEBUG
 							NSLog(@"player rebirth 47");
+#endif
 							break;
 						case 48:
 							[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+#ifdef MYDEBUG
 							NSLog(@"player rebirth 48");
+#endif
 							break;
 						case 49:
 							[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+#ifdef MYDEBUG
 							NSLog(@"player rebirth 49");
+#endif
 							break;
 						default:
 							[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+#ifdef MYDEBUG
 							NSLog(@"player rebirth default");
+#endif
 							break;
 					}
 				}
@@ -574,23 +595,33 @@ enum {
 			switch (alienCount_) {
 				case 46:
 					[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
+#ifdef MYDEBUG
 					NSLog(@"player death 46");
+#endif
 					break;
 				case 47:
 					[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
+#ifdef MYDEBUG
 					NSLog(@"player death 47");
+#endif
 					break;
 				case 48:
 					[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
+#ifdef MYDEBUG
 					NSLog(@"player death 48");
+#endif
 					break;
 				case 49:
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+#ifdef MYDEBUG
 					NSLog(@"player death 49");
+#endif
 					break;
 				default:
 					[sharedSoundManager_ stopSoundWithKey:@"bg"];
+#ifdef MYDEBUG
 					NSLog(@"player death default");
+#endif
 					break;
 			}
 			if (bonus_.state_ == EntityState_Alive) {
@@ -758,7 +789,9 @@ enum {
 				&& [self noneAliveWithEntityArray:playerShots_]) {
 				lastTimeInLoop_ = CACurrentMediaTime();
 				state_ = SceneState_WaveCleanup;
+#ifdef MYDEBUG
 				NSLog(@"everything is idle");
+#endif
 				[sharedSoundManager_ playSoundWithKey:@"wave_end" gain:0.6f];
 			}
 			//[player_ updateWithDelta:aDelta scene:self];
@@ -1196,19 +1229,25 @@ enum {
 
 - (void)playerKilled {
 	--playerLives_;
+#ifdef MYDEBUG
 	NSLog(@"player killed: %i lives left", playerLives_);
+#endif
 	state_ = SceneState_PlayerDeath;
 }
 
 - (void)alienKilledWithPosition:(int)position points:(int)points playerFlag:(bool)killedByPlayer {
 
 	++alienCount_;
+#ifdef MYDEBUG
 	NSLog(@"%i", alienCount_);
+#endif
 
 	if (killedByPlayer) {
 		[sharedSoundManager_ playSoundWithKey:@"explosion" gain:0.6f];
 		--playerLives_;
+#ifdef MYDEBUG
 		NSLog(@"player killed: %i lives left", playerLives_);
+#endif
 		state_ = SceneState_PlayerDeath;
 		if (alienCount_ == 50) {
 			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
@@ -1251,28 +1290,36 @@ enum {
 			if (!killedByPlayer) {
 				[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
+#ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 46");
+#endif
 			break;
 		case 47:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
 			if (!killedByPlayer) {
 				[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
+#ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 47");
+#endif
 			break;
 		case 48:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
 			if (!killedByPlayer) {
 				[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
+#ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 48");
+#endif
 			break;
 		case 49:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
 			if (!killedByPlayer) {
 				[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
+#ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 49");
+#endif
 			break;
 		default:
 			break;
