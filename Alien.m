@@ -72,9 +72,13 @@
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			scaleFactor_ = 1.0f;
+			scaleFactor_ = 1.5f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .7f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
@@ -94,8 +98,6 @@
 
 		[SpriteSheetImage release];
 
-        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
         state_ = EntityState_Alive;
 
         pixelLocation_.x = aLocation.x;

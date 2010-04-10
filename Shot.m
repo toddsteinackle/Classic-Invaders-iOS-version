@@ -38,7 +38,7 @@
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"shot.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			scaleFactor_ = 1.0f;
+			scaleFactor_ = 1.5f;
 		} else {
 			scaleFactor_ = .85f;
 		}
@@ -63,7 +63,11 @@
         collisionHeight_ = scaleFactor_ * height_ *.7;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        dy_ = 140.0f;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			dy_ = 250.0f;
+		} else {
+            dy_ = 140.0f;
+		}
         state_ = EntityState_Idle;
     }
     return self;

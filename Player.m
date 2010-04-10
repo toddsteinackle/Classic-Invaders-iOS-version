@@ -46,9 +46,13 @@
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"ship.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			scaleFactor_ = 1.0f;
+			scaleFactor_ = 1.5f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .85f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
@@ -63,8 +67,6 @@
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 
-        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-		appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
         state_ = EntityState_Alive;
 
 		[SpriteSheetImage release];

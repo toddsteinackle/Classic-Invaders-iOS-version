@@ -88,7 +88,13 @@ enum {
 	canPlayerFire_ = FALSE;
 
 	[aliens_ removeAllObjects];
-	[self initAliensWithSpeed:20 chanceToFire:10];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		[self initAliensWithSpeed:50 chanceToFire:10];
+	} else {
+		[self initAliensWithSpeed:20 chanceToFire:10];
+		[shields_ removeAllObjects];
+		[self initShields];
+	}
 	alienOddRange_ = 10;
 	[alienShots_ removeAllObjects];
 	[self initAlienShots];
@@ -98,11 +104,6 @@ enum {
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
-
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-		[shields_ removeAllObjects];
-		[self initShields];
-	}
 
 	for (int i = 0; i < randomListLength_; ++i) {
 		[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
@@ -142,13 +143,21 @@ enum {
 	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 	int touchBoxWidth;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		playerBaseHeight_ = 50;
+		playerBaseHeight_ = 150;
 		bonusShipTop_ = 700.0f;
-		touchBoxWidth = 125;
+		touchBoxWidth = 200;
+		bonusSpeed_ = 125;
+		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
+		playerSpeed_ = 200.0f;
+		screenSidePadding_ = 25.0f;
 	} else {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
 		touchBoxWidth = 65;
+		bonusSpeed_ = 75;
+		bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
+		playerSpeed_ = 110.0f;
+		screenSidePadding_ = 10.0f;
 	}
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1)];
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
@@ -160,16 +169,12 @@ enum {
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
-	screenSidePadding_ = 10.0f;
 
 	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
 	statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16" ofType:@"png" controlFile:@"franklin16" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
-	playerSpeed_ = 110.0f;
 	waveMessageInterval_ = 2.0f;
 	wave_ = lastTimeInLoop_ = 0;
 	playerLives_ = 3;
-	bonusSpeed_ = 75;
-	bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
 }
 
 - (void)initShields {

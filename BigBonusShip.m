@@ -43,9 +43,11 @@
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"big_bonus.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			scaleFactor_ = 1.0f;
+			scaleFactor_ = 1.5f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .85f;
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
@@ -62,8 +64,6 @@
         animation_.type = kAnimationType_Repeating;
 
 		[SpriteSheetImage release];
-
-        dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
