@@ -426,7 +426,7 @@ enum {
 	[sharedSoundManager_ loadSoundWithKey:@"bg_2" soundFile:@"bg_2.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"bg_3" soundFile:@"bg_3.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"bg_4" soundFile:@"bg_4.caf"];
-
+	[sharedSoundManager_ loadSoundWithKey:@"game_over" soundFile:@"Lost3.caf"];
 }
 
 - (void)deallocResources {
@@ -456,6 +456,7 @@ enum {
 	[sharedSoundManager_ removeSoundWithKey:@"bg_2"];
 	[sharedSoundManager_ removeSoundWithKey:@"bg_3"];
 	[sharedSoundManager_ removeSoundWithKey:@"bg_4"];
+	[sharedSoundManager_ removeSoundWithKey:@"game_over"];
 }
 @end
 
@@ -491,13 +492,35 @@ enum {
 				lastAlienShot_ = CACurrentMediaTime();
 				if (alienCount_ == 50) {
 					state_ = SceneState_WaveOver;
+					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 				} else {
 					state_ = SceneState_Running;
 				}
 				canPlayerFire_ = TRUE;
 				player_.state_ = EntityState_Alive;
 				if (alienCount_ != 50) {
-					[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					switch (alienCount_) {
+						case 46:
+							[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							NSLog(@"player rebirth 46");
+							break;
+						case 47:
+							[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							NSLog(@"player rebirth 47");
+							break;
+						case 48:
+							[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							NSLog(@"player rebirth 48");
+							break;
+						case 49:
+							[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							NSLog(@"player rebirth 49");
+							break;
+						default:
+							[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							NSLog(@"player rebirth default");
+							break;
+					}
 				}
 				if (bonus_.state_ == EntityState_Alive) {
 					[sharedSoundManager_ playSoundWithKey:@"active_bonus" gain:0.25f pitch:1.0 location:CGPointMake(0, 0) shouldLoop:TRUE];
@@ -528,15 +551,19 @@ enum {
 				lastTimeInLoop_ = 0;
 				if (alienCount_ == 50 && !playerLives_) {
 					state_ = SceneState_GameOver;
+					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
 					return;
 				}
 				if (alienCount_ == 50) {
 					state_ = SceneState_PlayerRebirth;
+					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 					player_.state_ = EntityState_Appearing;
 					return;
 				}
 				if (!playerLives_) {
 					state_ = SceneState_GameOver;
+					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
 					return;
 				}
 				state_ = SceneState_PlayerRebirth;
@@ -544,7 +571,28 @@ enum {
 				return;
 			}
 			lastTimeInLoop_ = CACurrentMediaTime();
-			[sharedSoundManager_ stopSoundWithKey:@"bg"];
+			switch (alienCount_) {
+				case 46:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
+					NSLog(@"player death 46");
+					break;
+				case 47:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
+					NSLog(@"player death 47");
+					break;
+				case 48:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
+					NSLog(@"player death 48");
+					break;
+				case 49:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+					NSLog(@"player death 49");
+					break;
+				default:
+					[sharedSoundManager_ stopSoundWithKey:@"bg"];
+					NSLog(@"player death default");
+					break;
+			}
 			if (bonus_.state_ == EntityState_Alive) {
 				[sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
 			}
@@ -834,7 +882,7 @@ enum {
 						}
 					}
 					if (player_.state_ == EntityState_Alive) {
-						[player_ checkForCollisionWithEntity:alien];
+						[alien checkForCollisionWithEntity:player_];
 					}
 					for (ShieldPiece *shieldPiece in shields_) {
 						if (shieldPiece.state_ == EntityState_Alive) {
@@ -859,7 +907,23 @@ enum {
 			if (bonus_.state_ == EntityState_Alive) {
 				[sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
 			}
-			[sharedSoundManager_ stopSoundWithKey:@"bg"];
+			switch (alienCount_) {
+				case 46:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
+					break;
+				case 47:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
+					break;
+				case 48:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
+					break;
+				case 49:
+					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+					break;
+				default:
+					[sharedSoundManager_ stopSoundWithKey:@"bg"];
+					break;
+			}
 			break;
 
 		default:
@@ -1130,28 +1194,33 @@ enum {
 	score_ += points;
 }
 
-- (void)playerKilledWithAlienFlag:(bool)killedByAlien {
+- (void)playerKilled {
 	--playerLives_;
 	NSLog(@"player killed: %i lives left", playerLives_);
-
-	if (killedByAlien) {
-		++alienCount_;
-		NSLog(@"%i", alienCount_);
-
-	}
 	state_ = SceneState_PlayerDeath;
 }
 
-- (void)alienKilledWithPosition:(int)position points:(int)points {
+- (void)alienKilledWithPosition:(int)position points:(int)points playerFlag:(bool)killedByPlayer {
 
-	[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.075f];
-	score_ += points;
 	++alienCount_;
 	NSLog(@"%i", alienCount_);
-	if (alienCount_ == 50) {
-		[sharedSoundManager_ stopSoundWithKey:@"bg"];
-		state_ = SceneState_WaveOver;
-		return;
+
+	if (killedByPlayer) {
+		[sharedSoundManager_ playSoundWithKey:@"explosion" gain:0.6f];
+		--playerLives_;
+		NSLog(@"player killed: %i lives left", playerLives_);
+		state_ = SceneState_PlayerDeath;
+		if (alienCount_ == 50) {
+			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+		}
+	} else {
+		score_ += points;
+		[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.075f];
+		if (alienCount_ == 50) {
+			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+			state_ = SceneState_WaveOver;
+			return;
+		}
 	}
 
 	for (Alien *alien in aliens_) {
@@ -1160,20 +1229,53 @@ enum {
 		}
 		alien.dx_ *= 1.027f;
 		switch (alienCount_) {
-			case 4:
+			case 46:
 				alien.dx_ *= 1.15f;
 				break;
-			case 3:
-				break;
-			case 2:
+			case 47:
 				alien.dx_ *= 1.15f;
 				break;
-			case 1:
+			case 48:
+				alien.dx_ *= 1.15f;
+				break;
+			case 49:
 				alien.dx_ *= 1.15f;
 				break;
 			default:
 				break;
 		}
+	}
+	switch (alienCount_) {
+		case 46:
+			[sharedSoundManager_ stopSoundWithKey:@"bg"];
+			if (!killedByPlayer) {
+				[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+			}
+			NSLog(@"alienKilledWithPosition 46");
+			break;
+		case 47:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
+			if (!killedByPlayer) {
+				[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+			}
+			NSLog(@"alienKilledWithPosition 47");
+			break;
+		case 48:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
+			if (!killedByPlayer) {
+				[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+			}
+			NSLog(@"alienKilledWithPosition 48");
+			break;
+		case 49:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
+			if (!killedByPlayer) {
+				[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+			}
+			NSLog(@"alienKilledWithPosition 49");
+			break;
+		default:
+			break;
 	}
 }
 

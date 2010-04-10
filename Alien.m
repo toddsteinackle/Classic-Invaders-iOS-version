@@ -15,6 +15,7 @@
 #import "ParticleEmitter.h"
 #import "PackedSpriteSheet.h"
 #import "Shot.h"
+#import "Player.h"
 
 @implementation Alien
 
@@ -167,7 +168,24 @@
         dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
         [dyingEmitter_ setDuration:0.0001f];
         [dyingEmitter_ setActive:TRUE];
-        [scene_ alienKilledWithPosition:position_ points:points_];
+        [scene_ alienKilledWithPosition:position_ points:points_ playerFlag:FALSE];
+    } else if ([otherEntity isKindOfClass:[Player class]]) {
+        state_ = EntityState_Dying;
+        dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
+        [dyingEmitter_ setDuration:0.0001f];
+        [dyingEmitter_ setActive:TRUE];
+
+        otherEntity.state_ = EntityState_Dying;
+        otherEntity.dyingEmitter_.sourcePosition = Vector2fMake(otherEntity.pixelLocation_.x + otherEntity.middleX_,
+                                                                otherEntity.pixelLocation_.y + otherEntity.middleY_);
+        [otherEntity.dyingEmitter_ setDuration:1.0f];
+        [otherEntity.dyingEmitter_ setActive:TRUE];
+        otherEntity.appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + otherEntity.middleX_,
+                                                        otherEntity.pixelLocation_.y + otherEntity.middleY_);
+        [otherEntity.appearingEmitter_ setDuration:1.0f];
+        [otherEntity.appearingEmitter_ setActive:TRUE];
+
+        [scene_ alienKilledWithPosition:position_ points:points_ playerFlag:TRUE];
     } else {
         // otherEntity would only be ShieldPiece
         otherEntity.state_ = EntityState_Idle;

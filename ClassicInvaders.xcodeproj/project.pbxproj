@@ -58,6 +58,7 @@
 		5F585F61116A9FBD000DE830 /* BuzzyLp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F60116A9FBD000DE830 /* BuzzyLp.caf */; };
 		5F585F6B116AA3E2000DE830 /* Impact3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F6A116AA3E2000DE830 /* Impact3.caf */; };
 		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
+		5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2EF6116FDA3F00E9541B /* Lost3.caf */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
@@ -190,6 +191,7 @@
 		5F585F6A116AA3E2000DE830 /* Impact3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact3.caf; sourceTree = "<group>"; };
 		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
 		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
+		5F9D2EF6116FDA3F00E9541B /* Lost3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost3.caf; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F07D566112F04FA0094DEA2 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				5F419790116ACFD200DD6A61 /* bg_3.caf */,
 				5F419791116ACFD300DD6A61 /* bg_4.caf */,
 				5F419792116ACFD300DD6A61 /* bg.caf */,
+				5F9D2EF6116FDA3F00E9541B /* Lost3.caf */,
 				5F41975C116AC46900DD6A61 /* PowerUp3.caf */,
 				5F585F5C116A9F98000DE830 /* explosion.caf */,
 				5F419783116ACB6400DD6A61 /* LevelUp2.caf */,
@@ -804,6 +807,7 @@
 				5F419795116ACFD300DD6A61 /* bg_3.caf in Resources */,
 				5F419796116ACFD300DD6A61 /* bg_4.caf in Resources */,
 				5F419797116ACFD300DD6A61 /* bg.caf in Resources */,
+				5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

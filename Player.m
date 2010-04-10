@@ -135,11 +135,7 @@
     [appearingEmitter_ setDuration:1.0f];
     [appearingEmitter_ setActive:TRUE];
 
-    if ([otherEntity isKindOfClass:[Alien class]]) {
-        [scene_ playerKilledWithAlienFlag:TRUE];
-    } else {
-        [scene_ playerKilledWithAlienFlag:FALSE];
-    }
+    [scene_ playerKilled];
 }
 
 - (void)dealloc {

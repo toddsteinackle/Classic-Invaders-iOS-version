@@ -52,6 +52,10 @@
 @property (nonatomic, assign) CGFloat collisionYOffset_;
 @property (nonatomic, assign) CGFloat scaleFactor_;
 @property (nonatomic, assign) CGFloat width_;
+@property (nonatomic, readonly) ParticleEmitter *dyingEmitter_;
+@property (nonatomic, readonly) ParticleEmitter *appearingEmitter_;
+@property (nonatomic, assign) CGFloat middleX_;
+@property (nonatomic, assign) CGFloat middleY_;
 
 
 - (id)initWithPixelLocation:(CGPoint)aLocation;

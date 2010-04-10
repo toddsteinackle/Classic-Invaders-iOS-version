@@ -18,6 +18,10 @@
 @synthesize collisionYOffset_;
 @synthesize scaleFactor_;
 @synthesize width_;
+@synthesize appearingEmitter_;
+@synthesize dyingEmitter_;
+@synthesize middleX_;
+@synthesize middleY_;
 
 - (void)dealloc {
     [animation_ release];
