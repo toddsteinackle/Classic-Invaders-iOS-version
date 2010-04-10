@@ -45,7 +45,11 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"ship.png"] retain];
-        scaleFactor_ = .85;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			scaleFactor_ = 1.0f;
+		} else {
+			scaleFactor_ = .85f;
+		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"ship.png"
@@ -130,7 +134,7 @@
     dyingEmitter_.sourcePosition = Vector2fMake(pixelLocation_.x + middleX_, pixelLocation_.y + middleY_);
     [dyingEmitter_ setDuration:1.0f];
     [dyingEmitter_ setActive:TRUE];
-    appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + middleX_,
+    appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (width_*scaleFactor_)) / 2 + middleX_,
                                                     pixelLocation_.y + middleY_);
     [appearingEmitter_ setDuration:1.0f];
     [appearingEmitter_ setActive:TRUE];

@@ -28,7 +28,11 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"shield_piece.png"] retain];
-        scaleFactor_ = .5;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			scaleFactor_ = 1.0f;
+		} else {
+			scaleFactor_ = .5f;
+		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"shield_piece.png"

@@ -42,7 +42,11 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"big_bonus.png"] retain];
-        scaleFactor_ = .85;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			scaleFactor_ = 1.0f;
+		} else {
+			scaleFactor_ = .85f;
+		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"big_bonus.png"

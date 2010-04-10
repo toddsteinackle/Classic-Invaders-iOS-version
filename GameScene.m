@@ -93,14 +93,16 @@ enum {
 	[alienShots_ removeAllObjects];
 	[self initAlienShots];
 
-	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
+	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1);
 	player_.dx_ = 0;
 
 	[playerShots_ removeAllObjects];
 	[self initPlayerShots];
 
-	[shields_ removeAllObjects];
-	[self initShields];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+		[shields_ removeAllObjects];
+		[self initShields];
+	}
 
 	for (int i = 0; i < randomListLength_; ++i) {
 		[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
@@ -138,19 +140,26 @@ enum {
 	numberOfPlayerShots_ = 10;
 	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
 	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
-
-	playerBaseHeight_ = 35;
-	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1)];
+	int touchBoxWidth;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		playerBaseHeight_ = 50;
+		bonusShipTop_ = 700.0f;
+		touchBoxWidth = 125;
+	} else {
+		playerBaseHeight_ = 35;
+		bonusShipTop_ = 295.0f;
+		touchBoxWidth = 65;
+	}
+	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1)];
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 
 	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
 	background_ = [[pss imageForKey:@"background.png"] retain];
 
-	int touchBoxWidth = 65;
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
-	rightTouchControlBounds_ = CGRectMake(415, 1, touchBoxWidth-1, playerBaseHeight_);
-	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, 479-touchBoxWidth*2, playerBaseHeight_);
+	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
+	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
 	screenSidePadding_ = 10.0f;
 
 	smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32" ofType:@"png" controlFile:@"bookAntiqua32" scale:Scale2fMake(1.0f, 1.0f) filter:GL_LINEAR];
@@ -218,7 +227,6 @@ enum {
 
 - (void)launchBonusShip {
 
-	static CGFloat top = 295.0f;
 	if (CACurrentMediaTime() - lastBonusLaunch_ < bonusLaunchDelay_) {
 		return;
 	}
@@ -238,11 +246,11 @@ enum {
 		}
 
 		if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
-			bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, top);
+			bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, bonusShipTop_);
 			bonus_.dx_ = bonusSpeed_;
 			bonus_.state_ = EntityState_Alive;
 		} else {
-			bonus_.pixelLocation_ = CGPointMake(screenBounds_.size.width, top);
+			bonus_.pixelLocation_ = CGPointMake(screenBounds_.size.width, bonusShipTop_);
 			bonus_.dx_ = -bonusSpeed_;
 			bonus_.state_ = EntityState_Alive;
 		}
@@ -320,10 +328,21 @@ enum {
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire {
 	Alien *alien;
 	alienCount_ = 50;
-	CGFloat x = 65.0f;
-	CGFloat y = 170.0f;
-	CGFloat horizontalSpace = 35;
-	CGFloat verticalSpace = 25;
+	CGFloat x;
+	CGFloat y;
+	CGFloat horizontalSpace;
+	CGFloat verticalSpace;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		x = 130.0f;
+		y = 340.0f;
+		horizontalSpace = 70;
+		verticalSpace = 50;
+	} else {
+		x = 65.0f;
+		y = 170.0f;
+		horizontalSpace = 35;
+		verticalSpace = 25;
+	}
 	// create a block of aliens
 	for (int i = 0; i < 5; ++i) {
 		for (int j = 0; j < 10; ++j) {
@@ -549,7 +568,7 @@ enum {
 			}
 			[sharedSoundManager_ playSoundWithKey:@"player_rebirth" gain:0.3f];
 			lastTimeInLoop_ = CACurrentMediaTime();
-			player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (43*.85)) / 2, playerBaseHeight_+1);
+			player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1);
 			player_.dx_ = 0;
 			break;
 
@@ -981,7 +1000,11 @@ enum {
 #pragma mark Running
 		case SceneState_Running:
 			canPlayerFire_ = TRUE;
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
 					[shot render];
@@ -1024,7 +1047,11 @@ enum {
 
 #pragma mark WaveIntro
 		case SceneState_WaveIntro:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
@@ -1052,7 +1079,11 @@ enum {
 
 #pragma mark WaveCleanup
 		case SceneState_WaveCleanup:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
@@ -1092,7 +1123,11 @@ enum {
 
 #pragma mark WaveOver
 		case SceneState_WaveOver:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
@@ -1135,7 +1170,11 @@ enum {
 
 #pragma mark GameOver
 		case SceneState_GameOver:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
 									   justification:BitmapFontJustification_MiddleCentered
 												text:@"Game Over"];
@@ -1144,7 +1183,11 @@ enum {
 
 #pragma mark PlayerDeath
 		case SceneState_PlayerDeath:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[sharedImageRenderManager_ renderImages];
 			[player_ render];
 			[bonus_ render];
@@ -1177,7 +1220,11 @@ enum {
 
 #pragma mark PlayerRebirth
 		case SceneState_PlayerRebirth:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
 			[sharedImageRenderManager_ renderImages];
 			[player_ render];
 			[bonus_ render];
@@ -1410,9 +1457,12 @@ enum {
         sharedGameController_ = [GameController sharedGameController];
 
         // Grab the bounds of the screen
-		screenBounds_ = CGRectMake(0, 0, 480, 320);
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			screenBounds_ = CGRectMake(0, 0, 1024, 768);
+		} else {
+			screenBounds_ = CGRectMake(0, 0, 480, 320);
+		}
 	}
-
     return self;
 }
 

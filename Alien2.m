@@ -32,7 +32,11 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        scaleFactor_ = .7;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			scaleFactor_ = 1.0f;
+		} else {
+			scaleFactor_ = .7f;
+		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"aliens.png"

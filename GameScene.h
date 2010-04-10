@@ -59,6 +59,7 @@
     CGFloat screenSidePadding_;
     CGFloat playerBaseHeight_;
     CGFloat bonusSpeed_;
+    CGFloat bonusShipTop_;
     bool isAlienLogicNeeded_;
     bool canPlayerFire_;
     int score_;

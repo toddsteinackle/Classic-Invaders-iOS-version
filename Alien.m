@@ -71,7 +71,11 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
-        scaleFactor_ = .7;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			scaleFactor_ = 1.0f;
+		} else {
+			scaleFactor_ = .7f;
+		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"aliens.png"
@@ -182,8 +186,8 @@
                                                                 otherEntity.pixelLocation_.y + otherEntity.middleY_);
         [otherEntity.dyingEmitter_ setDuration:1.0f];
         [otherEntity.dyingEmitter_ setActive:TRUE];
-        otherEntity.appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (43*.85)) / 2 + otherEntity.middleX_,
-                                                        otherEntity.pixelLocation_.y + otherEntity.middleY_);
+        otherEntity.appearingEmitter_.sourcePosition = Vector2fMake((scene_.screenBounds_.size.width - (otherEntity.width_*otherEntity.scaleFactor_)) / 2
+                                                                    + otherEntity.middleX_, otherEntity.pixelLocation_.y + otherEntity.middleY_);
         [otherEntity.appearingEmitter_ setDuration:1.0f];
         [otherEntity.appearingEmitter_ setActive:TRUE];
 
