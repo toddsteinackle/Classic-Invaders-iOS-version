@@ -1,6 +1,7 @@
 //  GameScene.m
 
 #import <QuartzCore/QuartzCore.h>
+#import <stdlib.h>
 #import "Global.h"
 #import "GameController.h"
 #import "ImageRenderManager.h"
@@ -24,8 +25,6 @@
 #import "BigBonusShip.h"
 #import "SmallBonusShip.h"
 #import "ShieldPiece.h"
-
-#include <stdlib.h>
 
 // Scene States
 enum {
