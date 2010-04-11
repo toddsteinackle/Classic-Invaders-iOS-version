@@ -98,6 +98,11 @@ enum {
 	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1);
 	player_.dx_ = 0;
 
+	[bigBonus_ release];
+	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
+	[smallBonus_ release];
+	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
+
 	[aliens_ removeAllObjects];
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		for (int i = 0; i < randomListLength_; ++i) {
@@ -128,7 +133,7 @@ enum {
 				}
 				alienShotDelay_ = 1.0f;
 				alienOddRange_ = 10;
-				alienSpeed_ = 30;
+				alienSpeed_ = 30 + (arc4random() % 5 + 1);
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
 				[alienShots_ removeAllObjects];
@@ -228,17 +233,18 @@ enum {
 					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
 					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
 				}
-				if (alienShotDelay_ > .2f) {
+				if (alienShotDelay_ > .4f) {
 					alienShotDelay_ -= .1f;
 				}
-				if (alienOddRange_ > 3) {
-					alienOddRange_ -= 1;
-				}
+#ifdef MYDEBUG
+				NSLog(@"alienShotDelay_ -- %f", alienShotDelay_);
+#endif
+				alienOddRange_ = 6;
 				alienSpeed_ += arc4random() % 3 + 1;
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
 				[alienShots_ removeAllObjects];
-				numberOfAlienShots_ = 20;
+				numberOfAlienShots_ = 15;
 				[self initAlienShots];
 
 				[playerShots_ removeAllObjects];
@@ -261,6 +267,8 @@ enum {
 		NSLog(@"%i", [[additionalBonusDelay_ objectAtIndex:i] intValue]);
 	}
 	NSLog(@"==========================");
+	NSLog(@"wave -- %i", wave_);
+	NSLog(@"alienSpeed -- %i", alienSpeed_);
 #endif
 }
 
@@ -1473,7 +1481,9 @@ enum {
 		[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.075f];
 		if (alienCount_ >= 50) {
 			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
-			state_ = SceneState_WaveOver;
+			if (state_ != SceneState_PlayerDeath) {
+				state_ = SceneState_WaveOver;
+			}
 			return;
 		}
 	}
