@@ -86,7 +86,7 @@ enum {
 
 - (void)freeGuyCheck {
 	if (score_ >= nextFreeGuy_) {
-		[sharedSoundManager_ playSoundWithKey:@"free_guy" gain:0.6f];
+		[sharedSoundManager_ playSoundWithKey:@"free_guy" gain:0.7f];
 		++playerLives_;
 		nextFreeGuy_ += freeGuyValue_;
 	}
@@ -238,7 +238,7 @@ enum {
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
 				[alienShots_ removeAllObjects];
-				numberOfAlienShots_ = 10;
+				numberOfAlienShots_ = 20;
 				[self initAlienShots];
 
 				[playerShots_ removeAllObjects];
@@ -290,9 +290,9 @@ enum {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
 		touchBoxWidth = 70;
-		bonusSpeed_ = 75;
-		bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
-		playerSpeed_ = 110.0f;
+		bonusSpeed_ = 80;
+		bonusLaunchDelay_ =  baseLaunchDelay_ = 10.0f;
+		playerSpeed_ = 120.0f;
 		screenSidePadding_ = 10.0f;
 		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
 														 ofType:@"png"
@@ -331,7 +331,8 @@ enum {
 	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 
 	waveMessageInterval_ = 2.0f;
-	wave_ = lastTimeInLoop_ = 0;
+	wave_ = 0;
+	lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
 
@@ -401,7 +402,7 @@ enum {
 
 	if (bonus_.state_ == EntityState_Alive) {
 #ifdef MYDEBUG
-		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_ wave -- @i", wave_);
+		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_ wave -- %i", wave_);
 #endif
 	} else {
 
@@ -450,7 +451,7 @@ enum {
 				shot.hit_ = FALSE;
 			} else {
 #ifdef MYDEBUG
-				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_ wave -- @i", wave_);
+				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_ wave -- %i", wave_);
 #endif
 			}
 
@@ -482,7 +483,7 @@ enum {
 		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.075f];
 	} else {
 #ifdef MYDEBUG
-		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_ wave -- @i", wave_);
+		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_ wave -- %i", wave_);
 #endif
 	}
 	if (++playerShotCounter == numberOfPlayerShots_) {
@@ -686,7 +687,7 @@ enum {
 			if (lastTimeInLoop_) {
 				lastTimeInLoop_ = 0;
 				lastAlienShot_ = CACurrentMediaTime();
-				if (alienCount_ == 50) {
+				if (alienCount_ >= 50) {
 					state_ = SceneState_WaveOver;
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 				} else {
@@ -755,13 +756,13 @@ enum {
 			}
 			if (lastTimeInLoop_) {
 				lastTimeInLoop_ = 0;
-				if (alienCount_ == 50 && !playerLives_) {
+				if (alienCount_ >= 50 && !playerLives_) {
 					state_ = SceneState_GameOver;
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
 					return;
 				}
-				if (alienCount_ == 50) {
+				if (alienCount_ >= 50) {
 					state_ = SceneState_PlayerRebirth;
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 					player_.state_ = EntityState_Appearing;
@@ -1463,14 +1464,14 @@ enum {
 		NSLog(@"player killed: %i lives left", playerLives_);
 #endif
 		state_ = SceneState_PlayerDeath;
-		if (alienCount_ == 50) {
+		if (alienCount_ >= 50) {
 			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 		}
 	} else {
 		score_ += points;
 		[self freeGuyCheck];
 		[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.075f];
-		if (alienCount_ == 50) {
+		if (alienCount_ >= 50) {
 			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 			state_ = SceneState_WaveOver;
 			return;
