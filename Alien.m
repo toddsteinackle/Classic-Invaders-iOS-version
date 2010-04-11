@@ -121,7 +121,7 @@
         [appearingEmitter_ setActive:TRUE];
     }
 #ifdef MYDEBUG
-    NSLog(@"Alien init");
+    //NSLog(@"Alien init");
 #endif
     return self;
 }

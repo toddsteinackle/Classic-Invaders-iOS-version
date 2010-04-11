@@ -73,6 +73,10 @@
     int wave_;
     int alienOddRange_;
     int playerLives_;
+    double alienShotDelay_;
+    int alienSpeed_;
+    int nextFreeGuy_;
+    int freeGuyValue_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;

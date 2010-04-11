@@ -74,7 +74,7 @@
         state_ = EntityState_Idle;
         middleX_ = scaleFactor_ * width_ / 2;
         middleY_ = scaleFactor_ * height_ / 2;
-        points_ = 500;
+        points_ = 1000;
     }
     return self;
 }

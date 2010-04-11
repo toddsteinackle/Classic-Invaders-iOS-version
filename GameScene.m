@@ -66,6 +66,7 @@ enum {
 - (void)launchBonusShip;
 - (void)initShields;
 - (bool)noneAliveWithEntityArray:(NSMutableArray *)entityArray;
+- (void)freeGuyCheck;
 
 @end
 
@@ -83,32 +84,169 @@ enum {
 	return TRUE;
 }
 
+- (void)freeGuyCheck {
+	if (score_ >= nextFreeGuy_) {
+		[sharedSoundManager_ playSoundWithKey:@"free_guy" gain:0.6f];
+		++playerLives_;
+		nextFreeGuy_ += freeGuyValue_;
+	}
+}
+
 - (void)initWave {
 	++wave_;
 	canPlayerFire_ = FALSE;
-
-	[aliens_ removeAllObjects];
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		[self initAliensWithSpeed:50 chanceToFire:10];
-	} else {
-		[self initAliensWithSpeed:20 chanceToFire:10];
-		[shields_ removeAllObjects];
-		[self initShields];
-	}
-	alienOddRange_ = 10;
-	[alienShots_ removeAllObjects];
-	[self initAlienShots];
-
 	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1);
 	player_.dx_ = 0;
 
-	[playerShots_ removeAllObjects];
-	[self initPlayerShots];
+	[aliens_ removeAllObjects];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		for (int i = 0; i < randomListLength_; ++i) {
+			[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+			[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+			[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+		}
+		alienShotDelay_ = 2.0f;
+		numberOfAlienShots_ = 10;
+		numberOfPlayerShots_ = 10;
+		alienOddRange_ = 10;
+		[alienShots_ removeAllObjects];
+		[self initAlienShots];
+		[playerShots_ removeAllObjects];
+		[self initPlayerShots];
+		[self initAliensWithSpeed:50 chanceToFire:10];
+	} else {
+		[shields_ removeAllObjects];
+		[self initShields];
 
-	for (int i = 0; i < randomListLength_; ++i) {
-		[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-		[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-	    [additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+#pragma mark iPhone waves
+		switch (wave_) {
+			case 1:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 6 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+				}
+				alienShotDelay_ = 1.0f;
+				alienOddRange_ = 10;
+				alienSpeed_ = 30;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+
+				break;
+
+			case 2:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+				}
+				alienShotDelay_ = 1.0f;
+				alienOddRange_ = 8;
+				alienSpeed_ += arc4random() % 5 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 3:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+				}
+				alienShotDelay_ = 0.8f;
+				alienOddRange_ = 7;
+				alienSpeed_ += arc4random() % 5 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 4:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+				}
+				alienShotDelay_ = 0.8f;
+				alienOddRange_ = 7;
+				alienSpeed_ += arc4random() % 5 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 5:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+				}
+				alienShotDelay_ = 0.7f;
+				alienOddRange_ = 6;
+				alienSpeed_ += arc4random() % 5 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+
+			default:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+				}
+				if (alienShotDelay_ > .2f) {
+					alienShotDelay_ -= .1f;
+				}
+				if (alienOddRange_ > 3) {
+					alienOddRange_ -= 1;
+				}
+				alienSpeed_ += arc4random() % 3 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				[alienShots_ removeAllObjects];
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				[playerShots_ removeAllObjects];
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+		}
+
 	}
 #ifdef MYDEBUG
 	for (int i = 0; i < randomListLength_; ++i) {
@@ -124,23 +262,10 @@ enum {
 	}
 	NSLog(@"==========================");
 #endif
-
 }
 
 - (void)initNewGame {
 
-	[self initSound];
-	randomListLength_ = 15;
-	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-	bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-	additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-
-	aliens_ = [[NSMutableArray alloc] init];
-	numberOfAlienShots_ = 10;
-	alienShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfAlienShots_];
-	numberOfPlayerShots_ = 10;
-	playerShots_ = [[NSMutableArray alloc] initWithCapacity:numberOfPlayerShots_];
-	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 	int touchBoxWidth;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		playerBaseHeight_ = 150;
@@ -164,9 +289,9 @@ enum {
 	} else {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
-		touchBoxWidth = 65;
+		touchBoxWidth = 70;
 		bonusSpeed_ = 75;
-		bonusLaunchDelay_ =  baseLaunchDelay_ = 8.0f;
+		bonusLaunchDelay_ =  baseLaunchDelay_ = 9.0f;
 		playerSpeed_ = 110.0f;
 		screenSidePadding_ = 10.0f;
 		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
@@ -180,21 +305,37 @@ enum {
 													 controlFile:@"franklin16"
 														   scale:Scale2fMake(1.0f, 1.0f)
 														  filter:GL_LINEAR];
+
+		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																	   controlFile:@"pss_coordinates"
+																	   imageFilter:GL_LINEAR];
+		background_ = [[pss imageForKey:@"background.png"] retain];
 	}
+
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1)];
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
-
-	PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png" controlFile:@"pss_coordinates" imageFilter:GL_LINEAR];
-	background_ = [[pss imageForKey:@"background.png"] retain];
 
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
 
+	randomListLength_ = 15;
+	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+	bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+	additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+
+	aliens_ = [[NSMutableArray alloc] init];
+	alienShots_ = [[NSMutableArray alloc] init];
+	playerShots_ = [[NSMutableArray alloc] init];
+	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
+
 	waveMessageInterval_ = 2.0f;
 	wave_ = lastTimeInLoop_ = 0;
 	playerLives_ = 3;
+	nextFreeGuy_ = freeGuyValue_ = 10000;
+
+	[self initSound];
 }
 
 - (void)initShields {
@@ -260,14 +401,14 @@ enum {
 
 	if (bonus_.state_ == EntityState_Alive) {
 #ifdef MYDEBUG
-		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_");
+		NSLog(@"attempt to launch bonus while one is active -- increase baseLaunchDelay_ wave -- @i", wave_);
 #endif
 	} else {
 
 		if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
-			bonus_ = bigBonus_;
-		} else {
 			bonus_ = smallBonus_;
+		} else {
+			bonus_ = bigBonus_;
 		}
 
 		if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
@@ -290,10 +431,9 @@ enum {
 
 - (void)alienFire {
 	// check that aliens have waited long enough to fire
-	static double alienShotDelay = 2.0f;
 	static int alienShotCounter = 0;
 	// check that player has waited long enough to fire
-	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay) {
+	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay_) {
 		return;
 	}
 	// record time and fire
@@ -310,7 +450,7 @@ enum {
 				shot.hit_ = FALSE;
 			} else {
 #ifdef MYDEBUG
-				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_");
+				NSLog(@"no inactive alien shot available -- increase numberOfAlienShots_ wave -- @i", wave_);
 #endif
 			}
 
@@ -342,7 +482,7 @@ enum {
 		[sharedSoundManager_ playSoundWithKey:@"shot" gain:0.075f];
 	} else {
 #ifdef MYDEBUG
-		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_");
+		NSLog(@"no inactive player shot available -- increase numberOfPlayerShots_ wave -- @i", wave_);
 #endif
 	}
 	if (++playerShotCounter == numberOfPlayerShots_) {
@@ -481,6 +621,7 @@ enum {
 	[sharedSoundManager_ loadSoundWithKey:@"bg_3" soundFile:@"bg_3.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"bg_4" soundFile:@"bg_4.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"game_over" soundFile:@"Lost3.caf"];
+	[sharedSoundManager_ loadSoundWithKey:@"free_guy" soundFile:@"Flourish3.caf"];
 }
 
 - (void)deallocResources {
@@ -511,6 +652,7 @@ enum {
 	[sharedSoundManager_ removeSoundWithKey:@"bg_3"];
 	[sharedSoundManager_ removeSoundWithKey:@"bg_4"];
 	[sharedSoundManager_ removeSoundWithKey:@"game_over"];
+	[sharedSoundManager_ removeSoundWithKey:@"free_guy"];
 }
 @end
 
@@ -1296,6 +1438,7 @@ enum {
 
 - (void)bonusShipDestroyedWithPoints:(int)points {
 	score_ += points;
+	[self freeGuyCheck];
 }
 
 - (void)playerKilled {
@@ -1325,6 +1468,7 @@ enum {
 		}
 	} else {
 		score_ += points;
+		[self freeGuyCheck];
 		[sharedSoundManager_ playSoundWithKey:@"alien_death" gain:0.075f];
 		if (alienCount_ == 50) {
 			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];

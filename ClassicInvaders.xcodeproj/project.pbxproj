@@ -35,6 +35,7 @@
 		5F1C42DE115038C70025119B /* Alien2.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C42DD115038C70025119B /* Alien2.m */; };
 		5F1C430411503B920025119B /* Alien3.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C430311503B920025119B /* Alien3.m */; };
 		5F1C433811503FD10025119B /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1C433711503FD10025119B /* Player.m */; };
+		5F1CE0EF11714E280008E927 /* Flourish3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F1CE0EE11714E280008E927 /* Flourish3.caf */; };
 		5F1D43C3114D8B7A00797E5B /* Alien.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1D43C2114D8B7A00797E5B /* Alien.m */; };
 		5F1D43C7114D8DB200797E5B /* pss_coordinates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */; };
 		5F1D43C8114D8DB200797E5B /* pss.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C6114D8DB200797E5B /* pss.png */; };
@@ -165,6 +166,7 @@
 		5F1C430311503B920025119B /* Alien3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alien3.m; sourceTree = "<group>"; };
 		5F1C433611503FD10025119B /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		5F1C433711503FD10025119B /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		5F1CE0EE11714E280008E927 /* Flourish3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Flourish3.caf; sourceTree = "<group>"; };
 		5F1D43C1114D8B7A00797E5B /* Alien.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alien.h; sourceTree = "<group>"; };
 		5F1D43C2114D8B7A00797E5B /* Alien.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alien.m; sourceTree = "<group>"; };
 		5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pss_coordinates.plist; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 		18B970E0103AA66E00809077 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				5F1CE0EE11714E280008E927 /* Flourish3.caf */,
 				5F585F58116A9F67000DE830 /* shot.caf */,
 				5F41975A116AC45400DD6A61 /* small_bonus.caf */,
 				5F41978E116ACFD200DD6A61 /* bg_1.caf */,
@@ -820,6 +823,7 @@
 				5F419797116ACFD300DD6A61 /* bg.caf in Resources */,
 				5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */,
 				5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */,
+				5F1CE0EF11714E280008E927 /* Flourish3.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
