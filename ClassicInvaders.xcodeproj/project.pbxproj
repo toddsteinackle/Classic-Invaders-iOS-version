@@ -52,6 +52,7 @@
 		5F419795116ACFD300DD6A61 /* bg_3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419790116ACFD200DD6A61 /* bg_3.caf */; };
 		5F419796116ACFD300DD6A61 /* bg_4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419791116ACFD300DD6A61 /* bg_4.caf */; };
 		5F419797116ACFD300DD6A61 /* bg.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419792116ACFD300DD6A61 /* bg.caf */; };
+		5F57A550117541E90024F431 /* alien-1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F57A54F117541E90024F431 /* alien-1-2.png */; };
 		5F585F59116A9F67000DE830 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F58116A9F67000DE830 /* shot.caf */; };
 		5F585F5B116A9F8D000DE830 /* alien_death.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5A116A9F8D000DE830 /* alien_death.caf */; };
 		5F585F5D116A9F98000DE830 /* explosion.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5C116A9F98000DE830 /* explosion.caf */; };
@@ -186,6 +187,7 @@
 		5F419790116ACFD200DD6A61 /* bg_3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_3.caf; sourceTree = "<group>"; };
 		5F419791116ACFD300DD6A61 /* bg_4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_4.caf; sourceTree = "<group>"; };
 		5F419792116ACFD300DD6A61 /* bg.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg.caf; sourceTree = "<group>"; };
+		5F57A54F117541E90024F431 /* alien-1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-2.png"; sourceTree = "<group>"; };
 		5F585F58116A9F67000DE830 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F585F5A116A9F8D000DE830 /* alien_death.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = alien_death.caf; path = /Users/todd/Desktop/converted_sounds/current_ci_sounds/alien_death.caf; sourceTree = "<absolute>"; };
 		5F585F5C116A9F98000DE830 /* explosion.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion.caf; sourceTree = "<group>"; };
@@ -647,6 +649,7 @@
 			isa = PBXGroup;
 			children = (
 				5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */,
+				5F57A54F117541E90024F431 /* alien-1-2.png */,
 				5F1D43C6114D8DB200797E5B /* pss.png */,
 			);
 			name = Images;
@@ -824,6 +827,7 @@
 				5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */,
 				5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */,
 				5F1CE0EF11714E280008E927 /* Flourish3.caf in Resources */,
+				5F57A550117541E90024F431 /* alien-1-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

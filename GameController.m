@@ -284,7 +284,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[scene release];
 
     // Set the starting scene for the game
-    currentScene = [gameScenes objectForKey:@"game"];
+    currentScene = [gameScenes objectForKey:@"menu"];
 
 	// Setup and load the highscores
 	highScores = [[NSArray alloc] init];

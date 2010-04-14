@@ -9,45 +9,26 @@
 @class Image;
 @class BitmapFont;
 @class PackedSpriteSheet;
-@class Player;
 
 @interface MenuScene : AbstractScene {
 
 	/////////////////// Singleton Managers
-	ImageRenderManager *sharedImageRenderManager;
-	GameController *sharedGameController;
-	SoundManager *sharedSoundManager;
-	TextureManager *sharedTextureManager;
+	ImageRenderManager *sharedImageRenderManager_;
+	GameController *sharedGameController_;
+	SoundManager *sharedSoundManager_;
+	TextureManager *sharedTextureManager_;
 
 	/////////////////// Sprite sheets and images
-	PackedSpriteSheet *pss;				// Master spritesheet that contains all menu images
-	Image *background;					// Background image for the menu
-	Image *fadeImage;					// Full screen black image used to fade in and out
-	NSArray *clouds;					// Cloud images
-	Image *menu, *menuButton;			// Menu and menu button images
-	Image *castle;						// Castle image
-	Image *logo;						// 71Squared logo which can also be tapped for credits
-	Image *settings;					// Image used for the settings button
-
-	/////////////////// iVars used to control the cloud movement
-	CGPoint *cloudPositions;
-	float cloudSpeed;
-
-	/////////////////// Sound iVar
-	GLfloat musicVolume;				// Music volume used to fade music in and out
+	//PackedSpriteSheet *pss;				// Master spritesheet that contains all menu images
+	Image *background_;					// Background image for the menu
+	Image *fadeImage_;					// Full screen black image used to fade in and out
+    Image *alien1_;
 
 	/////////////////// Button iVars
-	uint startWidth, resumeWidth;
-	uint xStart, xResume;
 	CGRect startButtonBounds;
 	CGRect resumeButtonBounds;
 	CGRect scoreButtonBounds;
 	CGRect instructionButtonBounds;
-	CGRect logoButtonBounds;
-	CGRect settingsButtonBounds;
-
-	/////////////////// Flags
-	BOOL isMusicFading;					// YES if the music is already fading during a transition
 }
 
 @end
