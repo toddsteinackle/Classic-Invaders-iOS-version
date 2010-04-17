@@ -1601,7 +1601,7 @@ enum {
 }
 
 - (void)transitionToSceneWithKey:(NSString*)theKey {
-    state_ = kSceneState_TransitionOut;
+    state_ = SceneState_TransitionOut;
 }
 
 - (void)transitionIn {

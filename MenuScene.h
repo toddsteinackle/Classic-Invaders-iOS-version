@@ -23,12 +23,19 @@
 	Image *background_;					// Background image for the menu
 	Image *fadeImage_;					// Full screen black image used to fade in and out
     Image *alien1_;
+    Image *alien2_;
+    Image *alien3_;
+    Image *alien4_;
+    Image *alien5_;
 
 	/////////////////// Button iVars
-	CGRect startButtonBounds;
-	CGRect resumeButtonBounds;
-	CGRect scoreButtonBounds;
-	CGRect instructionButtonBounds;
+	CGRect startButtonBounds_;
+	CGRect resumeButtonBounds_;
+	CGRect scoreButtonBounds_;
+	CGRect instructionButtonBounds_;
+    CGRect settingsButtonBounds_;
+
+    BitmapFont *menuFont_;
 }
 
 @end

@@ -24,8 +24,19 @@
 // Set up the strings for the menu items
 # define startString @"New Game"
 # define resumeString @"Resume Game"
-# define scoreString @"Score"
-# define creditString @"Credits"
+# define scoreString @"High Scores"
+# define aboutString @"About"
+# define settingString @"Settings"
+
+enum {
+	SceneState_TransitionIn,
+	SceneState_TransitionOut,
+	SceneState_Running,
+    SceneState_Idle,
+    SceneState_Scores,
+    SceneState_Help,
+    SceneState_Settings
+};
 
 - (id)init {
 
@@ -39,48 +50,77 @@
 		sharedSoundManager_ = [SoundManager sharedSoundManager];
 		sharedTextureManager_ = [TextureManager sharedTextureManager];
 
+        [sharedSoundManager_ loadSoundWithKey:@"guiTouch" soundFile:@"menu_select.caf"];
+
+        alien1_ = [[Image alloc] initWithImageNamed:@"alien-1-2" ofType:@"png" filter:GL_LINEAR];
+        alien2_ = [[Image alloc] initWithImageNamed:@"alien-2-1" ofType:@"png" filter:GL_LINEAR];
+        alien3_ = [[Image alloc] initWithImageNamed:@"alien-3-1" ofType:@"png" filter:GL_LINEAR];
+        alien4_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
+        alien5_ = [[Image alloc] initWithImageNamed:@"alien-2-4" ofType:@"png" filter:GL_LINEAR];
+
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
 		} else {
 			screenBounds_ = CGRectMake(0, 0, 480, 320);
+            PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+                                                                           controlFile:@"pss_coordinates"
+                                                                           imageFilter:GL_LINEAR];
+            background_ = [pss imageForKey:@"background.png"];
+
+            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu"
+                                                            ofType:@"png"
+                                                       controlFile:@"ci_menu"
+                                                             scale:Scale2fMake(1.0f, 1.0f)
+                                                            filter:GL_LINEAR];
+
+            fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
+            fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
+
+            CGFloat alienScale = 1.75f;
+            alien1_.scale = Scale2fMake(alienScale, alienScale);
+            alien2_.scale = Scale2fMake(alienScale, alienScale);
+            alien3_.scale = Scale2fMake(alienScale, alienScale);
+            alien4_.scale = Scale2fMake(alienScale, alienScale);
+            alien5_.scale = Scale2fMake(alienScale, alienScale);
+
+            CGFloat x = 40.0f;
+            CGFloat alienHeight = 30 * alienScale;
+            CGFloat verticalPadding;
+            if ([sharedGameController_ resumedGameAvailable]) {
+                verticalPadding = 10.0f;
+                settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+                instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
+                scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
+                resumeButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
+                startButtonBounds_ = CGRectMake(x, alienHeight*4+verticalPadding*5, 400, alienHeight);
+            } else {
+                verticalPadding = 22.5f;
+                settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+                instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
+                scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
+                startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
+            }
+
 		}
-
-        PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
-                                                                       controlFile:@"pss_coordinates"
-                                                                       imageFilter:GL_LINEAR];
-		background_ = [pss imageForKey:@"background.png"];
-
-		fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
-		fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
-
-        alien1_ = [[Image alloc] initWithImageNamed:@"alien-1-2" ofType:@"png" filter:GL_LINEAR];
-        alien1_.scale = Scale2fMake(2.0f, 2.0f);
 
 		// Init the fadespeed and alpha for this scene
 		fadeSpeed_ = 1.0f;
 		alpha_ = 1.0f;
 
-		// Define the bounds for the buttons being used on the menu
-		startButtonBounds = CGRectMake((screenBounds_.size.width - 90) / 2,
-                                       (screenBounds_.size.height - 60) / 2, 90, 60);
-		scoreButtonBounds = CGRectMake(71, 178, 135, 50);
-		instructionButtonBounds = CGRectMake(74, 120, 144, 50);
-		resumeButtonBounds = CGRectMake(74, 61, 142, 50);
-
 		// Set the initial state for the menu
-		state_ = kSceneState_Idle;
+		state_ = SceneState_Idle;
 	}
 	return self;
 }
 
 - (void)updateSceneWithDelta:(float)aDelta {
 	switch (state_) {
-		case kSceneState_Running:
+		case SceneState_Running:
 
 			break;
 
-		case kSceneState_TransitionIn:
+		case SceneState_TransitionIn:
 
 			// Update the alpha value of the fadeImage
 			alpha_ -= fadeSpeed_ * aDelta;
@@ -88,12 +128,12 @@
 
 			if(alpha_ < 0.0f) {
 				alpha_ = 0.0f;
-				state_ = kSceneState_Running;
+				state_ = SceneState_Running;
 			}
 
 			break;
 
-		case kSceneState_TransitionOut:
+		case SceneState_TransitionOut:
 
 			// Adjust the alpha value of the fadeImage.  This will cause the image to move from transparent to opaque
 			alpha_ += fadeSpeed_ * aDelta;
@@ -110,7 +150,7 @@
 				[sharedImageRenderManager_ renderImages];
 
 				// This scene is now idle
-				state_ = kSceneState_Idle;
+				state_ = SceneState_Idle;
 
 				// Stop the idletimer from kicking in while playing the game.  This stops the screen from fading
 				// during game play
@@ -133,22 +173,64 @@
 	// at the menu.  This is recommended by apple and helps to save power
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 
-	state_ = kSceneState_TransitionIn;
+	state_ = SceneState_TransitionIn;
 }
 
 - (void)renderScene {
 
-	// Render the background
-	[background_ renderAtPoint:CGPointMake(0, 0)];
-    [alien1_ renderAtPoint:CGPointMake((screenBounds_.size.width - 90) / 2, (screenBounds_.size.height - 60) / 2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 
-	// Check with the game controller to see if a saved game is available
-	if ([sharedGameController_ resumedGameAvailable]) {
-		//[menuButton renderAtPoint:CGPointMake(71, 60)];
-	}
+    } else {
+
+        [background_ renderAtPoint:CGPointMake(0, 0)];
+        if (state_ == SceneState_Running || state_ == SceneState_TransitionOut || state_ == SceneState_TransitionIn) {
+            CGFloat x = 50.0f;
+            CGFloat alienHeight = 30 * 1.75f;
+            CGFloat verticalPadding;
+            if ([sharedGameController_ resumedGameAvailable]) {
+                verticalPadding = 10.0f;
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
+
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
+
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
+
+                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [menuFont_ renderStringJustifiedInFrame:resumeButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:resumeString];
+
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*4+verticalPadding*5)];
+                [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
+            } else {
+                verticalPadding = 22.5f;
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
+
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
+
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
+
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
+            }
+        }
+        if (state_ == SceneState_Scores) {
+            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Score Screen"];
+        }
+        if (state_ == SceneState_Help) {
+            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Help Screen"];
+        }
+        if (state_ == SceneState_Settings) {
+            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Settings Screen"];
+        }
+    }
 
 	// If we are transitioning in, out or idle then render the fadeImage
-	if (state_ == kSceneState_TransitionIn || state_ == kSceneState_TransitionOut || state_ == kSceneState_Idle) {
+	if (state_ == SceneState_TransitionIn || state_ == SceneState_TransitionOut || state_ == SceneState_Idle) {
 		[fadeImage_ renderAtPoint:CGPointMake(0, 0)];
 	}
 
@@ -157,10 +239,11 @@
 
 // If debug is on then display the bounds of the buttons
 //#ifdef MYDEBUG
-//	drawBox(startButtonBounds);
-//	drawBox(scoreButtonBounds);
-//	drawBox(instructionButtonBounds);
-//	drawBox(resumeButtonBounds);
+//	drawBox(startButtonBounds_);
+//	drawBox(scoreButtonBounds_);
+//	drawBox(instructionButtonBounds_);
+//    drawBox(settingsButtonBounds_);
+//	drawBox(resumeButtonBounds_);
 //#endif
 
 }
@@ -176,40 +259,55 @@
 	CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 	// We only want to check the touches on the screen when the scene is running.
-	if (state_ == kSceneState_Running) {
+	if (state_ == SceneState_Running) {
 		// Check to see if the user touched the start button
-		if (CGRectContainsPoint(startButtonBounds, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			state_ = kSceneState_TransitionOut;
+		if (CGRectContainsPoint(startButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.5f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			state_ = SceneState_TransitionOut;
 			sharedGameController_.shouldResumeGame = NO;
 			alpha_ = 0;
 			return;
 		}
-//
-//		if (CGRectContainsPoint(scoreButtonBounds, touchLocation)) {
-//			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-//			alpha_ = 0;
-//			[[NSNotificationCenter defaultCenter] postNotificationName:@"showHighScore" object:self];
-//			return;
-//		}
-//
-//		if (CGRectContainsPoint(instructionButtonBounds, touchLocation)) {
-//			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-//			alpha_ = 0;
-//			[[NSNotificationCenter defaultCenter] postNotificationName:@"showInstructions" object:self];
-//			return;
-//		}
+
+		if (CGRectContainsPoint(scoreButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			alpha_ = 0;
+			state_ = SceneState_Scores;
+			return;
+		}
+
+		if (CGRectContainsPoint(instructionButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			alpha_ = 0;
+			state_ = SceneState_Help;
+			return;
+		}
+
+        if (CGRectContainsPoint(settingsButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			alpha_ = 0;
+			state_ = SceneState_Settings;
+			return;
+		}
 
 		// If the resume button is visible then check to see if the player touched
 		// the resume button
-//		if ([sharedGameController_ resumedGameAvailable] && CGRectContainsPoint(resumeButtonBounds, touchLocation)) {
-//			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-//			alpha_ = 0;
-//			[sharedGameController_ setShouldResumeGame:YES];
-//			state_ = kSceneState_TransitionOut;
-//			return;
-//		}
+		if ([sharedGameController_ resumedGameAvailable] && CGRectContainsPoint(resumeButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			alpha_ = 0;
+			[sharedGameController_ setShouldResumeGame:YES];
+			state_ = SceneState_TransitionOut;
+			return;
+		}
 	}
+    if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_Settings) {
+        if (CGRectContainsPoint(screenBounds_, touchLocation)) {
+            [sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+            state_ = SceneState_Running;
+            return;
+        }
+    }
+
 }
 
 @end
