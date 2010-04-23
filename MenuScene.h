@@ -36,6 +36,8 @@
     CGRect settingsButtonBounds_;
 
     BitmapFont *menuFont_;
+    BitmapFont *monoMenuFont_;
+    NSArray *highScores_;
 }
 
 @end

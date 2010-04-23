@@ -7,22 +7,18 @@
 
 @interface Score : NSObject <NSCoding> {
 
-	NSDate *dateTime;		// Date and time the score was achieved
-	int score;				// Score
-	NSString *time;			// Time playing
-	NSString *name;			// Players name
-	BOOL didWin;			// YES if the player won the game
+	int score_;
+	NSString *name_;
+    int wave_;
 
 }
 
-@property (nonatomic, retain) NSDate *dateTime;
-@property (nonatomic, assign) int score;
-@property (nonatomic, retain) NSString *time;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, assign) BOOL didWin;
+@property (nonatomic, assign) int score_;
+@property (nonatomic, assign) int wave_;
+@property (nonatomic, retain) NSString *name_;
 
 // Designated initializer that creates a new score instance that contains the players name
 // their score and the date and time they achieved that score
-- (id) initWithScore:(int)aScore gameTime:(NSString*)aGameTime playersName:(NSString*)aPlayerName didWin:(BOOL)aDidWin;
+- (id) initWithScore:(int)score name:(NSString*)name wave:(int)wave;
 
 @end

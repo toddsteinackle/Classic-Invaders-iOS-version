@@ -11,6 +11,7 @@
 #import "TextureManager.h"
 #import "PackedSpriteSheet.h"
 #import "SpriteSheet.h"
+#import "Score.h"
 
 @implementation MenuScene
 
@@ -73,6 +74,12 @@ enum {
                                                        controlFile:@"ci_menu"
                                                              scale:Scale2fMake(1.0f, 1.0f)
                                                             filter:GL_LINEAR];
+            monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
+                                                                ofType:@"png"
+                                                           controlFile:@"ci_menu_mono_30"
+                                                                 scale:Scale2fMake(0.85f, 0.85f)
+                                                                filter:GL_LINEAR];
+
 
             fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
             fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
@@ -167,12 +174,17 @@ enum {
 }
 
 - (void)transitionIn {
-	// Load GUI sounds
 
     // Switch the idle timer back on as its not a problem if the phone locks while you are
 	// at the menu.  This is recommended by apple and helps to save power
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 
+    highScores_ = sharedGameController_.highScores;
+#ifdef MYDEBUG
+    for (Score *s in highScores_) {
+        NSLog(@"s -- %i, %@, %i", s.score_, s.name_, s.wave_);
+    }
+#endif
 	state_ = SceneState_TransitionIn;
 }
 
@@ -219,7 +231,25 @@ enum {
             }
         }
         if (state_ == SceneState_Scores) {
-            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Score Screen"];
+            [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
+            [monoMenuFont_ renderStringAt:CGPointMake(5, 265) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "====", "=====", "===="]];
+            int i = 2; int j = 1; const char *name;
+
+            for (Score *s in highScores_) {
+                name = [s.name_ UTF8String];
+                if (j<10) {
+                    [monoMenuFont_ renderStringAt:CGPointMake(5, 285-i*25)
+                                             text:[NSString stringWithFormat:@" %d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
+                    ++i;
+                } else {
+                    [monoMenuFont_ renderStringAt:CGPointMake(5, 285-i*25)
+                                             text:[NSString stringWithFormat:@"%d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
+                    [sharedImageRenderManager_ renderImages];
+                    return;
+                }
+                [sharedImageRenderManager_ renderImages];
+            }
+
         }
         if (state_ == SceneState_Help) {
             [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Help Screen"];

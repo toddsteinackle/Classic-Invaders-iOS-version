@@ -44,6 +44,7 @@
     sharedGameController_.interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
 	// Start getting device orientation notifications
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
 
 	// Load the settings from the plist file
 	[sharedGameController_ loadSettings];

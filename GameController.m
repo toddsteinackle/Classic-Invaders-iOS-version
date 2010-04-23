@@ -13,10 +13,6 @@
 #import "GameScene.h"
 #import "MenuScene.h"
 #import "EAGLView.h"
-#import "HighScoreViewController.h"
-#import "SettingsViewController.h"
-#import "InstructionsViewController.h"
-#import "CreditsViewController.h"
 #import "Score.h"
 
 #pragma mark -
@@ -42,14 +38,10 @@
 @synthesize currentScene;
 @synthesize resumedGameAvailable;
 @synthesize shouldResumeGame;
-@synthesize joypadPosition;
 @synthesize gameScenes;
 @synthesize eaglView;
 @synthesize highScores;
 @synthesize interfaceOrientation;
-@synthesize isHighScoreVisible;
-@synthesize isInstructionsVisible;
-@synthesize isCreditsVisible;
 @synthesize gamePaused;
 
 // Make this class a singleton class
@@ -59,10 +51,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     [gameScenes release];
 	[highScores release];
-	[settingsViewController release];
-	[highScoreViewController release];
-	[instructionsViewController release];
-	[creditsViewController release];
 	[settingsFilePath release];
     [super dealloc];
 }
@@ -125,10 +113,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[encoder release];
 }
 
-- (void)addToHighScores:(int)aScore gameTime:(NSString*)aGameTime playersName:(NSString*)aPlayerName didWin:(BOOL)aDidWin {
-	Score *score = [[Score alloc] initWithScore:aScore gameTime:aGameTime playersName:aPlayerName didWin:aDidWin];
-	[unsortedHighScores addObject:score];
-	[score release];
+- (void)addToHighScores:(int)score name:(NSString*)name wave:(int)wave {
+	Score *s = [[Score alloc] initWithScore:score name:name wave:wave];
+	[unsortedHighScores addObject:s];
+	[s release];
 	[self saveHighScores];
 	[self sortHighScores];
 }
@@ -166,29 +154,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 		settings = [[NSMutableDictionary alloc] init];
 		[settings setObject:[NSString stringWithFormat:@"%f", 0.7f] forKey:@"musicVolume"];
 		[settings setObject:[NSString stringWithFormat:@"%f", 0.5f] forKey:@"fxVolume"];
-		[settings setObject:[NSNumber numberWithInt:0] forKey:@"joypadPosition"];
 	}
 
 	// Get the prefs from the pref file and update the sound manager
 	[sharedSoundManager setMusicVolume:[(NSString *)[settings valueForKey:@"musicVolume"] floatValue]];
 	[sharedSoundManager setFxVolume:[(NSString *)[settings valueForKey:@"fxVolume"] floatValue]];
-	sharedGameController.joypadPosition = [[settings valueForKey:@"joypadPosition"] intValue];
 
-	// Now that the settings values have been updated from the settings file, post a notification
-	// which causes the sliders on the settings view to be updated with the new values.
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"updateSettingsSliders" object:self];
 }
 
 - (void)saveSettings {
 	// Save the current settings to the apps prefs file
 	NSNumber *mv = [NSNumber numberWithFloat:sharedSoundManager.musicVolume];
 	NSNumber *fv = [NSNumber numberWithFloat:sharedSoundManager.fxVolume];
-	NSNumber *lh = [NSNumber numberWithInt:joypadPosition];
 	[settings setObject:mv forKey:@"musicVolume"];
 	[settings setObject:fv forKey:@"fxVolume"];
-	[settings setObject:lh forKey:@"joypadPosition"];
 	[settings writeToFile:settingsFilePath atomically:YES];
-	SLQLOG(@"INFO - GameController: Saving musicVolume=%f, fxVolume=%f, joypadPosition=%d", [mv floatValue], [fv floatValue], [lh intValue]);
+	SLQLOG(@"INFO - GameController: Saving musicVolume=%f, fxVolume=%f", [mv floatValue], [fv floatValue]);
 }
 
 #pragma mark -
@@ -253,22 +234,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	// Set up the sound manager
 	sharedSoundManager = [SoundManager sharedSoundManager];
 
-	// Set up the notifications we are going to listen our for
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startGame) name:@"startGame" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pauseGame) name:@"pauseGame" object:nil];
-
 	// Set the random number seed.  If we don't set this then each time the game is run we will get
 	// the same numbers generated from the random macros in global.h
 	srandomdev();
-
-	// Set the orientation of the device
-	interfaceOrientation = UIInterfaceOrientationLandscapeRight;
-
-	// Initialize the views for settings, scores, instructions and credits
-	settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsView" bundle:[NSBundle mainBundle]];
-	highScoreViewController = [[HighScoreViewController alloc] initWithNibName:@"HighScoreView" bundle:[NSBundle mainBundle]];
-	instructionsViewController = [[InstructionsViewController alloc] initWithNibName:@"InstructionsView" bundle:[NSBundle mainBundle]];
-	creditsViewController = [[CreditsViewController alloc] initWithNibName:@"CreditsView" bundle:[NSBundle mainBundle]];
 
 	// Settup the menu scenes
     gameScenes = [[NSMutableDictionary alloc] init];
@@ -318,12 +286,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 - (void)sortHighScores {
 	// Sort the high score data using the score and then the date and time.  For this we need to create two
-	// sort descriptors using the score and dateTime properties of the score object
-	NSSortDescriptor *scoreSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score" ascending:NO] autorelease];
-	NSSortDescriptor *dateSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"dateTime" ascending:NO] autorelease];
+	// sort descriptors using the score and wave properties of the score object
+	NSSortDescriptor *scoreSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"score_" ascending:NO] autorelease];
+	NSSortDescriptor *waveSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"wave_" ascending:NO] autorelease];
 
 	// We then place the sort descriptors we want to use into an array of sortDescriptors
-	NSArray *sortDescriptors = [NSArray arrayWithObjects:scoreSortDescriptor, dateSortDescriptor, nil];
+	NSArray *sortDescriptors = [NSArray arrayWithObjects:scoreSortDescriptor, waveSortDescriptor, nil];
 
 	// We have a retain on highScores, so we release that before loading the sorted data into the highScores array
 	[highScores release];
@@ -337,7 +305,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 														 NSUserDomainMask,
 														 YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	settingsFilePath = [documentsDirectory stringByAppendingPathComponent:@"slqtsor.plist"];
+	settingsFilePath = [documentsDirectory stringByAppendingPathComponent:@"cinvaders.plist"];
 	[settingsFilePath retain];
 }
 

@@ -104,6 +104,11 @@ enum {
 	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 
 	[aliens_ removeAllObjects];
+
+	[bonusSelection_ removeAllObjects];
+	[bonusDirection_ removeAllObjects];
+	[additionalBonusDelay_ removeAllObjects];
+
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		for (int i = 0; i < randomListLength_; ++i) {
 			[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
@@ -1562,6 +1567,39 @@ enum {
         // x and y coordinates
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
+		if (state_ == SceneState_GameOver) {
+			// The game is over and we want to get the players name for the score board.  We are going to a UIAlertview
+			// to do this for us.  The message which is defined as "anything" cannot be blank else the buttons on the
+			// alertview will overlap the textfield.
+			UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@"anything"
+																		  delegate:self cancelButtonTitle:@"Dismiss"
+																 otherButtonTitles:@"OK", nil];
+
+			// A normal alterview is in the middle of the screen, so we move it up else the keyboard for the textfield
+			// will be rendered over the alert view
+			CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
+			playersNameAlertView.transform = transform;
+
+			// Now we have moved the view we need to create a UITextfield to add to the view
+			UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 20)];
+
+			// We set the background to white and the tag to 99.  This allows us to reference the text field in the alert
+			// view later on to get the text that is typed in.  We also set it to becomeFirstResponder so that the keyboard
+			// automatically shows
+			playersNameTextField.backgroundColor = [UIColor whiteColor];
+			playersNameTextField.tag = 99;
+			[playersNameTextField becomeFirstResponder];
+
+			// Add the textfield to the alert view
+			[playersNameAlertView addSubview:playersNameTextField];
+
+			// Show the alert view and then release it and the textfield.  As they are shown a retain is held.  If
+			// we do not release then we will leak memory when the view is dismissed.
+			[playersNameAlertView show];
+			[playersNameAlertView release];
+			[playersNameTextField release];
+		}
+
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
 			if (canPlayerFire_) {
 				[self playerFireShot];
@@ -1644,6 +1682,36 @@ enum {
 		}
 	}
     return self;
+}
+
+- (void)alertView:(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+	// First off grab a refernce to the textfield on the alert view.  This is done by hunting
+	// for tag 99
+	UITextField *nameField = (UITextField *)[alertView viewWithTag:99];
+
+	// If the OK button is pressed then set the playersname
+	NSString * playersName;
+	if (buttonIndex == 1) {
+		playersName = nameField.text;
+		if ([playersName length] == 0)
+			playersName = @"No Name Given";
+
+		// Save the games info to the high scores table only if a players name has been entered
+		if (playersName) {
+			[sharedGameController_ addToHighScores:score_ name:playersName wave:wave_];
+		}
+	}
+
+	// We must remember to resign the textfield before this method finishes.  If we don't then an error
+	// is reported e.g. "wait_fences: failed to receive reply:"
+	[nameField resignFirstResponder];
+
+	// Delete the old gamestate file
+	[sharedGameController_ deleteGameState];
+
+	// Finally set the state to transition out of the scene
+	state_ = SceneState_TransitionOut;
 }
 
 @end
