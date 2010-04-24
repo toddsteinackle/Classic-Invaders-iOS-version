@@ -10,12 +10,14 @@
 	int score_;
 	NSString *name_;
     int wave_;
+    bool isMostRecentScore_;
 
 }
 
 @property (nonatomic, assign) int score_;
 @property (nonatomic, assign) int wave_;
 @property (nonatomic, retain) NSString *name_;
+@property (nonatomic, assign) bool isMostRecentScore_;
 
 // Designated initializer that creates a new score instance that contains the players name
 // their score and the date and time they achieved that score

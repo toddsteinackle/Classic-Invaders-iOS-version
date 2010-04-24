@@ -69,6 +69,8 @@
 		5F585F61116A9FBD000DE830 /* BuzzyLp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F60116A9FBD000DE830 /* BuzzyLp.caf */; };
 		5F585F6B116AA3E2000DE830 /* Impact3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F6A116AA3E2000DE830 /* Impact3.caf */; };
 		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
+		5F96133E1182662E001A3771 /* ci_menu_mono_30_purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F96133C1182662E001A3771 /* ci_menu_mono_30_purple.png */; };
+		5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */; };
 		5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2EF6116FDA3F00E9541B /* Lost3.caf */; };
 		5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */; };
 		8F07D567112F04FA0094DEA2 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F07D566112F04FA0094DEA2 /* star.png */; };
@@ -210,6 +212,8 @@
 		5F585F6A116AA3E2000DE830 /* Impact3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact3.caf; sourceTree = "<group>"; };
 		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
 		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
+		5F96133C1182662E001A3771 /* ci_menu_mono_30_purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ci_menu_mono_30_purple.png; sourceTree = "<group>"; };
+		5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci_menu_mono_30_purple.fnt; sourceTree = "<group>"; };
 		5F9D2EF6116FDA3F00E9541B /* Lost3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost3.caf; sourceTree = "<group>"; };
 		5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -440,6 +444,8 @@
 			isa = PBXGroup;
 			children = (
 				5F438F3F117A14AF00539457 /* ci_menu.fnt */,
+				5F96133C1182662E001A3771 /* ci_menu_mono_30_purple.png */,
+				5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */,
 				5F438F40117A14AF00539457 /* ci_menu.png */,
 				5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */,
 				5F3EFA98117FC9BC0075E6CE /* ci_menu_mono_30.png */,
@@ -844,6 +850,8 @@
 				5F438FAA117A46B700539457 /* menu_select.caf in Resources */,
 				5F3EFA97117FC9B60075E6CE /* ci_menu_mono_30.fnt in Resources */,
 				5F3EFA99117FC9BC0075E6CE /* ci_menu_mono_30.png in Resources */,
+				5F96133E1182662E001A3771 /* ci_menu_mono_30_purple.png in Resources */,
+				5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

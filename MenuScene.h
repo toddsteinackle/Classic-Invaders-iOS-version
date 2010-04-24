@@ -37,6 +37,8 @@
 
     BitmapFont *menuFont_;
     BitmapFont *monoMenuFont_;
+    BitmapFont *monoScoreHighlingtFont_;
+
     NSArray *highScores_;
 }
 

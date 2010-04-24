@@ -79,7 +79,11 @@ enum {
                                                            controlFile:@"ci_menu_mono_30"
                                                                  scale:Scale2fMake(0.85f, 0.85f)
                                                                 filter:GL_LINEAR];
-
+            monoScoreHighlingtFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30_purple"
+                                                                          ofType:@"png"
+                                                                     controlFile:@"ci_menu_mono_30_purple"
+                                                                           scale:Scale2fMake(0.85f, 0.85f)
+                                                                          filter:GL_LINEAR];
 
             fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
             fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
@@ -182,10 +186,16 @@ enum {
     highScores_ = sharedGameController_.highScores;
 #ifdef MYDEBUG
     for (Score *s in highScores_) {
-        NSLog(@"s -- %i, %@, %i", s.score_, s.name_, s.wave_);
+        NSLog(@"s -- %i, %@, %i, %i", s.score_, s.name_, s.wave_, s.isMostRecentScore_);
     }
 #endif
-	state_ = SceneState_TransitionIn;
+    for (Score *s in highScores_) {
+        if (s.isMostRecentScore_) {
+            state_ = SceneState_Scores;
+            return;
+        }
+    }
+    state_ = SceneState_TransitionIn;
 }
 
 - (void)renderScene {
@@ -235,14 +245,21 @@ enum {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 265) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "====", "=====", "===="]];
             int i = 2; int j = 1; const char *name;
 
+            BitmapFont *font;
             for (Score *s in highScores_) {
+                if (s.isMostRecentScore_) {
+                    font = monoScoreHighlingtFont_;
+                } else {
+                    font = monoMenuFont_;
+                }
+
                 name = [s.name_ UTF8String];
                 if (j<10) {
-                    [monoMenuFont_ renderStringAt:CGPointMake(5, 285-i*25)
+                    [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@" %d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
                     ++i;
                 } else {
-                    [monoMenuFont_ renderStringAt:CGPointMake(5, 285-i*25)
+                    [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@"%d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
                     [sharedImageRenderManager_ renderImages];
                     return;

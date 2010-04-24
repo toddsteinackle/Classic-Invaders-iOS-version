@@ -10,6 +10,7 @@
 @synthesize score_;
 @synthesize name_;
 @synthesize wave_;
+@synthesize isMostRecentScore_;
 
 - (void)dealloc {
 	[super dealloc];
@@ -21,6 +22,7 @@
 		self.score_ = score;
 		self.name_ = name;
         self.wave_ = wave;
+        self.isMostRecentScore_ = TRUE;
 	}
 	return self;
 }
@@ -36,6 +38,7 @@
 
 	// Create a new instance of Score
 	[self initWithScore:score name:name wave:wave];
+    self.isMostRecentScore_ = FALSE;
 
 	return self;
 }

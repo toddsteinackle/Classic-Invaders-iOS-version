@@ -25,6 +25,7 @@
 #import "BigBonusShip.h"
 #import "SmallBonusShip.h"
 #import "ShieldPiece.h"
+#import "Score.h"
 
 // Scene States
 enum {
@@ -67,6 +68,7 @@ enum {
 - (void)initShields;
 - (bool)noneAliveWithEntityArray:(NSMutableArray *)entityArray;
 - (void)freeGuyCheck;
+- (void)getPlayerName;
 
 @end
 
@@ -84,6 +86,38 @@ enum {
 	return TRUE;
 }
 
+- (void)getPlayerName {
+	// The game is over and we want to get the players name for the score board.  We are going to a UIAlertview
+	// to do this for us.  The message which is defined as "anything" cannot be blank else the buttons on the
+	// alertview will overlap the textfield.
+	UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@"anything"
+																  delegate:self cancelButtonTitle:@"Dismiss"
+														 otherButtonTitles:@"OK", nil];
+
+	// A normal alterview is in the middle of the screen, so we move it up else the keyboard for the textfield
+	// will be rendered over the alert view
+	CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
+	playersNameAlertView.transform = transform;
+
+	// Now we have moved the view we need to create a UITextfield to add to the view
+	UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 20)];
+
+	// We set the background to white and the tag to 99.  This allows us to reference the text field in the alert
+	// view later on to get the text that is typed in.  We also set it to becomeFirstResponder so that the keyboard
+	// automatically shows
+	playersNameTextField.backgroundColor = [UIColor whiteColor];
+	playersNameTextField.tag = 99;
+	[playersNameTextField becomeFirstResponder];
+
+	// Add the textfield to the alert view
+	[playersNameAlertView addSubview:playersNameTextField];
+
+	// Show the alert view and then release it and the textfield.  As they are shown a retain is held.  If
+	// we do not release then we will leak memory when the view is dismissed.
+	[playersNameAlertView show];
+	[playersNameAlertView release];
+	[playersNameTextField release];
+}
 - (void)freeGuyCheck {
 	if (score_ >= nextFreeGuy_) {
 		[sharedSoundManager_ playSoundWithKey:@"free_guy" gain:0.7f];
@@ -348,6 +382,10 @@ enum {
 	lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
+	score_ = 0;
+	for (Score *s in sharedGameController_.highScores) {
+		s.isMostRecentScore_ = FALSE;
+	}
 
 	[self initSound];
 }
@@ -686,7 +724,6 @@ enum {
 
 #pragma mark TransitionIn
 		case SceneState_TransitionIn:
-
 			[self initNewGame];
 			state_ = SceneState_WaveMessage;
 			break;
@@ -1357,8 +1394,32 @@ enum {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
 			}
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_MiddleCentered
+									   justification:BitmapFontJustification_TopCentered
 												text:@"Game Over"];
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_MiddleCentered
+												text:[NSString stringWithFormat:@"Score:%d		Wave:%d", score_, wave_]];
+			if ([sharedGameController_.highScores count] < 10) {
+				[smallFont_ renderStringJustifiedInFrame:screenBounds_
+										   justification:BitmapFontJustification_BottomCentered
+													text:@"Score is in top 10. Tap to enter Name."];
+				[sharedImageRenderManager_ renderImages];
+				return;
+			} else {
+				for (int i = 0; i < 10; ++i) {
+					Score *s = [sharedGameController_.highScores objectAtIndex:i];
+					if (score_ >= s.score_) {
+						[smallFont_ renderStringJustifiedInFrame:screenBounds_
+												   justification:BitmapFontJustification_BottomCentered
+															text:@"Score is in top 10. Tap to enter Name."];
+						[sharedImageRenderManager_ renderImages];
+						return;
+					}
+				}
+			}
+			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+									   justification:BitmapFontJustification_BottomCentered
+												text:@"Tap to continue."];
 			[sharedImageRenderManager_ renderImages];
 			break;
 
@@ -1568,36 +1629,19 @@ enum {
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (state_ == SceneState_GameOver) {
-			// The game is over and we want to get the players name for the score board.  We are going to a UIAlertview
-			// to do this for us.  The message which is defined as "anything" cannot be blank else the buttons on the
-			// alertview will overlap the textfield.
-			UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@"anything"
-																		  delegate:self cancelButtonTitle:@"Dismiss"
-																 otherButtonTitles:@"OK", nil];
-
-			// A normal alterview is in the middle of the screen, so we move it up else the keyboard for the textfield
-			// will be rendered over the alert view
-			CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
-			playersNameAlertView.transform = transform;
-
-			// Now we have moved the view we need to create a UITextfield to add to the view
-			UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 20)];
-
-			// We set the background to white and the tag to 99.  This allows us to reference the text field in the alert
-			// view later on to get the text that is typed in.  We also set it to becomeFirstResponder so that the keyboard
-			// automatically shows
-			playersNameTextField.backgroundColor = [UIColor whiteColor];
-			playersNameTextField.tag = 99;
-			[playersNameTextField becomeFirstResponder];
-
-			// Add the textfield to the alert view
-			[playersNameAlertView addSubview:playersNameTextField];
-
-			// Show the alert view and then release it and the textfield.  As they are shown a retain is held.  If
-			// we do not release then we will leak memory when the view is dismissed.
-			[playersNameAlertView show];
-			[playersNameAlertView release];
-			[playersNameTextField release];
+			if ([sharedGameController_.highScores count] < 10) {
+				[self getPlayerName];
+				return;
+			} else {
+				for (int i = 0; i < 10; ++i) {
+					Score *s = [sharedGameController_.highScores objectAtIndex:i];
+					if (score_ >= s.score_) {
+						[self getPlayerName];
+						return;
+					}
+				}
+			}
+			[sharedGameController_ transitionToSceneWithKey:@"menu"];
 		}
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
@@ -1695,7 +1739,7 @@ enum {
 	if (buttonIndex == 1) {
 		playersName = nameField.text;
 		if ([playersName length] == 0)
-			playersName = @"No Name Given";
+			playersName = @"----------------------";
 
 		// Save the games info to the high scores table only if a players name has been entered
 		if (playersName) {
@@ -1710,8 +1754,7 @@ enum {
 	// Delete the old gamestate file
 	[sharedGameController_ deleteGameState];
 
-	// Finally set the state to transition out of the scene
-	state_ = SceneState_TransitionOut;
+	[sharedGameController_ transitionToSceneWithKey:@"menu"];
 }
 
 @end
