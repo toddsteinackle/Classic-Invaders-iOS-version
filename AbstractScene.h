@@ -53,5 +53,6 @@
 
 // Saves the current state of the game to be resumed later
 - (void)saveGameState;
+- (void)initPause;
 
 @end

@@ -27,21 +27,6 @@
 #import "ShieldPiece.h"
 #import "Score.h"
 
-// Scene States
-enum {
-	SceneState_WaveMessage,
-	SceneState_WaveOver,
-	SceneState_WaveCleanup,
-	SceneState_WaveIntro,
-	SceneState_PlayerDeath,
-	SceneState_PlayerRebirth,
-	SceneState_TransitionIn,
-	SceneState_TransitionOut,
-	SceneState_Running,
-	SceneState_Paused,
-	SceneState_GameOver
-};
-
 #pragma mark -
 #pragma mark Private interface
 
@@ -136,6 +121,7 @@ enum {
 	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
 	[smallBonus_ release];
 	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
+	bonus_ = NULL;
 
 	[aliens_ removeAllObjects];
 
@@ -366,6 +352,7 @@ enum {
 	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
+	pauseTouchControlBounds_ = CGRectMake(1, screenBounds_.size.height/2 - 1, screenBounds_.size.width - 2, screenBounds_.size.height/2 - 1);
 
 	randomListLength_ = 15;
 	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
@@ -383,11 +370,9 @@ enum {
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
 	score_ = 0;
-	for (Score *s in sharedGameController_.highScores) {
+	for (Score *s in sharedGameController_.highScores_) {
 		s.isMostRecentScore_ = FALSE;
 	}
-
-	[self initSound];
 }
 
 - (void)initShields {
@@ -722,6 +707,11 @@ enum {
 
 	switch (state_) {
 
+#pragma mark Paused
+		case SceneState_Paused:
+
+			break;
+
 #pragma mark TransitionIn
 		case SceneState_TransitionIn:
 			[self initNewGame];
@@ -946,9 +936,6 @@ enum {
 			if (lastTimeInLoop_) {
 				[self initWave];
 				state_ = SceneState_WaveIntro;
-				for(Alien *alien in aliens_) {
-					alien.state_ = EntityState_Appearing;
-				}
 				lastTimeInLoop_ = 0;
 				return;
 			}
@@ -1206,6 +1193,17 @@ enum {
 
 	switch (state_) {
 
+#pragma mark Paused
+		case SceneState_Paused:
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+				[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
+			}
+			[sharedImageRenderManager_ renderImages];
+			break;
+
 #pragma mark WaveMessage
 		case SceneState_WaveMessage:
 			glClear(GL_COLOR_BUFFER_BIT);
@@ -1399,7 +1397,7 @@ enum {
 			[smallFont_ renderStringJustifiedInFrame:screenBounds_
 									   justification:BitmapFontJustification_MiddleCentered
 												text:[NSString stringWithFormat:@"Score:%d		Wave:%d", score_, wave_]];
-			if ([sharedGameController_.highScores count] < 10) {
+			if ([sharedGameController_.highScores_ count] < 10) {
 				[smallFont_ renderStringJustifiedInFrame:screenBounds_
 										   justification:BitmapFontJustification_BottomCentered
 													text:@"Score is in top 10. Tap to enter Name."];
@@ -1407,7 +1405,7 @@ enum {
 				return;
 			} else {
 				for (int i = 0; i < 10; ++i) {
-					Score *s = [sharedGameController_.highScores objectAtIndex:i];
+					Score *s = [sharedGameController_.highScores_ objectAtIndex:i];
 					if (score_ >= s.score_) {
 						[smallFont_ renderStringJustifiedInFrame:screenBounds_
 												   justification:BitmapFontJustification_BottomCentered
@@ -1629,19 +1627,51 @@ enum {
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (state_ == SceneState_GameOver) {
-			if ([sharedGameController_.highScores count] < 10) {
+			if ([sharedGameController_.highScores_ count] < 10) {
 				[self getPlayerName];
 				return;
 			} else {
 				for (int i = 0; i < 10; ++i) {
-					Score *s = [sharedGameController_.highScores objectAtIndex:i];
+					Score *s = [sharedGameController_.highScores_ objectAtIndex:i];
 					if (score_ >= s.score_) {
 						[self getPlayerName];
 						return;
 					}
 				}
 			}
+			[sharedGameController_ deleteGameState];
 			[sharedGameController_ transitionToSceneWithKey:@"menu"];
+		}
+
+		if (state_ == SceneState_Paused && [touch tapCount] == 2) {
+			state_ = SceneState_Running;
+			if (bonus_.state_ == EntityState_Alive) {
+				[sharedSoundManager_ playSoundWithKey:@"active_bonus" gain:0.25f pitch:1.0 location:CGPointMake(0, 0) shouldLoop:TRUE];
+			}
+			switch (alienCount_) {
+				case 46:
+					[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					break;
+				case 47:
+					[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					break;
+				case 48:
+					[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					break;
+				case 49:
+					[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					break;
+				default:
+					[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					break;
+			}
+			totalTimePaused_ = CACurrentMediaTime() - timeOfInitialPause_;
+			lastBonusLaunch_ += totalTimePaused_;
+			lastAlienShot_ += totalTimePaused_;
+			canPlayerFire_ = TRUE;
+			return;
+		} else if (state_ == SceneState_Running && CGRectContainsPoint(pauseTouchControlBounds_, touchLocation) && [touch tapCount] == 2) {
+			[self initPause];
 		}
 
 		if (CGRectContainsPoint(fireTouchControlBounds_, touchLocation)) {
@@ -1718,6 +1748,8 @@ enum {
         sharedSoundManager_ = [SoundManager sharedSoundManager];
         sharedGameController_ = [GameController sharedGameController];
 
+		[self initSound];
+
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
@@ -1755,6 +1787,35 @@ enum {
 	[sharedGameController_ deleteGameState];
 
 	[sharedGameController_ transitionToSceneWithKey:@"menu"];
+}
+
+- (void)initPause {
+#ifdef	MYDEBUG
+	NSLog(@"initPause called");
+#endif
+	state_ = SceneState_Paused;
+	timeOfInitialPause_ = CACurrentMediaTime();
+	canPlayerFire_ = FALSE;
+	if (bonus_.state_ == EntityState_Alive) {
+		[sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
+	}
+	switch (alienCount_) {
+		case 46:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
+			break;
+		case 47:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
+			break;
+		case 48:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
+			break;
+		case 49:
+			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
+			break;
+		default:
+			[sharedSoundManager_ stopSoundWithKey:@"bg"];
+			break;
+	}
 }
 
 @end

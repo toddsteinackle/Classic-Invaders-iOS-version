@@ -169,7 +169,7 @@
 
 	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
 	if (orientation == UIDeviceOrientationLandscapeRight) {
-		sharedGameController.interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+		sharedGameController.interfaceOrientation_ = UIInterfaceOrientationLandscapeLeft;
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
 		glLoadIdentity();
 		glTranslatef( backingWidth/2, backingHeight/2, 0);
@@ -178,7 +178,7 @@
 	}
 
 	if (orientation == UIDeviceOrientationLandscapeLeft) {
-		sharedGameController.interfaceOrientation = UIInterfaceOrientationLandscapeRight;
+		sharedGameController.interfaceOrientation_ = UIInterfaceOrientationLandscapeRight;
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
 		glLoadIdentity();
 		glTranslatef( backingWidth/2, backingHeight/2, 0);

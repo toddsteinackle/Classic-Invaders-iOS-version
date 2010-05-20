@@ -39,7 +39,7 @@
 		sharedSoundManager_ = [SoundManager sharedSoundManager];
 
 		// Grab a reference to the current game screne
-		scene_ = (GameScene*)sharedGameController_.currentScene;
+		scene_ = (GameScene*)sharedGameController_.currentScene_;
 	}
 	return self;
 }

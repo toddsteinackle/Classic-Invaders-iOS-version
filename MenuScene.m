@@ -29,16 +29,6 @@
 # define aboutString @"About"
 # define settingString @"Settings"
 
-enum {
-	SceneState_TransitionIn,
-	SceneState_TransitionOut,
-	SceneState_Running,
-    SceneState_Idle,
-    SceneState_Scores,
-    SceneState_Help,
-    SceneState_Settings
-};
-
 - (id)init {
 
 	if(self = [super init]) {
@@ -94,25 +84,6 @@ enum {
             alien3_.scale = Scale2fMake(alienScale, alienScale);
             alien4_.scale = Scale2fMake(alienScale, alienScale);
             alien5_.scale = Scale2fMake(alienScale, alienScale);
-
-            CGFloat x = 40.0f;
-            CGFloat alienHeight = 30 * alienScale;
-            CGFloat verticalPadding;
-            if ([sharedGameController_ resumedGameAvailable]) {
-                verticalPadding = 10.0f;
-                settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
-                instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
-                scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
-                resumeButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-                startButtonBounds_ = CGRectMake(x, alienHeight*4+verticalPadding*5, 400, alienHeight);
-            } else {
-                verticalPadding = 22.5f;
-                settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
-                instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
-                scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
-                startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-            }
-
 		}
 
 		// Init the fadespeed and alpha for this scene
@@ -183,7 +154,26 @@ enum {
 	// at the menu.  This is recommended by apple and helps to save power
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 
-    highScores_ = sharedGameController_.highScores;
+    CGFloat x = 40.0f;
+    CGFloat alienScale = 1.75f;
+    CGFloat alienHeight = 30 * alienScale;
+    CGFloat verticalPadding;
+    if ([sharedGameController_ resumedGameAvailable_]) {
+        verticalPadding = 10.0f;
+        settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+        instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
+        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
+        resumeButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
+        startButtonBounds_ = CGRectMake(x, alienHeight*4+verticalPadding*5, 400, alienHeight);
+    } else {
+        verticalPadding = 22.5f;
+        settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+        instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
+        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
+        startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
+    }
+
+    highScores_ = sharedGameController_.highScores_;
 #ifdef MYDEBUG
     for (Score *s in highScores_) {
         NSLog(@"s -- %i, %@, %i, %i", s.score_, s.name_, s.wave_, s.isMostRecentScore_);
@@ -209,7 +199,7 @@ enum {
             CGFloat x = 50.0f;
             CGFloat alienHeight = 30 * 1.75f;
             CGFloat verticalPadding;
-            if ([sharedGameController_ resumedGameAvailable]) {
+            if ([sharedGameController_ resumedGameAvailable_]) {
                 verticalPadding = 10.0f;
                 [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
                 [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
@@ -311,7 +301,7 @@ enum {
 		if (CGRectContainsPoint(startButtonBounds_, touchLocation)) {
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.5f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			state_ = SceneState_TransitionOut;
-			sharedGameController_.shouldResumeGame = NO;
+			sharedGameController_.shouldResumeGame_ = NO;
 			alpha_ = 0;
 			return;
 		}
@@ -339,10 +329,10 @@ enum {
 
 		// If the resume button is visible then check to see if the player touched
 		// the resume button
-		if ([sharedGameController_ resumedGameAvailable] && CGRectContainsPoint(resumeButtonBounds_, touchLocation)) {
+		if ([sharedGameController_ resumedGameAvailable_] && CGRectContainsPoint(resumeButtonBounds_, touchLocation)) {
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			alpha_ = 0;
-			[sharedGameController_ setShouldResumeGame:YES];
+			[sharedGameController_ setShouldResumeGame_:YES];
 			state_ = SceneState_TransitionOut;
 			return;
 		}

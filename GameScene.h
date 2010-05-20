@@ -53,6 +53,7 @@
     CGRect leftTouchControlBounds_;
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
+    CGRect pauseTouchControlBounds_;
     NSUInteger numberOfPlayerShots_;
     NSUInteger numberOfAlienShots_;
     NSUInteger randomListLength_;
@@ -70,6 +71,8 @@
     double baseLaunchDelay_;
     double lastBonusLaunch_;
     double lastAlienShot_;
+    double timeOfInitialPause_;
+    double totalTimePaused_;
     int wave_;
     int alienOddRange_;
     int playerLives_;

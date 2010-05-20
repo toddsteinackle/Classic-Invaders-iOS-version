@@ -35,23 +35,23 @@
 
 @implementation GameController
 
-@synthesize currentScene;
-@synthesize resumedGameAvailable;
-@synthesize shouldResumeGame;
-@synthesize gameScenes;
-@synthesize eaglView;
-@synthesize highScores;
-@synthesize interfaceOrientation;
-@synthesize gamePaused;
+@synthesize currentScene_;
+@synthesize resumedGameAvailable_;
+@synthesize shouldResumeGame_;
+@synthesize gameScenes_;
+@synthesize eaglView_;
+@synthesize highScores_;
+@synthesize interfaceOrientation_;
+@synthesize gamePaused_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 - (void)dealloc {
 
-    [gameScenes release];
-	[highScores release];
-	[settingsFilePath release];
+    [gameScenes_ release];
+	[highScores_ release];
+	[settingsFilePath_ release];
     [super dealloc];
 }
 
@@ -83,10 +83,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 	if (highScoresData) {
 		decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:highScoresData];
-		unsortedHighScores = [[decoder decodeObjectForKey:@"highScores"] retain];
+		unsortedHighScores_ = [[decoder decodeObjectForKey:@"highScores"] retain];
 		[decoder release];
 	} else {
-		unsortedHighScores = [[NSMutableArray alloc] init];
+		unsortedHighScores_ = [[NSMutableArray alloc] init];
 	}
 
 	[self sortHighScores];
@@ -105,7 +105,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:scores];
 
 	// Archive the entities
-	[encoder encodeObject:unsortedHighScores forKey:@"highScores"];
+	[encoder encodeObject:unsortedHighScores_ forKey:@"highScores"];
 
 	// Finish encoding and write the contents of gameData to file
 	[encoder finishEncoding];
@@ -115,7 +115,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 - (void)addToHighScores:(int)score name:(NSString*)name wave:(int)wave {
 	Score *s = [[Score alloc] initWithScore:score name:name wave:wave];
-	[unsortedHighScores addObject:s];
+	[unsortedHighScores_ addObject:s];
 	[s release];
 	[self saveHighScores];
 	[self sortHighScores];
@@ -134,41 +134,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[fileManager removeItemAtPath:gameStatePath error:NULL];
 
 	// Flag that there is then no resume game available
-	resumedGameAvailable = NO;
-	shouldResumeGame = NO;
+	resumedGameAvailable_ = NO;
+	shouldResumeGame_ = NO;
 }
 
 - (void)loadSettings {
 
 	SLQLOG(@"INFO - EAGLView: Loading settings.");
 	// If the prefs file has not been initialised then init the prefs file
-	if(settingsFilePath == nil)
+	if(settingsFilePath_ == nil)
 		[self initSettingsFilePath];
 
 	// If the prefs file cannot be found then create it with default values
-	if([[NSFileManager defaultManager] fileExistsAtPath:settingsFilePath]) {
+	if([[NSFileManager defaultManager] fileExistsAtPath:settingsFilePath_]) {
 		SLQLOG(@"INFO - GameController: Found settings file");
-		settings = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFilePath];
+		settings_ = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFilePath_];
 	} else {
 		SLQLOG(@"INFO - GameController: No settings file, creating defaults");
-		settings = [[NSMutableDictionary alloc] init];
-		[settings setObject:[NSString stringWithFormat:@"%f", 0.7f] forKey:@"musicVolume"];
-		[settings setObject:[NSString stringWithFormat:@"%f", 0.5f] forKey:@"fxVolume"];
+		settings_ = [[NSMutableDictionary alloc] init];
+		[settings_ setObject:[NSString stringWithFormat:@"%f", 0.7f] forKey:@"musicVolume"];
+		[settings_ setObject:[NSString stringWithFormat:@"%f", 1.0f] forKey:@"fxVolume"];
 	}
 
 	// Get the prefs from the pref file and update the sound manager
-	[sharedSoundManager setMusicVolume:[(NSString *)[settings valueForKey:@"musicVolume"] floatValue]];
-	[sharedSoundManager setFxVolume:[(NSString *)[settings valueForKey:@"fxVolume"] floatValue]];
+	[sharedSoundManager_ setMusicVolume:[(NSString *)[settings_ valueForKey:@"musicVolume"] floatValue]];
+	[sharedSoundManager_ setFxVolume:[(NSString *)[settings_ valueForKey:@"fxVolume"] floatValue]];
 
 }
 
 - (void)saveSettings {
 	// Save the current settings to the apps prefs file
-	NSNumber *mv = [NSNumber numberWithFloat:sharedSoundManager.musicVolume];
-	NSNumber *fv = [NSNumber numberWithFloat:sharedSoundManager.fxVolume];
-	[settings setObject:mv forKey:@"musicVolume"];
-	[settings setObject:fv forKey:@"fxVolume"];
-	[settings writeToFile:settingsFilePath atomically:YES];
+	NSNumber *mv = [NSNumber numberWithFloat:sharedSoundManager_.musicVolume];
+	NSNumber *fv = [NSNumber numberWithFloat:sharedSoundManager_.fxVolume];
+	[settings_ setObject:mv forKey:@"musicVolume"];
+	[settings_ setObject:fv forKey:@"fxVolume"];
+	[settings_ writeToFile:settingsFilePath_ atomically:YES];
 	SLQLOG(@"INFO - GameController: Saving musicVolume=%f, fxVolume=%f", [mv floatValue], [fv floatValue]);
 }
 
@@ -176,11 +176,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 #pragma mark Update & Render
 
 - (void)updateCurrentSceneWithDelta:(float)aDelta {
-    [currentScene updateSceneWithDelta:aDelta];
+    [currentScene_ updateSceneWithDelta:aDelta];
 }
 
 -(void)renderCurrentScene {
-    [currentScene renderScene];
+    [currentScene_ renderScene];
 }
 
 #pragma mark -
@@ -189,10 +189,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 - (void)transitionToSceneWithKey:(NSString*)aKey {
 
 	// Set the current scene to the one specified in the key
-	currentScene = [gameScenes objectForKey:aKey];
+	currentScene_ = [gameScenes_ objectForKey:aKey];
 
 	// Run the transitionIn method inside the new scene
-	[currentScene transitionIn];
+	[currentScene_ transitionIn];
 }
 
 #pragma mark -
@@ -202,12 +202,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 	CGPoint touchLocation;
 
-	if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+	if (interfaceOrientation_ == UIInterfaceOrientationLandscapeRight) {
 		touchLocation.x = aTouch.y;
 		touchLocation.y = aTouch.x;
 	}
 
-	if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+	if (interfaceOrientation_ == UIInterfaceOrientationLandscapeLeft) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             touchLocation.x = 1024 - aTouch.y;
             touchLocation.y = 768 - aTouch.x;
@@ -232,30 +232,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     SLQLOG(@"INFO - GameController: Starting game initialization.");
 
 	// Set up the sound manager
-	sharedSoundManager = [SoundManager sharedSoundManager];
+	sharedSoundManager_ = [SoundManager sharedSoundManager];
 
 	// Set the random number seed.  If we don't set this then each time the game is run we will get
 	// the same numbers generated from the random macros in global.h
 	srandomdev();
 
 	// Settup the menu scenes
-    gameScenes = [[NSMutableDictionary alloc] init];
+    gameScenes_ = [[NSMutableDictionary alloc] init];
 
     // Menu scene
 	AbstractScene *scene = [[MenuScene alloc] init];
-    [gameScenes setValue:scene forKey:@"menu"];
+    [gameScenes_ setValue:scene forKey:@"menu"];
 	[scene release];
 
 	// Game scene
 	scene = [[GameScene alloc] init];
-	[gameScenes setValue:scene forKey:@"game"];
+	[gameScenes_ setValue:scene forKey:@"game"];
 	[scene release];
 
     // Set the starting scene for the game
-    currentScene = [gameScenes objectForKey:@"menu"];
+    currentScene_ = [gameScenes_ objectForKey:@"menu"];
 
 	// Setup and load the highscores
-	highScores = [[NSArray alloc] init];
+	highScores_ = [[NSArray alloc] init];
 	[self loadHighScores];
 
 	// Get the path to the saved game state file
@@ -265,21 +265,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	NSString *documentPath = [documentsDirectory stringByAppendingPathComponent:@"gameState.dat"];
 
 	// By default a saved game does exist
-	resumedGameAvailable = YES;
+	resumedGameAvailable_ = YES;
 
 	// By default the game is not paused
-	gamePaused = NO;
+	gamePaused_ = NO;
 
 	// ...and if it doesn't then flag it
 	if (![fileManager fileExistsAtPath:documentPath])
-		resumedGameAvailable = NO;
+		resumedGameAvailable_ = NO;
 
 	// By default we are not going to start from a resumed game.  This is set to YES if the
 	// resume game option is selected from the main menu
-	shouldResumeGame = NO;
+	shouldResumeGame_ = NO;
 
     // Set the initial scenes state
-    [currentScene transitionIn];
+    [currentScene_ transitionIn];
 
     SLQLOG(@"INFO - GameController: Finished game initialization.");
 }
@@ -294,10 +294,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	NSArray *sortDescriptors = [NSArray arrayWithObjects:scoreSortDescriptor, waveSortDescriptor, nil];
 
 	// We have a retain on highScores, so we release that before loading the sorted data into the highScores array
-	[highScores release];
+	[highScores_ release];
 
 	// Load the highScores array with the sorted data from the unsortedHighScores array
-	highScores = [[unsortedHighScores sortedArrayUsingDescriptors:sortDescriptors] retain];
+	highScores_ = [[unsortedHighScores_ sortedArrayUsingDescriptors:sortDescriptors] retain];
 }
 
 - (void)initSettingsFilePath {
@@ -305,16 +305,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 														 NSUserDomainMask,
 														 YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
-	settingsFilePath = [documentsDirectory stringByAppendingPathComponent:@"cinvaders.plist"];
-	[settingsFilePath retain];
+	settingsFilePath_ = [documentsDirectory stringByAppendingPathComponent:@"cinvaders.plist"];
+	[settingsFilePath_ retain];
 }
 
 - (void)startGame {
-	gamePaused = NO;
+	gamePaused_ = NO;
 }
 
 - (void)pauseGame {
-	gamePaused = YES;
+	gamePaused_ = YES;
 }
 
 @end

@@ -44,7 +44,7 @@
     [super dealloc];
 }
 
-// It is necessary to override this class so that the core animation layer can be 
+// It is necessary to override this class so that the core animation layer can be
 // returned when the layerClass is requested for OpenGL to work.
 + (Class) layerClass
 {
@@ -55,23 +55,23 @@
 #pragma mark Init EAGLView
 
 - (id) initWithCoder:(NSCoder*)coder
-{    
+{
     if ((self = [super initWithCoder:coder]))
 	{
         // Get the layer
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
-        
+
         eaglLayer.opaque = TRUE;
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:FALSE], 
-										kEAGLDrawablePropertyRetainedBacking, 
-                                        kEAGLColorFormatRGB565, 
-										kEAGLDrawablePropertyColorFormat, 
+                                        [NSNumber numberWithBool:FALSE],
+										kEAGLDrawablePropertyRetainedBacking,
+                                        kEAGLColorFormatRGB565,
+										kEAGLDrawablePropertyColorFormat,
                                         nil];
-		
+
 		// Set up an OpenGL ES 1.1 renderer
 		renderer = [[ES1Renderer alloc] init];
-		
+
 		// If the renderer is empty then something wen wrong so release this instance
 		// and return nothing
         if (!renderer)
@@ -79,32 +79,32 @@
             [self release];
             return nil;
         }
-        
+
 		// Set up the animation displaylink and timer variables
 		animating = FALSE;
 		displayLinkSupported = FALSE;
 		animationFrameInterval = 2;
 		displayLink = nil;
 		animationTimer = nil;
-		
+
 		// A system version of 3.1 or greater is required to use CADisplayLink. The NSTimer
 		// class is used as fallback when it isn't available.
 		NSString *reqSysVer = @"3.1";
 		NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
 		if ([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
 			displayLinkSupported = TRUE;
-        
+
         // Grab a reference to the game controller and set the eaglView property to point to this instance
 		// of EAGLView
         sharedGameController = [GameController sharedGameController];
-		sharedGameController.eaglView = self;
-		
+		sharedGameController.eaglView_ = self;
+
 		// Register observers that will be used to pause and start the game
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation) name:@"pauseGame" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation) name:@"startGame" object:nil];
 
     }
-	
+
     return self;
 }
 
@@ -122,22 +122,22 @@
 	static double cyclesLeftOver = 0.0f;
 	double currentTime;
 	double updateIterations;
-	
+
 	// Apple advises to use CACurrentMediaTime() as CFAbsoluteTimeGetCurrent() is synced with the mobile
 	// network time and so could change causing hiccups.
 	currentTime = CACurrentMediaTime();
 	updateIterations = ((currentTime - lastFrameTime) + cyclesLeftOver);
-	
+
 	if(updateIterations > (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL))
 		updateIterations = (MAX_CYCLES_PER_FRAME * UPDATE_INTERVAL);
-	
+
 	while (updateIterations >= UPDATE_INTERVAL) {
 		updateIterations -= UPDATE_INTERVAL;
-		
+
 		// Update the game logic passing in the fixed update interval as the delta
-		[sharedGameController updateCurrentSceneWithDelta:UPDATE_INTERVAL];		
+		[sharedGameController updateCurrentSceneWithDelta:UPDATE_INTERVAL];
 	}
-	
+
 	cyclesLeftOver = updateIterations;
 	lastFrameTime = currentTime;
 
@@ -175,7 +175,7 @@
 	if (frameInterval >= 1)
 	{
 		animationFrameInterval = frameInterval;
-		
+
 		if (animating)
 		{
 			[self stopAnimation];
@@ -202,7 +202,7 @@
 			animationTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((1.0 / MAXIMUM_FRAME_RATE) * animationFrameInterval) target:self selector:@selector(gameLoop) userInfo:nil repeats:TRUE];
             SLQLOG(@"INFO - EAGLView: Timer using NSTimer");
         }
-        
+
         animating = TRUE;
 		lastTime = CACurrentMediaTime();
 	}
@@ -222,7 +222,7 @@
 			[animationTimer invalidate];
 			animationTimer = nil;
 		}
-		
+
 		animating = FALSE;
 	}
 }
@@ -232,22 +232,22 @@
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
 	// Pass touch events onto the current scene
-	[[sharedGameController currentScene] touchesBegan:touches withEvent:event view:self];
+	[[sharedGameController currentScene_] touchesBegan:touches withEvent:event view:self];
 }
 
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
 	// Pass touch events onto the current scene
-	[[sharedGameController currentScene] touchesMoved:touches withEvent:event view:self];
+	[[sharedGameController currentScene_] touchesMoved:touches withEvent:event view:self];
 }
 
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
 	// Pass touch events onto the current scene
-	[[sharedGameController currentScene] touchesEnded:touches withEvent:event view:self];
+	[[sharedGameController currentScene_] touchesEnded:touches withEvent:event view:self];
 }
 
 - (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event {
 	// Pass touch events onto the current scene
-	[[sharedGameController currentScene] touchesCancelled:touches withEvent:event view:self];
+	[[sharedGameController currentScene_] touchesCancelled:touches withEvent:event view:self];
 }
 
 @end

@@ -41,7 +41,7 @@
 
 	[glView_ setMultipleTouchEnabled:YES];
 
-    sharedGameController_.interfaceOrientation = UIInterfaceOrientationLandscapeLeft;
+    sharedGameController_.interfaceOrientation_ = UIInterfaceOrientationLandscapeLeft;
 	// Start getting device orientation notifications
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
@@ -57,15 +57,19 @@
 {
 	// The game is resigning its active status i.e. a phone call, alarm or lock has occured.
 	// We don't want the game to continue in this case so we stop the animation
+    if ([sharedGameController_.currentScene_.name_ isEqualToString:@"game"] &&
+        sharedGameController_.currentScene_.state_ == SceneState_Running) {
+        [sharedGameController_.currentScene_ initPause];
+    }
 	[glView_ stopAnimation];
 }
 
 - (void) applicationDidBecomeActive:(UIApplication *)application
 {
-	// If the game was paused when it resigned active then we don't want to
-	// start the game again when the app becomes active
-	if (!sharedGameController_.gamePaused)
-		[glView_ startAnimation];
+    if ([sharedGameController_.currentScene_.name_ isEqualToString:@"game"]) {
+        [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    }
+    [glView_ startAnimation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -74,7 +78,7 @@
 	[glView_ stopAnimation];
 
 	// Ask the game controller to save state and settings before quiting
-	[sharedGameController_.currentScene saveGameState];
+	[sharedGameController_.currentScene_ saveGameState];
 	[sharedGameController_ saveSettings];
 
 	// Enable the idle timer before we leave

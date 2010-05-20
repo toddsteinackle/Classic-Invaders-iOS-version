@@ -61,6 +61,24 @@ enum entityState {
 	EntityState_Alive,
 	EntityState_Appearing
 };
+// Scene States
+enum {
+    SceneState_WaveMessage,
+    SceneState_WaveOver,
+    SceneState_WaveCleanup,
+    SceneState_WaveIntro,
+    SceneState_PlayerDeath,
+    SceneState_PlayerRebirth,
+    SceneState_TransitionIn,
+    SceneState_TransitionOut,
+    SceneState_Running,
+    SceneState_Paused,
+    SceneState_GameOver,
+    SceneState_Idle,
+    SceneState_Scores,
+    SceneState_Help,
+    SceneState_Settings
+};
 
 // Object states
 enum {

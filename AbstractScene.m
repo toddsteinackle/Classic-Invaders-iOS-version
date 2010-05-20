@@ -25,5 +25,6 @@
 - (void)transitionIn {}
 - (void)renderScene {}
 - (void)saveGameState {}
+- (void)initPause {}
 
 @end

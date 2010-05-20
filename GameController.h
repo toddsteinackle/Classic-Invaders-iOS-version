@@ -1,10 +1,5 @@
 //
 //  GameController.h
-//  GLGamev2
-//
-//  Created by Michael Daley on 10/07/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "SynthesizeSingleton.h"
@@ -25,38 +20,38 @@
 
 
 	///////////////////// Singletons
-	SoundManager *sharedSoundManager;				// Reference to the shared sound manager
+	SoundManager *sharedSoundManager_;				// Reference to the shared sound manager
 
 	///////////////////// Views and orientation
-	EAGLView *eaglView;						        // Reference to the EAGLView
-	UIInterfaceOrientation interfaceOrientation;	// Devices interface orientation
+	EAGLView *eaglView_;						        // Reference to the EAGLView
+	UIInterfaceOrientation interfaceOrientation_;	// Devices interface orientation
 
     ///////////////////// Game controller iVars
-	CGRect screenBounds;					// Bounds of the screen
-    NSDictionary *gameScenes;				// Dictionary of the different game scenes
-	NSArray *highScores;					// Sorted high scores array
-	NSMutableArray *unsortedHighScores;		// Unsorted high scores array
-    AbstractScene *currentScene;			// Current game scene being updated and rendered
+	CGRect screenBounds_;					// Bounds of the screen
+    NSDictionary *gameScenes_;				// Dictionary of the different game scenes
+	NSArray *highScores_;					// Sorted high scores array
+	NSMutableArray *unsortedHighScores_;		// Unsorted high scores array
+    AbstractScene *currentScene_;			// Current game scene being updated and rendered
 
 	///////////////////// Game controller flags
-	BOOL resumedGameAvailable;				// Can a game be resumed
-	BOOL shouldResumeGame;					// Should the game being loaded be resumed
-	BOOL gamePaused;						// Is the game paused
+	BOOL resumedGameAvailable_;				// Can a game be resumed
+	BOOL shouldResumeGame_;					// Should the game being loaded be resumed
+	BOOL gamePaused_;						// Is the game paused
 
 	///////////////////// Settings
-	NSMutableDictionary *settings;			// Dictionary of the games settings i.e. joypad location and volumes
-	NSString *settingsFilePath;				// Location of the settings file
+	NSMutableDictionary *settings_;			// Dictionary of the games settings i.e. joypad location and volumes
+	NSString *settingsFilePath_;				// Location of the settings file
 
 }
 
-@property (nonatomic, retain) EAGLView *eaglView;
-@property (nonatomic, retain) AbstractScene *currentScene;
-@property (nonatomic, retain) NSDictionary *gameScenes;
-@property (nonatomic, retain) NSArray *highScores;
-@property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation;
-@property (nonatomic, assign) BOOL resumedGameAvailable;
-@property (nonatomic, assign) BOOL shouldResumeGame;
-@property (nonatomic, assign) BOOL gamePaused;
+@property (nonatomic, retain) EAGLView *eaglView_;
+@property (nonatomic, retain) AbstractScene *currentScene_;
+@property (nonatomic, retain) NSDictionary *gameScenes_;
+@property (nonatomic, retain) NSArray *highScores_;
+@property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation_;
+@property (nonatomic, assign) BOOL resumedGameAvailable_;
+@property (nonatomic, assign) BOOL shouldResumeGame_;
+@property (nonatomic, assign) BOOL gamePaused_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class

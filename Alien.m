@@ -98,7 +98,7 @@
 
 		[SpriteSheetImage release];
 
-        state_ = EntityState_Alive;
+        state_ = EntityState_Appearing;
 
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
