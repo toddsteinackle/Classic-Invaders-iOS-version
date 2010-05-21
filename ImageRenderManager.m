@@ -1,9 +1,5 @@
 //
-//  RenderManager.m
-//  GLGamev2
-//
-//  Created by Michael Daley on 27/06/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
+//  ImageRenderManager.m
 //
 
 #import "ImageRenderManager.h"
@@ -13,7 +9,7 @@
 #pragma mark -
 #pragma mark Private interface
 
-@interface ImageRenderManager (Private) 
+@interface ImageRenderManager (Private)
 // Method used when an Image is instantiated.  It reserves a location within the render
 // managers IVA for this image and passes back a pointer to the TexturedColoredQuad
 // structure within the IVA.
@@ -42,20 +38,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
 
 - (id)init {
     if(self = [super init]) {
-        
+
         // Initialize the vertices array.
         iva = calloc(kMax_Images, sizeof(TexturedColoredQuad));
-        
+
         // Initialize the indices array.  This array will be used to specify the indexes into
         // the interleaved vertex array.  This array will allow us to just specify the specific
         // interleaved array elements we want glDrawElements to render.  We multiply by 6 as
-        // we are using GL_TRIANGLE to render and we therefore define two triangles each with 
+        // we are using GL_TRIANGLE to render and we therefore define two triangles each with
         // three vertices to make a quad.
         ivaIndices = calloc(kMax_Images * 6, sizeof(GLushort));
-        
+
         // Initialize the IVA index
         ivaIndex = 0;
-        
+
         // Initialize the texture to render count
         renderTextureCount = 0;
      }
@@ -63,26 +59,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
 }
 
 - (void)addImageDetailsToRenderQueue:(ImageDetails*)aImageDetails {
-    
+
 	// Copy the imageDetails to the render managers IVA
 	[self copyImageDetails:aImageDetails];
-	
+
 	// Add the texture used for this image to the list of textures to be rendered
 	[self addToTextureList:aImageDetails->textureName];
 }
 
 - (void)addTexturedColoredQuadToRenderQueue:(TexturedColoredQuad*)aTCQ textureName:(uint)aTexture {
 	memcpy((TexturedColoredQuad*)iva + ivaIndex, aTCQ,sizeof(TexturedColoredQuad));
-	
+
 	// Add the texture used for this image to the list of textures to be rendered
 	[self addToTextureList:aTexture];
-	
+
 	// As we have added a TexturedColoredQuad to the render queue we need to increment the iva index
 	ivaIndex++;
 }
 
 - (void)renderImages {
-    
+
     // Populate the vertex, texcoord and colorpointers with our interleaved vertex data
     glVertexPointer(2, GL_FLOAT, sizeof(TexturedColoredVertex), &iva[0].geometryVertex);
     glTexCoordPointer(2, GL_FLOAT, sizeof(TexturedColoredVertex), &iva[0].textureVertex);
@@ -90,15 +86,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
 
     // Loop through the texture index array rendering the images as necessary
     for(NSInteger textureIndex=0; textureIndex<renderTextureCount; textureIndex++) {
-		
+
         // Bind to the textureName of the current texture.  This is the key of the texture
         // structure
         glBindTexture(GL_TEXTURE_2D, texturesToRender[textureIndex]);
-		
+
         // Init the vertex counter.  This will be used to identify how many elements need to be used
         // within the indices array.
         int vertexCounter=0;
-        
+
         for(NSInteger imageIndex=0; imageIndex<imageCountForTexture[texturesToRender[textureIndex]]; imageIndex++) {
             // Set the indicies array to point to IVA entries for the image being processed
             // We are using GL_TRIANGLES so we construct two triangles from the vertices we
@@ -111,17 +107,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
             ivaIndices[vertexCounter++] = index+2;   // Top left
             ivaIndices[vertexCounter++] = index+3;   // Top right
         }
-        
+
         // Now we have loaded the indices array with indexes into the IVA, we draw those triangles
         glDrawElements(GL_TRIANGLES, vertexCounter, GL_UNSIGNED_SHORT, ivaIndices);
-        
+
         // Clear the quad count for the current texture
         imageCountForTexture[texturesToRender[textureIndex]] = 0;
     }
-    
+
     // Reset the number of textures which need to be rendered
     renderTextureCount = 0;
-	
+
 	// Reset the ivaIndex so that we start to load the next set of images from the start of the IVA.
 	ivaIndex = 0;
 }
@@ -134,7 +130,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
 @implementation ImageRenderManager (Private)
 
 - (void)copyImageDetails:(ImageDetails*)aImageDetails {
-	
+
     // Check to make sure that we have not exceeded the maximum size of the render queue.  If the queue size
 	// is exceeded then render the images that are currently in the render managers queue.  This resets the
 	// queue and allows the image to be added to the render managers then empty queue.
@@ -144,10 +140,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
     }
 	// Set the index for this image in the IVA
 	ivaIndex++;
-	
+
     // Point the texturedColoredQuadIVA to the current location in the render managers IVA queue
     aImageDetails->texturedColoredQuadIVA = (TexturedColoredQuad*)iva + ivaIndex;
-    
+
     // Copy the images base texturedColoredQuad into the assigned IVA index.  This is necessary to make sure
 	// the texture and color informaiton is loaded into the IVA.  The geometry from the image is loaded
 	// when the image is transformed within the Image render method.
@@ -165,7 +161,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
             break;
         }
     }
-    
+
     if(textureFound) {
         // This images texture has already been used in a previous image on the queue, so all we do is
         // add the images ivaIndex to the textureIndexes array
@@ -180,7 +176,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ImageRenderManager);
         textureIndices[aTextureName][imageCountForTexture[aTextureName]] = ivaIndex;
         // ... and set the count of images for that texture to 1
         imageCountForTexture[aTextureName] = 1;
-    }  
+    }
 }
 
 @end

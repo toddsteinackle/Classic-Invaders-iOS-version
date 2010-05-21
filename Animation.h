@@ -1,9 +1,5 @@
 //
 //  Animation.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 06/07/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Global.h"
@@ -21,7 +17,7 @@ enum {
 
 // This class represents a collection of frames which can be animated.  The class
 // allows for any number of images to be added to the animation specifying the
-// image to be used for the image as well as how long the image should be displayed 
+// image to be used for the image as well as how long the image should be displayed
 // before moving to the next image.
 //
 @interface Animation : NSObject {
@@ -53,7 +49,7 @@ enum {
 // Adds a frame to the animation
 - (void)addFrameWithImage:(Image*)aImage delay:(float)aDelay;
 
-// Updates the animation causing the timer to be progressed and the animation to 
+// Updates the animation causing the timer to be progressed and the animation to
 // move as defined
 - (void)updateWithDelta:(float)aDelta;
 

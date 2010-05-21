@@ -1,9 +1,5 @@
 //
 //  EAGLView.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 18/08/2009.
-//  Copyright Michael Daley 2009. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -18,7 +14,7 @@
 // The view content is basically an EAGL surface you render your OpenGL scene into.
 // Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
 //
-@interface EAGLView : UIView {    
+@interface EAGLView : UIView {
 
 @private
 	id <ESRenderer> renderer;
@@ -28,7 +24,7 @@
 	id displayLink;
     NSTimer *animationTimer;
     GameController *sharedGameController;
-    CFTimeInterval lastTime;	
+    CFTimeInterval lastTime;
 
 }
 

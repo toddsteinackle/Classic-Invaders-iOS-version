@@ -1,10 +1,5 @@
 /*
  *  Global.h
- *  SLQTSOR
- *
- *  Created by Michael Daley on 19/04/2009.
- *  Copyright 2009 Michael Daley. All rights reserved.
- *
  */
 
 #import <OpenGLES/ES1/gl.h>
@@ -37,22 +32,6 @@
 #pragma mark -
 #pragma mark Enumerators
 
-// Scene States
-enum {
-	kSceneState_Idle,
-	kSceneState_Credits,
-	kSceneState_Loading,
-	kSceneState_TransitionIn,
-	kSceneState_TransitionOut,
-	kSceneState_TransportingIn,
-	kSceneState_TransportingOut,
-	kSceneState_Running,
-	kSceneState_Paused,
-	kSceneState_GameOver,
-	kSceneState_SaveScore,
-	kSceneState_GameCompleted
-};
-
 // Entity states
 enum entityState {
 	EntityState_Idle,
@@ -61,6 +40,7 @@ enum entityState {
 	EntityState_Alive,
 	EntityState_Appearing
 };
+
 // Scene States
 enum {
     SceneState_WaveMessage,
@@ -80,102 +60,8 @@ enum {
     SceneState_Settings
 };
 
-// Object states
-enum {
-	kObjectState_Active,
-	kObjectState_Inactive,
-	kObjectState_Inventory
-};
-
-// Object types
-enum  {
-	kObjectType_Key,
-	kObjectType_Energy,
-	kObjectType_General
-};
-
-// Object subtypes
-enum {
-	kObjectSubType_RedKey = 0,
-	kObjectSubType_GreenKey = 1,
-	kObjectSubType_BlueKey = 2,
-	kObjectSubType_YellowKey = 3,
-	kObjectSubType_Candy = 4,
-	kObjectSubType_Cake = 5,
-	kObjectSubType_Chicken = 6,
-	kObjectSubType_Drink = 7,
-	kObjectSubType_LolliPop = 8,
-	kObjectSubType_Ham = 9,
-	kObjectSubType_Grave = 10,
-	kObjectSubType_BottomLamp = 11,
-	kObjectSubType_RightLamp = 12,
-	kObjectSubType_TopLamp = 13,
-	kObjectSubType_LeftLamp = 14,
-	kObjectSubType_ParchmentTop = 15,
-	kObjectSubType_ParchmentMiddle = 16,
-	kObjectSubType_ParchmentBottom = 17,
-	kObjectSubType_Exit = 18
-};
-
-enum {
-    kDoorState_Open = 0,
-    kDoorState_Closed = 1
-};
-
-enum {
-	kDoorV_CaveGreen = 0,
-	kDoorV_CavePlain = 1,
-	kDoorV_WoodRed = 2,
-	kDoorV_WoodGreen = 3,
-	kDoorV_WoodPlain = 4,
-	kDoorV_WoodBlue = 5,
-	kDoorV_StoneRed = 6,
-	kDoorV_CaveBlue = 7,
-	kDoorV_StoneGreen = 8,
-	kDoorV_StonePlain = 9,
-	kDoorV_StoneBlue = 10,
-	kDoorV_CaveRed = 11,
-	kDoorH_CaveGreen = 12,
-	KDoorH_CavePlain = 13,
-	KDoorH_WoodRed = 14,
-	kDoorH_WoodGreen = 15,
-	kDoorH_WoodPlain = 16,
-	kDoorH_WoodBlue = 17,
-	kDoorH_StoneGreen = 18,
-	kDoorH_StonePlain = 19,
-	kDoorH_StoneBlue = 20,
-	kDoorH_CaveRed = 21,
-	kDoorH_CaveBlue = 22,
-	kDoorH_WoodStone = 23,
-	kDoorV_WoodStone = 24,
-	kDoorH_StoneWood = 25,
-	kDoorV_StoneWood = 26,
-	kDoorH_StoneRed = 27
-};
-
-#pragma mark -
-#pragma mark Constants
-
-// Name of the scenes
-#define kGame_Scene_Name @"game"
-#define kMenu_Scene_Name @"menu"
-
-// Tile map details
-#define kTile_Width 40
-#define kTile_Height 40
-#define kMax_Map_Width 200
-#define kMax_Map_Height 200
-
-// Spawning
-#define kMax_Player_Distance 6
-
 #pragma mark -
 #pragma mark Inline Functions
-
-// Converts a tile position into a pixel position
-static inline CGPoint tileMapPositionToPixelPosition(CGPoint tmp) {
-	return CGPointMake((int)(tmp.x * kTile_Width), (int)(tmp.y * kTile_Height));
-}
 
 // Returns YES is the point provided is inside the closed poly defined by
 // the vertices provided

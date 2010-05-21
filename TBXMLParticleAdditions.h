@@ -1,9 +1,5 @@
 //
 //  TBXMLParticleAdditions.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 19/12/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "TBXML.h"
@@ -15,7 +11,7 @@
 // meet our needs when processing the particle config files.
 //
 // The new methods below grab data from specific attributes that we know will contain the information
-// we need in a particle config file and returns values that are specific to our implementation such 
+// we need in a particle config file and returns values that are specific to our implementation such
 // as Color4f and Vector4f
 //
 // These changes will only work when processing the particle config files and a further category would

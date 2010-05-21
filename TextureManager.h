@@ -1,9 +1,5 @@
 //
-//  ResourceManager.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 16/05/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
+//  TextureManager.h
 //
 
 #import "Global.h"
@@ -23,7 +19,7 @@
 + (TextureManager *)sharedTextureManager;
 
 // Selector returns a Texture2D which has a ket of |aTextureName|.  If a texture cannot be
-// found with that key then a new Texture2D is created and added to the cache and a 
+// found with that key then a new Texture2D is created and added to the cache and a
 // reference to this new Texture2D instance is returned.
 - (Texture2D*)textureWithFileName:(NSString*)aName ofType:(NSString*)aType filter:(GLenum)aFilter;
 

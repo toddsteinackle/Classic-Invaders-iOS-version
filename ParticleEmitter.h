@@ -1,9 +1,5 @@
 //
 //  ParticleEmitter.h
-//  SLQTSOR
-//
-//  Created by Michael Daley on 17/04/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Global.h"
@@ -39,7 +35,7 @@ typedef struct {
 // The particleEmitter allows you to define parameters that are used when generating particles.
 // These particles are OpenGL particle sprites that based on the parameters provided each have
 // their own characteristics such as speed, lifespan, start and end colors etc.  Using these
-// particle emitters allows you to create organic looking effects such as smoke, fire and 
+// particle emitters allows you to create organic looking effects such as smoke, fire and
 // explosions.
 //
 // The design for this particle emitter was influenced by the point sprite particle system
@@ -49,22 +45,22 @@ typedef struct {
 
 	/////////////////// Singleton Managers
 	GameController *sharedGameController;
-	
+
 	/////////////////// Particle iVars
-	Image *texture;												
-	Vector2f sourcePosition, sourcePositionVariance;			
-	GLfloat angle, angleVariance;								
-	GLfloat speed, speedVariance;								
-	Vector2f gravity;											
-	GLfloat particleLifespan, particleLifespanVariance;			
-	Color4f startColor, startColorVariance;						
+	Image *texture;
+	Vector2f sourcePosition, sourcePositionVariance;
+	GLfloat angle, angleVariance;
+	GLfloat speed, speedVariance;
+	Vector2f gravity;
+	GLfloat particleLifespan, particleLifespanVariance;
+	Color4f startColor, startColorVariance;
 	Color4f finishColor, finishColorVariance;
 	GLfloat startParticleSize, startParticleSizeVariance;
 	GLfloat finishParticleSize, finishParticleSizeVariance;
 	GLuint maxParticles;
 	GLint particleCount;
 	GLfloat emissionRate;
-	GLfloat emitCounter;	
+	GLfloat emitCounter;
 	GLfloat elapsedTime;
 	GLfloat duration;
 	BOOL blendAdditive;						// Should the OpenGL Blendmode be additive
@@ -83,12 +79,12 @@ typedef struct {
 	BOOL useTexture;
 	GLint particleIndex;		// Stores the number of particles that are going to be rendered
 
-	
+
 	///////////////////// Render
 	GLuint verticesID;			// Holds the buffer name of the VBO that stores the color and vertices info for the particles
 	Particle *particles;		// Array of particles that hold the particle emitters particle details
 	PointSprite *vertices;		// Array of vertices and color information for each particle to be rendered
-	
+
 }
 
 @property(nonatomic, assign) Vector2f sourcePosition;

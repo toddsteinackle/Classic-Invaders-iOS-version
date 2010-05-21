@@ -1,9 +1,5 @@
 //
-//  TextureAtlas.m
-//  GLGamev2
-//
-//  Created by Michael Daley on 05/07/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
+//  SpriteSheet.m
 //
 
 #import "SpriteSheet.h"
@@ -42,55 +38,55 @@
 
 static NSMutableDictionary *cachedSpriteSheets = nil;
 
-+ (SpriteSheet*)spriteSheetForImageNamed:(NSString*)aImageName spriteSize:(CGSize)aSpriteSize spacing:(NSUInteger)aSpacing 
++ (SpriteSheet*)spriteSheetForImageNamed:(NSString*)aImageName spriteSize:(CGSize)aSpriteSize spacing:(NSUInteger)aSpacing
 								  margin:(NSUInteger)aMargin imageFilter:(GLenum)aFilter {
-	
+
     // Create a variable that will hold the sprite sheet to return
 	SpriteSheet *cachedSpriteSheet;
-	
+
 	if (!cachedSpriteSheets)
 		cachedSpriteSheets = [[NSMutableDictionary alloc] init];
-    
+
 	// If a sprite sheet created with the same filename is found then return the reference to it
 	if(cachedSpriteSheet = [cachedSpriteSheets objectForKey:aImageName])
 		return cachedSpriteSheet;
-	
+
     // As we have not found a sprite sheet we need to create a new one
     cachedSpriteSheet = [[SpriteSheet alloc] initWithImageNamed:aImageName spriteSize:aSpriteSize spacing:aSpacing margin:aMargin imageFilter:aFilter];
     // ... add it to the cachedSpriteSheets dictionary
 	[cachedSpriteSheets setObject:cachedSpriteSheet forKey:aImageName];
 	[cachedSpriteSheet release];
-	
+
     // ... and return a reference to it
 	return cachedSpriteSheet;
 }
 
-+ (SpriteSheet*)spriteSheetForImage:(Image*)aImage sheetKey:(NSString*)aSheetKey spriteSize:(CGSize)aSpriteSize 
++ (SpriteSheet*)spriteSheetForImage:(Image*)aImage sheetKey:(NSString*)aSheetKey spriteSize:(CGSize)aSpriteSize
 							spacing:(NSUInteger)aSpacing margin:(NSUInteger)aMargin {
-	
-    // Create a variable that will hold the sprite sheet to return	
+
+    // Create a variable that will hold the sprite sheet to return
 	SpriteSheet *cachedSpriteSheet;
-	
+
 	if (!cachedSpriteSheets)
 		cachedSpriteSheets = [[NSMutableDictionary alloc] init];
-	
+
     // If a sprite sheet created with the same texture name is found then return the reference to it
 	if(cachedSpriteSheet = [cachedSpriteSheets objectForKey:aSheetKey])
 		return cachedSpriteSheet;
-	
+
     // As we have not found a sprite sheet we need to create a new one
 	cachedSpriteSheet = [[SpriteSheet alloc] initWithImage:aImage spriteSize:aSpriteSize spacing:aSpacing margin:aMargin];
     // ... add it to the cachedSpriteSheets dictionary
 	[cachedSpriteSheets setObject:cachedSpriteSheet forKey:aSheetKey];
 	[cachedSpriteSheet release];
-	
-    // ... and return a reference to it    
+
+    // ... and return a reference to it
 	return cachedSpriteSheet;
-	
+
 }
 
 + (BOOL)removeCachedSpriteSheetWithKey:(NSString*)aKey {
-	
+
 	SpriteSheet *cachedSpriteSheet = [cachedSpriteSheets objectForKey:aKey];
 	if (cachedSpriteSheet) {
 		[cachedSpriteSheets removeObjectForKey:aKey];
@@ -98,7 +94,7 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
 	} else {
 		NSLog(@"WARNING - SpriteSheet: Key '%@' could not be found to release.", aKey);
 	}
-	
+
 	return NO;
 }
 
@@ -108,10 +104,10 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
     // sprite sheet is set up along with all the images properties
     self = [super init];
     if (self != nil) {
-        
+
         NSString *fileName = [[aImageFileName lastPathComponent] stringByDeletingPathExtension];
 		NSString *fileType = [aImageFileName pathExtension];
-        
+
         // Initialize the image to be used for this sprite sheet
 		self.image = [[Image alloc] initWithImageNamed:fileName ofType:fileType filter:aFilter];
 
@@ -119,7 +115,7 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
 		spriteSize = aSpriteSize;
 		spacing = aSpacing;
 		margin = 0;
-		
+
         // Cache the sprites that are included within this sprite sheet
 		[self cacheSprites];
 	}
@@ -130,12 +126,12 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
     self = [super init];
     if (self != nil) {
 		self.image = aImage;
-		
+
 		// Sprite size and spacing
 		spriteSize = aSpriteSize;
 		spacing = aSpacing;
 		margin = aMargin;
-		
+
 		[self cacheSprites];
 	}
 	return self;
@@ -148,7 +144,7 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
         NSLog(@"ERROR - SpriteSheet: Trying to reference a sprite which is out of bounds.");
         return nil;
     }
-    
+
 	// Calculate the location within the cached sprites
 	int index = (horizSpriteCount * aPoint.y) + aPoint.x;
 
@@ -162,23 +158,23 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
 @implementation SpriteSheet (Private)
 
 - (void)cacheSprites {
-	
+
 	// Calculate how many sprites there are horizontally and vertically given their size and margin
 	horizSpriteCount = ((image.imageSize.width + spacing) + margin) / ((spriteSize.width + spacing) + margin);
 	vertSpriteCount = ((image.imageSize.height + spacing) + margin) / ((spriteSize.height + spacing) + margin);
-	
+
 	// Initialize the structure to hold the geometry, texture and colour vertices
 	cachedSprites = [[NSMutableArray alloc] init];
 	CGPoint textureOffset;
-		
+
 	// Calculate and cache a texturedColoredQuad for each sprite in the sprite sheet
 	for(uint row=0; row < vertSpriteCount; row++) {
 		for(uint column=0; column < horizSpriteCount; column++) {
-			
+
 			// Based on the location within the spritesheet of the sprite we need, get a pixel point within the
 			// texture where the sprite texture will begin
 			CGPoint texturePoint = CGPointMake((column * (spriteSize.width + spacing) + margin), (row * (spriteSize.height + spacing) + margin));
-			
+
 			// Now make a rectangle structure that contains the position and dimensions of the image we want to grab
 			// for this tile image
 			textureOffset.x = image.textureOffset.x * image.fullTextureSize.width + texturePoint.x;
@@ -187,10 +183,10 @@ static NSMutableDictionary *cachedSpriteSheets = nil;
 
 			// Create a new image by grabbing the subimage defined above from the main sprite sheet image
 			Image *tileImage = [[image subImageInRect:tileImageRect] retain];
-			
+
 			// Add this image to the cached array
 			[cachedSprites addObject:tileImage];
-			
+
 			// Release the tile image
 			[tileImage release];
 		}

@@ -16,7 +16,6 @@
 #import "ParticleEmitter.h"
 #import "Primatives.h"
 #import "PackedSpriteSheet.h"
-#import "Layer.h"
 #import "Alien.h"
 #import "Alien2.h"
 #import "Alien3.h"

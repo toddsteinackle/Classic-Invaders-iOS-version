@@ -1,9 +1,5 @@
 //
 //  EAGLView.m
-//  SLQTSOR
-//
-//  Created by Michael Daley on 18/08/2009.
-//  Copyright Michael Daley 2009. All rights reserved.
 //
 
 #import "EAGLView.h"

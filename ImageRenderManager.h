@@ -1,9 +1,5 @@
 //
-//  RenderManager.h
-//  GLGamev2
-//
-//  Created by Michael Daley on 27/06/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
+//  ImageRenderManager.h
 //
 
 #import <OpenGLES/EAGL.h>
@@ -25,7 +21,7 @@
 // it into the render managers IVA.
 //
 // This information is then used to render the images when the renderImages method is called
-// Each texture on the queue is rendered in turn which means all images that use the same 
+// Each texture on the queue is rendered in turn which means all images that use the same
 // texture get rendered together.  This reduces the number of texture binds that are necessary.
 // Side effects are that using multiple textures can make it difficult to get the ordering of
 // where images are rendered on the screen correctly.
@@ -35,7 +31,7 @@
     ///////////////////// Render
     TexturedColoredVertex *iva;						// Interleaved Vertex Array that holds the vertex, texture and color information needed
 													// to render
-    GLushort *ivaIndices;							// Array of indices into the interleaved vertex array.  Used within glDrawElements to 
+    GLushort *ivaIndices;							// Array of indices into the interleaved vertex array.  Used within glDrawElements to
 													// define which elements within the IVA should be rendered
     NSUInteger textureIndices[kMax_Textures][kMax_Images];		// Array which holds the textures to be rendered.  The first dimension holds the texture
 																// name and the second dimension holds the IVAIndex of an image which should be rendered
@@ -51,13 +47,13 @@
 
 }
 
-// Class method that returns an instance of the RenderManager class.  If an instance has 
-// already been created then this instance is returned, otherwise a new instance is created 
+// Class method that returns an instance of the RenderManager class.  If an instance has
+// already been created then this instance is returned, otherwise a new instance is created
 // and returned.
 + (ImageRenderManager *)sharedImageRenderManager;
 
 // Method to add an imaged ImageDetails to the render queue.  The images renderIndex is taken from the
-// ImageDetails passed in and used to add this images IVA entry to the list of elements 
+// ImageDetails passed in and used to add this images IVA entry to the list of elements
 // inside the IVA which are going to be rendered.
 - (void)addImageDetailsToRenderQueue:(ImageDetails*)aImageDetails;
 

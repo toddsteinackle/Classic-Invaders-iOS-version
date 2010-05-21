@@ -1,9 +1,5 @@
 //
 //  Animation.m
-//  SLQTSOR
-//
-//  Created by Michael Daley on 06/07/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Animation.h"

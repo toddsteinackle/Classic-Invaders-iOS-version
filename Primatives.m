@@ -1,9 +1,5 @@
 //
 //  Primatives.m
-//  SLQTSOR
-//
-//  Created by Mike Daley on 05/09/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Primatives.h"
@@ -11,7 +7,7 @@
 @implementation Primatives
 
 void drawBox(CGRect aRect) {
-	
+
 	GLfloat vertices[8];
 	vertices[0] = aRect.origin.x;
 	vertices[1] = aRect.origin.y;
@@ -21,14 +17,14 @@ void drawBox(CGRect aRect) {
 	vertices[5] = aRect.origin.y + aRect.size.height;
 	vertices[6] = aRect.origin.x;
 	vertices[7] = aRect.origin.y + aRect.size.height;
-	
+
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisable(GL_TEXTURE_2D);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawArrays(GL_LINE_LOOP, 0, 4);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnable(GL_TEXTURE_2D);
-	
+
 }
 
 @end

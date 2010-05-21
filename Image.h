@@ -1,9 +1,5 @@
 //
 //  Image.h
-//  GLGamev2
-//
-//  Created by Michael Daley on 27/06/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Global.h"
@@ -14,19 +10,19 @@
 @class GameController;
 
 // The Image class is a wrapper around the Texture2D class.  It holds
-// important information about an image that can be rendered to the screen 
+// important information about an image that can be rendered to the screen
 // such as its dimensions, rotation, scale, color filter and texture coordinates.
-// The texture coordinates allow an image to respresent a subimage within 
+// The texture coordinates allow an image to respresent a subimage within
 // the texture which then provides support for sprite sheets (texture atlases).
-// 
-// To effect rotation, 
-// translation and scaling, this class transforms this images own matrix.  This 
-// allows us to load the transformed vertices into the IVA so that they are rendered 
+//
+// To effect rotation,
+// translation and scaling, this class transforms this images own matrix.  This
+// allows us to load the transformed vertices into the IVA so that they are rendered
 // correctly based on the images scale, rotation and location.
 //
-// If an image is not rendered using the ImageRenderManager then the rendering is 
+// If an image is not rendered using the ImageRenderManager then the rendering is
 // the responsbility of another class.  In that instance the images rendering
-// details such as geometry and texture information can be retrieved using 
+// details such as geometry and texture information can be retrieved using
 // the images ImageDetails structure
 //
 @interface Image : NSObject {
@@ -96,8 +92,8 @@
 // about scale and imageFilter.
 - (id)initWithImageNamed:(NSString*)aName ofType:(NSString*)aType filter:(GLenum)aFilter;
 
-// Initializer which also takes sub region information and initializes the image to only 
-// render a sub region of the texture.  The sub region is defined using a CGRect and the 
+// Initializer which also takes sub region information and initializes the image to only
+// render a sub region of the texture.  The sub region is defined using a CGRect and the
 // size of the images quad will match the size of the sub textures dimensions
 - (id)initWithImageNamed:(NSString*)aName ofType:(NSString*)aType filter:(GLenum)aFilter subTexture:(CGRect)aSubTexture;
 
@@ -109,14 +105,14 @@
 - (Image*)imageCopy;
 
 // Changes the dimensions of the image rendered based on the % values passed in.  The values for
-// width and height should range from 0 to 100.  This is the percentage of the total image width and 
+// width and height should range from 0 to 100.  This is the percentage of the total image width and
 // height that will be rendered next time the image is rendered.  These settings will stay in place
 // until they are changed.  This method simply changes the geometry and texture information for this
 // image causing a sub region of the image to be rendered
 - (void)setImageSizeToRender:(CGSize)aImageSize;
 
 // Adds the current images index to the queue in the image render manager.
-// This will cause this image to be renered when the image render manager is next 
+// This will cause this image to be renered when the image render manager is next
 // asked to render.
 - (void)render;
 

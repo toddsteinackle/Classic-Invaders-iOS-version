@@ -1,4 +1,3 @@
-//
 //  GameController.h
 
 #import <UIKit/UIKit.h>

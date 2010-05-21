@@ -1,9 +1,5 @@
 //
 //  GameController.m
-//  GLGamev2
-//
-//  Created by Michael Daley on 10/07/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "GameController.h"

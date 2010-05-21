@@ -1,9 +1,5 @@
 //
 //  PackagedSpriteSheet.h
-//  SLQTSOR
-//
-//  Created by Mike Daley on 31/10/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "Global.h"

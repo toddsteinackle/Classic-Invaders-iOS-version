@@ -1,10 +1,5 @@
 /*
  *  Structures.h
- *  SLQTSOR
- *
- *  Created by Mike Daley on 22/09/2009.
- *  Copyright 2009 Michael Daley. All rights reserved.
- *
  */
 
 #import <OpenGLES/ES1/gl.h>

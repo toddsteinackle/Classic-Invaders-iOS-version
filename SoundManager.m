@@ -1,9 +1,5 @@
 //
 //  SoundManager.m
-//  SLQTSOR
-//
-//  Created by Michael Daley on 22/05/2009.
-//  Copyright 2009 Michael Daley. All rights reserved.
 //
 
 #import "SoundManager.h"
