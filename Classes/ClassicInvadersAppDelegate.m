@@ -7,20 +7,6 @@
 #import "GameController.h"
 #import "GameScene.h"
 
-#pragma mark -
-#pragma mark Private interface
-
-@interface ClassicInvadersAppDelegate (Private)
-
-// Loads the settings from the settings plist file into the
-// sound manager
-- (void)loadSettings;
-
-@end
-
-#pragma mark -
-#pragma mark Public implementation
-
 @implementation ClassicInvadersAppDelegate
 
 @synthesize window_;
@@ -45,9 +31,6 @@
 	// Start getting device orientation notifications
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
-
-	// Load the settings from the plist file
-	[sharedGameController_ loadSettings];
 
 	// Start the game
 	[glView_ startAnimation];
@@ -76,10 +59,6 @@
 {
 	// Stop the game loop
 	[glView_ stopAnimation];
-
-	// Ask the game controller to save state and settings before quiting
-	[sharedGameController_.currentScene_ saveGameState];
-	[sharedGameController_ saveSettings];
 
 	// Enable the idle timer before we leave
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];

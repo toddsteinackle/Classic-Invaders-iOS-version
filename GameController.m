@@ -21,9 +21,6 @@
 // Sort the unsortedHighScores mutable array by score and date
 - (void)sortHighScores;
 
-// Sets up the path for reading the settings file
-- (void)initSettingsFilePath;
-
 @end
 
 #pragma mark -
@@ -32,13 +29,10 @@
 @implementation GameController
 
 @synthesize currentScene_;
-@synthesize resumedGameAvailable_;
-@synthesize shouldResumeGame_;
 @synthesize gameScenes_;
 @synthesize eaglView_;
 @synthesize highScores_;
 @synthesize interfaceOrientation_;
-@synthesize gamePaused_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
@@ -47,7 +41,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     [gameScenes_ release];
 	[highScores_ release];
-	[settingsFilePath_ release];
     [super dealloc];
 }
 
@@ -115,57 +108,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[s release];
 	[self saveHighScores];
 	[self sortHighScores];
-}
-
-#pragma mark -
-#pragma mark Save game settings
-
-- (void)deleteGameState {
-
-	// Delete the gameState.dat file
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *gameStatePath = [documentsDirectory stringByAppendingPathComponent:@"gameState.dat"];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	[fileManager removeItemAtPath:gameStatePath error:NULL];
-
-	// Flag that there is then no resume game available
-	resumedGameAvailable_ = NO;
-	shouldResumeGame_ = NO;
-}
-
-- (void)loadSettings {
-
-	SLQLOG(@"INFO - EAGLView: Loading settings.");
-	// If the prefs file has not been initialised then init the prefs file
-	if(settingsFilePath_ == nil)
-		[self initSettingsFilePath];
-
-	// If the prefs file cannot be found then create it with default values
-	if([[NSFileManager defaultManager] fileExistsAtPath:settingsFilePath_]) {
-		SLQLOG(@"INFO - GameController: Found settings file");
-		settings_ = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFilePath_];
-	} else {
-		SLQLOG(@"INFO - GameController: No settings file, creating defaults");
-		settings_ = [[NSMutableDictionary alloc] init];
-		[settings_ setObject:[NSString stringWithFormat:@"%f", 0.7f] forKey:@"musicVolume"];
-		[settings_ setObject:[NSString stringWithFormat:@"%f", 1.0f] forKey:@"fxVolume"];
-	}
-
-	// Get the prefs from the pref file and update the sound manager
-	[sharedSoundManager_ setMusicVolume:[(NSString *)[settings_ valueForKey:@"musicVolume"] floatValue]];
-	[sharedSoundManager_ setFxVolume:[(NSString *)[settings_ valueForKey:@"fxVolume"] floatValue]];
-
-}
-
-- (void)saveSettings {
-	// Save the current settings to the apps prefs file
-	NSNumber *mv = [NSNumber numberWithFloat:sharedSoundManager_.musicVolume];
-	NSNumber *fv = [NSNumber numberWithFloat:sharedSoundManager_.fxVolume];
-	[settings_ setObject:mv forKey:@"musicVolume"];
-	[settings_ setObject:fv forKey:@"fxVolume"];
-	[settings_ writeToFile:settingsFilePath_ atomically:YES];
-	SLQLOG(@"INFO - GameController: Saving musicVolume=%f, fxVolume=%f", [mv floatValue], [fv floatValue]);
 }
 
 #pragma mark -
@@ -254,26 +196,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	highScores_ = [[NSArray alloc] init];
 	[self loadHighScores];
 
-	// Get the path to the saved game state file
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	NSString *documentPath = [documentsDirectory stringByAppendingPathComponent:@"gameState.dat"];
-
-	// By default a saved game does exist
-	resumedGameAvailable_ = YES;
-
-	// By default the game is not paused
-	gamePaused_ = NO;
-
-	// ...and if it doesn't then flag it
-	if (![fileManager fileExistsAtPath:documentPath])
-		resumedGameAvailable_ = NO;
-
-	// By default we are not going to start from a resumed game.  This is set to YES if the
-	// resume game option is selected from the main menu
-	shouldResumeGame_ = NO;
-
     // Set the initial scenes state
     [currentScene_ transitionIn];
 
@@ -294,23 +216,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 	// Load the highScores array with the sorted data from the unsortedHighScores array
 	highScores_ = [[unsortedHighScores_ sortedArrayUsingDescriptors:sortDescriptors] retain];
-}
-
-- (void)initSettingsFilePath {
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-														 NSUserDomainMask,
-														 YES);
-	NSString *documentsDirectory = [paths objectAtIndex:0];
-	settingsFilePath_ = [documentsDirectory stringByAppendingPathComponent:@"cinvaders.plist"];
-	[settingsFilePath_ retain];
-}
-
-- (void)startGame {
-	gamePaused_ = NO;
-}
-
-- (void)pauseGame {
-	gamePaused_ = YES;
 }
 
 @end

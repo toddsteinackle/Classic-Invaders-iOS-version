@@ -30,7 +30,6 @@
 
 	/////////////////// Button iVars
 	CGRect startButtonBounds_;
-	CGRect resumeButtonBounds_;
 	CGRect scoreButtonBounds_;
 	CGRect instructionButtonBounds_;
     CGRect settingsButtonBounds_;

@@ -24,7 +24,6 @@
 
 // Set up the strings for the menu items
 # define startString @"New Game"
-# define resumeString @"Resume Game"
 # define scoreString @"High Scores"
 # define aboutString @"About"
 # define settingString @"Settings"
@@ -158,20 +157,12 @@
     CGFloat alienScale = 1.75f;
     CGFloat alienHeight = 30 * alienScale;
     CGFloat verticalPadding;
-    if ([sharedGameController_ resumedGameAvailable_]) {
-        verticalPadding = 10.0f;
-        settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
-        instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
-        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
-        resumeButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-        startButtonBounds_ = CGRectMake(x, alienHeight*4+verticalPadding*5, 400, alienHeight);
-    } else {
-        verticalPadding = 22.5f;
-        settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
-        instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
-        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
-        startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-    }
+
+    verticalPadding = 22.5f;
+    settingsButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+    instructionButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
+    scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
+    startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
 
     highScores_ = sharedGameController_.highScores_;
 #ifdef MYDEBUG
@@ -199,36 +190,20 @@
             CGFloat x = 50.0f;
             CGFloat alienHeight = 30 * 1.75f;
             CGFloat verticalPadding;
-            if ([sharedGameController_ resumedGameAvailable_]) {
-                verticalPadding = 10.0f;
-                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
 
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
+            verticalPadding = 22.5f;
+            [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+            [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
 
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
+            [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+            [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
 
-                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
-                [menuFont_ renderStringJustifiedInFrame:resumeButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:resumeString];
+            [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+            [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
 
-                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*4+verticalPadding*5)];
-                [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
-            } else {
-                verticalPadding = 22.5f;
-                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
+            [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+            [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
 
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
-
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
-
-                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
-                [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
-            }
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
@@ -301,7 +276,6 @@
 		if (CGRectContainsPoint(startButtonBounds_, touchLocation)) {
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.5f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			state_ = SceneState_TransitionOut;
-			sharedGameController_.shouldResumeGame_ = NO;
 			alpha_ = 0;
 			return;
 		}
@@ -327,15 +301,6 @@
 			return;
 		}
 
-		// If the resume button is visible then check to see if the player touched
-		// the resume button
-		if ([sharedGameController_ resumedGameAvailable_] && CGRectContainsPoint(resumeButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			alpha_ = 0;
-			[sharedGameController_ setShouldResumeGame_:YES];
-			state_ = SceneState_TransitionOut;
-			return;
-		}
 	}
     if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_Settings) {
         if (CGRectContainsPoint(screenBounds_, touchLocation)) {

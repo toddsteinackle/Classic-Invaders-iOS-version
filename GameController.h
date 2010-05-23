@@ -32,15 +32,6 @@
 	NSMutableArray *unsortedHighScores_;		// Unsorted high scores array
     AbstractScene *currentScene_;			// Current game scene being updated and rendered
 
-	///////////////////// Game controller flags
-	BOOL resumedGameAvailable_;				// Can a game be resumed
-	BOOL shouldResumeGame_;					// Should the game being loaded be resumed
-	BOOL gamePaused_;						// Is the game paused
-
-	///////////////////// Settings
-	NSMutableDictionary *settings_;			// Dictionary of the games settings i.e. joypad location and volumes
-	NSString *settingsFilePath_;				// Location of the settings file
-
 }
 
 @property (nonatomic, retain) EAGLView *eaglView_;
@@ -48,9 +39,6 @@
 @property (nonatomic, retain) NSDictionary *gameScenes_;
 @property (nonatomic, retain) NSArray *highScores_;
 @property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation_;
-@property (nonatomic, assign) BOOL resumedGameAvailable_;
-@property (nonatomic, assign) BOOL shouldResumeGame_;
-@property (nonatomic, assign) BOOL gamePaused_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class
@@ -73,15 +61,6 @@
 
 // Save the current high scores table
 - (void)saveHighScores;
-
-// Deletes the game state file
-- (void)deleteGameState;
-
-// Loads the game settings such as volume and joypad location
-- (void)loadSettings;
-
-// Saves the current settings
-- (void)saveSettings;
 
 // Returns an adjusted touch point based on the orientation of the device
 - (CGPoint)adjustTouchOrientationForTouch:(CGPoint)aTouch;

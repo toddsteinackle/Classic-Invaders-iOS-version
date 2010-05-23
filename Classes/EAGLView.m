@@ -30,12 +30,6 @@
 
 - (void) dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSettings" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"showHighScore" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidingSettings" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidingHighScore" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"pauseGame" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"startGame" object:nil];
 	[renderer release];
     [super dealloc];
 }
@@ -94,10 +88,6 @@
 		// of EAGLView
         sharedGameController = [GameController sharedGameController];
 		sharedGameController.eaglView_ = self;
-
-		// Register observers that will be used to pause and start the game
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopAnimation) name:@"pauseGame" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startAnimation) name:@"startGame" object:nil];
 
     }
 

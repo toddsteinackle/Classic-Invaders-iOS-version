@@ -1639,7 +1639,6 @@
 					}
 				}
 			}
-			[sharedGameController_ deleteGameState];
 			[sharedGameController_ transitionToSceneWithKey:@"menu"];
 		}
 
@@ -1782,9 +1781,6 @@
 	// We must remember to resign the textfield before this method finishes.  If we don't then an error
 	// is reported e.g. "wait_fences: failed to receive reply:"
 	[nameField resignFirstResponder];
-
-	// Delete the old gamestate file
-	[sharedGameController_ deleteGameState];
 
 	[sharedGameController_ transitionToSceneWithKey:@"menu"];
 }
