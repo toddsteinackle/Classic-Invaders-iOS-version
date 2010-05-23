@@ -25,6 +25,7 @@
 #import "SmallBonusShip.h"
 #import "ShieldPiece.h"
 #import "Score.h"
+#import "AlienShot.h"
 
 #pragma mark -
 #pragma mark Private interface
@@ -624,7 +625,7 @@
 
 - (void)initAlienShots {
 	for (int i = 0; i < numberOfAlienShots_; ++i) {
-		Shot *shot = [[Shot alloc] initWithPixelLocation:CGPointMake(0,0)];
+		AlienShot *shot = [[AlienShot alloc] initWithPixelLocation:CGPointMake(0,0)];
 		shot.dy_ = -60.0f;
 		[alienShots_ addObject:shot];
 		[shot release];
@@ -1094,7 +1095,7 @@
 
 			for (Shot *shot in alienShots_) {
 				if (shot.state_ == EntityState_Alive) {
-					//[shot updateWithDelta:aDelta scene:self];
+					[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
 			}

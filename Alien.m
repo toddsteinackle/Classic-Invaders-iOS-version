@@ -89,10 +89,10 @@
 
         animation_ = [[Animation alloc] init];
 		float delay = 0.2;
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 3)] delay:delay];
+		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 0)] delay:delay];
+        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(5, 0)] delay:delay];
+		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(6, 0)] delay:delay];
+        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(7, 0)] delay:delay];
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 

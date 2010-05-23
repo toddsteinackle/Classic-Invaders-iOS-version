@@ -61,6 +61,7 @@
 		5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4B117A19CA00539457 /* alien-2-4.png */; };
 		5F438F4E117A19ED00539457 /* alien-1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4D117A19ED00539457 /* alien-1-1.png */; };
 		5F438FAA117A46B700539457 /* menu_select.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F438FA9117A46B700539457 /* menu_select.caf */; };
+		5F47510511A82542007FB871 /* AlienShot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F47510411A82542007FB871 /* AlienShot.m */; };
 		5F57A550117541E90024F431 /* alien-1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F57A54F117541E90024F431 /* alien-1-2.png */; };
 		5F585F59116A9F67000DE830 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F58116A9F67000DE830 /* shot.caf */; };
 		5F585F5B116A9F8D000DE830 /* alien_death.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5A116A9F8D000DE830 /* alien_death.caf */; };
@@ -179,6 +180,8 @@
 		5F438F4B117A19CA00539457 /* alien-2-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-2-4.png"; sourceTree = "<group>"; };
 		5F438F4D117A19ED00539457 /* alien-1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-1.png"; sourceTree = "<group>"; };
 		5F438FA9117A46B700539457 /* menu_select.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = menu_select.caf; path = /Users/todd/Desktop/converted_sounds/current_ci_sounds/menu_select.caf; sourceTree = "<absolute>"; };
+		5F47510311A82542007FB871 /* AlienShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlienShot.h; sourceTree = "<group>"; };
+		5F47510411A82542007FB871 /* AlienShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlienShot.m; sourceTree = "<group>"; };
 		5F57A54F117541E90024F431 /* alien-1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-2.png"; sourceTree = "<group>"; };
 		5F585F58116A9F67000DE830 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F585F5A116A9F8D000DE830 /* alien_death.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = alien_death.caf; path = /Users/todd/Desktop/converted_sounds/current_ci_sounds/alien_death.caf; sourceTree = "<absolute>"; };
@@ -349,6 +352,8 @@
 				5F224D471159A86200A4AFBC /* SmallBonusShip.m */,
 				5F5FB329115EBD9000290A1F /* ShieldPiece.h */,
 				5F5FB32A115EBD9000290A1F /* ShieldPiece.m */,
+				5F47510311A82542007FB871 /* AlienShot.h */,
+				5F47510411A82542007FB871 /* AlienShot.m */,
 			);
 			name = "Game Entities";
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				5F224D451159A82600A4AFBC /* BigBonusShip.m in Sources */,
 				5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */,
 				5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */,
+				5F47510511A82542007FB871 /* AlienShot.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
