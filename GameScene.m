@@ -1300,18 +1300,6 @@
 			} else {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
 			}
-			[sharedImageRenderManager_ renderImages];
-
-			[player_ render];
-			[bonus_ render];
-			for(Alien *alien in aliens_) {
-				[alien render];
-			}
-			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.state_ == EntityState_Alive) {
-					[shieldPiece render];
-				}
-			}
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
 					[shot render];
@@ -1322,6 +1310,20 @@
 					[shot render];
 				}
 			}
+			[sharedImageRenderManager_ renderImages];
+
+			[player_ render];
+			[bonus_ render];
+
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
+					[shieldPiece render];
+				}
+			}
+
 			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
 										justification:BitmapFontJustification_MiddleLeft
 												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
@@ -1344,6 +1346,16 @@
 			} else {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
 			}
+			for (Shot *shot in playerShots_) {
+				if (shot.state_ == EntityState_Alive) {
+					[shot render];
+				}
+			}
+			for (Shot *shot in alienShots_) {
+				if (shot.state_ == EntityState_Alive) {
+					[shot render];
+				}
+			}
 			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
@@ -1355,16 +1367,6 @@
 			for (ShieldPiece *shieldPiece in shields_) {
 				if (shieldPiece.state_ == EntityState_Alive) {
 					[shieldPiece render];
-				}
-			}
-			for (Shot *shot in playerShots_) {
-				if (shot.state_ == EntityState_Alive) {
-					[shot render];
-				}
-			}
-			for (Shot *shot in alienShots_) {
-				if (shot.state_ == EntityState_Alive) {
-					[shot render];
 				}
 			}
 
