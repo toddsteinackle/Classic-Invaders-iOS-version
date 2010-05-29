@@ -34,12 +34,12 @@
 		Image *SpriteSheetImage = [[pss imageForKey:@"aliens.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
-            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"alienBirth" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .7f;
-            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"alienBirth" ofType:@"xml"];
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage

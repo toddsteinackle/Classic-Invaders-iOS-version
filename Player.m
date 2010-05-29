@@ -47,12 +47,12 @@
 		Image *SpriteSheetImage = [[pss imageForKey:@"ship.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
-            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"playerRebirth" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .85f;
-            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"dyingGhostEmitter" ofType:@"xml"];
-            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"portalEmitter" ofType:@"xml"];
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
+            appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"playerRebirth" ofType:@"xml"];
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
