@@ -9,9 +9,9 @@
 	<angle value="0"/>
 	<angleVariance value="360"/>
 	<gravity x="0" y="0"/>
-	<startColor red="0.0" green="1.0" blue="0.0" alpha="0.0"/>
+	<startColor red="0.0" green="0.5" blue="1.0" alpha="0.0"/>
 	<startColorVariance red="0.0" green="0.0" blue="0.0" alpha="0.0"/>
-	<finishColor red="0.0" green="0.25" blue="0.0" alpha="1.0"/>
+	<finishColor red="0.0" green="0.25" blue="0.25" alpha="1.0"/>
 	<finishColorVariance red="0.0" green="0.0" blue="0.0" alpha="0.0"/>
 	<maxParticles value="150"/>
 	<startParticleSize value="20"/>
