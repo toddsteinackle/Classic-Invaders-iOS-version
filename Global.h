@@ -57,7 +57,7 @@ enum {
     SceneState_Idle,
     SceneState_Scores,
     SceneState_Help,
-    SceneState_Settings
+    SceneState_About
 };
 
 #pragma mark -

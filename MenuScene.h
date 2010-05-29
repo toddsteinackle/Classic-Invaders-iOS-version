@@ -28,6 +28,12 @@
     Image *alien4_;
     Image *alien5_;
 
+    Image *help1_;
+    Image *help2_;
+    Image *help3_;
+    Image *help4_;
+    Image *help5_;
+
 	/////////////////// Button iVars
 	CGRect startButtonBounds_;
 	CGRect scoreButtonBounds_;
@@ -37,6 +43,7 @@
     BitmapFont *menuFont_;
     BitmapFont *monoMenuFont_;
     BitmapFont *monoScoreHighlingtFont_;
+    BitmapFont *monoHelpFont_;
 
     NSArray *highScores_;
 }

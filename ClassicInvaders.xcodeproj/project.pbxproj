@@ -54,8 +54,6 @@
 		5F419795116ACFD300DD6A61 /* bg_3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419790116ACFD200DD6A61 /* bg_3.caf */; };
 		5F419796116ACFD300DD6A61 /* bg_4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419791116ACFD300DD6A61 /* bg_4.caf */; };
 		5F419797116ACFD300DD6A61 /* bg.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419792116ACFD300DD6A61 /* bg.caf */; };
-		5F438F41117A14AF00539457 /* ci_menu.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F3F117A14AF00539457 /* ci_menu.fnt */; };
-		5F438F42117A14AF00539457 /* ci_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F40117A14AF00539457 /* ci_menu.png */; };
 		5F438F48117A192B00539457 /* alien-2-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F47117A192B00539457 /* alien-2-1.png */; };
 		5F438F4A117A195700539457 /* alien-3-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F49117A195700539457 /* alien-3-1.png */; };
 		5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4B117A19CA00539457 /* alien-2-4.png */; };
@@ -74,6 +72,8 @@
 		5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */; };
 		5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2EF6116FDA3F00E9541B /* Lost3.caf */; };
 		5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */; };
+		5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */; };
+		5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
 		8F8569DC10C3E8F2008E53F8 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F8569DB10C3E8F2008E53F8 /* dist.plist */; };
@@ -173,8 +173,6 @@
 		5F419790116ACFD200DD6A61 /* bg_3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_3.caf; sourceTree = "<group>"; };
 		5F419791116ACFD300DD6A61 /* bg_4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_4.caf; sourceTree = "<group>"; };
 		5F419792116ACFD300DD6A61 /* bg.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg.caf; sourceTree = "<group>"; };
-		5F438F3F117A14AF00539457 /* ci_menu.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci_menu.fnt; sourceTree = "<group>"; };
-		5F438F40117A14AF00539457 /* ci_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ci_menu.png; sourceTree = "<group>"; };
 		5F438F47117A192B00539457 /* alien-2-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-2-1.png"; sourceTree = "<group>"; };
 		5F438F49117A195700539457 /* alien-3-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-3-1.png"; sourceTree = "<group>"; };
 		5F438F4B117A19CA00539457 /* alien-2-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-2-4.png"; sourceTree = "<group>"; };
@@ -195,6 +193,8 @@
 		5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci_menu_mono_30_purple.fnt; sourceTree = "<group>"; };
 		5F9D2EF6116FDA3F00E9541B /* Lost3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost3.caf; sourceTree = "<group>"; };
 		5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-bonus-ui-gfx.png"; sourceTree = "<group>"; };
+		5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-bonus-ui-gfx.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
 		8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookAntiqua32.png; sourceTree = "<group>"; };
@@ -397,10 +397,8 @@
 		18B970E1103AA67400809077 /* Bitmap Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				5F438F3F117A14AF00539457 /* ci_menu.fnt */,
 				5F96133C1182662E001A3771 /* ci_menu_mono_30_purple.png */,
 				5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */,
-				5F438F40117A14AF00539457 /* ci_menu.png */,
 				5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */,
 				5F3EFA98117FC9BC0075E6CE /* ci_menu_mono_30.png */,
 				8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */,
@@ -578,6 +576,8 @@
 			isa = PBXGroup;
 			children = (
 				5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */,
+				5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */,
+				5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */,
 				5F438F47117A192B00539457 /* alien-2-1.png */,
 				5F438F49117A195700539457 /* alien-3-1.png */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
@@ -733,8 +733,6 @@
 				5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */,
 				5F1CE0EF11714E280008E927 /* Flourish3.caf in Resources */,
 				5F57A550117541E90024F431 /* alien-1-2.png in Resources */,
-				5F438F41117A14AF00539457 /* ci_menu.fnt in Resources */,
-				5F438F42117A14AF00539457 /* ci_menu.png in Resources */,
 				5F438F48117A192B00539457 /* alien-2-1.png in Resources */,
 				5F438F4A117A195700539457 /* alien-3-1.png in Resources */,
 				5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */,
@@ -744,6 +742,8 @@
 				5F3EFA99117FC9BC0075E6CE /* ci_menu_mono_30.png in Resources */,
 				5F96133E1182662E001A3771 /* ci_menu_mono_30_purple.png in Resources */,
 				5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */,
+				5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */,
+				5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

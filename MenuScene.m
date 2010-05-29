@@ -25,8 +25,8 @@
 // Set up the strings for the menu items
 # define startString @"New Game"
 # define scoreString @"High Scores"
+# define helpString @"Help"
 # define aboutString @"About"
-# define settingString @"Settings"
 
 - (id)init {
 
@@ -48,6 +48,12 @@
         alien4_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
         alien5_ = [[Image alloc] initWithImageNamed:@"alien-2-4" ofType:@"png" filter:GL_LINEAR];
 
+        help1_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
+        help2_ = [[Image alloc] initWithImageNamed:@"alien-2-1" ofType:@"png" filter:GL_LINEAR];
+        help3_ = [[Image alloc] initWithImageNamed:@"alien-3-1" ofType:@"png" filter:GL_LINEAR];
+        help4_ = [[Image alloc] initWithImageNamed:@"big-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
+        help5_ = [[Image alloc] initWithImageNamed:@"small-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
+
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
@@ -58,10 +64,10 @@
                                                                            imageFilter:GL_LINEAR];
             background_ = [pss imageForKey:@"background.png"];
 
-            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu"
+            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
                                                             ofType:@"png"
-                                                       controlFile:@"ci_menu"
-                                                             scale:Scale2fMake(1.0f, 1.0f)
+                                                       controlFile:@"ci_menu_mono_30"
+                                                             scale:Scale2fMake(0.95f, 0.95f)
                                                             filter:GL_LINEAR];
             monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
                                                                 ofType:@"png"
@@ -73,6 +79,12 @@
                                                                      controlFile:@"ci_menu_mono_30_purple"
                                                                            scale:Scale2fMake(0.85f, 0.85f)
                                                                           filter:GL_LINEAR];
+
+            monoHelpFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
+                                                                ofType:@"png"
+                                                           controlFile:@"ci_menu_mono_30"
+                                                                 scale:Scale2fMake(0.75f, 0.75f)
+                                                                filter:GL_LINEAR];
 
             fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
             fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
@@ -193,10 +205,10 @@
 
             verticalPadding = 22.5f;
             [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-            [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:settingString];
+            [menuFont_ renderStringJustifiedInFrame:settingsButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
 
             [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-            [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
+            [menuFont_ renderStringJustifiedInFrame:instructionButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
 
             [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
             [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
@@ -204,6 +216,7 @@
             [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
 
+            [sharedImageRenderManager_ renderImages];
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
@@ -234,30 +247,62 @@
 
         }
         if (state_ == SceneState_Help) {
-            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Help Screen"];
+
+            int h = 265;
+            int v = 35;
+            [help1_ renderAtPoint:CGPointMake(50, h)];
+            [help2_ renderAtPoint:CGPointMake(50, h-v)];
+            [help3_ renderAtPoint:CGPointMake(50, h-v*2)];
+            [help4_ renderAtPoint:CGPointMake(42, h-v*3)];
+            [help5_ renderAtPoint:CGPointMake(50, h-v*4+5)];
+
+            [monoHelpFont_ renderStringAt:CGPointMake(150, h) text:@"25"];
+            [monoHelpFont_ renderStringAt:CGPointMake(150, h-v) text:@"50"];
+            [monoHelpFont_ renderStringAt:CGPointMake(150, h-v*2) text:@"100"];
+            [monoHelpFont_ renderStringAt:CGPointMake(150, h-v*3) text:@"1000"];
+            [monoHelpFont_ renderStringAt:CGPointMake(150, h-v*4) text:@"2500"];
+
+            [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*4.85) text:@"Bonus ship every 10000."];
+            [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*5.7) text:@"Double tap top half of screen"];
+            [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*6.25) text:@"to pause a running wave."];
+
+            int touchBoxWidth = 70;
+            CGRect leftTouchControlBounds = CGRectMake(1, 1, touchBoxWidth, 35);
+            CGRect rightTouchControlBounds = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, 35);
+            CGRect fireTouchControlBounds = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, 35);
+
+            [monoHelpFont_ renderStringJustifiedInFrame:leftTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Left"];
+            [monoHelpFont_ renderStringJustifiedInFrame:rightTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Right"];
+            [monoHelpFont_ renderStringJustifiedInFrame:fireTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Fire"];
+
+            [sharedImageRenderManager_ renderImages];
+
+            drawBox(leftTouchControlBounds);
+			drawBox(rightTouchControlBounds);
+			drawBox(fireTouchControlBounds);
         }
-        if (state_ == SceneState_Settings) {
-            [menuFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Settings Screen"];
+        if (state_ == SceneState_About) {
+            CGRect top = CGRectMake(0, 200, 480, 40);
+            CGRect middle = CGRectMake(0, 160, 480, 30);
+            CGRect bottom = CGRectMake(0, 50, 480, 20);
+            [menuFont_ renderStringJustifiedInFrame:top
+                                      justification:BitmapFontJustification_MiddleCentered
+                                               text:@"Programming and graphics by"];
+            [menuFont_ renderStringJustifiedInFrame:middle
+                                      justification:BitmapFontJustification_MiddleCentered
+                                               text:@"Todd Steinackle"];
+            [menuFont_ renderStringJustifiedInFrame:bottom
+                                      justification:BitmapFontJustification_MiddleCentered
+                                               text:@"www.noquarterarcade.com"];
+            [sharedImageRenderManager_ renderImages];
         }
     }
 
 	// If we are transitioning in, out or idle then render the fadeImage
 	if (state_ == SceneState_TransitionIn || state_ == SceneState_TransitionOut || state_ == SceneState_Idle) {
 		[fadeImage_ renderAtPoint:CGPointMake(0, 0)];
+        [sharedImageRenderManager_ renderImages];
 	}
-
-	// Having rendered our images we ask the render manager to actually put then on screen.
-	[sharedImageRenderManager_ renderImages];
-
-// If debug is on then display the bounds of the buttons
-//#ifdef MYDEBUG
-//	drawBox(startButtonBounds_);
-//	drawBox(scoreButtonBounds_);
-//	drawBox(instructionButtonBounds_);
-//    drawBox(settingsButtonBounds_);
-//	drawBox(resumeButtonBounds_);
-//#endif
-
 }
 
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event view:(UIView*)aView {
@@ -297,12 +342,12 @@
         if (CGRectContainsPoint(settingsButtonBounds_, touchLocation)) {
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			alpha_ = 0;
-			state_ = SceneState_Settings;
+			state_ = SceneState_About;
 			return;
 		}
 
 	}
-    if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_Settings) {
+    if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_About) {
         if (CGRectContainsPoint(screenBounds_, touchLocation)) {
             [sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
             state_ = SceneState_Running;
