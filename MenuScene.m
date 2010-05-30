@@ -236,9 +236,12 @@
                     [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@" %d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
                     ++i;
-                } else {
+                    [sharedImageRenderManager_ renderImages];
+                    return;
+                } else if (j == 10) {
                     [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@"%d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
+                    [sharedImageRenderManager_ renderImages];
                     return;
                 }
             }
