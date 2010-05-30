@@ -1768,16 +1768,13 @@
 	UITextField *nameField = (UITextField *)[alertView viewWithTag:99];
 
 	// If the OK button is pressed then set the playersname
-	NSString * playersName;
+	NSString *playersName;
 	if (buttonIndex == 1) {
 		playersName = nameField.text;
 		if ([playersName length] == 0)
 			playersName = @"----------------------";
 
-		// Save the games info to the high scores table only if a players name has been entered
-		if (playersName) {
-			[sharedGameController_ addToHighScores:score_ name:playersName wave:wave_];
-		}
+		[sharedGameController_ addToHighScores:score_ name:playersName wave:wave_];
 	}
 
 	// We must remember to resign the textfield before this method finishes.  If we don't then an error

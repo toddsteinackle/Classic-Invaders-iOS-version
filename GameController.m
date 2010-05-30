@@ -82,21 +82,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 }
 
 - (void)saveHighScores {
-	// Set up the game state path to the data file that the game state will be saved too.
+	// Set up the path to the data file that the scores will be saved too.
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];
 	NSString *scoresPath = [documentsDirectory stringByAppendingPathComponent:@"highScores.dat"];
 
-	// Set up the encoder and storage for the game state data
+	// Set up the encoder and storage for scores
 	NSMutableData *scores;
 	NSKeyedArchiver *encoder;
 	scores = [NSMutableData data];
 	encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:scores];
 
-	// Archive the entities
+	// Archive the scores
 	[encoder encodeObject:unsortedHighScores_ forKey:@"highScores"];
 
-	// Finish encoding and write the contents of gameData to file
+	// Finish encoding and write the contents of scores to file
 	[encoder finishEncoding];
 	[scores writeToFile:scoresPath atomically:YES];
 	[encoder release];
