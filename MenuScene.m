@@ -239,12 +239,10 @@
                 } else {
                     [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@"%d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
-                    [sharedImageRenderManager_ renderImages];
                     return;
                 }
-                [sharedImageRenderManager_ renderImages];
             }
-
+            [sharedImageRenderManager_ renderImages];
         }
         if (state_ == SceneState_Help) {
 
