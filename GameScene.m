@@ -301,9 +301,9 @@
 
 	int touchBoxWidth;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		playerBaseHeight_ = 150;
+		playerBaseHeight_ = 100;
 		bonusShipTop_ = 700.0f;
-		touchBoxWidth = 200;
+		touchBoxWidth = 175;
 		bonusSpeed_ = 125;
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
 		playerSpeed_ = 200.0f;

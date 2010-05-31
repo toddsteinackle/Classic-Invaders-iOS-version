@@ -75,6 +75,11 @@
 		5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */; };
 		5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4005611B198A5000555A4 /* playerRebirth.xml */; };
 		5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */; };
+		5FB9529511B418D1007EC6BC /* allBlack-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9529411B418D1007EC6BC /* allBlack-iPad.png */; };
+		5FB952EE11B42939007EC6BC /* mono50green.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952EC11B42939007EC6BC /* mono50green.fnt */; };
+		5FB952EF11B42939007EC6BC /* mono50green.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952ED11B42939007EC6BC /* mono50green.png */; };
+		5FB952F611B42AE5007EC6BC /* mono50purple.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952F411B42AE5007EC6BC /* mono50purple.fnt */; };
+		5FB952F711B42AE5007EC6BC /* mono50purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952F511B42AE5007EC6BC /* mono50purple.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
 		8F8569DC10C3E8F2008E53F8 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F8569DB10C3E8F2008E53F8 /* dist.plist */; };
@@ -195,6 +200,11 @@
 		5FA4005611B198A5000555A4 /* playerRebirth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = playerRebirth.xml; sourceTree = "<group>"; };
 		5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-bonus-ui-gfx.png"; sourceTree = "<group>"; };
 		5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-bonus-ui-gfx.png"; sourceTree = "<group>"; };
+		5FB9529411B418D1007EC6BC /* allBlack-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "allBlack-iPad.png"; sourceTree = "<group>"; };
+		5FB952EC11B42939007EC6BC /* mono50green.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mono50green.fnt; sourceTree = "<group>"; };
+		5FB952ED11B42939007EC6BC /* mono50green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mono50green.png; sourceTree = "<group>"; };
+		5FB952F411B42AE5007EC6BC /* mono50purple.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mono50purple.fnt; sourceTree = "<group>"; };
+		5FB952F511B42AE5007EC6BC /* mono50purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mono50purple.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
 		8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookAntiqua32.png; sourceTree = "<group>"; };
@@ -396,9 +406,13 @@
 			isa = PBXGroup;
 			children = (
 				5F96133C1182662E001A3771 /* ci_menu_mono_30_purple.png */,
+				5FB952F411B42AE5007EC6BC /* mono50purple.fnt */,
+				5FB952F511B42AE5007EC6BC /* mono50purple.png */,
 				5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */,
 				5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */,
 				5F3EFA98117FC9BC0075E6CE /* ci_menu_mono_30.png */,
+				5FB952EC11B42939007EC6BC /* mono50green.fnt */,
+				5FB952ED11B42939007EC6BC /* mono50green.png */,
 				8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */,
 				8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */,
 				8FD6476E10DB9F070025BA9D /* franklin16.fnt */,
@@ -581,6 +595,7 @@
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F438F4D117A19ED00539457 /* alien-1-1.png */,
 				5F57A54F117541E90024F431 /* alien-1-2.png */,
+				5FB9529411B418D1007EC6BC /* allBlack-iPad.png */,
 				5F1D43C6114D8DB200797E5B /* pss.png */,
 				8FFBD21E10EB74600002C000 /* texture.png */,
 				8FB4D43410AD6304003ADC58 /* allBlack.png */,
@@ -740,6 +755,11 @@
 				5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */,
 				5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */,
 				5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */,
+				5FB9529511B418D1007EC6BC /* allBlack-iPad.png in Resources */,
+				5FB952EE11B42939007EC6BC /* mono50green.fnt in Resources */,
+				5FB952EF11B42939007EC6BC /* mono50green.png in Resources */,
+				5FB952F611B42AE5007EC6BC /* mono50purple.fnt in Resources */,
+				5FB952F711B42AE5007EC6BC /* mono50purple.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

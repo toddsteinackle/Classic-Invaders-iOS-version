@@ -19,7 +19,6 @@
 	TextureManager *sharedTextureManager_;
 
 	/////////////////// Sprite sheets and images
-	//PackedSpriteSheet *pss;				// Master spritesheet that contains all menu images
 	Image *background_;					// Background image for the menu
 	Image *fadeImage_;					// Full screen black image used to fade in and out
     Image *alien1_;
@@ -37,12 +36,12 @@
 	/////////////////// Button iVars
 	CGRect startButtonBounds_;
 	CGRect scoreButtonBounds_;
-	CGRect instructionButtonBounds_;
-    CGRect settingsButtonBounds_;
+	CGRect helpButtonBounds_;
+    CGRect aboutButtonBounds_;
 
     BitmapFont *menuFont_;
     BitmapFont *monoMenuFont_;
-    BitmapFont *monoScoreHighlingtFont_;
+    BitmapFont *monoScoreHighlightFont_;
     BitmapFont *monoHelpFont_;
 
     NSArray *highScores_;
