@@ -63,6 +63,7 @@
     CGFloat bonusShipTop_;
     bool isAlienLogicNeeded_;
     bool canPlayerFire_;
+    bool nameToBeEntered_;
     int score_;
     int alienCount_;
     CGFloat playerSpeed_;
@@ -86,7 +87,6 @@
 @property (nonatomic, assign) CGFloat playerBaseHeight_;
 @property (nonatomic, assign) bool isAlienLogicNeeded_;
 
-- (void)saveGameState;
 - (void)aliensHaveLanded;
 - (void)playerKilled;
 - (void)alienKilledWithPosition:(int)position points:(int)points playerFlag:(bool)killedByPlayer;

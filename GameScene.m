@@ -797,7 +797,7 @@
 			if (lastTimeInLoop_) {
 				lastTimeInLoop_ = 0;
 				if (alienCount_ >= 50 && !playerLives_) {
-					state_ = SceneState_GameOver;
+					state_ = SceneState_FinalDeath;
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
 					return;
@@ -809,7 +809,7 @@
 					return;
 				}
 				if (!playerLives_) {
-					state_ = SceneState_GameOver;
+					state_ = SceneState_FinalDeath;
 					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
 					return;
 				}
@@ -1157,8 +1157,17 @@
 
 			break;
 
-#pragma mark GameOver
-		case SceneState_GameOver:
+#pragma mark FinalDeath
+		case SceneState_FinalDeath:
+			if (CACurrentMediaTime() - lastTimeInLoop_ < 3.0f) {
+				return;
+			}
+			if (lastTimeInLoop_) {
+				state_ = SceneState_GameOver;
+				lastTimeInLoop_ = 0;
+				return;
+			}
+			lastTimeInLoop_ = CACurrentMediaTime();
 			canPlayerFire_ = FALSE;
 			if (bonus_.state_ == EntityState_Alive) {
 				[sharedSoundManager_ stopSoundWithKey:@"active_bonus"];
@@ -1199,7 +1208,10 @@
 				glClear(GL_COLOR_BUFFER_BIT);
 			} else {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
-				[smallFont_ renderStringJustifiedInFrame:screenBounds_ justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
+				CGRect top =  CGRectMake(0, screenBounds_.size.height/2.5, screenBounds_.size.width, screenBounds_.size.height/2.5);
+				[smallFont_ renderStringJustifiedInFrame:top justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
+				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
+				[statusFont_ renderStringJustifiedInFrame:bottom justification:BitmapFontJustification_MiddleCentered text:@"Double tap to continue"];
 			}
 			[sharedImageRenderManager_ renderImages];
 			break;
@@ -1393,38 +1405,87 @@
 			} else {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
 			}
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_TopCentered
-												text:@"Game Over"];
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
+			CGRect top = CGRectMake(0, screenBounds_.size.height/2, screenBounds_.size.width, screenBounds_.size.height/2);
+			[smallFont_ renderStringJustifiedInFrame:top
 									   justification:BitmapFontJustification_MiddleCentered
-												text:[NSString stringWithFormat:@"Score:%d		Wave:%d", score_, wave_]];
-			if ([sharedGameController_.highScores_ count] < 10) {
-				[smallFont_ renderStringJustifiedInFrame:screenBounds_
-										   justification:BitmapFontJustification_BottomCentered
-													text:@"Score is in top 10. Tap to enter Name."];
-				[sharedImageRenderManager_ renderImages];
-				return;
-			} else {
-				for (int i = 0; i < 10; ++i) {
-					Score *s = [sharedGameController_.highScores_ objectAtIndex:i];
-					if (score_ >= s.score_) {
-						[smallFont_ renderStringJustifiedInFrame:screenBounds_
-												   justification:BitmapFontJustification_BottomCentered
-															text:@"Score is in top 10. Tap to enter Name."];
-						[sharedImageRenderManager_ renderImages];
-						return;
+												text:@"Game Over"];
+			CGRect middle = CGRectMake(0, screenBounds_.size.height/2.75, screenBounds_.size.width, screenBounds_.size.height/4.25);
+			[smallFont_ renderStringJustifiedInFrame:middle
+									   justification:BitmapFontJustification_TopCentered
+												text:[NSString stringWithFormat:@"Score: %d", score_]];
+			[smallFont_ renderStringJustifiedInFrame:middle
+									   justification:BitmapFontJustification_BottomCentered
+												text:[NSString stringWithFormat:@"Wave: %d", wave_]];
+			CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
+			if (score_ > 0) {
+				if ([sharedGameController_.highScores_ count] < 10) {
+					[statusFont_ renderStringJustifiedInFrame:bottom
+											   justification:BitmapFontJustification_MiddleCentered
+														text:@"Score is in top 10. Tap to enter name."];
+					[sharedImageRenderManager_ renderImages];
+					nameToBeEntered_ = TRUE;
+					state_ = SceneState_GameFinished;
+					return;
+				} else {
+					for (int i = 0; i < 10; ++i) {
+						Score *s = [sharedGameController_.highScores_ objectAtIndex:i];
+						if (score_ >= s.score_) {
+							[statusFont_ renderStringJustifiedInFrame:bottom
+													   justification:BitmapFontJustification_MiddleCentered
+																text:@"Score is in top 10. Tap to enter name."];
+							[sharedImageRenderManager_ renderImages];
+							nameToBeEntered_ = TRUE;
+							state_ = SceneState_GameFinished;
+							return;
+						}
 					}
 				}
 			}
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_BottomCentered
-												text:@"Tap to continue."];
+			[statusFont_ renderStringJustifiedInFrame:bottom
+										justification:BitmapFontJustification_MiddleCentered
+												 text:@"Tap to return to menu."];
 			[sharedImageRenderManager_ renderImages];
+			state_ = SceneState_GameFinished;
 			break;
 
-#pragma mark PlayerDeath
+#pragma mark PlayerDeath, FinalDeath
 		case SceneState_PlayerDeath:
+		case SceneState_FinalDeath:
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				glClear(GL_COLOR_BUFFER_BIT);
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
+			[sharedImageRenderManager_ renderImages];
+			[player_ render];
+			[bonus_ render];
+
+			for(Alien *alien in aliens_) {
+				[alien render];
+			}
+			for (ShieldPiece *shieldPiece in shields_) {
+				if (shieldPiece.state_ == EntityState_Alive) {
+					[shieldPiece render];
+				}
+			}
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleLeft
+												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleCentered
+												 text:[NSString stringWithFormat:@"Score: %i", score_]];
+			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+										justification:BitmapFontJustification_MiddleRight
+												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			[sharedImageRenderManager_ renderImages];
+			drawBox(leftTouchControlBounds_);
+			drawBox(rightTouchControlBounds_);
+			drawBox(fireTouchControlBounds_);
+			break;
+
+#pragma mark PlayerRebirth
+		case SceneState_PlayerRebirth:
+
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				glClear(GL_COLOR_BUFFER_BIT);
 			} else {
@@ -1460,40 +1521,6 @@
 		default:
 			break;
 
-#pragma mark PlayerRebirth
-		case SceneState_PlayerRebirth:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
-			[sharedImageRenderManager_ renderImages];
-			[player_ render];
-			[bonus_ render];
-
-			for(Alien *alien in aliens_) {
-				[alien render];
-			}
-			for (ShieldPiece *shieldPiece in shields_) {
-				if (shieldPiece.state_ == EntityState_Alive) {
-					[shieldPiece render];
-				}
-			}
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
-			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
-			break;
-
 	}
 //	for(Alien *alien in aliens_) {
 //		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
@@ -1508,7 +1535,7 @@
 
 - (void)aliensHaveLanded {
 	[sharedSoundManager_ playSoundWithKey:@"aliens_landed" gain:0.6f];
-	state_ = SceneState_GameOver;
+	state_ = SceneState_FinalDeath;
 }
 
 - (void)bonusShipDestroyedWithPoints:(int)points {
@@ -1628,18 +1655,11 @@
         // x and y coordinates
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
-		if (state_ == SceneState_GameOver) {
-			if ([sharedGameController_.highScores_ count] < 10) {
+		if (state_ == SceneState_GameFinished) {
+			if (nameToBeEntered_) {
 				[self getPlayerName];
+				nameToBeEntered_ = FALSE;
 				return;
-			} else {
-				for (int i = 0; i < 10; ++i) {
-					Score *s = [sharedGameController_.highScores_ objectAtIndex:i];
-					if (score_ >= s.score_) {
-						[self getPlayerName];
-						return;
-					}
-				}
 			}
 			[sharedGameController_ transitionToSceneWithKey:@"menu"];
 		}
@@ -1721,15 +1741,7 @@
     state_ = SceneState_TransitionIn;
 }
 
-- (void)saveGameState {
-
-}
-
 - (void)dealloc {
-
-    // Remove observers that have been set up
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidingSettings" object:nil];
-
 	// Dealloc resources this scene has created
 	[self deallocResources];
 

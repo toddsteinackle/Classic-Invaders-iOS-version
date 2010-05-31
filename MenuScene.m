@@ -221,6 +221,8 @@
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
             [monoMenuFont_ renderStringAt:CGPointMake(5, 265) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "====", "=====", "===="]];
+            [sharedImageRenderManager_ renderImages];
+
             int i = 2; int j = 1; const char *name;
 
             BitmapFont *font;
@@ -235,13 +237,14 @@
                 if (j<10) {
                     [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@" %d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
+                    [sharedImageRenderManager_ renderImages];
                     ++i;
                 } else if (j == 10) {
                     [font renderStringAt:CGPointMake(5, 285-i*25)
                                              text:[NSString stringWithFormat:@"%d.%-11.10s%6d%9d", j++, name, s.score_, s.wave_]];
+                    [sharedImageRenderManager_ renderImages];
                 }
             }
-            [sharedImageRenderManager_ renderImages];
         }
         if (state_ == SceneState_Help) {
 

@@ -20,7 +20,6 @@
 - (void)transitionToSceneWithKey:(NSString*)aKey {}
 - (void)transitionIn {}
 - (void)renderScene {}
-- (void)saveGameState {}
 - (void)initPause {}
 
 @end
