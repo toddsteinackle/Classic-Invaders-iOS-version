@@ -10,6 +10,7 @@
 
 @interface Shot : AbstractEntity {
     bool hit_;
+    CGFloat top_;
 }
 
 @property (nonatomic, assign) bool hit_;

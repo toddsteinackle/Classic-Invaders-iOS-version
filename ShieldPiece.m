@@ -29,7 +29,7 @@
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"shield_piece.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			scaleFactor_ = 1.5f;
+			scaleFactor_ = 1.0f;
 		} else {
 			scaleFactor_ = .5f;
 		}

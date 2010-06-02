@@ -129,6 +129,9 @@
 	[bonusDirection_ removeAllObjects];
 	[additionalBonusDelay_ removeAllObjects];
 
+	[shields_ removeAllObjects];
+	[self initShields];
+
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		for (int i = 0; i < randomListLength_; ++i) {
 			[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
@@ -145,8 +148,6 @@
 		[self initPlayerShots];
 		[self initAliensWithSpeed:50 chanceToFire:10];
 	} else {
-		[shields_ removeAllObjects];
-		[self initShields];
 
 #pragma mark iPhone waves
 		switch (wave_) {
@@ -302,23 +303,31 @@
 	int touchBoxWidth;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		playerBaseHeight_ = 100;
-		bonusShipTop_ = 700.0f;
+		bonusShipTop_ = 670.0f;
 		touchBoxWidth = 175;
 		bonusSpeed_ = 125;
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
 		playerSpeed_ = 200.0f;
 		screenSidePadding_ = 25.0f;
-		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
+		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans50blue"
 														 ofType:@"png"
-													controlFile:@"bookAntiqua32"
-														  scale:Scale2fMake(2.0f, 2.0f)
+													controlFile:@"sans50blue"
+														  scale:Scale2fMake(1.0f, 1.0f)
 														 filter:GL_LINEAR];
 
-		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16"
+		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans35blue"
 														  ofType:@"png"
-													 controlFile:@"franklin16"
-														   scale:Scale2fMake(2.0f, 2.0f)
+													 controlFile:@"sans35blue"
+														   scale:Scale2fMake(1.0f, 1.0f)
 														  filter:GL_LINEAR];
+
+		iPadWaveMessageFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans60blue"
+																   ofType:@"png"
+															  controlFile:@"sans60blue"
+																	scale:Scale2fMake(1.0f, 1.0f)
+																   filter:GL_LINEAR];
+		background_ = [[Image alloc] initWithImageNamed:@"iPadBackground" ofType:@"png" filter:GL_NEAREST];
+		topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
 	} else {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
@@ -380,48 +389,62 @@
 	ShieldPiece *shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake(0, 0)];
 	CGFloat dimension = shieldPiece.width_ * shieldPiece.scaleFactor_; // shield height and width
 	[shieldPiece release];
-	CGFloat space = (int)(screenBounds_.size.width / 7) * 2 + 5;
-	CGFloat bottom = playerBaseHeight_ + 38;
+	CGFloat space;
+	CGFloat bottom;
+	int padding;
+	int lastPadding;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		space = (int)(screenBounds_.size.width / 7) * 2.5 - 5;
+		bottom = playerBaseHeight_ + 90;
+		padding = 90;
+		lastPadding = 97;
+	} else {
+		space = (int)(screenBounds_.size.width / 7) * 2 + 5;
+		bottom = playerBaseHeight_ + 38;
+		padding = 68;
+		lastPadding = 73;
+	}
+
 	for (int j = 0; j < 2; ++j) {
 		for (int i = 0; i < 6; ++i) {
-			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom)];
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+padding+(i*dimension), bottom)];
 			[shields_ addObject:shieldPiece];
 			[shieldPiece release];
 		}
 		for (int i = 0; i < 6; ++i) {
-			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom + dimension)];
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+padding+(i*dimension), bottom + dimension)];
 			[shields_ addObject:shieldPiece];
 			[shieldPiece release];
 		}
 		for (int i = 0; i < 6; ++i) {
-			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+(i*dimension), bottom + dimension*2)];
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+padding+(i*dimension), bottom + dimension*2)];
 			[shields_ addObject:shieldPiece];
 			[shieldPiece release];
 		}
 		for (int i = 0; i < 4; ++i) {
-			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+68+dimension+(i*dimension), bottom + dimension*3)];
+			shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((j*space)+padding+dimension+(i*dimension), bottom + dimension*3)];
 			[shields_ addObject:shieldPiece];
 			[shieldPiece release];
 		}
 	}
 	//draw the last shield moved over a small amount
 	for (int i = 0; i < 6; ++i) {
-		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom)];
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+lastPadding+(i*dimension), bottom)];
 		[shields_ addObject:shieldPiece];
 		[shieldPiece release];
 	}
 	for (int i = 0; i < 6; ++i) {
-		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom + dimension)];
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+lastPadding+(i*dimension), bottom + dimension)];
 		[shields_ addObject:shieldPiece];
 		[shieldPiece release];
 	}
 	for (int i = 0; i < 6; ++i) {
-		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+(i*dimension), bottom + dimension*2)];
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+lastPadding+(i*dimension), bottom + dimension*2)];
 		[shields_ addObject:shieldPiece];
 		[shieldPiece release];
 	}
 	for (int i = 0; i < 4; ++i) {
-		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+73+dimension+(i*dimension), bottom + dimension*3)];
+		shieldPiece = [[ShieldPiece alloc] initWithPixelLocation:CGPointMake((2*space)+lastPadding+dimension+(i*dimension), bottom + dimension*3)];
 		[shields_ addObject:shieldPiece];
 		[shieldPiece release];
 	}
@@ -535,8 +558,8 @@
 	CGFloat horizontalSpace;
 	CGFloat verticalSpace;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		x = 130.0f;
-		y = 340.0f;
+		x = 162.0f;
+		y = 425.0f;
 		horizontalSpace = 70;
 		verticalSpace = 50;
 	} else {
@@ -1205,13 +1228,17 @@
 #pragma mark Paused
 		case SceneState_Paused:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+				CGRect top =  CGRectMake(0, screenBounds_.size.height/2.5, screenBounds_.size.width, screenBounds_.size.height/2.5);
+				[smallFont_ renderStringJustifiedInFrame:top justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
+				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
+				[statusFont_ renderStringJustifiedInFrame:bottom justification:BitmapFontJustification_MiddleCentered text:@"Double tap to continue."];
 			} else {
 				[background_ renderAtPoint:CGPointMake(0, 0)];
 				CGRect top =  CGRectMake(0, screenBounds_.size.height/2.5, screenBounds_.size.width, screenBounds_.size.height/2.5);
 				[smallFont_ renderStringJustifiedInFrame:top justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
 				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
-				[statusFont_ renderStringJustifiedInFrame:bottom justification:BitmapFontJustification_MiddleCentered text:@"Double tap to continue"];
+				[statusFont_ renderStringJustifiedInFrame:bottom justification:BitmapFontJustification_MiddleCentered text:@"Double tap to continue."];
 			}
 			[sharedImageRenderManager_ renderImages];
 			break;
@@ -1219,20 +1246,22 @@
 #pragma mark WaveMessage
 		case SceneState_WaveMessage:
 			glClear(GL_COLOR_BUFFER_BIT);
-			[smallFont_ renderStringJustifiedInFrame:screenBounds_
-									   justification:BitmapFontJustification_MiddleCentered
-												text:[NSString stringWithFormat:@"Prepare for wave %i", wave_+1]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				[iPadWaveMessageFont_ renderStringJustifiedInFrame:screenBounds_
+										   justification:BitmapFontJustification_MiddleCentered
+													text:[NSString stringWithFormat:@"Prepare for wave %i", wave_+1]];
+			} else {
+				[smallFont_ renderStringJustifiedInFrame:screenBounds_
+										   justification:BitmapFontJustification_MiddleCentered
+													text:[NSString stringWithFormat:@"Prepare for wave %i", wave_+1]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			break;
 
 #pragma mark Running
 		case SceneState_Running:
 			canPlayerFire_ = TRUE;
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
 					[shot render];
@@ -1258,28 +1287,40 @@
 				[alien render];
 			}
 
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
 			drawBox(fireTouchControlBounds_);
+//			drawBox(topStatus_);
 			break;
 
 #pragma mark WaveIntro
 		case SceneState_WaveIntro:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[sharedImageRenderManager_ renderImages];
 
 			[player_ render];
@@ -1290,15 +1331,30 @@
 				[shieldPiece render];
 			}
 
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -1307,11 +1363,7 @@
 
 #pragma mark WaveCleanup
 		case SceneState_WaveCleanup:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
 					[shot render];
@@ -1336,15 +1388,30 @@
 				}
 			}
 
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -1353,11 +1420,7 @@
 
 #pragma mark WaveOver
 		case SceneState_WaveOver:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
 					[shot render];
@@ -1382,15 +1445,30 @@
 				}
 			}
 
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -1400,11 +1478,7 @@
 
 #pragma mark GameOver
 		case SceneState_GameOver:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			CGRect top = CGRectMake(0, screenBounds_.size.height/2, screenBounds_.size.width, screenBounds_.size.height/2);
 			[smallFont_ renderStringJustifiedInFrame:top
 									   justification:BitmapFontJustification_MiddleCentered
@@ -1451,11 +1525,7 @@
 #pragma mark PlayerDeath, FinalDeath
 		case SceneState_PlayerDeath:
 		case SceneState_FinalDeath:
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[sharedImageRenderManager_ renderImages];
 			[player_ render];
 			[bonus_ render];
@@ -1468,15 +1538,30 @@
 					[shieldPiece render];
 				}
 			}
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -1486,11 +1571,7 @@
 #pragma mark PlayerRebirth
 		case SceneState_PlayerRebirth:
 
-			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				glClear(GL_COLOR_BUFFER_BIT);
-			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
-			}
+			[background_ renderAtPoint:CGPointMake(0, 0)];
 			[sharedImageRenderManager_ renderImages];
 			[player_ render];
 			[bonus_ render];
@@ -1503,15 +1584,30 @@
 					[shieldPiece render];
 				}
 			}
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleLeft
-												 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleCentered
-												 text:[NSString stringWithFormat:@"Score: %i", score_]];
-			[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
-										justification:BitmapFontJustification_MiddleRight
-												 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				for (int i = 0; i < playerLives_-1; ++i) {
+					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+				}
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:topStatus_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			} else {
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleLeft
+													 text:[NSString stringWithFormat:@"  Wave: %i", wave_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleCentered
+													 text:[NSString stringWithFormat:@"Score: %i", score_]];
+				[statusFont_ renderStringJustifiedInFrame:fireTouchControlBounds_
+											justification:BitmapFontJustification_MiddleRight
+													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
+			}
 			[sharedImageRenderManager_ renderImages];
 			drawBox(leftTouchControlBounds_);
 			drawBox(rightTouchControlBounds_);
@@ -1762,6 +1858,8 @@
         sharedGameController_ = [GameController sharedGameController];
 
 		[self initSound];
+		shipImage_ = [[Image alloc] initWithImageNamed:@"ship" ofType:@"png" filter:GL_LINEAR];
+		shipImage_.scale = Scale2fMake(1.5f, 1.5f);
 
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

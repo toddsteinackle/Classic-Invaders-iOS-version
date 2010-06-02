@@ -35,6 +35,7 @@
 	//////////////////////// Fonts
 	BitmapFont *smallFont_;
     BitmapFont *statusFont_;
+    BitmapFont *iPadWaveMessageFont_;
 
     NSMutableArray *aliens_;
     NSMutableArray *playerShots_;
@@ -54,6 +55,7 @@
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;
     CGRect pauseTouchControlBounds_;
+    CGRect topStatus_;
     NSUInteger numberOfPlayerShots_;
     NSUInteger numberOfAlienShots_;
     NSUInteger randomListLength_;
@@ -81,6 +83,7 @@
     int alienSpeed_;
     int nextFreeGuy_;
     int freeGuyValue_;
+    Image *shipImage_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;

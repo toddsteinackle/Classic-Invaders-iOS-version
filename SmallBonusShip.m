@@ -30,7 +30,7 @@
 		Image *SpriteSheetImage = [[pss imageForKey:@"small_bonus.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
-            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
+            dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion-iPad" ofType:@"xml"];
 		} else {
 			scaleFactor_ = .85f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];

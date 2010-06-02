@@ -20,7 +20,7 @@
 
 - (void)movementWithDelta:(float)aDelta {
     pixelLocation_.y += aDelta * dy_;
-    if (pixelLocation_.y > scene_.screenBounds_.size.height) {
+    if (pixelLocation_.y > top_) {
         state_ = EntityState_Idle;
     }
     if (pixelLocation_.y < scene_.playerBaseHeight_) {
@@ -39,8 +39,10 @@
 		Image *SpriteSheetImage = [[pss imageForKey:@"shot.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
+            top_ = 725.0f - height_*scaleFactor_;
 		} else {
 			scaleFactor_ = .85f;
+            top_ = scene_.screenBounds_.size.height;
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage

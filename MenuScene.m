@@ -57,6 +57,7 @@
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
+            background_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
 
             menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
                                                             ofType:@"png"
@@ -246,7 +247,7 @@
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        [background_ renderAtPoint:CGPointMake(0, 0)];
         if (state_ == SceneState_Running || state_ == SceneState_TransitionOut || state_ == SceneState_TransitionIn) {
             CGFloat x = 150.0f;
             CGFloat alienHeight = 30 * 3.0f;

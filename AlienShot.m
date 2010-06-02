@@ -25,12 +25,17 @@
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
 		Image *SpriteSheetImage = [[pss imageForKey:@"alien_shots.png"] retain];
+        float delay;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
-            SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
+            SpriteSheetImage.scale = Scale2fMake(2.5f, scaleFactor_);
+            top_ = 725.0f - height_*scaleFactor_;
+            delay = 0.1f;
 		} else {
 			scaleFactor_ = .85f;
             SpriteSheetImage.scale = Scale2fMake(1.5f, scaleFactor_);
+            top_ = scene_.screenBounds_.size.height;
+            delay = 0.15f;
 		}
 
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
@@ -40,7 +45,6 @@
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.15;
 		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
         [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
         animation_.state = kAnimationState_Running;
