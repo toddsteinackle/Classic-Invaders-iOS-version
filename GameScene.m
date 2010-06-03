@@ -31,17 +31,8 @@
 #pragma mark Private interface
 
 @interface GameScene (Private)
-// Initialize the sound needed for this scene
+
 - (void)initSound;
-
-// Sets up the game from the previously saved game.  If any of the data files are
-// missing then the resume will not take place and the initial game state will be
-// used instead
-- (void)loadGameState;
-
-// Deallocates resources this scene has created
-- (void)deallocResources;
-
 - (void)initAliensWithSpeed:(int)alienSpeed chanceToFire:(int)chanceToFire;
 - (void)playerFireShot;
 - (void)initPlayerShots;
@@ -114,6 +105,9 @@
 - (void)initWave {
 	++wave_;
 	canPlayerFire_ = FALSE;
+
+	[player_ release];
+	player_ = [[Player alloc] initWithPixelLocation:CGPointMake(0,0)];
 	player_.pixelLocation_ = CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1);
 	player_.dx_ = 0;
 
@@ -400,82 +394,6 @@
 }
 
 - (void)initNewGame {
-
-	int touchBoxWidth;
-	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		playerBaseHeight_ = 100;
-		bonusShipTop_ = 670.0f;
-		touchBoxWidth = 175;
-		bonusSpeed_ = 140.0f;
-		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
-		playerSpeed_ = 210.0f;
-		screenSidePadding_ = 25.0f;
-		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans50blue"
-														 ofType:@"png"
-													controlFile:@"sans50blue"
-														  scale:Scale2fMake(1.0f, 1.0f)
-														 filter:GL_LINEAR];
-
-		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans35blue"
-														  ofType:@"png"
-													 controlFile:@"sans35blue"
-														   scale:Scale2fMake(1.0f, 1.0f)
-														  filter:GL_LINEAR];
-
-		iPadWaveMessageFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans60blue"
-																   ofType:@"png"
-															  controlFile:@"sans60blue"
-																	scale:Scale2fMake(1.0f, 1.0f)
-																   filter:GL_LINEAR];
-		background_ = [[Image alloc] initWithImageNamed:@"iPadBackground" ofType:@"png" filter:GL_NEAREST];
-		messageBackground_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
-		topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
-	} else {
-		playerBaseHeight_ = 35;
-		bonusShipTop_ = 295.0f;
-		touchBoxWidth = 70;
-		bonusSpeed_ = 80.0f;
-		bonusLaunchDelay_ =  baseLaunchDelay_ = 10.0f;
-		playerSpeed_ = 120.0f;
-		screenSidePadding_ = 10.0f;
-		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
-														 ofType:@"png"
-													controlFile:@"bookAntiqua32"
-														  scale:Scale2fMake(1.0f, 1.0f)
-														 filter:GL_LINEAR];
-
-		statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16"
-														  ofType:@"png"
-													 controlFile:@"franklin16"
-														   scale:Scale2fMake(1.0f, 1.0f)
-														  filter:GL_LINEAR];
-
-		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
-																	   controlFile:@"pss_coordinates"
-																	   imageFilter:GL_LINEAR];
-		background_ = [[pss imageForKey:@"background.png"] retain];
-	}
-
-	player_ = [[Player alloc] initWithPixelLocation:CGPointMake((screenBounds_.size.width - (player_.width_*player_.scaleFactor_)) / 2, playerBaseHeight_+1)];
-	bigBonus_ = [[BigBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
-	smallBonus_ = [[SmallBonusShip alloc] initWithPixelLocation:CGPointMake(0, 0)];
-
-	leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
-	rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
-	fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
-	pauseTouchControlBounds_ = CGRectMake(1, screenBounds_.size.height/2 - 1, screenBounds_.size.width - 2, screenBounds_.size.height/2 - 1);
-
-	randomListLength_ = 15;
-	bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-	bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-	additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-
-	aliens_ = [[NSMutableArray alloc] init];
-	alienShots_ = [[NSMutableArray alloc] init];
-	playerShots_ = [[NSMutableArray alloc] init];
-	shields_ = [[NSMutableArray alloc] initWithCapacity:66];
-
-	waveMessageInterval_ = 2.0f;
 	wave_ = 0;
 	lastTimeInLoop_ = 0;
 	playerLives_ = 3;
@@ -761,10 +679,6 @@
 	}
 }
 
-- (void)loadGameState {
-
-}
-
 - (void)initSound {
 
 	sharedSoundManager_.fxVolume = 1.0f;
@@ -790,36 +704,6 @@
 	[sharedSoundManager_ loadSoundWithKey:@"free_guy" soundFile:@"Flourish3.caf"];
 }
 
-- (void)deallocResources {
-
-	[aliens_ release];
-	[background_ release];
-
-	// Release fonts
-	[smallFont_ release];
-	[statusFont_ release];
-
-	// Release sounds
-	[sharedSoundManager_ removeSoundWithKey:@"shot"];
-	[sharedSoundManager_ removeSoundWithKey:@"alien_death"];
-	[sharedSoundManager_ removeSoundWithKey:@"explosion"];
-	[sharedSoundManager_ removeSoundWithKey:@"active_bonus"];
-	[sharedSoundManager_ removeSoundWithKey:@"player_rebirth"];
-	[sharedSoundManager_ removeSoundWithKey:@"shot_collision"];
-	[sharedSoundManager_ removeSoundWithKey:@"big_bonus"];
-	[sharedSoundManager_ removeSoundWithKey:@"small_bonus"];
-	[sharedSoundManager_ removeSoundWithKey:@"start_wave"];
-	[sharedSoundManager_ removeSoundWithKey:@"alien_birth"];
-	[sharedSoundManager_ removeSoundWithKey:@"wave_end"];
-	[sharedSoundManager_ removeSoundWithKey:@"aliens_landed"];
-	[sharedSoundManager_ removeSoundWithKey:@"bg"];
-	[sharedSoundManager_ removeSoundWithKey:@"bg_1"];
-	[sharedSoundManager_ removeSoundWithKey:@"bg_2"];
-	[sharedSoundManager_ removeSoundWithKey:@"bg_3"];
-	[sharedSoundManager_ removeSoundWithKey:@"bg_4"];
-	[sharedSoundManager_ removeSoundWithKey:@"game_over"];
-	[sharedSoundManager_ removeSoundWithKey:@"free_guy"];
-}
 @end
 
 #pragma mark -
@@ -1940,17 +1824,52 @@
 	}
 }
 
-- (void)transitionToSceneWithKey:(NSString*)theKey {
-    state_ = SceneState_TransitionOut;
-}
-
 - (void)transitionIn {
     state_ = SceneState_TransitionIn;
 }
 
 - (void)dealloc {
-	// Dealloc resources this scene has created
-	[self deallocResources];
+
+	[bonusDirection_ release];
+	[bonusSelection_ release];
+	[additionalBonusDelay_ release];
+
+	[aliens_ release];
+	[alienShots_ release];
+	[playerShots_ release];
+	[shields_ release];
+	[background_ release];
+
+	[smallFont_ release];
+	[statusFont_ release];
+
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		[iPadWaveMessageFont_ release];
+		[messageBackground_ release];
+		[shipImage_ release];
+	}
+
+
+	// Release sounds
+	[sharedSoundManager_ removeSoundWithKey:@"shot"];
+	[sharedSoundManager_ removeSoundWithKey:@"alien_death"];
+	[sharedSoundManager_ removeSoundWithKey:@"explosion"];
+	[sharedSoundManager_ removeSoundWithKey:@"active_bonus"];
+	[sharedSoundManager_ removeSoundWithKey:@"player_rebirth"];
+	[sharedSoundManager_ removeSoundWithKey:@"shot_collision"];
+	[sharedSoundManager_ removeSoundWithKey:@"big_bonus"];
+	[sharedSoundManager_ removeSoundWithKey:@"small_bonus"];
+	[sharedSoundManager_ removeSoundWithKey:@"start_wave"];
+	[sharedSoundManager_ removeSoundWithKey:@"alien_birth"];
+	[sharedSoundManager_ removeSoundWithKey:@"wave_end"];
+	[sharedSoundManager_ removeSoundWithKey:@"aliens_landed"];
+	[sharedSoundManager_ removeSoundWithKey:@"bg"];
+	[sharedSoundManager_ removeSoundWithKey:@"bg_1"];
+	[sharedSoundManager_ removeSoundWithKey:@"bg_2"];
+	[sharedSoundManager_ removeSoundWithKey:@"bg_3"];
+	[sharedSoundManager_ removeSoundWithKey:@"bg_4"];
+	[sharedSoundManager_ removeSoundWithKey:@"game_over"];
+	[sharedSoundManager_ removeSoundWithKey:@"free_guy"];
 
     [super dealloc];
 }
@@ -1959,25 +1878,92 @@
 
     if(self = [super init]) {
 
-		// Name of this scene
         self.name_ = @"game";
 
-        // Grab an instance of our singleton classes
         sharedImageRenderManager_ = [ImageRenderManager sharedImageRenderManager];
         sharedTextureManager_ = [TextureManager sharedTextureManager];
         sharedSoundManager_ = [SoundManager sharedSoundManager];
         sharedGameController_ = [GameController sharedGameController];
 
 		[self initSound];
-		shipImage_ = [[Image alloc] initWithImageNamed:@"ship" ofType:@"png" filter:GL_LINEAR];
-		shipImage_.scale = Scale2fMake(1.5f, 1.5f);
 
-        // Grab the bounds of the screen
+        int touchBoxWidth;
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
+			playerBaseHeight_ = 100;
+			bonusShipTop_ = 670.0f;
+			touchBoxWidth = 175;
+			bonusSpeed_ = 140.0f;
+			bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
+			playerSpeed_ = 210.0f;
+			screenSidePadding_ = 25.0f;
+			topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
+
+			smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans50blue"
+															 ofType:@"png"
+														controlFile:@"sans50blue"
+															  scale:Scale2fMake(1.0f, 1.0f)
+															 filter:GL_LINEAR];
+
+			statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans35blue"
+															  ofType:@"png"
+														 controlFile:@"sans35blue"
+															   scale:Scale2fMake(1.0f, 1.0f)
+															  filter:GL_LINEAR];
+
+			iPadWaveMessageFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans60blue"
+																	   ofType:@"png"
+																  controlFile:@"sans60blue"
+																		scale:Scale2fMake(1.0f, 1.0f)
+																	   filter:GL_LINEAR];
+			background_ = [[Image alloc] initWithImageNamed:@"iPadBackground" ofType:@"png" filter:GL_NEAREST];
+			messageBackground_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
+			shipImage_ = [[Image alloc] initWithImageNamed:@"ship" ofType:@"png" filter:GL_LINEAR];
+			shipImage_.scale = Scale2fMake(1.5f, 1.5f);
 		} else {
 			screenBounds_ = CGRectMake(0, 0, 480, 320);
+			playerBaseHeight_ = 35;
+			bonusShipTop_ = 295.0f;
+			touchBoxWidth = 70;
+			bonusSpeed_ = 80.0f;
+			bonusLaunchDelay_ =  baseLaunchDelay_ = 10.0f;
+			playerSpeed_ = 120.0f;
+			screenSidePadding_ = 10.0f;
+
+			smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"bookAntiqua32"
+															 ofType:@"png"
+														controlFile:@"bookAntiqua32"
+															  scale:Scale2fMake(1.0f, 1.0f)
+															 filter:GL_LINEAR];
+
+			statusFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"franklin16"
+															  ofType:@"png"
+														 controlFile:@"franklin16"
+															   scale:Scale2fMake(1.0f, 1.0f)
+															  filter:GL_LINEAR];
+
+			PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																		   controlFile:@"pss_coordinates"
+																		   imageFilter:GL_LINEAR];
+			background_ = [[pss imageForKey:@"background.png"] retain];
 		}
+
+		waveMessageInterval_ = 2.0f;
+
+		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
+		rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
+		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
+		pauseTouchControlBounds_ = CGRectMake(1, screenBounds_.size.height/2 - 1, screenBounds_.size.width - 2, screenBounds_.size.height/2 - 1);
+
+		randomListLength_ = 15;
+		bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+		bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+		additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
+
+		aliens_ = [[NSMutableArray alloc] init];
+		alienShots_ = [[NSMutableArray alloc] init];
+		playerShots_ = [[NSMutableArray alloc] init];
+		shields_ = [[NSMutableArray alloc] initWithCapacity:66];
 	}
     return self;
 }
