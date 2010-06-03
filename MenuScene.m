@@ -19,6 +19,23 @@
 	[background_ release];
 	[fadeImage_ release];
 
+    [alien1_ release];
+    [alien2_ release];
+    [alien3_ release];
+    [alien4_ release];
+    [alien5_ release];
+
+    [help1_ release];
+    [help2_ release];
+    [help3_ release];
+    [help4_ release];
+    [help5_ release];
+
+    [menuFont_ release];
+    [monoMenuFont_ release];
+    [monoScoreHighlightFont_ release];
+    [monoHelpFont_ release];
+
 	[super dealloc];
 }
 

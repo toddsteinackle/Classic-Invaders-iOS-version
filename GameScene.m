@@ -235,7 +235,7 @@
 				alienSpeed_ += arc4random() % 10 + 1;
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
-				numberOfAlienShots_ = 16;
+				numberOfAlienShots_ = 17;
 				[self initAlienShots];
 
 				numberOfPlayerShots_ = 10;
@@ -1893,9 +1893,9 @@
 			playerBaseHeight_ = 100;
 			bonusShipTop_ = 670.0f;
 			touchBoxWidth = 175;
-			bonusSpeed_ = 140.0f;
+			bonusSpeed_ = 145.0f;
 			bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
-			playerSpeed_ = 210.0f;
+			playerSpeed_ = 215.0f;
 			screenSidePadding_ = 25.0f;
 			topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
 

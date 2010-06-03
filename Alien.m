@@ -75,7 +75,7 @@
 			scaleFactor_ = 1.5f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion-iPad" ofType:@"xml"];
             appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"alienBirth-iPad" ofType:@"xml"];
-            alienDropDown_ = 22.0f;
+            alienDropDown_ = 23.0f;
 		} else {
 			scaleFactor_ = .7f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
