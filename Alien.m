@@ -36,7 +36,7 @@
 
 - (void)doAlienLogic {
     dx_ = -dx_;
-    pixelLocation_.y -= 8.0f;
+    pixelLocation_.y -= alienDropDown_;
 }
 
 - (void)movementWithDelta:(float)aDelta {
@@ -75,10 +75,12 @@
 			scaleFactor_ = 1.5f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion-iPad" ofType:@"xml"];
             appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"alienBirth-iPad" ofType:@"xml"];
+            alienDropDown_ = 22.0f;
 		} else {
 			scaleFactor_ = .7f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion" ofType:@"xml"];
             appearingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"alienBirth" ofType:@"xml"];
+            alienDropDown_ = 8.0f;
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage

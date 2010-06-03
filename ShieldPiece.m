@@ -51,7 +51,7 @@
         pixelLocation_.x = aLocation.x;
         pixelLocation_.y = aLocation.y;
         collisionWidth_ = scaleFactor_ * width_ * .9f;
-        collisionHeight_ = scaleFactor_ * height_ *.9f;
+        collisionHeight_ = scaleFactor_ * height_;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
         state_ = EntityState_Alive;

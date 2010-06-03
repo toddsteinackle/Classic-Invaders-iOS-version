@@ -58,11 +58,7 @@
         collisionHeight_ = scaleFactor_ * height_ *.7;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			dy_ = 250.0f;
-		} else {
-            dy_ = 140.0f;
-		}
+
         state_ = EntityState_Idle;
     }
     return self;

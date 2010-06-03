@@ -15,6 +15,7 @@
     bool canFire_;
     CGFloat alienInitialXShotPostion_;
     CGFloat alienInitialYShotPostion_;
+    CGFloat alienDropDown_;
 }
 
 @property (nonatomic, assign) int position_;

@@ -51,6 +51,7 @@
     SmallBonusShip *smallBonus_;
     BigBonusShip *bonus_;
     Image *background_;
+    Image *messageBackground_;
     CGRect leftTouchControlBounds_;
     CGRect rightTouchControlBounds_;
     CGRect fireTouchControlBounds_;

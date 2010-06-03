@@ -124,6 +124,8 @@
 	bonus_ = NULL;
 
 	[aliens_ removeAllObjects];
+	[alienShots_ removeAllObjects];
+	[playerShots_ removeAllObjects];
 
 	[bonusSelection_ removeAllObjects];
 	[bonusDirection_ removeAllObjects];
@@ -133,20 +135,120 @@
 	[self initShields];
 
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-		for (int i = 0; i < randomListLength_; ++i) {
-			[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-			[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-			[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+#pragma mark iPad waves
+		switch (wave_) {
+			case 1:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 6 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+				}
+				alienShotDelay_ = 1.25f;
+				alienOddRange_ = 10;
+				alienSpeed_ = 65 + (arc4random() % 10 + 1);
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 2:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+				}
+				alienShotDelay_ = 1.0f;
+				alienOddRange_ = 9;
+				alienSpeed_ += (arc4random() % 10 + 1);
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 3:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+				}
+				alienShotDelay_ = 0.9f;
+				alienOddRange_ = 8;
+				alienSpeed_ += (arc4random() % 10 + 1);
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 10;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 4:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+				}
+				alienShotDelay_ = 0.8f;
+				alienOddRange_ = 8;
+				alienSpeed_ += (arc4random() % 10 + 1);
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 15;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			case 5:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+				}
+				alienShotDelay_ = 0.7f;
+				alienOddRange_ = 7;
+				alienSpeed_ += (arc4random() % 10 + 1);
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 15;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
+
+			default:
+				for (int i = 0; i < randomListLength_; ++i) {
+					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
+					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+				}
+				if (alienShotDelay_ > .4f) {
+					alienShotDelay_ -= .1f;
+				}
+
+				alienOddRange_ = 6;
+				alienSpeed_ += arc4random() % 10 + 1;
+				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
+
+				numberOfAlienShots_ = 16;
+				[self initAlienShots];
+
+				numberOfPlayerShots_ = 10;
+				[self initPlayerShots];
+				break;
 		}
-		alienShotDelay_ = 2.0f;
-		numberOfAlienShots_ = 10;
-		numberOfPlayerShots_ = 10;
-		alienOddRange_ = 10;
-		[alienShots_ removeAllObjects];
-		[self initAlienShots];
-		[playerShots_ removeAllObjects];
-		[self initPlayerShots];
-		[self initAliensWithSpeed:50 chanceToFire:10];
+
 	} else {
 
 #pragma mark iPhone waves
@@ -262,9 +364,7 @@
 				if (alienShotDelay_ > .4f) {
 					alienShotDelay_ -= .1f;
 				}
-#ifdef MYDEBUG
-				NSLog(@"alienShotDelay_ -- %f", alienShotDelay_);
-#endif
+
 				alienOddRange_ = 6;
 				alienSpeed_ += arc4random() % 3 + 1;
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
@@ -295,6 +395,7 @@
 	NSLog(@"==========================");
 	NSLog(@"wave -- %i", wave_);
 	NSLog(@"alienSpeed -- %i", alienSpeed_);
+	NSLog(@"alienShotDelay_ -- %f", alienShotDelay_);
 #endif
 }
 
@@ -305,9 +406,9 @@
 		playerBaseHeight_ = 100;
 		bonusShipTop_ = 670.0f;
 		touchBoxWidth = 175;
-		bonusSpeed_ = 125;
+		bonusSpeed_ = 140.0f;
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
-		playerSpeed_ = 200.0f;
+		playerSpeed_ = 210.0f;
 		screenSidePadding_ = 25.0f;
 		smallFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"sans50blue"
 														 ofType:@"png"
@@ -327,12 +428,13 @@
 																	scale:Scale2fMake(1.0f, 1.0f)
 																   filter:GL_LINEAR];
 		background_ = [[Image alloc] initWithImageNamed:@"iPadBackground" ofType:@"png" filter:GL_NEAREST];
+		messageBackground_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
 		topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
 	} else {
 		playerBaseHeight_ = 35;
 		bonusShipTop_ = 295.0f;
 		touchBoxWidth = 70;
-		bonusSpeed_ = 80;
+		bonusSpeed_ = 80.0f;
 		bonusLaunchDelay_ =  baseLaunchDelay_ = 10.0f;
 		playerSpeed_ = 120.0f;
 		screenSidePadding_ = 10.0f;
@@ -649,7 +751,11 @@
 - (void)initAlienShots {
 	for (int i = 0; i < numberOfAlienShots_; ++i) {
 		AlienShot *shot = [[AlienShot alloc] initWithPixelLocation:CGPointMake(0,0)];
-		shot.dy_ = -60.0f;
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			shot.dy_ = -130.0f;
+		} else {
+			shot.dy_ = -60.0f;
+		}
 		[alienShots_ addObject:shot];
 		[shot release];
 	}
@@ -1228,7 +1334,7 @@
 #pragma mark Paused
 		case SceneState_Paused:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
+				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
 				CGRect top =  CGRectMake(0, screenBounds_.size.height/2.5, screenBounds_.size.width, screenBounds_.size.height/2.5);
 				[smallFont_ renderStringJustifiedInFrame:top justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
 				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
@@ -1478,7 +1584,12 @@
 
 #pragma mark GameOver
 		case SceneState_GameOver:
-			[background_ renderAtPoint:CGPointMake(0, 0)];
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
+			} else {
+				[background_ renderAtPoint:CGPointMake(0, 0)];
+			}
+
 			CGRect top = CGRectMake(0, screenBounds_.size.height/2, screenBounds_.size.width, screenBounds_.size.height/2);
 			[smallFont_ renderStringJustifiedInFrame:top
 									   justification:BitmapFontJustification_MiddleCentered
