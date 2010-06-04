@@ -104,7 +104,6 @@
 }
 
 - (void)render {
-    [super render];
     switch (state_) {
         case EntityState_Alive:
             [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];

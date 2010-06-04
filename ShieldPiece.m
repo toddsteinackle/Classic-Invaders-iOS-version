@@ -64,7 +64,6 @@
 }
 
 - (void)render {
-    [super render];
     [animation_ renderAtPoint:CGPointMake(pixelLocation_.x, pixelLocation_.y)];
 }
 
