@@ -40,9 +40,11 @@
     NSMutableArray *aliens_;
     NSMutableArray *playerShots_;
     NSMutableArray *alienShots_;
-    NSMutableArray *bonusDirection_;
-    NSMutableArray *bonusSelection_;
-    NSMutableArray *additionalBonusDelay_;
+
+    int bonusDirection_[30];
+    int bonusSelection_[30];
+    int additionalBonusDelay_[30];
+
     NSMutableArray *shields_;
     int bonusLaunchDelay_;
     Player *player_;

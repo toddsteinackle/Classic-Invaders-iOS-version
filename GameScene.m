@@ -121,10 +121,6 @@
 	[alienShots_ removeAllObjects];
 	[playerShots_ removeAllObjects];
 
-	[bonusSelection_ removeAllObjects];
-	[bonusDirection_ removeAllObjects];
-	[additionalBonusDelay_ removeAllObjects];
-
 	[shields_ removeAllObjects];
 	[self initShields];
 
@@ -133,9 +129,9 @@
 		switch (wave_) {
 			case 1:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 6 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+					bonusSelection_[i] = arc4random() % 6 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 5 + 1;
 				}
 				alienShotDelay_ = 1.25f;
 				alienOddRange_ = 10;
@@ -151,9 +147,9 @@
 
 			case 2:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+					bonusSelection_[i] = arc4random() % 5 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 4 + 1;
 				}
 				alienShotDelay_ = 1.0f;
 				alienOddRange_ = 9;
@@ -169,9 +165,9 @@
 
 			case 3:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+					bonusSelection_[i] = arc4random() % 5 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 4 + 1;
 				}
 				alienShotDelay_ = 0.9f;
 				alienOddRange_ = 8;
@@ -187,9 +183,9 @@
 
 			case 4:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					bonusSelection_[i] = arc4random() % 4 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 3 + 1;
 				}
 				alienShotDelay_ = 0.8f;
 				alienOddRange_ = 8;
@@ -205,9 +201,9 @@
 
 			case 5:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					bonusSelection_[i] = arc4random() % 3 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 3 + 1;
 				}
 				alienShotDelay_ = 0.7f;
 				alienOddRange_ = 7;
@@ -223,9 +219,9 @@
 
 			default:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+					bonusSelection_[i] = arc4random() % 2 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				if (alienShotDelay_ > .4f) {
 					alienShotDelay_ -= .1f;
@@ -249,9 +245,9 @@
 		switch (wave_) {
 			case 1:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 6 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
+					bonusSelection_[i] = arc4random() % 6 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 5 + 1;
 				}
 				alienShotDelay_ = 1.0f;
 				alienOddRange_ = 10;
@@ -270,9 +266,9 @@
 
 			case 2:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 5 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
+					bonusSelection_[i] = arc4random() % 5 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 4 + 1;
 				}
 				alienShotDelay_ = 1.0f;
 				alienOddRange_ = 8;
@@ -290,9 +286,9 @@
 
 			case 3:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 4 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					bonusSelection_[i] = arc4random() % 4 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 3 + 1;
 				}
 				alienShotDelay_ = 0.8f;
 				alienOddRange_ = 7;
@@ -310,9 +306,9 @@
 
 			case 4:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
+					bonusSelection_[i] = arc4random() % 3 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 3 + 1;
 				}
 				alienShotDelay_ = 0.8f;
 				alienOddRange_ = 7;
@@ -330,9 +326,9 @@
 
 			case 5:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 3 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+					bonusSelection_[i] = arc4random() % 3 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				alienShotDelay_ = 0.7f;
 				alienOddRange_ = 6;
@@ -351,9 +347,9 @@
 
 			default:
 				for (int i = 0; i < randomListLength_; ++i) {
-					[bonusSelection_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
-					[bonusDirection_ addObject:[NSNumber numberWithInt:arc4random() % 2]];
-					[additionalBonusDelay_ addObject:[NSNumber numberWithInt:arc4random() % 2 + 1]];
+					bonusSelection_[i] = arc4random() % 2 + 1;
+					bonusDirection_[i] = arc4random() % 2;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				if (alienShotDelay_ > .4f) {
 					alienShotDelay_ -= .1f;
@@ -376,15 +372,15 @@
 	}
 #ifdef MYDEBUG
 	for (int i = 0; i < randomListLength_; ++i) {
-		NSLog(@"%i", [[bonusSelection_ objectAtIndex:i] intValue]);
+		NSLog(@"%i", bonusSelection_[i]);
 	}
 	NSLog(@"==========================");
 	for (int i = 0; i < randomListLength_; ++i) {
-		NSLog(@"%i", [[bonusDirection_ objectAtIndex:i] intValue]);
+		NSLog(@"%i", bonusDirection_[i]);
 	}
 	NSLog(@"==========================");
 	for (int i = 0; i < randomListLength_; ++i) {
-		NSLog(@"%i", [[additionalBonusDelay_ objectAtIndex:i] intValue]);
+		NSLog(@"%i", additionalBonusDelay_[i]);
 	}
 	NSLog(@"==========================");
 	NSLog(@"wave -- %i", wave_);
@@ -485,13 +481,13 @@
 #endif
 	} else {
 
-		if ([[bonusSelection_ objectAtIndex:randomListCount] intValue] == 1) {
+		if (bonusSelection_[randomListCount] == 1) {
 			bonus_ = smallBonus_;
 		} else {
 			bonus_ = bigBonus_;
 		}
 
-		if ([[bonusDirection_ objectAtIndex:randomListCount] intValue] == 1) {
+		if (bonusDirection_[randomListCount] == 1) {
 			bonus_.pixelLocation_ = CGPointMake(0 - bonus_.scaleFactor_ * bonus_.width_, bonusShipTop_);
 			bonus_.dx_ = bonusSpeed_;
 			bonus_.state_ = EntityState_Alive;
@@ -503,16 +499,15 @@
 	}
 
 	[sharedSoundManager_ playSoundWithKey:@"active_bonus" gain:0.25f pitch:1.0 location:CGPointMake(0, 0) shouldLoop:TRUE];
-	bonusLaunchDelay_ = baseLaunchDelay_ + [[additionalBonusDelay_ objectAtIndex:randomListCount] intValue];
+	bonusLaunchDelay_ = baseLaunchDelay_ + additionalBonusDelay_[randomListCount];
 	if (++randomListCount == randomListLength_) {
 		randomListCount = 0;
 	}
 }
 
 - (void)alienFire {
-	// check that aliens have waited long enough to fire
 	static int alienShotCounter = 0;
-	// check that player has waited long enough to fire
+	// check that aliens has waited long enough to fire
 	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay_) {
 		return;
 	}
@@ -1830,10 +1825,6 @@
 
 - (void)dealloc {
 
-	[bonusDirection_ release];
-	[bonusSelection_ release];
-	[additionalBonusDelay_ release];
-
 	[aliens_ release];
 	[alienShots_ release];
 	[playerShots_ release];
@@ -1949,16 +1940,12 @@
 		}
 
 		waveMessageInterval_ = 2.0f;
+		randomListLength_ = 30;
 
 		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 		rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
 		pauseTouchControlBounds_ = CGRectMake(1, screenBounds_.size.height/2 - 1, screenBounds_.size.width - 2, screenBounds_.size.height/2 - 1);
-
-		randomListLength_ = 15;
-		bonusDirection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-		bonusSelection_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
-		additionalBonusDelay_ = [[NSMutableArray alloc] initWithCapacity:randomListLength_];
 
 		aliens_ = [[NSMutableArray alloc] init];
 		alienShots_ = [[NSMutableArray alloc] init];
