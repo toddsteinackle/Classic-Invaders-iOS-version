@@ -4,10 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDisplayName</key>
-	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleDisplayName</key>
+	<string>Classic Inv</string>
 	<key>CFBundleIconFile</key>
 	<string>icon.png</string>
 	<key>CFBundleIdentifier</key>
@@ -30,5 +30,7 @@
 	<string>MainWindow-iPad</string>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>UIPrerenderedIcon</key>
+	<false/>
 </dict>
 </plist>
