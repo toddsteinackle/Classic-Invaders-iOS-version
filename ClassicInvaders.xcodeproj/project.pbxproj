@@ -48,6 +48,7 @@
 		5F1D43C3114D8B7A00797E5B /* Alien.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F1D43C2114D8B7A00797E5B /* Alien.m */; };
 		5F1D43C7114D8DB200797E5B /* pss_coordinates.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */; };
 		5F1D43C8114D8DB200797E5B /* pss.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1D43C6114D8DB200797E5B /* pss.png */; };
+		5F1F1D5011BB007F004D39CA /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1F1D4F11BB007F004D39CA /* Default.png */; };
 		5F224D451159A82600A4AFBC /* BigBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D441159A82600A4AFBC /* BigBonusShip.m */; };
 		5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F224D471159A86200A4AFBC /* SmallBonusShip.m */; };
 		5F3EFA97117FC9B60075E6CE /* ci_menu_mono_30.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */; };
@@ -84,6 +85,8 @@
 		5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */; };
 		5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2EF6116FDA3F00E9541B /* Lost3.caf */; };
 		5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */; };
+		5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */; };
+		5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */; };
 		5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */; };
 		5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4005611B198A5000555A4 /* playerRebirth.xml */; };
 		5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */; };
@@ -107,7 +110,6 @@
 		8FDE043B112AB9B1008FF523 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E0E16112AB45C007EB939 /* EAGLView.m */; };
 		8FDE043C112AB9B6008FF523 /* ES1Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5E0E18112AB45C007EB939 /* ES1Renderer.m */; };
 		8FDE722A10B9A0E5008177E7 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FDE722910B9A0E5008177E7 /* Image.m */; };
-		8FEAB093108776B800CE2786 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FEAB092108776B800CE2786 /* icon.png */; };
 		8FF379EF10530D5200C98F63 /* SpriteSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF379EE10530D5200C98F63 /* SpriteSheet.m */; };
 		8FF37A1F10530EB100C98F63 /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF37A1E10530EB100C98F63 /* GameScene.m */; };
 		8FF37B361053BA2400C98F63 /* Primatives.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FF37B351053BA2400C98F63 /* Primatives.m */; };
@@ -181,6 +183,7 @@
 		5F1D43C2114D8B7A00797E5B /* Alien.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Alien.m; sourceTree = "<group>"; };
 		5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = pss_coordinates.plist; sourceTree = "<group>"; };
 		5F1D43C6114D8DB200797E5B /* pss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pss.png; sourceTree = "<group>"; };
+		5F1F1D4F11BB007F004D39CA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		5F224D431159A82600A4AFBC /* BigBonusShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigBonusShip.h; sourceTree = "<group>"; };
 		5F224D441159A82600A4AFBC /* BigBonusShip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigBonusShip.m; sourceTree = "<group>"; };
 		5F224D461159A86200A4AFBC /* SmallBonusShip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallBonusShip.h; sourceTree = "<group>"; };
@@ -221,6 +224,8 @@
 		5F96133D1182662E001A3771 /* ci_menu_mono_30_purple.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci_menu_mono_30_purple.fnt; sourceTree = "<group>"; };
 		5F9D2EF6116FDA3F00E9541B /* Lost3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lost3.caf; sourceTree = "<group>"; };
 		5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadAppIcon.png; sourceTree = "<group>"; };
+		5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneAppIcon.png; sourceTree = "<group>"; };
 		5FA4005611B198A5000555A4 /* playerRebirth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = playerRebirth.xml; sourceTree = "<group>"; };
 		5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-bonus-ui-gfx.png"; sourceTree = "<group>"; };
 		5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-bonus-ui-gfx.png"; sourceTree = "<group>"; };
@@ -254,7 +259,6 @@
 		8FDCC42A10D0C217000C15E4 /* Score.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Score.m; sourceTree = "<group>"; };
 		8FDE722810B9A0E5008177E7 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		8FDE722910B9A0E5008177E7 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
-		8FEAB092108776B800CE2786 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		8FF379EE10530D5200C98F63 /* SpriteSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpriteSheet.m; sourceTree = "<group>"; };
 		8FF37A1D10530EB100C98F63 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		8FF37A1E10530EB100C98F63 /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 1; };
@@ -622,7 +626,10 @@
 				5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */,
 				5F438F47117A192B00539457 /* alien-2-1.png */,
 				5F438F49117A195700539457 /* alien-3-1.png */,
+				5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */,
+				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
+				5F1F1D4F11BB007F004D39CA /* Default.png */,
 				5F438F4D117A19ED00539457 /* alien-1-1.png */,
 				5F57A54F117541E90024F431 /* alien-1-2.png */,
 				5F1A525D11B455D900DA442B /* ship.png */,
@@ -632,7 +639,6 @@
 				5F1D43C6114D8DB200797E5B /* pss.png */,
 				8FFBD21E10EB74600002C000 /* texture.png */,
 				8FB4D43410AD6304003ADC58 /* allBlack.png */,
-				8FEAB092108776B800CE2786 /* icon.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -746,7 +752,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				8FEAB093108776B800CE2786 /* icon.png in Resources */,
 				8FB4D43510AD6304003ADC58 /* allBlack.png in Resources */,
 				8F8AE7F210AEBF2A00D82C5B /* explosion.xml in Resources */,
 				8F8AE7F310AEBF2A00D82C5B /* alienBirth.xml in Resources */,
@@ -808,6 +813,9 @@
 				5F086CF811B721D000208A6C /* alien_death.caf in Resources */,
 				5F086CF911B721D000208A6C /* BuzzyLp.caf in Resources */,
 				5F086CFA11B721D000208A6C /* menu_select.caf in Resources */,
+				5F1F1D5011BB007F004D39CA /* Default.png in Resources */,
+				5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */,
+				5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
