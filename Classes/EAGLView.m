@@ -183,10 +183,14 @@
 			displayLink = [NSClassFromString(@"CADisplayLink") displayLinkWithTarget:self selector:@selector(gameLoop)];
 			[displayLink setFrameInterval:animationFrameInterval];
 			[displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+#ifdef MYDEBUG
             SLQLOG(@"INFO - EAGLView: Timer using CADisplayLink");
+#endif
 		} else {
 			animationTimer = [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((1.0 / MAXIMUM_FRAME_RATE) * animationFrameInterval) target:self selector:@selector(gameLoop) userInfo:nil repeats:TRUE];
+#ifdef MYDEBUG
             SLQLOG(@"INFO - EAGLView: Timer using NSTimer");
+#endif
         }
 
         animating = TRUE;

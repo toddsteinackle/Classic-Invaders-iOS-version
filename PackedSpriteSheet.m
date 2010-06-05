@@ -21,7 +21,9 @@
 @implementation PackedSpriteSheet
 
 - (void)dealloc {
-//	SLQLOG(@"INFO - PackedSpriteSheet: Deallocating");
+#ifdef MYDEBUG
+	SLQLOG(@"INFO - PackedSpriteSheet: Deallocating");
+#endif
 	[sprites release];
 	[image release];
 	[super dealloc];

@@ -21,8 +21,9 @@
 
 - (void)dealloc
 {
-
+#ifdef MYDEBUG
 	SLQLOG(@"INFO - Texture2D: Deallocating");
+#endif
 	// If this instance is deallocated then delete the texture from OpenGL
 	if(name)
 	 glDeleteTextures(1, &name);

@@ -117,7 +117,9 @@
 @implementation ES1Renderer (Private)
 
 - (void) initOpenGL {
+#ifdef MYDEBUG
 	SLQLOG(@"INFO - ES1Renderer: Initializing OpenGL");
+#endif
 
 	// Switch to GL_PROJECTION matrix mode and reset the current matrix with the identity matrix
 	glMatrixMode(GL_PROJECTION);
@@ -127,9 +129,9 @@
 
     // Set the viewport
     glViewport(0, 0, backingWidth, backingHeight);
-
+#ifdef MYDEBUG
     SLQLOG(@"INFO - ES1Renderer: Setting glOrthof to width=%d and height=%d", backingWidth,backingHeight);
-
+#endif
 	// Switch to GL_MODELVIEW so we can now draw our objects
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

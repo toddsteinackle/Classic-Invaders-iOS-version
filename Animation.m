@@ -16,8 +16,9 @@
 @synthesize bounceFrame;
 
 - (void)dealloc {
-	//SLQLOG(@"INFO - Animation: Deallocating");
-
+#ifdef MYDEBUG
+	SLQLOG(@"INFO - Animation: Deallocating");
+#endif
 	// Loop through the frames array and release all the frames which we have
 	if (frames) {
 		for(int i=0; i<frameCount; i++) {

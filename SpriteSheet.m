@@ -30,7 +30,9 @@
 @synthesize image;
 
 - (void)dealloc {
-//	SLQLOG(@"INFO - SpriteSheet: Deallocating");
+#ifdef MYDEBUG
+	SLQLOG(@"INFO - SpriteSheet: Deallocating");
+#endif
 	[cachedSprites release];
     [image release];
     [super dealloc];

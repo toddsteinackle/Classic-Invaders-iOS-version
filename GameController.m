@@ -166,9 +166,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 @implementation GameController (Private)
 
 - (void)initGameController {
-
+#ifdef MYDEBUG
     SLQLOG(@"INFO - GameController: Starting game initialization.");
-
+#endif
 	// Set up the sound manager
 	sharedSoundManager_ = [SoundManager sharedSoundManager];
 
@@ -198,8 +198,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     // Set the initial scenes state
     [currentScene_ transitionIn];
-
+#ifdef MYDEBUG
     SLQLOG(@"INFO - GameController: Finished game initialization.");
+#endif
 }
 
 - (void)sortHighScores {

@@ -62,12 +62,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(TextureManager);
     }
 
     // No texture was found with the supplied key so log that and return NO;
+#ifdef MYDEBUG
     NSLog(@"INFO - Resource Manager: A texture with the key '%@.%@' could not be found to release.", aName, aType);
+#endif
     return NO;
 }
 
 - (void)releaseAllTextures {
+#ifdef MYDEBUG
     SLQLOG(@"INFO - Resource Manager: Releasing all cached textures.");
+#endif
     [cachedTextures removeAllObjects];
 }
 

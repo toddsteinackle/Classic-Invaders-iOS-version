@@ -56,8 +56,9 @@
 #pragma mark Deallocation
 
 - (void)dealloc {
-//	SLQLOG(@"INFO - Image: Deallocating image '%@.%@'", imageFileName, imageFileType)
-
+#ifdef MYDEBUG
+	SLQLOG(@"INFO - Image: Deallocating image '%@.%@'", imageFileName, imageFileType);
+#endif
 	if (texture)
 		[texture release];
 

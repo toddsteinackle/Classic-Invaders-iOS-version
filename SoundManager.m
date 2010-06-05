@@ -114,7 +114,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 		isExternalAudioPlaying = [self isExternalAudioPlaying];
 
 		if (!isExternalAudioPlaying) {
+#ifdef MYDEBUG
 			NSLog(@"INFO - SoundManager: No external audio playing so using SoloAmbient");
+#endif
 			soundCategory = AVAudioSessionCategorySoloAmbient;
 			audioSessionError = nil;
 			[audioSession setCategory:soundCategory error:&audioSessionError];
@@ -219,7 +221,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 	// Place the buffer ID into the sound library against |aSoundKey|
 	[soundLibrary setObject:[NSNumber numberWithUnsignedInt:bufferID] forKey:aSoundKey];
+#ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Loaded sound with key '%@' into buffer '%d'", aSoundKey, bufferID);
+#endif
 }
 
 - (void)removeSoundWithKey:(NSString*)aSoundKey {
@@ -268,8 +272,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 	// Remove the soundkey from the soundLibrary
     [soundLibrary removeObjectForKey:aSoundKey];
-
+#ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Removed sound with key '%@'", aSoundKey);
+#endif
 }
 
 
@@ -295,7 +300,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	}
 
 	[musicLibrary setObject:path forKey:aMusicKey];
+#ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Loaded background music with key '%@'", aMusicKey);
+#endif
 }
 
 - (void)removeMusicWithKey:(NSString*)aMusicKey {
@@ -305,7 +312,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
         return;
     }
     [musicLibrary removeObjectForKey:aMusicKey];
+#ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Removed music with key '%@'", aMusicKey);
+#endif
 }
 
 - (void)addToPlaylistNamed:(NSString*)aPlaylistName track:(NSString*)aTrackName {
@@ -662,7 +671,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 @implementation SoundManager (Private)
 
 - (BOOL)initOpenAL {
+#ifdef MYDEBUG
     NSLog(@"INFO - Sound Manager: Initializing sound manager");
+#endif
 
 	// Define how many OpenAL sources should be generated
 	uint maxOpenALSources = 16;
@@ -706,8 +717,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 		alListenerfv(AL_POSITION, listener_pos);
 		alListenerfv(AL_ORIENTATION, listener_ori);
 		alListenerfv(AL_VELOCITY, listener_vel);
-
+#ifdef MYDEBUG
         NSLog(@"INFO - Sound Manager: Finished initializing the sound manager");
+#endif
 		// Return YES as we have successfully initialized OpenAL
 		return YES;
 	}
@@ -740,8 +752,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
     OSStatus result;
 
     if(aState) {
+#ifdef MYDEBUG
         NSLog(@"INFO - SoundManager: OpenAL Active");
-
+#endif
         // Set the AudioSession AudioCategory to what has been defined in soundCategory
 		[audioSession setCategory:soundCategory error:&audioSessionError];
         if(audioSessionError) {
@@ -763,8 +776,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
         // As we are finishing the interruption we need to bind back to our context.
         alcMakeContextCurrent(context);
     } else {
+#ifdef MYDEBUG
         NSLog(@"INFO - SoundManager: OpenAL Inactive");
-
+#endif
         // As we are being interrupted we set the current context to NULL.  If this sound manager is to be
         // compaitble with firmware prior to 3.0 then the context would need to also be destroyed and
         // then re-created when the interruption ended.
