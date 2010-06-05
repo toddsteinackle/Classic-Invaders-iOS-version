@@ -17,7 +17,7 @@
 
 - (void)dealloc {
 #ifdef MYDEBUG
-	SLQLOG(@"INFO - Animation: Deallocating");
+//	SLQLOG(@"INFO - Animation: Deallocating");
 #endif
 	// Loop through the frames array and release all the frames which we have
 	if (frames) {

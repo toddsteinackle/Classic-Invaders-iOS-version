@@ -57,7 +57,7 @@
 
 - (void)dealloc {
 #ifdef MYDEBUG
-	SLQLOG(@"INFO - Image: Deallocating image '%@.%@'", imageFileName, imageFileType);
+//	SLQLOG(@"INFO - Image: Deallocating image '%@.%@'", imageFileName, imageFileType);
 #endif
 	if (texture)
 		[texture release];
