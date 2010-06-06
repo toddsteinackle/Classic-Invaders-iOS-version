@@ -129,13 +129,13 @@
 		switch (wave_) {
 			case 1:
 				for (int i = 0; i < randomListLength_; ++i) {
-					bonusSelection_[i] = arc4random() % 6 + 1;
+					bonusSelection_[i] = arc4random() % 5 + 1;
 					bonusDirection_[i] = arc4random() % 2;
-					additionalBonusDelay_[i] = arc4random() % 5 + 1;
+					additionalBonusDelay_[i] = arc4random() % 4 + 1;
 				}
 				alienShotDelay_ = 1.25f;
 				alienOddRange_ = 10;
-				alienSpeed_ = 65 + (arc4random() % 10 + 1);
+				alienSpeed_ = 75 + (arc4random() % 10 + 1);
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
 				numberOfAlienShots_ = 10;
@@ -147,9 +147,9 @@
 
 			case 2:
 				for (int i = 0; i < randomListLength_; ++i) {
-					bonusSelection_[i] = arc4random() % 5 + 1;
+					bonusSelection_[i] = arc4random() % 4 + 1;
 					bonusDirection_[i] = arc4random() % 2;
-					additionalBonusDelay_[i] = arc4random() % 4 + 1;
+					additionalBonusDelay_[i] = arc4random() % 3 + 1;
 				}
 				alienShotDelay_ = 1.0f;
 				alienOddRange_ = 9;
@@ -165,9 +165,9 @@
 
 			case 3:
 				for (int i = 0; i < randomListLength_; ++i) {
-					bonusSelection_[i] = arc4random() % 5 + 1;
+					bonusSelection_[i] = arc4random() % 3 + 1;
 					bonusDirection_[i] = arc4random() % 2;
-					additionalBonusDelay_[i] = arc4random() % 4 + 1;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				alienShotDelay_ = 0.9f;
 				alienOddRange_ = 8;
@@ -183,9 +183,9 @@
 
 			case 4:
 				for (int i = 0; i < randomListLength_; ++i) {
-					bonusSelection_[i] = arc4random() % 4 + 1;
+					bonusSelection_[i] = arc4random() % 3 + 1;
 					bonusDirection_[i] = arc4random() % 2;
-					additionalBonusDelay_[i] = arc4random() % 3 + 1;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				alienShotDelay_ = 0.8f;
 				alienOddRange_ = 8;
@@ -203,7 +203,7 @@
 				for (int i = 0; i < randomListLength_; ++i) {
 					bonusSelection_[i] = arc4random() % 3 + 1;
 					bonusDirection_[i] = arc4random() % 2;
-					additionalBonusDelay_[i] = arc4random() % 3 + 1;
+					additionalBonusDelay_[i] = arc4random() % 2 + 1;
 				}
 				alienShotDelay_ = 0.7f;
 				alienOddRange_ = 7;
@@ -231,7 +231,7 @@
 				alienSpeed_ += arc4random() % 10 + 1;
 				[self initAliensWithSpeed:alienSpeed_ chanceToFire:alienOddRange_];
 
-				numberOfAlienShots_ = 17;
+				numberOfAlienShots_ = 18;
 				[self initAlienShots];
 
 				numberOfPlayerShots_ = 10;
@@ -1884,9 +1884,9 @@
 			playerBaseHeight_ = 100;
 			bonusShipTop_ = 670.0f;
 			touchBoxWidth = 175;
-			bonusSpeed_ = 145.0f;
-			bonusLaunchDelay_ =  baseLaunchDelay_ = 11.0f;
-			playerSpeed_ = 215.0f;
+			bonusSpeed_ = 155.0f;
+			bonusLaunchDelay_ =  baseLaunchDelay_ = 9.25f;
+			playerSpeed_ = 225.0f;
 			screenSidePadding_ = 25.0f;
 			topStatus_ = CGRectMake(0, 725, screenBounds_.size.width-1, 767-725);
 
