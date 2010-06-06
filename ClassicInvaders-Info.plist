@@ -37,5 +37,14 @@
 		<string>iPadAppIcon.png</string>
 		<string>iPhoneAppIcon.png</string>
 	</array>
+	<key>UILaunchImageFile~ipad</key>
+	<string>iPad.png</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
 </dict>
 </plist>

@@ -87,6 +87,8 @@
 		5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */; };
 		5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */; };
 		5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */; };
+		5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */; };
+		5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */; };
 		5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */; };
 		5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4005611B198A5000555A4 /* playerRebirth.xml */; };
 		5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */; };
@@ -226,6 +228,8 @@
 		5F9D2FCE11701ABE00E9541B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadAppIcon.png; sourceTree = "<group>"; };
 		5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneAppIcon.png; sourceTree = "<group>"; };
+		5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Landscape.png"; sourceTree = "<group>"; };
+		5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Portrait.png"; sourceTree = "<group>"; };
 		5FA4005611B198A5000555A4 /* playerRebirth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = playerRebirth.xml; sourceTree = "<group>"; };
 		5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-bonus-ui-gfx.png"; sourceTree = "<group>"; };
 		5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-bonus-ui-gfx.png"; sourceTree = "<group>"; };
@@ -631,7 +635,9 @@
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
 				5F438F4D117A19ED00539457 /* alien-1-1.png */,
+				5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */,
 				5F57A54F117541E90024F431 /* alien-1-2.png */,
+				5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */,
 				5F1A525D11B455D900DA442B /* ship.png */,
 				5FB9529411B418D1007EC6BC /* allBlack-iPad.png */,
 				5F939A3411B5E1DA008AD4A3 /* iPadBackground.png */,
@@ -816,6 +822,8 @@
 				5F1F1D5011BB007F004D39CA /* Default.png in Resources */,
 				5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */,
 				5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */,
+				5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */,
+				5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
