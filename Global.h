@@ -8,7 +8,7 @@
 #pragma mark -
 #pragma mark Logging
 
-//#define MYDEBUG
+#define MYDEBUG
 #define SLQLOG(...) NSLog(__VA_ARGS__);
 //#define SLQLOG(...)
 
