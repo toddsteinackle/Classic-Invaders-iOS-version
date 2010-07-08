@@ -233,6 +233,7 @@
         helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 900, alienHeight);
         scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 900, alienHeight);
         startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 900, alienHeight);
+        settingButtonBounds_ = CGRectMake(850, 0, 200, 100);
     } else {
         CGFloat x = 40.0f;
         CGFloat alienScale = 1.75f;
@@ -243,6 +244,7 @@
         helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
         scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
         startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
+        settingButtonBounds_ = CGRectMake(350, 0, 100, 50);
     }
 
     highScores_ = sharedGameController_.highScores_;
@@ -283,6 +285,7 @@
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
 
             [sharedImageRenderManager_ renderImages];
+            drawBox(settingButtonBounds_);
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(30, 695) text:[NSString stringWithFormat:@"   %-11s%8s%10s", "Name", "Score", "Wave"]];
@@ -393,6 +396,7 @@
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
 
             [sharedImageRenderManager_ renderImages];
+            drawBox(settingButtonBounds_);
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
@@ -519,6 +523,14 @@
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			alpha_ = 0;
 			state_ = SceneState_About;
+			return;
+		}
+
+        if (CGRectContainsPoint(settingButtonBounds_, touchLocation)) {
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			alpha_ = 0;
+			NSLog(@"settings button pushed");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showSettings" object:self];
 			return;
 		}
 

@@ -36,7 +36,8 @@
 	//////////////////// Volume
 	float currentMusicVolume;			// Volume of music/ambient sounds played through AVAudioPlayer
 	float fxVolume;					// Volume of OpenAL sound effects
-	float musicVolume;					// The master music volume.  This value is not affected by fading music
+    float musicVolume;              // The master music volume.  This value is not affected by fading music
+	float bgVolume;
 
 	//////////////////// Fading sound
 	NSTimer *timer;						// Timer used fade the music volume up or down
@@ -65,6 +66,7 @@
 @property (nonatomic, assign) BOOL isMusicPlaying;
 @property (nonatomic, assign) BOOL usePlaylist;
 @property (nonatomic, assign) BOOL loopLastPlaylistTrack;
+@property (nonatomic, assign) float bgVolume;
 @property (nonatomic, assign) float musicVolume;
 
 // Returns as instance of the SoundManager class.  If an instance has already been created
@@ -150,6 +152,8 @@
 
 // Set the volume for music which is played.
 - (void)setMusicVolume:(float)aVolume;
+
+- (void)setBgVolume:(float)aVolume;
 
 // Sets the location of the OpenAL listener.
 - (void)setListenerPosition:(CGPoint)aPosition;

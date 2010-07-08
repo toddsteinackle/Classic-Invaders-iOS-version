@@ -32,6 +32,8 @@
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
 
+    [sharedGameController_ loadSettings];
+
 	// Start the game
 	[glView_ startAnimation];
 }
@@ -57,6 +59,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [sharedGameController_ saveSettings];
 	// Stop the game loop
 	[glView_ stopAnimation];
 

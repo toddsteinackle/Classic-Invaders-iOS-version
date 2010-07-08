@@ -8,6 +8,7 @@
 @class AbstractScene;
 @class EAGLView;
 @class SoundManager;
+@class SettingsViewController;
 
 // Class responsbile for passing touch and game events to the correct game
 // scene.  A game scene is an object which is responsible for a specific
@@ -32,6 +33,15 @@
 	NSMutableArray *unsortedHighScores_;		// Unsorted high scores array
     AbstractScene *currentScene_;			// Current game scene being updated and rendered
 
+    int buttonPositions_;
+    int graphicsChoice_;
+
+    ///////////////////// Settings
+	NSMutableDictionary *settings;			// Dictionary of the games settings
+	NSString *settingsFilePath;				// Location of the settings file
+
+    SettingsViewController *settingsViewController_;			// Displays the settings
+
 }
 
 @property (nonatomic, retain) EAGLView *eaglView_;
@@ -39,6 +49,8 @@
 @property (nonatomic, retain) NSDictionary *gameScenes_;
 @property (nonatomic, retain) NSArray *highScores_;
 @property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation_;
+@property (nonatomic, assign) int buttonPositions_;
+@property (nonatomic, assign) int graphicsChoice_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class
@@ -64,5 +76,11 @@
 
 // Returns an adjusted touch point based on the orientation of the device
 - (CGPoint)adjustTouchOrientationForTouch:(CGPoint)aTouch;
+
+// Loads the game settings such as volume and joypad location
+- (void)loadSettings;
+
+// Saves the current settings
+- (void)saveSettings;
 
 @end

@@ -38,6 +38,7 @@
 	CGRect scoreButtonBounds_;
 	CGRect helpButtonBounds_;
     CGRect aboutButtonBounds_;
+    CGRect settingButtonBounds_;
 
     BitmapFont *menuFont_;
     BitmapFont *monoMenuFont_;

@@ -31,6 +31,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		5F0833CC11E5505100DA5634 /* SettingsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F0833CB11E5505100DA5634 /* SettingsViewController-iPad.xib */; };
 		5F086CF811B721D000208A6C /* alien_death.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF511B721D000208A6C /* alien_death.caf */; };
 		5F086CF911B721D000208A6C /* BuzzyLp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF611B721D000208A6C /* BuzzyLp.caf */; };
 		5F086CFA11B721D000208A6C /* menu_select.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF711B721D000208A6C /* menu_select.caf */; };
@@ -75,6 +76,9 @@
 		5F585F5F116A9FAD000DE830 /* player_rebirth.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5E116A9FAD000DE830 /* player_rebirth.caf */; };
 		5F585F6B116AA3E2000DE830 /* Impact3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F6A116AA3E2000DE830 /* Impact3.caf */; };
 		5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F5FB32A115EBD9000290A1F /* ShieldPiece.m */; };
+		5F6A544A11E27D5D006553A4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A544811E27D5D006553A4 /* SettingsViewController.m */; };
+		5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A544911E27D5D006553A4 /* SettingsViewController.xib */; };
+		5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */; };
 		5F939A2411B5D687008AD4A3 /* sans50blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2211B5D687008AD4A3 /* sans50blue.fnt */; };
 		5F939A2511B5D687008AD4A3 /* sans50blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2311B5D687008AD4A3 /* sans50blue.png */; };
 		5F939A2C11B5D9B7008AD4A3 /* sans60blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */; };
@@ -163,6 +167,7 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ClassicInvaders_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassicInvaders_Prefix.pch; sourceTree = "<group>"; };
+		5F0833CB11E5505100DA5634 /* SettingsViewController-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "SettingsViewController-iPad.xib"; sourceTree = "<group>"; };
 		5F086CF511B721D000208A6C /* alien_death.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alien_death.caf; sourceTree = "<group>"; };
 		5F086CF611B721D000208A6C /* BuzzyLp.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BuzzyLp.caf; sourceTree = "<group>"; };
 		5F086CF711B721D000208A6C /* menu_select.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = menu_select.caf; sourceTree = "<group>"; };
@@ -216,6 +221,10 @@
 		5F585F6A116AA3E2000DE830 /* Impact3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Impact3.caf; sourceTree = "<group>"; };
 		5F5FB329115EBD9000290A1F /* ShieldPiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShieldPiece.h; sourceTree = "<group>"; };
 		5F5FB32A115EBD9000290A1F /* ShieldPiece.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShieldPiece.m; sourceTree = "<group>"; };
+		5F6A544711E27D5D006553A4 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = ../SettingsViewController.h; sourceTree = "<group>"; };
+		5F6A544811E27D5D006553A4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../SettingsViewController.m; sourceTree = "<group>"; };
+		5F6A544911E27D5D006553A4 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone-settings-background.png"; sourceTree = "<group>"; };
 		5F939A2211B5D687008AD4A3 /* sans50blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans50blue.fnt; sourceTree = "<group>"; };
 		5F939A2311B5D687008AD4A3 /* sans50blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sans50blue.png; sourceTree = "<group>"; };
 		5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans60blue.fnt; sourceTree = "<group>"; };
@@ -599,6 +608,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F0833CB11E5505100DA5634 /* SettingsViewController-iPad.xib */,
+				5F6A544911E27D5D006553A4 /* SettingsViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */,
 			);
@@ -631,6 +642,7 @@
 				5F438F47117A192B00539457 /* alien-2-1.png */,
 				5F438F49117A195700539457 /* alien-3-1.png */,
 				5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */,
+				5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
@@ -673,6 +685,8 @@
 		8FD15155105A99E600201E1F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F6A544711E27D5D006553A4 /* SettingsViewController.h */,
+				5F6A544811E27D5D006553A4 /* SettingsViewController.m */,
 				8F5E0E15112AB45C007EB939 /* EAGLView.h */,
 				8F5E0E16112AB45C007EB939 /* EAGLView.m */,
 				8F5E0E19112AB45C007EB939 /* ESRenderer.h */,
@@ -824,6 +838,9 @@
 				5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */,
 				5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */,
 				5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */,
+				5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */,
+				5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */,
+				5F0833CC11E5505100DA5634 /* SettingsViewController-iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,6 +885,7 @@
 				5F224D481159A86200A4AFBC /* SmallBonusShip.m in Sources */,
 				5F5FB32B115EBD9000290A1F /* ShieldPiece.m in Sources */,
 				5F47510511A82542007FB871 /* AlienShot.m in Sources */,
+				5F6A544A11E27D5D006553A4 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

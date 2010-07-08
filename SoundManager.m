@@ -50,6 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 @synthesize isMusicPlaying;
 @synthesize usePlaylist;
 @synthesize loopLastPlaylistTrack;
+@synthesize bgVolume;
 @synthesize musicVolume;
 
 #pragma mark -
@@ -133,7 +134,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
         // Set the default volume for music and fx along with the default play list index
 		currentMusicVolume = 0.5f;
-		musicVolume = 0.5f;
+        musicVolume = 0.5f;
+		bgVolume = 0.5f;
 		fxVolume = 0.5f;
 		playlistIndex = 0;
 
@@ -599,6 +601,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 - (void)setFxVolume:(float)aVolume {
 	fxVolume = aVolume;
+}
+
+- (void)setBgVolume:(float)aVolume {
+	bgVolume = aVolume;
 }
 
 - (void)setListenerPosition:(CGPoint)aPosition {
