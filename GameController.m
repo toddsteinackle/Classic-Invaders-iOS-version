@@ -47,6 +47,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     [gameScenes_ release];
 	[highScores_ release];
+    [settingsViewController_ release];
     [super dealloc];
 }
 
