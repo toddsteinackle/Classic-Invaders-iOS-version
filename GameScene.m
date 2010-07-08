@@ -398,6 +398,7 @@
 	for (Score *s in sharedGameController_.highScores_) {
 		s.isMostRecentScore_ = FALSE;
 	}
+	bgGain_ = sharedSoundManager_.bgVolume;
 }
 
 - (void)initShields {
@@ -675,8 +676,6 @@
 }
 
 - (void)initSound {
-
-	sharedSoundManager_.fxVolume = 1.0f;
 	// Initialize the sound effects
 	[sharedSoundManager_ loadSoundWithKey:@"shot" soundFile:@"shot.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"alien_death" soundFile:@"alien_death.caf"];
@@ -746,31 +745,31 @@
 				if (alienCount_ != 50) {
 					switch (alienCount_) {
 						case 46:
-							[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_4" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 #ifdef MYDEBUG
 							NSLog(@"player rebirth 46");
 #endif
 							break;
 						case 47:
-							[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_3" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 #ifdef MYDEBUG
 							NSLog(@"player rebirth 47");
 #endif
 							break;
 						case 48:
-							[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_2" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 #ifdef MYDEBUG
 							NSLog(@"player rebirth 48");
 #endif
 							break;
 						case 49:
-							[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_1" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 #ifdef MYDEBUG
 							NSLog(@"player rebirth 49");
 #endif
 							break;
 						default:
-							[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+							[sharedSoundManager_ playBackgroundSoundWithKey:@"bg" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 #ifdef MYDEBUG
 							NSLog(@"player rebirth default");
 #endif
@@ -929,7 +928,7 @@
 				state_ = SceneState_Running;
 				lastBonusLaunch_ = lastAlienShot_ = CACurrentMediaTime();
 				lastTimeInLoop_ = 0;
-				[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+				[sharedSoundManager_ playBackgroundSoundWithKey:@"bg" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 				return;
 			}
 			[sharedSoundManager_ playSoundWithKey:@"alien_birth" gain:0.5f];
@@ -1693,7 +1692,7 @@
 		case 46:
 			[sharedSoundManager_ stopSoundWithKey:@"bg"];
 			if (!killedByPlayer) {
-				[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+				[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_4" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
 #ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 46");
@@ -1702,7 +1701,7 @@
 		case 47:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_4"];
 			if (!killedByPlayer) {
-				[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+				[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_3" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
 #ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 47");
@@ -1711,7 +1710,7 @@
 		case 48:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_3"];
 			if (!killedByPlayer) {
-				[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+				[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_2" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
 #ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 48");
@@ -1720,7 +1719,7 @@
 		case 49:
 			[sharedSoundManager_ stopSoundWithKey:@"bg_2"];
 			if (!killedByPlayer) {
-				[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+				[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_1" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 			}
 #ifdef MYDEBUG
 			NSLog(@"alienKilledWithPosition 49");
@@ -1757,19 +1756,19 @@
 			}
 			switch (alienCount_) {
 				case 46:
-					[sharedSoundManager_ playSoundWithKey:@"bg_4" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_4" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 					break;
 				case 47:
-					[sharedSoundManager_ playSoundWithKey:@"bg_3" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_3" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 					break;
 				case 48:
-					[sharedSoundManager_ playSoundWithKey:@"bg_2" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_2" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 					break;
 				case 49:
-					[sharedSoundManager_ playSoundWithKey:@"bg_1" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					[sharedSoundManager_ playBackgroundSoundWithKey:@"bg_1" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 					break;
 				default:
-					[sharedSoundManager_ playSoundWithKey:@"bg" gain:1.0f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
+					[sharedSoundManager_ playBackgroundSoundWithKey:@"bg" gain:bgGain_ pitch:1.0f location:CGPointMake(0, 0) shouldLoop:TRUE];
 					break;
 			}
 			totalTimePaused_ = CACurrentMediaTime() - timeOfInitialPause_;

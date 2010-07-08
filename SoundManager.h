@@ -89,6 +89,9 @@
 - (NSUInteger)playSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch
                        location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop;
 
+- (NSUInteger)playBackgroundSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch
+                      location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop;
+
 // Stops all sounds playing with the supplied sound key
 - (void)stopSoundWithKey:(NSString*)aSoundKey;
 

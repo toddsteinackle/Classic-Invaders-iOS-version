@@ -160,7 +160,7 @@
 - (void)updateControlValues {
 
 	// Set the views control values based on the game controllers values
-	bgVolume.value = sharedSoundManager.currentMusicVolume;
+	bgVolume.value = sharedSoundManager.bgVolume;
 	fxVolume.value = sharedSoundManager.fxVolume;
 	buttonPositions.selectedSegmentIndex = sharedGameController.buttonPositions_;
     graphicsChoice.selectedSegmentIndex = sharedGameController.graphicsChoice_;

@@ -472,6 +472,59 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	return sourceID;
 }
 
+- (NSUInteger)playBackgroundSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop {
+
+	alError = alGetError(); // clear the error code
+
+	// Find the buffer linked to the key which has been passed in
+	NSNumber *numVal = [soundLibrary objectForKey:aSoundKey];
+	if(numVal == nil) return 0;
+	NSUInteger bufferID = [numVal unsignedIntValue];
+
+	// Find the next available source
+    NSUInteger sourceID;
+    sourceID = [self nextAvailableSource];
+
+	// If 0 is returned then no sound sources were available
+	if (sourceID == 0) {
+		NSLog(@"WARNING - SoundManager: No sound sources available to play %@", aSoundKey);
+		return 0;
+	}
+
+	// Make sure that the source is clean by resetting the buffer assigned to the source
+	// to 0
+	alSourcei(sourceID, AL_BUFFER, 0);
+
+	// Attach the buffer we have looked up to the source we have just found
+	alSourcei(sourceID, AL_BUFFER, bufferID);
+
+	// Set the pitch and gain of the source
+	alSourcef(sourceID, AL_PITCH, aPitch);
+	alSourcef(sourceID, AL_GAIN, aGain);
+
+	// Set the looping value
+	if(aLoop) {
+		alSourcei(sourceID, AL_LOOPING, AL_TRUE);
+	} else {
+		alSourcei(sourceID, AL_LOOPING, AL_FALSE);
+	}
+
+	// Set the source location
+	alSource3f(sourceID, AL_POSITION, aLocation.x, aLocation.y, 0.0f);
+
+	// Now play the sound
+	alSourcePlay(sourceID);
+
+    // Check to see if there were any errors
+	alError = alGetError();
+	if(alError != 0) {
+		NSLog(@"ERROR - SoundManager: %d", alError);
+		return 0;
+	}
+
+	// Return the source ID so that loops can be stopped etc
+	return sourceID;
+}
 
 - (void)stopSoundWithKey:(NSString*)aSoundKey {
 
