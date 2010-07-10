@@ -70,6 +70,10 @@
 		5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4B117A19CA00539457 /* alien-2-4.png */; };
 		5F438F4E117A19ED00539457 /* alien-1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4D117A19ED00539457 /* alien-1-1.png */; };
 		5F47510511A82542007FB871 /* AlienShot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F47510411A82542007FB871 /* AlienShot.m */; };
+		5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700D11E8035A0061ACA3 /* invader2-1.png */; };
+		5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700F11E8036A0061ACA3 /* invader1-2.png */; };
+		5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D701111E803D20061ACA3 /* invader3-1.png */; };
+		5F4D701411E803F10061ACA3 /* alien_top3.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D701311E803F10061ACA3 /* alien_top3.png */; };
 		5F57A550117541E90024F431 /* alien-1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F57A54F117541E90024F431 /* alien-1-2.png */; };
 		5F585F59116A9F67000DE830 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F58116A9F67000DE830 /* shot.caf */; };
 		5F585F5D116A9F98000DE830 /* explosion.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5C116A9F98000DE830 /* explosion.caf */; };
@@ -79,6 +83,7 @@
 		5F6A544A11E27D5D006553A4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A544811E27D5D006553A4 /* SettingsViewController.m */; };
 		5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A544911E27D5D006553A4 /* SettingsViewController.xib */; };
 		5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */; };
+		5F6B964F11E6A86F005C1493 /* invaders.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6B964E11E6A86F005C1493 /* invaders.png */; };
 		5F939A2411B5D687008AD4A3 /* sans50blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2211B5D687008AD4A3 /* sans50blue.fnt */; };
 		5F939A2511B5D687008AD4A3 /* sans50blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2311B5D687008AD4A3 /* sans50blue.png */; };
 		5F939A2C11B5D9B7008AD4A3 /* sans60blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */; };
@@ -214,6 +219,10 @@
 		5F438F4D117A19ED00539457 /* alien-1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-1.png"; sourceTree = "<group>"; };
 		5F47510311A82542007FB871 /* AlienShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlienShot.h; sourceTree = "<group>"; };
 		5F47510411A82542007FB871 /* AlienShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlienShot.m; sourceTree = "<group>"; };
+		5F4D700D11E8035A0061ACA3 /* invader2-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader2-1.png"; sourceTree = "<group>"; };
+		5F4D700F11E8036A0061ACA3 /* invader1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader1-2.png"; sourceTree = "<group>"; };
+		5F4D701111E803D20061ACA3 /* invader3-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader3-1.png"; sourceTree = "<group>"; };
+		5F4D701311E803F10061ACA3 /* alien_top3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alien_top3.png; sourceTree = "<group>"; };
 		5F57A54F117541E90024F431 /* alien-1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-2.png"; sourceTree = "<group>"; };
 		5F585F58116A9F67000DE830 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F585F5C116A9F98000DE830 /* explosion.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion.caf; sourceTree = "<group>"; };
@@ -225,6 +234,7 @@
 		5F6A544811E27D5D006553A4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../SettingsViewController.m; sourceTree = "<group>"; };
 		5F6A544911E27D5D006553A4 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone-settings-background.png"; sourceTree = "<group>"; };
+		5F6B964E11E6A86F005C1493 /* invaders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = invaders.png; sourceTree = "<group>"; };
 		5F939A2211B5D687008AD4A3 /* sans50blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans50blue.fnt; sourceTree = "<group>"; };
 		5F939A2311B5D687008AD4A3 /* sans50blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sans50blue.png; sourceTree = "<group>"; };
 		5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans60blue.fnt; sourceTree = "<group>"; };
@@ -636,6 +646,7 @@
 		5F1D4539114DCE4500797E5B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				5F6B964E11E6A86F005C1493 /* invaders.png */,
 				5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */,
 				5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */,
 				5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */,
@@ -643,7 +654,11 @@
 				5F438F49117A195700539457 /* alien-3-1.png */,
 				5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */,
 				5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */,
+				5F4D700D11E8035A0061ACA3 /* invader2-1.png */,
+				5F4D700F11E8036A0061ACA3 /* invader1-2.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
+				5F4D701311E803F10061ACA3 /* alien_top3.png */,
+				5F4D701111E803D20061ACA3 /* invader3-1.png */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
 				5F438F4D117A19ED00539457 /* alien-1-1.png */,
@@ -841,6 +856,11 @@
 				5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */,
 				5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */,
 				5F0833CC11E5505100DA5634 /* SettingsViewController-iPad.xib in Resources */,
+				5F6B964F11E6A86F005C1493 /* invaders.png in Resources */,
+				5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */,
+				5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */,
+				5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */,
+				5F4D701411E803F10061ACA3 /* alien_top3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,8 @@
 @class Image;
 @class BitmapFont;
 @class PackedSpriteSheet;
+@class Animation;
+@class SpriteSheet;
 
 @interface MenuScene : AbstractScene {
 
@@ -19,19 +21,28 @@
 	TextureManager *sharedTextureManager_;
 
 	/////////////////// Sprite sheets and images
+    SpriteSheet *spriteSheet_;
+
 	Image *background_;					// Background image for the menu
 	Image *fadeImage_;					// Full screen black image used to fade in and out
-    Image *alien1_;
-    Image *alien2_;
-    Image *alien3_;
-    Image *alien4_;
-    Image *alien5_;
+
+    Animation *alien1_;
+    Animation *alien2_;
+    Animation *alien3_;
+    Animation *alien4_;
+    Animation *alien5_;
+    Animation *alien6_;
 
     Image *help1_;
     Image *help2_;
     Image *help3_;
     Image *help4_;
     Image *help5_;
+    Image *help6_;
+    Image *help7_;
+    Image *help8_;
+    Image *help9_;
+    Image *help10_;
 
 	/////////////////// Button iVars
 	CGRect startButtonBounds_;

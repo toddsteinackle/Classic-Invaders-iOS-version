@@ -12,6 +12,7 @@
 #import "PackedSpriteSheet.h"
 #import "SpriteSheet.h"
 #import "Score.h"
+#import "Animation.h"
 
 @implementation MenuScene
 
@@ -24,12 +25,18 @@
     [alien3_ release];
     [alien4_ release];
     [alien5_ release];
+    [alien6_ release];
 
     [help1_ release];
     [help2_ release];
     [help3_ release];
     [help4_ release];
     [help5_ release];
+    [help6_ release];
+    [help7_ release];
+    [help8_ release];
+    [help9_ release];
+    [help10_ release];
 
     [menuFont_ release];
     [monoMenuFont_ release];
@@ -59,17 +66,18 @@
 
         [sharedSoundManager_ loadSoundWithKey:@"guiTouch" soundFile:@"menu_select.caf"];
 
-        alien1_ = [[Image alloc] initWithImageNamed:@"alien-1-2" ofType:@"png" filter:GL_LINEAR];
-        alien2_ = [[Image alloc] initWithImageNamed:@"alien-2-1" ofType:@"png" filter:GL_LINEAR];
-        alien3_ = [[Image alloc] initWithImageNamed:@"alien-3-1" ofType:@"png" filter:GL_LINEAR];
-        alien4_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
-        alien5_ = [[Image alloc] initWithImageNamed:@"alien-2-4" ofType:@"png" filter:GL_LINEAR];
+        Image *SpriteSheetImage = [[Image alloc] initWithImageNamed:@"invaders" ofType:@"png" filter:GL_LINEAR];
 
         help1_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
         help2_ = [[Image alloc] initWithImageNamed:@"alien-2-1" ofType:@"png" filter:GL_LINEAR];
         help3_ = [[Image alloc] initWithImageNamed:@"alien-3-1" ofType:@"png" filter:GL_LINEAR];
         help4_ = [[Image alloc] initWithImageNamed:@"big-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
         help5_ = [[Image alloc] initWithImageNamed:@"small-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
+        help6_ = [[Image alloc] initWithImageNamed:@"invader2-1" ofType:@"png" filter:GL_LINEAR];
+        help7_ = [[Image alloc] initWithImageNamed:@"invader1-2" ofType:@"png" filter:GL_LINEAR];
+        help8_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
+        help9_ = [[Image alloc] initWithImageNamed:@"alien_top3" ofType:@"png" filter:GL_LINEAR];
+        help10_ = [[Image alloc] initWithImageNamed:@"alien_top3" ofType:@"png" filter:GL_LINEAR];
 
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -100,12 +108,7 @@
             fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack-iPad" ofType:@"png" filter:GL_NEAREST];
             fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
 
-            CGFloat alienScale = 3.0f;
-            alien1_.scale = Scale2fMake(alienScale, alienScale);
-            alien2_.scale = Scale2fMake(alienScale, alienScale);
-            alien3_.scale = Scale2fMake(alienScale, alienScale);
-            alien4_.scale = Scale2fMake(alienScale, alienScale);
-            alien5_.scale = Scale2fMake(alienScale, alienScale);
+            SpriteSheetImage.scale = Scale2fMake(3.0f, 3.0f);
 
             CGFloat helpScale = 2.0f;
             help1_.scale = Scale2fMake(helpScale, helpScale);
@@ -113,7 +116,11 @@
             help3_.scale = Scale2fMake(helpScale, helpScale);
             help4_.scale = Scale2fMake(helpScale, helpScale);
             help5_.scale = Scale2fMake(helpScale, helpScale);
-
+            help6_.scale = Scale2fMake(helpScale, helpScale);
+            help7_.scale = Scale2fMake(helpScale, helpScale);
+            help8_.scale = Scale2fMake(helpScale, helpScale);
+            help9_.scale = Scale2fMake(3.0f, 3.5f);
+            help10_.scale = Scale2fMake(helpScale, 3.0f);
 
 		} else {
 			screenBounds_ = CGRectMake(0, 0, 480, 320);
@@ -147,13 +154,62 @@
             fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
             fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
 
-            CGFloat alienScale = 1.75f;
-            alien1_.scale = Scale2fMake(alienScale, alienScale);
-            alien2_.scale = Scale2fMake(alienScale, alienScale);
-            alien3_.scale = Scale2fMake(alienScale, alienScale);
-            alien4_.scale = Scale2fMake(alienScale, alienScale);
-            alien5_.scale = Scale2fMake(alienScale, alienScale);
+            SpriteSheetImage.scale = Scale2fMake(1.75f, 1.75f);
+            help9_.scale = Scale2fMake(1.5f, 1.75f);
+            help10_.scale = Scale2fMake(1.0, 1.5f);
 		}
+
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
+                                               sheetKey:@"invaders.png"
+                                             spriteSize:CGSizeMake(45.0f, 30.0f)
+                                                spacing:2
+                                                 margin:0];
+
+        float delay = 0.35f;
+        alien1_ = [[Animation alloc] init];
+        [alien1_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 3)] delay:delay];
+        [alien1_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 3)] delay:delay];
+        alien1_.state = kAnimationState_Running;
+        alien1_.type = kAnimationType_PingPong;
+
+        alien2_ = [[Animation alloc] init];
+        [alien2_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 2)] delay:delay];
+        [alien2_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 2)] delay:delay];
+        alien2_.state = kAnimationState_Running;
+        alien2_.type = kAnimationType_PingPong;
+
+        alien3_ = [[Animation alloc] init];
+        [alien3_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 2)] delay:delay];
+        [alien3_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 3)] delay:delay];
+        alien3_.state = kAnimationState_Running;
+        alien3_.type = kAnimationType_PingPong;
+
+        delay = 0.2f;
+        alien4_ = [[Animation alloc] init];
+        [alien4_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+        [alien4_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
+        [alien4_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 0)] delay:delay];
+        [alien4_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 0)] delay:delay];
+        alien4_.state = kAnimationState_Running;
+        alien4_.type = kAnimationType_PingPong;
+
+        alien5_ = [[Animation alloc] init];
+        [alien5_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 0)] delay:delay];
+        [alien5_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
+        [alien5_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 1)] delay:delay];
+        [alien5_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 1)] delay:delay];
+        alien5_.state = kAnimationState_Running;
+        alien5_.type = kAnimationType_PingPong;
+
+        alien6_ = [[Animation alloc] init];
+        [alien6_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 1)] delay:delay];
+        [alien6_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 1)] delay:delay];
+        [alien6_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
+        [alien6_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 2)] delay:delay];
+        alien6_.state = kAnimationState_Running;
+        alien6_.type = kAnimationType_PingPong;
+
+        [SpriteSheetImage release];
 
 		// Init the fadespeed and alpha for this scene
 		fadeSpeed_ = 1.0f;
@@ -168,7 +224,12 @@
 - (void)updateSceneWithDelta:(float)aDelta {
 	switch (state_) {
 		case SceneState_Running:
-
+            [alien1_ updateWithDelta:aDelta];
+            [alien2_ updateWithDelta:aDelta];
+            [alien3_ updateWithDelta:aDelta];
+            [alien4_ updateWithDelta:aDelta];
+            [alien5_ updateWithDelta:aDelta];
+            [alien6_ updateWithDelta:aDelta];
 			break;
 
 		case SceneState_TransitionIn:
@@ -233,18 +294,18 @@
         helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 900, alienHeight);
         scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 900, alienHeight);
         startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 900, alienHeight);
-        settingButtonBounds_ = CGRectMake(850, 0, 200, 100);
+        settingButtonBounds_ = CGRectMake(750, 0, 300, 80);
     } else {
         CGFloat x = 40.0f;
         CGFloat alienScale = 1.75f;
         CGFloat alienHeight = 30 * alienScale;
         CGFloat verticalPadding = 22.5f;
 
-        aboutButtonBounds_ = CGRectMake(x, verticalPadding, 400, alienHeight);
+        aboutButtonBounds_ = CGRectMake(x, verticalPadding, 300, alienHeight);
         helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
         scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
         startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-        settingButtonBounds_ = CGRectMake(350, 0, 100, 50);
+        settingButtonBounds_ = CGRectMake(350, 0, 130, 75);
     }
 
     highScores_ = sharedGameController_.highScores_;
@@ -265,27 +326,37 @@
 - (void)renderScene {
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-
+#pragma mark iPad renderScene
         [background_ renderAtPoint:CGPointMake(0, 0)];
         if (state_ == SceneState_Running || state_ == SceneState_TransitionOut || state_ == SceneState_TransitionIn) {
             CGFloat x = 150.0f;
             CGFloat alienHeight = 30 * 3.0f;
             CGFloat verticalPadding = 90.0f;
 
-            [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+            if (sharedGameController_.graphicsChoice_ == 0) {
+                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+            } else {
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+            }
             [menuFont_ renderStringJustifiedInFrame:aboutButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
-
-            [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
             [menuFont_ renderStringJustifiedInFrame:helpButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
-
-            [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
             [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
-
-            [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
+            [menuFont_ renderStringAt:CGPointMake(765, 5) text:@"Settings"];
+
 
             [sharedImageRenderManager_ renderImages];
-            drawBox(settingButtonBounds_);
+//            drawBox(settingButtonBounds_);
+//            drawBox(aboutButtonBounds_);
+//            drawBox(helpButtonBounds_);
+//            drawBox(scoreButtonBounds_);
+//            drawBox(startButtonBounds_);
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(30, 695) text:[NSString stringWithFormat:@"   %-11s%8s%10s", "Name", "Score", "Wave"]];
@@ -321,11 +392,20 @@
             int v = 75;
             int alienOffset = 100;
             int scoreOffset = 325;
-            [help1_ renderAtPoint:CGPointMake(alienOffset, h)];
-            [help2_ renderAtPoint:CGPointMake(alienOffset, h-v)];
-            [help3_ renderAtPoint:CGPointMake(alienOffset, h-v*2)];
-            [help4_ renderAtPoint:CGPointMake(alienOffset-15, h-v*3)];
-            [help5_ renderAtPoint:CGPointMake(alienOffset, h-v*4+5)];
+
+            if (sharedGameController_.graphicsChoice_ == 1) {
+                [help1_ renderAtPoint:CGPointMake(alienOffset, h)];
+                [help2_ renderAtPoint:CGPointMake(alienOffset, h-v)];
+                [help3_ renderAtPoint:CGPointMake(alienOffset, h-v*2)];
+                [help4_ renderAtPoint:CGPointMake(alienOffset-15, h-v*3)];
+                [help5_ renderAtPoint:CGPointMake(alienOffset, h-v*4+5)];
+            } else {
+                [help6_ renderAtPoint:CGPointMake(alienOffset, h)];
+                [help7_ renderAtPoint:CGPointMake(alienOffset, h-v)];
+                [help8_ renderAtPoint:CGPointMake(alienOffset, h-v*2)];
+                [help9_ renderAtPoint:CGPointMake(alienOffset-18, h-v*3)];
+                [help10_ renderAtPoint:CGPointMake(alienOffset+6, h-v*4+5)];
+            }
 
             [monoHelpFont_ renderStringAt:CGPointMake(scoreOffset, h) text:@"25"];
             [monoHelpFont_ renderStringAt:CGPointMake(scoreOffset, h-v) text:@"50"];
@@ -375,28 +455,33 @@
         }
 
     } else {
-
+#pragma mark iPhone renderScene
         [background_ renderAtPoint:CGPointMake(0, 0)];
         if (state_ == SceneState_Running || state_ == SceneState_TransitionOut || state_ == SceneState_TransitionIn) {
             CGFloat x = 50.0f;
             CGFloat alienHeight = 30 * 1.75f;
-            CGFloat verticalPadding;
+            CGFloat verticalPadding = 22.5f;
 
-            verticalPadding = 22.5f;
-            [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-            [menuFont_ renderStringJustifiedInFrame:aboutButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
+            if (sharedGameController_.graphicsChoice_ == 0) {
+                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+            } else {
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+            }
 
-            [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
+            [menuFont_ renderStringAt:CGPointMake(200, 30) text:aboutString];
             [menuFont_ renderStringJustifiedInFrame:helpButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
-
-            [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
             [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
-
-            [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
 
+            [monoHelpFont_ renderStringAt:CGPointMake(363, 10) text:@"Settings"];
+
             [sharedImageRenderManager_ renderImages];
-            drawBox(settingButtonBounds_);
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(5, 285) text:[NSString stringWithFormat:@"   %-11s%6s%9s", "Name", "Score", "Wave"]];
@@ -430,11 +515,19 @@
 
             int h = 265;
             int v = 35;
-            [help1_ renderAtPoint:CGPointMake(50, h)];
-            [help2_ renderAtPoint:CGPointMake(50, h-v)];
-            [help3_ renderAtPoint:CGPointMake(50, h-v*2)];
-            [help4_ renderAtPoint:CGPointMake(42, h-v*3)];
-            [help5_ renderAtPoint:CGPointMake(50, h-v*4+5)];
+            if (sharedGameController_.graphicsChoice_ == 1) {
+                [help1_ renderAtPoint:CGPointMake(50, h)];
+                [help2_ renderAtPoint:CGPointMake(50, h-v)];
+                [help3_ renderAtPoint:CGPointMake(50, h-v*2)];
+                [help4_ renderAtPoint:CGPointMake(42, h-v*3)];
+                [help5_ renderAtPoint:CGPointMake(50, h-v*4+5)];
+            } else {
+                [help6_ renderAtPoint:CGPointMake(50, h)];
+                [help7_ renderAtPoint:CGPointMake(50, h-v)];
+                [help8_ renderAtPoint:CGPointMake(50, h-v*2)];
+                [help9_ renderAtPoint:CGPointMake(39, h-v*3+2)];
+                [help10_ renderAtPoint:CGPointMake(50, h-v*4+5)];
+            }
 
             [monoHelpFont_ renderStringAt:CGPointMake(150, h) text:@"25"];
             [monoHelpFont_ renderStringAt:CGPointMake(150, h-v) text:@"50"];
