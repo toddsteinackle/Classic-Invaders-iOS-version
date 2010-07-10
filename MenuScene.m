@@ -622,7 +622,6 @@
         if (CGRectContainsPoint(settingButtonBounds_, touchLocation)) {
 			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			alpha_ = 0;
-			NSLog(@"settings button pushed");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"showSettings" object:self];
 			return;
 		}
