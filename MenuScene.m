@@ -268,6 +268,7 @@
 				// during game play
 				[[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 
+                [sharedSoundManager_ stopSoundWithKey:@"menu"];
 				// Ask the game controller to transition to the scene called game.
 				[sharedGameController_ transitionToSceneWithKey:@"game"];
 			}
@@ -321,6 +322,7 @@
         }
     }
     state_ = SceneState_TransitionIn;
+    [sharedSoundManager_ playSoundWithKey:@"menu" gain:0.2f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO];
 }
 
 - (void)renderScene {
@@ -592,7 +594,7 @@
 	if (state_ == SceneState_Running) {
 		// Check to see if the user touched the start button
 		if (CGRectContainsPoint(startButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.5f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 			state_ = SceneState_TransitionOut;
 			alpha_ = 0;
 			return;

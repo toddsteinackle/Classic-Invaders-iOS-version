@@ -35,6 +35,7 @@
 		5F086CF811B721D000208A6C /* alien_death.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF511B721D000208A6C /* alien_death.caf */; };
 		5F086CF911B721D000208A6C /* BuzzyLp.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF611B721D000208A6C /* BuzzyLp.caf */; };
 		5F086CFA11B721D000208A6C /* menu_select.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F086CF711B721D000208A6C /* menu_select.caf */; };
+		5F1123D211E92A7900381F96 /* start_screen.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F1123D111E92A7900381F96 /* start_screen.caf */; };
 		5F1A525E11B455D900DA442B /* ship.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1A525D11B455D900DA442B /* ship.png */; };
 		5F1A529011B464D300DA442B /* sans35blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F1A528E11B464D300DA442B /* sans35blue.fnt */; };
 		5F1A529111B464D300DA442B /* sans35blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F1A528F11B464D300DA442B /* sans35blue.png */; };
@@ -175,6 +176,7 @@
 		5F086CF511B721D000208A6C /* alien_death.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = alien_death.caf; sourceTree = "<group>"; };
 		5F086CF611B721D000208A6C /* BuzzyLp.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BuzzyLp.caf; sourceTree = "<group>"; };
 		5F086CF711B721D000208A6C /* menu_select.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = menu_select.caf; sourceTree = "<group>"; };
+		5F1123D111E92A7900381F96 /* start_screen.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = start_screen.caf; sourceTree = "<group>"; };
 		5F1A525D11B455D900DA442B /* ship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship.png; sourceTree = "<group>"; };
 		5F1A528E11B464D300DA442B /* sans35blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans35blue.fnt; sourceTree = "<group>"; };
 		5F1A528F11B464D300DA442B /* sans35blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sans35blue.png; sourceTree = "<group>"; };
@@ -655,6 +657,7 @@
 				5F4D700F11E8036A0061ACA3 /* invader1-2.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
 				5F4D701111E803D20061ACA3 /* invader3-1.png */,
+				5F1123D111E92A7900381F96 /* start_screen.caf */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
 				5F438F4D117A19ED00539457 /* alien-1-1.png */,
@@ -857,6 +860,7 @@
 				5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */,
 				5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */,
 				5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */,
+				5F1123D211E92A7900381F96 /* start_screen.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

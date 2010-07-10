@@ -696,6 +696,7 @@
 	[sharedSoundManager_ loadSoundWithKey:@"bg_4" soundFile:@"bg_4.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"game_over" soundFile:@"Lost3.caf"];
 	[sharedSoundManager_ loadSoundWithKey:@"free_guy" soundFile:@"Flourish3.caf"];
+	[sharedSoundManager_ loadSoundWithKey:@"menu" soundFile:@"start_screen.caf"];
 }
 
 @end
@@ -1860,6 +1861,7 @@
 	[sharedSoundManager_ removeSoundWithKey:@"bg_4"];
 	[sharedSoundManager_ removeSoundWithKey:@"game_over"];
 	[sharedSoundManager_ removeSoundWithKey:@"free_guy"];
+	[sharedSoundManager_ removeSoundWithKey:@"menu"];
 
     [super dealloc];
 }
