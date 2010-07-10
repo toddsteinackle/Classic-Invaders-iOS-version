@@ -76,8 +76,8 @@
         help6_ = [[Image alloc] initWithImageNamed:@"invader2-1" ofType:@"png" filter:GL_LINEAR];
         help7_ = [[Image alloc] initWithImageNamed:@"invader1-2" ofType:@"png" filter:GL_LINEAR];
         help8_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
-        help9_ = [[Image alloc] initWithImageNamed:@"alien_top3" ofType:@"png" filter:GL_LINEAR];
-        help10_ = [[Image alloc] initWithImageNamed:@"alien_top3" ofType:@"png" filter:GL_LINEAR];
+        help9_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
+        help10_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
 
         // Grab the bounds of the screen
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

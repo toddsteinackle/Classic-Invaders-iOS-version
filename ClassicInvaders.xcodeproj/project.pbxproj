@@ -73,7 +73,6 @@
 		5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700D11E8035A0061ACA3 /* invader2-1.png */; };
 		5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700F11E8036A0061ACA3 /* invader1-2.png */; };
 		5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D701111E803D20061ACA3 /* invader3-1.png */; };
-		5F4D701411E803F10061ACA3 /* alien_top3.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D701311E803F10061ACA3 /* alien_top3.png */; };
 		5F57A550117541E90024F431 /* alien-1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F57A54F117541E90024F431 /* alien-1-2.png */; };
 		5F585F59116A9F67000DE830 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F58116A9F67000DE830 /* shot.caf */; };
 		5F585F5D116A9F98000DE830 /* explosion.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5C116A9F98000DE830 /* explosion.caf */; };
@@ -222,7 +221,6 @@
 		5F4D700D11E8035A0061ACA3 /* invader2-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader2-1.png"; sourceTree = "<group>"; };
 		5F4D700F11E8036A0061ACA3 /* invader1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader1-2.png"; sourceTree = "<group>"; };
 		5F4D701111E803D20061ACA3 /* invader3-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader3-1.png"; sourceTree = "<group>"; };
-		5F4D701311E803F10061ACA3 /* alien_top3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alien_top3.png; sourceTree = "<group>"; };
 		5F57A54F117541E90024F431 /* alien-1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-2.png"; sourceTree = "<group>"; };
 		5F585F58116A9F67000DE830 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F585F5C116A9F98000DE830 /* explosion.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion.caf; sourceTree = "<group>"; };
@@ -657,7 +655,6 @@
 				5F4D700D11E8035A0061ACA3 /* invader2-1.png */,
 				5F4D700F11E8036A0061ACA3 /* invader1-2.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
-				5F4D701311E803F10061ACA3 /* alien_top3.png */,
 				5F4D701111E803D20061ACA3 /* invader3-1.png */,
 				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
@@ -860,7 +857,6 @@
 				5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */,
 				5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */,
 				5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */,
-				5F4D701411E803F10061ACA3 /* alien_top3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
