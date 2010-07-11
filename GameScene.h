@@ -69,6 +69,7 @@
     bool isAlienLogicNeeded_;
     bool canPlayerFire_;
     bool nameToBeEntered_;
+    bool aliensHaveLanded_;
     int score_;
     int alienCount_;
     CGFloat playerSpeed_;

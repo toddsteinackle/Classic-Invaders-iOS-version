@@ -105,6 +105,7 @@
 - (void)initWave {
 	++wave_;
 	canPlayerFire_ = FALSE;
+	aliensHaveLanded_ = FALSE;
 
 	[player_ release];
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake(0,0)];
@@ -819,6 +820,10 @@
 				if (!playerLives_) {
 					state_ = SceneState_FinalDeath;
 					[sharedSoundManager_ playSoundWithKey:@"game_over" gain:.75f];
+					return;
+				}
+				if (aliensHaveLanded_) {
+					state_ = SceneState_FinalDeath;
 					return;
 				}
 				state_ = SceneState_PlayerRebirth;
@@ -1620,6 +1625,7 @@
 #pragma mark -
 
 - (void)aliensHaveLanded {
+	aliensHaveLanded_ = TRUE;
 	[sharedSoundManager_ playSoundWithKey:@"aliens_landed" gain:0.6f];
 	state_ = SceneState_FinalDeath;
 }
