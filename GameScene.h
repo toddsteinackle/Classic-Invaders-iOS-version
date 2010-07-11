@@ -88,6 +88,7 @@
     int freeGuyValue_;
     Image *shipImage_;
     float bgGain_;
+    float shipRenderPoint_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;

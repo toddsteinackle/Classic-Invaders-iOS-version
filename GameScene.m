@@ -1274,7 +1274,7 @@
 
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1318,7 +1318,7 @@
 
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1375,7 +1375,7 @@
 
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1432,7 +1432,7 @@
 
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1530,7 +1530,7 @@
 			}
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1576,7 +1576,7 @@
 			}
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				for (int i = 0; i < playerLives_-1; ++i) {
-					[shipImage_ renderAtPoint:CGPointMake(200.0f+45.0f*1.5f*i, 15)];
+					[shipImage_ renderAtPoint:CGPointMake(shipRenderPoint_+45.0f*1.5f*i, 15)];
 				}
 				[statusFont_ renderStringJustifiedInFrame:topStatus_
 											justification:BitmapFontJustification_MiddleLeft
@@ -1820,6 +1820,49 @@
 }
 
 - (void)transitionIn {
+
+	int touchBoxWidth;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+		touchBoxWidth = 175;
+	} else {
+		touchBoxWidth = 70;
+	}
+
+	switch (sharedGameController_.buttonPositions_) {
+		case 0:
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				shipRenderPoint_ = 200.0f;
+				leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth/2, playerBaseHeight_);
+				rightTouchControlBounds_ = CGRectMake((touchBoxWidth+1)/2, 1, touchBoxWidth/2-1, playerBaseHeight_);
+				fireTouchControlBounds_ = CGRectMake(touchBoxWidth, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
+			} else {
+				leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
+				rightTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, touchBoxWidth-1, playerBaseHeight_);
+				fireTouchControlBounds_ = CGRectMake(touchBoxWidth*2+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2-1, playerBaseHeight_);
+			}
+			break;
+		case 1:
+			shipRenderPoint_ = 200.0f;
+			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
+			rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
+			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
+			break;
+		case 2:
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				shipRenderPoint_ = 25.0f;
+				leftTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth+1, 1, touchBoxWidth/2, playerBaseHeight_);
+				rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth+touchBoxWidth/2+1, 1, touchBoxWidth/2-1, playerBaseHeight_);
+				fireTouchControlBounds_ = CGRectMake(1, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
+			} else {
+				leftTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth*2, 1, touchBoxWidth, playerBaseHeight_);
+				rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth*2+touchBoxWidth+1, 1, touchBoxWidth-1, playerBaseHeight_);
+				fireTouchControlBounds_ = CGRectMake(1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
+			}
+			break;
+
+		default:
+			break;
+	}
     state_ = SceneState_TransitionIn;
 }
 
@@ -1879,12 +1922,10 @@
 
 		[self initSound];
 
-        int touchBoxWidth;
 		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			screenBounds_ = CGRectMake(0, 0, 1024, 768);
 			playerBaseHeight_ = 100;
 			bonusShipTop_ = 670.0f;
-			touchBoxWidth = 175;
 			bonusSpeed_ = 155.0f;
 			bonusLaunchDelay_ =  baseLaunchDelay_ = 9.25f;
 			playerSpeed_ = 225.0f;
@@ -1916,7 +1957,6 @@
 			screenBounds_ = CGRectMake(0, 0, 480, 320);
 			playerBaseHeight_ = 35;
 			bonusShipTop_ = 295.0f;
-			touchBoxWidth = 70;
 			bonusSpeed_ = 80.0f;
 			bonusLaunchDelay_ =  baseLaunchDelay_ = 10.0f;
 			playerSpeed_ = 120.0f;
@@ -1943,9 +1983,6 @@
 		waveMessageInterval_ = 2.0f;
 		randomListLength_ = 30;
 
-		leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
-		rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
-		fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
 		pauseTouchControlBounds_ = CGRectMake(1, screenBounds_.size.height/2 - 1, screenBounds_.size.width - 2, screenBounds_.size.height/2 - 1);
 
 		aliens_ = [[NSMutableArray alloc] init];
