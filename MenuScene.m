@@ -66,102 +66,17 @@
 
         [sharedSoundManager_ loadSoundWithKey:@"guiTouch" soundFile:@"menu_select.caf"];
 
-        Image *SpriteSheetImage = [[Image alloc] initWithImageNamed:@"invaders" ofType:@"png" filter:GL_LINEAR];
+        PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"menu_pss.png"
+                                                                       controlFile:@"menu_pss"
+                                                                       imageFilter:GL_LINEAR];
 
-        help1_ = [[Image alloc] initWithImageNamed:@"alien-1-1" ofType:@"png" filter:GL_LINEAR];
-        help2_ = [[Image alloc] initWithImageNamed:@"alien-2-1" ofType:@"png" filter:GL_LINEAR];
-        help3_ = [[Image alloc] initWithImageNamed:@"alien-3-1" ofType:@"png" filter:GL_LINEAR];
-        help4_ = [[Image alloc] initWithImageNamed:@"big-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
-        help5_ = [[Image alloc] initWithImageNamed:@"small-bonus-ui-gfx" ofType:@"png" filter:GL_LINEAR];
-        help6_ = [[Image alloc] initWithImageNamed:@"invader2-1" ofType:@"png" filter:GL_LINEAR];
-        help7_ = [[Image alloc] initWithImageNamed:@"invader1-2" ofType:@"png" filter:GL_LINEAR];
-        help8_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
-        help9_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
-        help10_ = [[Image alloc] initWithImageNamed:@"invader3-1" ofType:@"png" filter:GL_LINEAR];
+        Image *Invaders = [[pss imageForKey:@"invaders.png"] retain];
+        Image *SmallBonuses = [[pss imageForKey:@"small_bonuses.png"] retain];
+        Image *BigBonuses = [[pss imageForKey:@"big_bonuses.png"] retain];
 
-        // Grab the bounds of the screen
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-			screenBounds_ = CGRectMake(0, 0, 1024, 768);
-            background_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
-
-            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
-                                                            ofType:@"png"
-                                                       controlFile:@"mono50green"
-                                                             scale:Scale2fMake(1.0f, 1.0f)
-                                                            filter:GL_LINEAR];
-            monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
-                                                                ofType:@"png"
-                                                           controlFile:@"mono50green"
-                                                                 scale:Scale2fMake(1.0f, 1.0f)
-                                                                filter:GL_LINEAR];
-            monoScoreHighlightFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50purple"
-                                                                          ofType:@"png"
-                                                                     controlFile:@"mono50purple"
-                                                                           scale:Scale2fMake(1.0f, 1.0f)
-                                                                          filter:GL_LINEAR];
-            monoHelpFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
-                                                                ofType:@"png"
-                                                           controlFile:@"mono50green"
-                                                                 scale:Scale2fMake(1.0f, 1.0f)
-                                                                filter:GL_LINEAR];
-
-            fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack-iPad" ofType:@"png" filter:GL_NEAREST];
-            fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
-
-            SpriteSheetImage.scale = Scale2fMake(3.0f, 3.0f);
-
-            CGFloat helpScale = 2.0f;
-            help1_.scale = Scale2fMake(helpScale, helpScale);
-            help2_.scale = Scale2fMake(helpScale, helpScale);
-            help3_.scale = Scale2fMake(helpScale, helpScale);
-            help4_.scale = Scale2fMake(helpScale, helpScale);
-            help5_.scale = Scale2fMake(helpScale, helpScale);
-            help6_.scale = Scale2fMake(helpScale, helpScale);
-            help7_.scale = Scale2fMake(helpScale, helpScale);
-            help8_.scale = Scale2fMake(helpScale, helpScale);
-            help9_.scale = Scale2fMake(3.0f, 3.5f);
-            help10_.scale = Scale2fMake(helpScale, 3.0f);
-
-		} else {
-			screenBounds_ = CGRectMake(0, 0, 480, 320);
-            PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
-                                                                           controlFile:@"pss_coordinates"
-                                                                           imageFilter:GL_LINEAR];
-            background_ = [pss imageForKey:@"background.png"];
-
-            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
-                                                            ofType:@"png"
-                                                       controlFile:@"ci_menu_mono_30"
-                                                             scale:Scale2fMake(0.95f, 0.95f)
-                                                            filter:GL_LINEAR];
-            monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
-                                                                ofType:@"png"
-                                                           controlFile:@"ci_menu_mono_30"
-                                                                 scale:Scale2fMake(0.85f, 0.85f)
-                                                                filter:GL_LINEAR];
-            monoScoreHighlightFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30_purple"
-                                                                          ofType:@"png"
-                                                                     controlFile:@"ci_menu_mono_30_purple"
-                                                                           scale:Scale2fMake(0.85f, 0.85f)
-                                                                          filter:GL_LINEAR];
-
-            monoHelpFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
-                                                                ofType:@"png"
-                                                           controlFile:@"ci_menu_mono_30"
-                                                                 scale:Scale2fMake(0.75f, 0.75f)
-                                                                filter:GL_LINEAR];
-
-            fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
-            fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
-
-            SpriteSheetImage.scale = Scale2fMake(1.75f, 1.75f);
-            help9_.scale = Scale2fMake(1.5f, 1.75f);
-            help10_.scale = Scale2fMake(1.0, 1.5f);
-		}
-
-        spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:Invaders
                                                sheetKey:@"invaders.png"
-                                             spriteSize:CGSizeMake(45.0f, 30.0f)
+                                             spriteSize:CGSizeMake(45, 30)
                                                 spacing:2
                                                  margin:0];
 
@@ -209,7 +124,97 @@
         alien6_.state = kAnimationState_Running;
         alien6_.type = kAnimationType_PingPong;
 
-        [SpriteSheetImage release];
+        help1_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)];
+        help2_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(4, 0)];
+        help3_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(3, 1)];
+        help6_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(4, 2)];
+        help7_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(3, 2)];
+        help8_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(1, 3)];
+
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:BigBonuses
+                                               sheetKey:@"big_bonuses.png"
+                                             spriteSize:CGSizeMake(60, 26)
+                                                spacing:2
+                                                 margin:0];
+        help4_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)];
+        help9_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)];
+
+
+        spriteSheet_ = [SpriteSheet spriteSheetForImage:SmallBonuses
+                                               sheetKey:@"small_bonuses.png"
+                                             spriteSize:CGSizeMake(46, 20)
+                                                spacing:2
+                                                 margin:0];
+        help10_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)];
+        help5_ = [spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)];
+
+
+
+        // Grab the bounds of the screen
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+			screenBounds_ = CGRectMake(0, 0, 1024, 768);
+            background_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
+
+            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
+                                                            ofType:@"png"
+                                                       controlFile:@"mono50green"
+                                                             scale:Scale2fMake(1.0f, 1.0f)
+                                                            filter:GL_LINEAR];
+            monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
+                                                                ofType:@"png"
+                                                           controlFile:@"mono50green"
+                                                                 scale:Scale2fMake(1.0f, 1.0f)
+                                                                filter:GL_LINEAR];
+            monoScoreHighlightFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50purple"
+                                                                          ofType:@"png"
+                                                                     controlFile:@"mono50purple"
+                                                                           scale:Scale2fMake(1.0f, 1.0f)
+                                                                          filter:GL_LINEAR];
+            monoHelpFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"mono50green"
+                                                                ofType:@"png"
+                                                           controlFile:@"mono50green"
+                                                                 scale:Scale2fMake(1.0f, 1.0f)
+                                                                filter:GL_LINEAR];
+
+            fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack-iPad" ofType:@"png" filter:GL_NEAREST];
+            fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
+
+		} else {
+			screenBounds_ = CGRectMake(0, 0, 480, 320);
+            PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+                                                                           controlFile:@"pss_coordinates"
+                                                                           imageFilter:GL_LINEAR];
+            background_ = [pss imageForKey:@"background.png"];
+
+            menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
+                                                            ofType:@"png"
+                                                       controlFile:@"ci_menu_mono_30"
+                                                             scale:Scale2fMake(0.95f, 0.95f)
+                                                            filter:GL_LINEAR];
+            monoMenuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
+                                                                ofType:@"png"
+                                                           controlFile:@"ci_menu_mono_30"
+                                                                 scale:Scale2fMake(0.85f, 0.85f)
+                                                                filter:GL_LINEAR];
+            monoScoreHighlightFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30_purple"
+                                                                          ofType:@"png"
+                                                                     controlFile:@"ci_menu_mono_30_purple"
+                                                                           scale:Scale2fMake(0.85f, 0.85f)
+                                                                          filter:GL_LINEAR];
+
+            monoHelpFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
+                                                                ofType:@"png"
+                                                           controlFile:@"ci_menu_mono_30"
+                                                                 scale:Scale2fMake(0.75f, 0.75f)
+                                                                filter:GL_LINEAR];
+
+            fadeImage_ = [[Image alloc] initWithImageNamed:@"allBlack" ofType:@"png" filter:GL_NEAREST];
+            fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, 1.0);
+		}
+
+        [Invaders release];
+        [SmallBonuses release];
+        [BigBonuses release];
 
 		// Init the fadespeed and alpha for this scene
 		fadeSpeed_ = 1.0f;
@@ -335,16 +340,17 @@
             CGFloat alienHeight = 30 * 3.0f;
             CGFloat verticalPadding = 90.0f;
 
+            CGFloat animScale = 3.0f;
             if (sharedGameController_.graphicsChoice_ == 0) {
-                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             } else {
-                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             }
             [menuFont_ renderStringJustifiedInFrame:aboutButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
             [menuFont_ renderStringJustifiedInFrame:helpButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
@@ -352,13 +358,7 @@
             [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
             [menuFont_ renderStringAt:CGPointMake(765, 5) text:@"Settings"];
 
-
             [sharedImageRenderManager_ renderImages];
-//            drawBox(settingButtonBounds_);
-//            drawBox(aboutButtonBounds_);
-//            drawBox(helpButtonBounds_);
-//            drawBox(scoreButtonBounds_);
-//            drawBox(startButtonBounds_);
         }
         if (state_ == SceneState_Scores) {
             [monoMenuFont_ renderStringAt:CGPointMake(30, 695) text:[NSString stringWithFormat:@"   %-11s%8s%10s", "Name", "Score", "Wave"]];
@@ -395,6 +395,18 @@
             int alienOffset = 100;
             int scoreOffset = 325;
 
+            CGFloat helpScale = 2.0f;
+            help1_.scale = Scale2fMake(helpScale, helpScale);
+            help2_.scale = Scale2fMake(helpScale, helpScale);
+            help3_.scale = Scale2fMake(helpScale, helpScale);
+            help4_.scale = Scale2fMake(helpScale, helpScale);
+            help5_.scale = Scale2fMake(helpScale, helpScale);
+            help6_.scale = Scale2fMake(helpScale, helpScale);
+            help7_.scale = Scale2fMake(helpScale, helpScale);
+            help8_.scale = Scale2fMake(helpScale, helpScale);
+            help9_.scale = Scale2fMake(helpScale, helpScale);
+            help10_.scale = Scale2fMake(helpScale, helpScale);
+
             if (sharedGameController_.graphicsChoice_ == 1) {
                 [help1_ renderAtPoint:CGPointMake(alienOffset, h)];
                 [help2_ renderAtPoint:CGPointMake(alienOffset, h-v)];
@@ -405,8 +417,8 @@
                 [help6_ renderAtPoint:CGPointMake(alienOffset, h)];
                 [help7_ renderAtPoint:CGPointMake(alienOffset, h-v)];
                 [help8_ renderAtPoint:CGPointMake(alienOffset, h-v*2)];
-                [help9_ renderAtPoint:CGPointMake(alienOffset-18, h-v*3)];
-                [help10_ renderAtPoint:CGPointMake(alienOffset+6, h-v*4+5)];
+                [help9_ renderAtPoint:CGPointMake(alienOffset-14, h-v*3+7)];
+                [help10_ renderAtPoint:CGPointMake(alienOffset, h-v*4+16)];
             }
 
             [monoHelpFont_ renderStringAt:CGPointMake(scoreOffset, h) text:@"25"];
@@ -418,21 +430,12 @@
             [monoHelpFont_ renderStringAt:CGPointMake(alienOffset, h-v*5.25) text:@"Bonus ship every 10000."];
             [monoHelpFont_ renderStringAt:CGPointMake(alienOffset, h-v*6.5) text:@"Double tap top half of screen"];
             [monoHelpFont_ renderStringAt:CGPointMake(alienOffset, h-v*7.1) text:@"to pause a running wave."];
+            [monoHelpFont_ renderStringAt:CGPointMake(alienOffset, h-v*8.25) text:@"Arrows to move, tap elsewhere"];
+            [monoHelpFont_ renderStringAt:CGPointMake(alienOffset, h-v*8.925) text:@"on bottom area to fire."];
 
-            int touchBoxWidth = 175;
-            CGRect leftTouchControlBounds = CGRectMake(1, 1, touchBoxWidth, 100);
-            CGRect rightTouchControlBounds = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, 100);
-            CGRect fireTouchControlBounds = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, 100);
 
-            [monoHelpFont_ renderStringJustifiedInFrame:leftTouchControlBounds justification:BitmapFontJustification_MiddleCentered text:@"Left"];
-            [monoHelpFont_ renderStringJustifiedInFrame:rightTouchControlBounds justification:BitmapFontJustification_MiddleCentered text:@"Right"];
-            [monoHelpFont_ renderStringJustifiedInFrame:fireTouchControlBounds justification:BitmapFontJustification_MiddleCentered text:@"Fire"];
 
             [sharedImageRenderManager_ renderImages];
-
-            drawBox(leftTouchControlBounds);
-			drawBox(rightTouchControlBounds);
-			drawBox(fireTouchControlBounds);
         }
         if (state_ == SceneState_About) {
             CGRect top = CGRectMake(0, 450, 1024, 80);
@@ -440,7 +443,7 @@
             CGRect bottom = CGRectMake(0, 150, 1024, 40);
             [menuFont_ renderStringJustifiedInFrame:top
                                       justification:BitmapFontJustification_MiddleCentered
-                                               text:@"Programming and graphics by"];
+                                               text:@"Design and programming by"];
             [menuFont_ renderStringJustifiedInFrame:middle
                                       justification:BitmapFontJustification_MiddleCentered
                                                text:@"Todd Steinackle"];
@@ -464,16 +467,17 @@
             CGFloat alienHeight = 30 * 1.75f;
             CGFloat verticalPadding = 22.5f;
 
+            CGFloat animScale = 1.75f;
             if (sharedGameController_.graphicsChoice_ == 0) {
-                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             } else {
-                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding)];
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2)];
-                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3)];
-                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4)];
+                [alien5_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             }
 
             [menuFont_ renderStringAt:CGPointMake(200, 30) text:aboutString];
@@ -517,6 +521,19 @@
 
             int h = 265;
             int v = 35;
+
+            CGFloat helpScale = 1.0f;
+            help1_.scale = Scale2fMake(helpScale, helpScale);
+            help2_.scale = Scale2fMake(helpScale, helpScale);
+            help3_.scale = Scale2fMake(helpScale, helpScale);
+            help4_.scale = Scale2fMake(helpScale, helpScale);
+            help5_.scale = Scale2fMake(helpScale, helpScale);
+            help6_.scale = Scale2fMake(helpScale, helpScale);
+            help7_.scale = Scale2fMake(helpScale, helpScale);
+            help8_.scale = Scale2fMake(helpScale, helpScale);
+            help9_.scale = Scale2fMake(helpScale, helpScale);
+            help10_.scale = Scale2fMake(helpScale, helpScale);
+
             if (sharedGameController_.graphicsChoice_ == 1) {
                 [help1_ renderAtPoint:CGPointMake(50, h)];
                 [help2_ renderAtPoint:CGPointMake(50, h-v)];
@@ -527,7 +544,7 @@
                 [help6_ renderAtPoint:CGPointMake(50, h)];
                 [help7_ renderAtPoint:CGPointMake(50, h-v)];
                 [help8_ renderAtPoint:CGPointMake(50, h-v*2)];
-                [help9_ renderAtPoint:CGPointMake(39, h-v*3+2)];
+                [help9_ renderAtPoint:CGPointMake(42, h-v*3+2.5)];
                 [help10_ renderAtPoint:CGPointMake(50, h-v*4+5)];
             }
 
@@ -540,21 +557,10 @@
             [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*4.85) text:@"Bonus ship every 10000."];
             [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*5.7) text:@"Double tap top half of screen"];
             [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*6.25) text:@"to pause a running wave."];
-
-            int touchBoxWidth = 70;
-            CGRect leftTouchControlBounds = CGRectMake(1, 1, touchBoxWidth, 35);
-            CGRect rightTouchControlBounds = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, 35);
-            CGRect fireTouchControlBounds = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, 35);
-
-            [monoHelpFont_ renderStringJustifiedInFrame:leftTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Left"];
-            [monoHelpFont_ renderStringJustifiedInFrame:rightTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Right"];
-            [monoHelpFont_ renderStringJustifiedInFrame:fireTouchControlBounds justification:BitmapFontJustification_TopCentered text:@"Fire"];
+            [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*7.0) text:@"Arrows to move, tap elsewhere"];
+            [monoHelpFont_ renderStringAt:CGPointMake(50, h-v*7.6) text:@"on bottom area to fire."];
 
             [sharedImageRenderManager_ renderImages];
-
-            drawBox(leftTouchControlBounds);
-			drawBox(rightTouchControlBounds);
-			drawBox(fireTouchControlBounds);
         }
         if (state_ == SceneState_About) {
             CGRect top = CGRectMake(0, 200, 480, 40);
@@ -562,7 +568,7 @@
             CGRect bottom = CGRectMake(0, 50, 480, 20);
             [menuFont_ renderStringJustifiedInFrame:top
                                       justification:BitmapFontJustification_MiddleCentered
-                                               text:@"Programming and graphics by"];
+                                               text:@"Design and programming by"];
             [menuFont_ renderStringJustifiedInFrame:middle
                                       justification:BitmapFontJustification_MiddleCentered
                                                text:@"Todd Steinackle"];

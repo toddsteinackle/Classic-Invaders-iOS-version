@@ -56,6 +56,8 @@
 		5F296C0511EA3272002D2B27 /* iPadBackgroundEnds.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F296C0211EA3272002D2B27 /* iPadBackgroundEnds.png */; };
 		5F296C0611EA3272002D2B27 /* iPadBackgroundLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F296C0311EA3272002D2B27 /* iPadBackgroundLeft.png */; };
 		5F296C0711EA3272002D2B27 /* iPadBackgroundRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F296C0411EA3272002D2B27 /* iPadBackgroundRight.png */; };
+		5F296CE511EA6530002D2B27 /* menu_pss.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F296CE311EA6530002D2B27 /* menu_pss.png */; };
+		5F296CE611EA6530002D2B27 /* menu_pss.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F296CE411EA6530002D2B27 /* menu_pss.plist */; };
 		5F3EFA97117FC9B60075E6CE /* ci_menu_mono_30.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */; };
 		5F3EFA99117FC9BC0075E6CE /* ci_menu_mono_30.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F3EFA98117FC9BC0075E6CE /* ci_menu_mono_30.png */; };
 		5F41975B116AC45400DD6A61 /* small_bonus.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F41975A116AC45400DD6A61 /* small_bonus.caf */; };
@@ -69,15 +71,7 @@
 		5F419795116ACFD300DD6A61 /* bg_3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419790116ACFD200DD6A61 /* bg_3.caf */; };
 		5F419796116ACFD300DD6A61 /* bg_4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419791116ACFD300DD6A61 /* bg_4.caf */; };
 		5F419797116ACFD300DD6A61 /* bg.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F419792116ACFD300DD6A61 /* bg.caf */; };
-		5F438F48117A192B00539457 /* alien-2-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F47117A192B00539457 /* alien-2-1.png */; };
-		5F438F4A117A195700539457 /* alien-3-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F49117A195700539457 /* alien-3-1.png */; };
-		5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4B117A19CA00539457 /* alien-2-4.png */; };
-		5F438F4E117A19ED00539457 /* alien-1-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F438F4D117A19ED00539457 /* alien-1-1.png */; };
 		5F47510511A82542007FB871 /* AlienShot.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F47510411A82542007FB871 /* AlienShot.m */; };
-		5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700D11E8035A0061ACA3 /* invader2-1.png */; };
-		5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D700F11E8036A0061ACA3 /* invader1-2.png */; };
-		5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4D701111E803D20061ACA3 /* invader3-1.png */; };
-		5F57A550117541E90024F431 /* alien-1-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F57A54F117541E90024F431 /* alien-1-2.png */; };
 		5F585F59116A9F67000DE830 /* shot.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F58116A9F67000DE830 /* shot.caf */; };
 		5F585F5D116A9F98000DE830 /* explosion.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5C116A9F98000DE830 /* explosion.caf */; };
 		5F585F5F116A9FAD000DE830 /* player_rebirth.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5F585F5E116A9FAD000DE830 /* player_rebirth.caf */; };
@@ -86,7 +80,6 @@
 		5F6A544A11E27D5D006553A4 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F6A544811E27D5D006553A4 /* SettingsViewController.m */; };
 		5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A544911E27D5D006553A4 /* SettingsViewController.xib */; };
 		5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */; };
-		5F6B964F11E6A86F005C1493 /* invaders.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F6B964E11E6A86F005C1493 /* invaders.png */; };
 		5F939A2411B5D687008AD4A3 /* sans50blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2211B5D687008AD4A3 /* sans50blue.fnt */; };
 		5F939A2511B5D687008AD4A3 /* sans50blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2311B5D687008AD4A3 /* sans50blue.png */; };
 		5F939A2C11B5D9B7008AD4A3 /* sans60blue.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */; };
@@ -101,9 +94,7 @@
 		5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */; };
 		5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */; };
 		5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */; };
-		5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */; };
 		5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4005611B198A5000555A4 /* playerRebirth.xml */; };
-		5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */; };
 		5FB9529511B418D1007EC6BC /* allBlack-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9529411B418D1007EC6BC /* allBlack-iPad.png */; };
 		5FB952EE11B42939007EC6BC /* mono50green.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952EC11B42939007EC6BC /* mono50green.fnt */; };
 		5FB952EF11B42939007EC6BC /* mono50green.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952ED11B42939007EC6BC /* mono50green.png */; };
@@ -207,6 +198,8 @@
 		5F296C0211EA3272002D2B27 /* iPadBackgroundEnds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadBackgroundEnds.png; sourceTree = "<group>"; };
 		5F296C0311EA3272002D2B27 /* iPadBackgroundLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadBackgroundLeft.png; sourceTree = "<group>"; };
 		5F296C0411EA3272002D2B27 /* iPadBackgroundRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadBackgroundRight.png; sourceTree = "<group>"; };
+		5F296CE311EA6530002D2B27 /* menu_pss.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_pss.png; sourceTree = "<group>"; };
+		5F296CE411EA6530002D2B27 /* menu_pss.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = menu_pss.plist; sourceTree = "<group>"; };
 		5F3EFA96117FC9B60075E6CE /* ci_menu_mono_30.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ci_menu_mono_30.fnt; sourceTree = "<group>"; };
 		5F3EFA98117FC9BC0075E6CE /* ci_menu_mono_30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ci_menu_mono_30.png; sourceTree = "<group>"; };
 		5F41975A116AC45400DD6A61 /* small_bonus.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = small_bonus.caf; sourceTree = "<group>"; };
@@ -220,16 +213,8 @@
 		5F419790116ACFD200DD6A61 /* bg_3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_3.caf; sourceTree = "<group>"; };
 		5F419791116ACFD300DD6A61 /* bg_4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg_4.caf; sourceTree = "<group>"; };
 		5F419792116ACFD300DD6A61 /* bg.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = bg.caf; sourceTree = "<group>"; };
-		5F438F47117A192B00539457 /* alien-2-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-2-1.png"; sourceTree = "<group>"; };
-		5F438F49117A195700539457 /* alien-3-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-3-1.png"; sourceTree = "<group>"; };
-		5F438F4B117A19CA00539457 /* alien-2-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-2-4.png"; sourceTree = "<group>"; };
-		5F438F4D117A19ED00539457 /* alien-1-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-1.png"; sourceTree = "<group>"; };
 		5F47510311A82542007FB871 /* AlienShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlienShot.h; sourceTree = "<group>"; };
 		5F47510411A82542007FB871 /* AlienShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlienShot.m; sourceTree = "<group>"; };
-		5F4D700D11E8035A0061ACA3 /* invader2-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader2-1.png"; sourceTree = "<group>"; };
-		5F4D700F11E8036A0061ACA3 /* invader1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader1-2.png"; sourceTree = "<group>"; };
-		5F4D701111E803D20061ACA3 /* invader3-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "invader3-1.png"; sourceTree = "<group>"; };
-		5F57A54F117541E90024F431 /* alien-1-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alien-1-2.png"; sourceTree = "<group>"; };
 		5F585F58116A9F67000DE830 /* shot.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shot.caf; sourceTree = "<group>"; };
 		5F585F5C116A9F98000DE830 /* explosion.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion.caf; sourceTree = "<group>"; };
 		5F585F5E116A9FAD000DE830 /* player_rebirth.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = player_rebirth.caf; sourceTree = "<group>"; };
@@ -240,7 +225,6 @@
 		5F6A544811E27D5D006553A4 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = ../SettingsViewController.m; sourceTree = "<group>"; };
 		5F6A544911E27D5D006553A4 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone-settings-background.png"; sourceTree = "<group>"; };
-		5F6B964E11E6A86F005C1493 /* invaders.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = invaders.png; sourceTree = "<group>"; };
 		5F939A2211B5D687008AD4A3 /* sans50blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans50blue.fnt; sourceTree = "<group>"; };
 		5F939A2311B5D687008AD4A3 /* sans50blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sans50blue.png; sourceTree = "<group>"; };
 		5F939A2A11B5D9B7008AD4A3 /* sans60blue.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sans60blue.fnt; sourceTree = "<group>"; };
@@ -256,8 +240,6 @@
 		5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Landscape.png"; sourceTree = "<group>"; };
 		5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Portrait.png"; sourceTree = "<group>"; };
 		5FA4005611B198A5000555A4 /* playerRebirth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = playerRebirth.xml; sourceTree = "<group>"; };
-		5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big-bonus-ui-gfx.png"; sourceTree = "<group>"; };
-		5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-bonus-ui-gfx.png"; sourceTree = "<group>"; };
 		5FB9529411B418D1007EC6BC /* allBlack-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "allBlack-iPad.png"; sourceTree = "<group>"; };
 		5FB952EC11B42939007EC6BC /* mono50green.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mono50green.fnt; sourceTree = "<group>"; };
 		5FB952ED11B42939007EC6BC /* mono50green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mono50green.png; sourceTree = "<group>"; };
@@ -435,6 +417,7 @@
 		18B970E0103AA66E00809077 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				5F1123D111E92A7900381F96 /* start_screen.caf */,
 				5F1CE0EE11714E280008E927 /* Flourish3.caf */,
 				5F585F58116A9F67000DE830 /* shot.caf */,
 				5F41975A116AC45400DD6A61 /* small_bonus.caf */,
@@ -651,27 +634,17 @@
 		5F1D4539114DCE4500797E5B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5F6B964E11E6A86F005C1493 /* invaders.png */,
 				5F1D43C5114D8DB200797E5B /* pss_coordinates.plist */,
-				5FA4FFFD11B16616000555A4 /* big-bonus-ui-gfx.png */,
-				5FA4FFFE11B16616000555A4 /* small-bonus-ui-gfx.png */,
-				5F438F47117A192B00539457 /* alien-2-1.png */,
-				5F438F49117A195700539457 /* alien-3-1.png */,
 				5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */,
+				5F296CE311EA6530002D2B27 /* menu_pss.png */,
+				5F296CE411EA6530002D2B27 /* menu_pss.plist */,
 				5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */,
-				5F4D700D11E8035A0061ACA3 /* invader2-1.png */,
-				5F4D700F11E8036A0061ACA3 /* invader1-2.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
 				5F296C0211EA3272002D2B27 /* iPadBackgroundEnds.png */,
 				5F296C0311EA3272002D2B27 /* iPadBackgroundLeft.png */,
 				5F296C0411EA3272002D2B27 /* iPadBackgroundRight.png */,
-				5F4D701111E803D20061ACA3 /* invader3-1.png */,
-				5F1123D111E92A7900381F96 /* start_screen.caf */,
-				5F438F4B117A19CA00539457 /* alien-2-4.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
-				5F438F4D117A19ED00539457 /* alien-1-1.png */,
 				5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */,
-				5F57A54F117541E90024F431 /* alien-1-2.png */,
 				5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */,
 				5F1A525D11B455D900DA442B /* ship.png */,
 				5FB9529411B418D1007EC6BC /* allBlack-iPad.png */,
@@ -825,17 +798,10 @@
 				5F9D2EF7116FDA3F00E9541B /* Lost3.caf in Resources */,
 				5F9D2FCF11701ABE00E9541B /* MainWindow-iPad.xib in Resources */,
 				5F1CE0EF11714E280008E927 /* Flourish3.caf in Resources */,
-				5F57A550117541E90024F431 /* alien-1-2.png in Resources */,
-				5F438F48117A192B00539457 /* alien-2-1.png in Resources */,
-				5F438F4A117A195700539457 /* alien-3-1.png in Resources */,
-				5F438F4C117A19CA00539457 /* alien-2-4.png in Resources */,
-				5F438F4E117A19ED00539457 /* alien-1-1.png in Resources */,
 				5F3EFA97117FC9B60075E6CE /* ci_menu_mono_30.fnt in Resources */,
 				5F3EFA99117FC9BC0075E6CE /* ci_menu_mono_30.png in Resources */,
 				5F96133E1182662E001A3771 /* ci_menu_mono_30_purple.png in Resources */,
 				5F96133F1182662E001A3771 /* ci_menu_mono_30_purple.fnt in Resources */,
-				5FA4FFFF11B16616000555A4 /* big-bonus-ui-gfx.png in Resources */,
-				5FA4000011B16616000555A4 /* small-bonus-ui-gfx.png in Resources */,
 				5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */,
 				5FB9529511B418D1007EC6BC /* allBlack-iPad.png in Resources */,
 				5FB952EE11B42939007EC6BC /* mono50green.fnt in Resources */,
@@ -865,14 +831,12 @@
 				5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */,
 				5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */,
 				5F0833CC11E5505100DA5634 /* SettingsViewController-iPad.xib in Resources */,
-				5F6B964F11E6A86F005C1493 /* invaders.png in Resources */,
-				5F4D700E11E8035A0061ACA3 /* invader2-1.png in Resources */,
-				5F4D701011E8036A0061ACA3 /* invader1-2.png in Resources */,
-				5F4D701211E803D20061ACA3 /* invader3-1.png in Resources */,
 				5F1123D211E92A7900381F96 /* start_screen.caf in Resources */,
 				5F296C0511EA3272002D2B27 /* iPadBackgroundEnds.png in Resources */,
 				5F296C0611EA3272002D2B27 /* iPadBackgroundLeft.png in Resources */,
 				5F296C0711EA3272002D2B27 /* iPadBackgroundRight.png in Resources */,
+				5F296CE511EA6530002D2B27 /* menu_pss.png in Resources */,
+				5F296CE611EA6530002D2B27 /* menu_pss.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
