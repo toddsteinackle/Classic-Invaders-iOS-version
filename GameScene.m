@@ -1297,9 +1297,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 //			drawBox(topStatus_);
 			break;
 
@@ -1341,9 +1341,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark WaveCleanup
@@ -1398,9 +1398,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark WaveOver
@@ -1455,9 +1455,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 
 			break;
 
@@ -1553,9 +1553,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark PlayerRebirth
@@ -1599,9 +1599,9 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-			drawBox(leftTouchControlBounds_);
-			drawBox(rightTouchControlBounds_);
-			drawBox(fireTouchControlBounds_);
+//			drawBox(leftTouchControlBounds_);
+//			drawBox(rightTouchControlBounds_);
+//			drawBox(fireTouchControlBounds_);
 			break;
 
 		default:
@@ -1824,6 +1824,7 @@
 	int touchBoxWidth;
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		touchBoxWidth = 175;
+		[background_ release];
 	} else {
 		touchBoxWidth = 70;
 	}
@@ -1832,6 +1833,7 @@
 		case 0:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				shipRenderPoint_ = 200.0f;
+				background_ = [[Image alloc] initWithImageNamed:@"iPadBackgroundLeft" ofType:@"png" filter:GL_NEAREST];
 				leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth/2, playerBaseHeight_);
 				rightTouchControlBounds_ = CGRectMake((touchBoxWidth+1)/2, 1, touchBoxWidth/2-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(touchBoxWidth, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
@@ -1842,7 +1844,10 @@
 			}
 			break;
 		case 1:
-			shipRenderPoint_ = 200.0f;
+			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+				background_ = [[Image alloc] initWithImageNamed:@"iPadBackgroundEnds" ofType:@"png" filter:GL_NEAREST];
+				shipRenderPoint_ = 200.0f;
+			}
 			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 			rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
 			fireTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
@@ -1850,6 +1855,7 @@
 		case 2:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				shipRenderPoint_ = 25.0f;
+				background_ = [[Image alloc] initWithImageNamed:@"iPadBackgroundRight" ofType:@"png" filter:GL_NEAREST];
 				leftTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth+1, 1, touchBoxWidth/2, playerBaseHeight_);
 				rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth+touchBoxWidth/2+1, 1, touchBoxWidth/2-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(1, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
@@ -1949,7 +1955,6 @@
 																  controlFile:@"sans60blue"
 																		scale:Scale2fMake(1.0f, 1.0f)
 																	   filter:GL_LINEAR];
-			background_ = [[Image alloc] initWithImageNamed:@"iPadBackground" ofType:@"png" filter:GL_NEAREST];
 			messageBackground_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
 			shipImage_ = [[Image alloc] initWithImageNamed:@"ship" ofType:@"png" filter:GL_LINEAR];
 			shipImage_.scale = Scale2fMake(1.5f, 1.5f);
