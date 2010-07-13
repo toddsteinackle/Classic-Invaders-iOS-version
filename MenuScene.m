@@ -342,10 +342,10 @@
 
             CGFloat animScale = 3.0f;
             if (sharedGameController_.graphicsChoice_ == 0) {
-                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien2_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             } else {
                 [alien5_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
                 [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
@@ -469,10 +469,10 @@
 
             CGFloat animScale = 1.75f;
             if (sharedGameController_.graphicsChoice_ == 0) {
-                [alien1_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien2_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
-                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien2_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien3_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
+                [alien1_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             } else {
                 [alien5_ renderAtPoint:CGPointMake(x, verticalPadding) scale:Scale2fMake(animScale, animScale) rotation:0];
                 [alien4_ renderAtPoint:CGPointMake(x, alienHeight+verticalPadding*2) scale:Scale2fMake(animScale, animScale) rotation:0];
