@@ -414,8 +414,8 @@
                 [help4_ renderAtPoint:CGPointMake(alienOffset-15, h-v*3)];
                 [help5_ renderAtPoint:CGPointMake(alienOffset, h-v*4+5)];
             } else {
-                [help6_ renderAtPoint:CGPointMake(alienOffset, h)];
-                [help7_ renderAtPoint:CGPointMake(alienOffset, h-v)];
+                [help7_ renderAtPoint:CGPointMake(alienOffset, h)];
+                [help6_ renderAtPoint:CGPointMake(alienOffset, h-v)];
                 [help8_ renderAtPoint:CGPointMake(alienOffset, h-v*2)];
                 [help9_ renderAtPoint:CGPointMake(alienOffset-14, h-v*3+7)];
                 [help10_ renderAtPoint:CGPointMake(alienOffset, h-v*4+16)];
@@ -541,8 +541,8 @@
                 [help4_ renderAtPoint:CGPointMake(42, h-v*3)];
                 [help5_ renderAtPoint:CGPointMake(50, h-v*4+5)];
             } else {
-                [help6_ renderAtPoint:CGPointMake(50, h)];
-                [help7_ renderAtPoint:CGPointMake(50, h-v)];
+                [help7_ renderAtPoint:CGPointMake(50, h)];
+                [help6_ renderAtPoint:CGPointMake(50, h-v)];
                 [help8_ renderAtPoint:CGPointMake(50, h-v*2)];
                 [help9_ renderAtPoint:CGPointMake(42, h-v*3+2.5)];
                 [help10_ renderAtPoint:CGPointMake(50, h-v*4+5)];
