@@ -184,7 +184,7 @@
             PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
                                                                            controlFile:@"pss_coordinates"
                                                                            imageFilter:GL_LINEAR];
-            background_ = [pss imageForKey:@"background.png"];
+            background_ = [[pss imageForKey:@"iPhoneMenuBackground.png"] retain];
 
             menuFont_ = [[BitmapFont alloc] initWithFontImageNamed:@"ci_menu_mono_30"
                                                             ofType:@"png"

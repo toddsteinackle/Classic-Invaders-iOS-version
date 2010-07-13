@@ -41,12 +41,18 @@
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"alien_shots.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1
+                                                spacing:2
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
+        if (sharedGameController_.graphicsChoice_) {
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 0)] delay:delay];
+        } else {
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 0)] delay:delay];
+        }
+
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 

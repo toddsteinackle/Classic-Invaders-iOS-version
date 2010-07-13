@@ -36,7 +36,7 @@
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
-		Image *SpriteSheetImage = [[pss imageForKey:@"shot.png"] retain];
+		Image *SpriteSheetImage = [[pss imageForKey:@"shots.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
             top_ = 725.0f - height_*scaleFactor_;
@@ -46,14 +46,21 @@
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
-                                               sheetKey:@"shot.png"
+                                               sheetKey:@"shots.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1
+                                                spacing:2
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.2;
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+        if (sharedGameController_.graphicsChoice_) {
+            float delay = 0.2;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+        } else {
+            float delay = 0.2;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
+        }
+
+
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 

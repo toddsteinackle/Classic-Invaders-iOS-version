@@ -27,7 +27,7 @@
 		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
                                                                        controlFile:@"pss_coordinates"
                                                                        imageFilter:GL_LINEAR];
-		Image *SpriteSheetImage = [[pss imageForKey:@"small_bonus.png"] retain];
+		Image *SpriteSheetImage = [[pss imageForKey:@"small_bonuses_game.png"] retain];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 			scaleFactor_ = 1.5f;
             dyingEmitter_ = [[ParticleEmitter alloc] initParticleEmitterWithFile:@"explosion-iPad" ofType:@"xml"];
@@ -37,14 +37,27 @@
 		}
         SpriteSheetImage.scale = Scale2fMake(scaleFactor_, scaleFactor_);
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
-                                               sheetKey:@"small_bonus.png"
+                                               sheetKey:@"small_bonuses_game.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1 margin:0];
+                                                spacing:2
+                                                 margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.06;
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
+        if (sharedGameController_.graphicsChoice_) {
+            float delay = 0.06;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 1)] delay:delay];
+        } else {
+            float delay = 0.06;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 3)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 4)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 5)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 6)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 7)] delay:delay];
+        }
+
+
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_Repeating;
 

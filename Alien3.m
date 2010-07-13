@@ -47,15 +47,24 @@
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"aliens.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1
+                                                spacing:2
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.2;
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 0)] delay:delay];
+        if (sharedGameController_.graphicsChoice_) {
+            float delay = 0.2;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 1)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 1)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 2)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 2)] delay:delay];
+            collisionWidth_ = scaleFactor_ * width_ * .6f;
+        } else {
+            float delay = 0.4;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 3)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 3)] delay:delay];
+            collisionWidth_ = scaleFactor_ * width_ * .8f;
+        }
+
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 
@@ -70,7 +79,6 @@
         position_ = position;
         fireChance_ = chanceToFire;
         canFire_ = canFire;
-        collisionWidth_ = scaleFactor_ * width_ * .6f;
         collisionHeight_ = scaleFactor_ * height_ *.8f;
         collisionXOffset_ = ((scaleFactor_ * width_) - collisionWidth_) / 2;
         collisionYOffset_ = ((scaleFactor_ * height_) - collisionHeight_) / 2;

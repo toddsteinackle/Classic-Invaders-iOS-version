@@ -37,7 +37,7 @@
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"shield_piece.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1
+                                                spacing:2
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];

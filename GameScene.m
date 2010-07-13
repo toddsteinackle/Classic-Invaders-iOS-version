@@ -1224,7 +1224,11 @@
 				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
 				[statusFont_ renderStringJustifiedInFrame:bottom justification:BitmapFontJustification_MiddleCentered text:@"Double tap to continue."];
 			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
+				PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																			   controlFile:@"pss_coordinates"
+																			   imageFilter:GL_LINEAR];
+				messageBackground_ = [[pss imageForKey:@"iPhoneMenuBackground.png"] retain];
+				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
 				CGRect top =  CGRectMake(0, screenBounds_.size.height/2.5, screenBounds_.size.width, screenBounds_.size.height/2.5);
 				[smallFont_ renderStringJustifiedInFrame:top justification:BitmapFontJustification_MiddleCentered text:@"Game Paused"];
 				CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
@@ -1471,7 +1475,11 @@
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
 			} else {
-				[background_ renderAtPoint:CGPointMake(0, 0)];
+				PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																			   controlFile:@"pss_coordinates"
+																			   imageFilter:GL_LINEAR];
+				messageBackground_ = [[pss imageForKey:@"iPhoneMenuBackground.png"] retain];
+				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
 			}
 
 			CGRect top = CGRectMake(0, screenBounds_.size.height/2, screenBounds_.size.width, screenBounds_.size.height/2);
@@ -1831,6 +1839,23 @@
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 		touchBoxWidth = 175;
 		[background_ release];
+		PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																	   controlFile:@"pss_coordinates"
+																	   imageFilter:GL_LINEAR];
+		Image *ShipSpriteSheet = [[pss imageForKey:@"ships.png"] retain];
+		ShipSpriteSheet.scale = Scale2fMake(1.5f, 1.5f);
+		SpriteSheet *spriteSheet = [SpriteSheet spriteSheetForImage:ShipSpriteSheet
+														   sheetKey:@"ships_game.png"
+														 spriteSize:CGSizeMake(43, 25)
+															spacing:2
+															 margin:0];
+
+		if (sharedGameController_.graphicsChoice_) {
+			shipImage_ = [spriteSheet spriteImageAtCoords:CGPointMake(0, 1)];
+		} else {
+			shipImage_ = [spriteSheet spriteImageAtCoords:CGPointMake(0, 0)];
+		}
+
 	} else {
 		touchBoxWidth = 70;
 	}
@@ -1844,6 +1869,10 @@
 				rightTouchControlBounds_ = CGRectMake((touchBoxWidth+1)/2, 1, touchBoxWidth/2-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(touchBoxWidth, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
 			} else {
+				PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																			   controlFile:@"pss_coordinates"
+																			   imageFilter:GL_LINEAR];
+				background_ = [[pss imageForKey:@"iPhoneBackgroundLeft.png"] retain];
 				leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 				rightTouchControlBounds_ = CGRectMake(touchBoxWidth+1, 1, touchBoxWidth-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(touchBoxWidth*2+1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2-1, playerBaseHeight_);
@@ -1853,6 +1882,11 @@
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				background_ = [[Image alloc] initWithImageNamed:@"iPadBackgroundEnds" ofType:@"png" filter:GL_NEAREST];
 				shipRenderPoint_ = 200.0f;
+			} else {
+				PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																			   controlFile:@"pss_coordinates"
+																			   imageFilter:GL_LINEAR];
+				background_ = [[pss imageForKey:@"iPhoneBackgroundEnds.png"] retain];
 			}
 			leftTouchControlBounds_ = CGRectMake(1, 1, touchBoxWidth, playerBaseHeight_);
 			rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - touchBoxWidth, 1, touchBoxWidth-1, playerBaseHeight_);
@@ -1866,6 +1900,10 @@
 				rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth+touchBoxWidth/2+1, 1, touchBoxWidth/2-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(1, 1, screenBounds_.size.width - 1 - touchBoxWidth, playerBaseHeight_);
 			} else {
+				PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
+																			   controlFile:@"pss_coordinates"
+																			   imageFilter:GL_LINEAR];
+				background_ = [[pss imageForKey:@"iPhoneBackgroundRight.png"] retain];
 				leftTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth*2, 1, touchBoxWidth, playerBaseHeight_);
 				rightTouchControlBounds_ = CGRectMake(screenBounds_.size.width - 1 - touchBoxWidth*2+touchBoxWidth+1, 1, touchBoxWidth-1, playerBaseHeight_);
 				fireTouchControlBounds_ = CGRectMake(1, 1, screenBounds_.size.width - 1 - touchBoxWidth*2, playerBaseHeight_);
@@ -1962,8 +2000,7 @@
 																		scale:Scale2fMake(1.0f, 1.0f)
 																	   filter:GL_LINEAR];
 			messageBackground_ = [[Image alloc] initWithImageNamed:@"iPadMenuBackground" ofType:@"png" filter:GL_NEAREST];
-			shipImage_ = [[Image alloc] initWithImageNamed:@"ship" ofType:@"png" filter:GL_LINEAR];
-			shipImage_.scale = Scale2fMake(1.5f, 1.5f);
+
 		} else {
 			screenBounds_ = CGRectMake(0, 0, 480, 320);
 			playerBaseHeight_ = 35;
@@ -1984,11 +2021,6 @@
 														 controlFile:@"franklin16"
 															   scale:Scale2fMake(1.0f, 1.0f)
 															  filter:GL_LINEAR];
-
-			PackedSpriteSheet *pss = [PackedSpriteSheet packedSpriteSheetForImageNamed:@"pss.png"
-																		   controlFile:@"pss_coordinates"
-																		   imageFilter:GL_LINEAR];
-			background_ = [[pss imageForKey:@"background.png"] retain];
 		}
 
 		waveMessageInterval_ = 2.0f;

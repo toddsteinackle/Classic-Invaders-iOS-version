@@ -86,15 +86,23 @@
         spriteSheet_ = [SpriteSheet spriteSheetForImage:SpriteSheetImage
                                                sheetKey:@"aliens.png"
                                              spriteSize:CGSizeMake(width_, height_)
-                                                spacing:1
+                                                spacing:2
                                                  margin:0];
 
         animation_ = [[Animation alloc] init];
-		float delay = 0.2;
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(4, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(5, 0)] delay:delay];
-		[animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(6, 0)] delay:delay];
-        [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(7, 0)] delay:delay];
+        if (sharedGameController_.graphicsChoice_) {
+            float delay = 0.2;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(0, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(1, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 0)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 0)] delay:delay];
+        } else {
+            float delay = 0.4;
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(2, 2)] delay:delay];
+            [animation_ addFrameWithImage:[spriteSheet_ spriteImageAtCoords:CGPointMake(3, 2)] delay:delay];
+        }
+
+
         animation_.state = kAnimationState_Running;
         animation_.type = kAnimationType_PingPong;
 
