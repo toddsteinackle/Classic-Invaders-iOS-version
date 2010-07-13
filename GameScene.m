@@ -1306,10 +1306,6 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
-//			drawBox(topStatus_);
 			break;
 
 #pragma mark WaveIntro
@@ -1350,9 +1346,6 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark WaveCleanup
@@ -1407,9 +1400,6 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark WaveOver
@@ -1464,10 +1454,6 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
-
 			break;
 
 #pragma mark GameOver
@@ -1566,9 +1552,6 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
 			break;
 
 #pragma mark PlayerRebirth
@@ -1612,22 +1595,12 @@
 													 text:[NSString stringWithFormat:@"Lives: %i  ", playerLives_]];
 			}
 			[sharedImageRenderManager_ renderImages];
-//			drawBox(leftTouchControlBounds_);
-//			drawBox(rightTouchControlBounds_);
-//			drawBox(fireTouchControlBounds_);
 			break;
 
 		default:
 			break;
 
 	}
-//	for(Alien *alien in aliens_) {
-//		drawBox(CGRectMake(alien.pixelLocation_.x + alien.collisionXOffset_, alien.pixelLocation_.y + alien.collisionYOffset_,
-//						   alien.collisionWidth_, alien.collisionHeight_));
-//	}
-//	drawBox(CGRectMake(player_.pixelLocation_.x + player_.collisionXOffset_, player_.pixelLocation_.y + player_.collisionYOffset_,
-//			player_.collisionWidth_, player_.collisionHeight_));
-
 }
 
 #pragma mark -
