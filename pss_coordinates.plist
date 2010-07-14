@@ -11,31 +11,12 @@
 	</dict>
 	<key>frames</key>
 	<dict>
-		<key>alien_shots.png</key>
-		<dict>
-			<key>x</key>
-			<integer>960</integer>
-			<key>y</key>
-			<integer>274</integer>
-			<key>width</key>
-			<integer>22</integer>
-			<key>height</key>
-			<integer>15</integer>
-			<key>offsetX</key>
-			<real>-21</real>
-			<key>offsetY</key>
-			<real>24.5</real>
-			<key>originalWidth</key>
-			<integer>64</integer>
-			<key>originalHeight</key>
-			<integer>64</integer>
-		</dict>
 		<key>aliens.png</key>
 		<dict>
 			<key>x</key>
-			<integer>480</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>320</integer>
+			<integer>322</integer>
 			<key>width</key>
 			<integer>233</integer>
 			<key>height</key>
@@ -52,9 +33,9 @@
 		<key>big_bonuses_game.png</key>
 		<dict>
 			<key>x</key>
-			<integer>960</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>449</integer>
 			<key>width</key>
 			<integer>60</integer>
 			<key>height</key>
@@ -71,9 +52,9 @@
 		<key>iPhoneBackgroundEnds.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>y</key>
-			<integer>320</integer>
+			<integer>322</integer>
 			<key>width</key>
 			<integer>480</integer>
 			<key>height</key>
@@ -90,9 +71,9 @@
 		<key>iPhoneBackgroundLeft.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>y</key>
-			<integer>640</integer>
+			<integer>643</integer>
 			<key>width</key>
 			<integer>480</integer>
 			<key>height</key>
@@ -109,9 +90,9 @@
 		<key>iPhoneBackgroundRight.png</key>
 		<dict>
 			<key>x</key>
-			<integer>0</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>480</integer>
 			<key>height</key>
@@ -128,9 +109,9 @@
 		<key>iPhoneMenuBackground.png</key>
 		<dict>
 			<key>x</key>
-			<integer>480</integer>
+			<integer>1</integer>
 			<key>y</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>width</key>
 			<integer>480</integer>
 			<key>height</key>
@@ -147,9 +128,9 @@
 		<key>shield_piece.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1003</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>222</integer>
+			<integer>916</integer>
 			<key>width</key>
 			<integer>20</integer>
 			<key>height</key>
@@ -166,9 +147,9 @@
 		<key>ships.png</key>
 		<dict>
 			<key>x</key>
-			<integer>960</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>222</integer>
+			<integer>847</integer>
 			<key>width</key>
 			<integer>43</integer>
 			<key>height</key>
@@ -185,9 +166,9 @@
 		<key>shots.png</key>
 		<dict>
 			<key>x</key>
-			<integer>1003</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>242</integer>
+			<integer>937</integer>
 			<key>width</key>
 			<integer>19</integer>
 			<key>height</key>
@@ -204,9 +185,9 @@
 		<key>small_bonuses_game.png</key>
 		<dict>
 			<key>x</key>
-			<integer>480</integer>
+			<integer>482</integer>
 			<key>y</key>
-			<integer>446</integer>
+			<integer>672</integer>
 			<key>width</key>
 			<integer>45</integer>
 			<key>height</key>
@@ -219,6 +200,25 @@
 			<integer>64</integer>
 			<key>originalHeight</key>
 			<integer>256</integer>
+		</dict>
+		<key>alien_shots.png</key>
+		<dict>
+			<key>x</key>
+			<integer>482</integer>
+			<key>y</key>
+			<integer>900</integer>
+			<key>width</key>
+			<integer>22</integer>
+			<key>height</key>
+			<integer>15</integer>
+			<key>offsetX</key>
+			<real>-21</real>
+			<key>offsetY</key>
+			<real>24.5</real>
+			<key>originalWidth</key>
+			<integer>64</integer>
+			<key>originalHeight</key>
+			<integer>64</integer>
 		</dict>
 	</dict>
 </dict>
