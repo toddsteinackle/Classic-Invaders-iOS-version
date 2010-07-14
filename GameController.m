@@ -166,18 +166,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 }
 
 - (void)loadSettings {
-
+#ifdef MYDEBUG
 	SLQLOG(@"INFO - EAGLView: Loading settings.");
+#endif
 	// If the prefs file has not been initialised then init the prefs file
 	if(settingsFilePath == nil)
 		[self initSettingsFilePath];
 
 	// If the prefs file cannot be found then create it with default values
 	if([[NSFileManager defaultManager] fileExistsAtPath:settingsFilePath]) {
+#ifdef MYDEBUG
 		SLQLOG(@"INFO - GameController: Found settings file");
+#endif
 		settings = [[NSMutableDictionary alloc] initWithContentsOfFile:settingsFilePath];
 	} else {
+#ifdef MYDEBUG
 		SLQLOG(@"INFO - GameController: No settings file, creating defaults");
+#endif
 		settings = [[NSMutableDictionary alloc] init];
 		[settings setObject:[NSString stringWithFormat:@"%f", 1.0f] forKey:@"bgVolume"];
 		[settings setObject:[NSString stringWithFormat:@"%f", 1.0f] forKey:@"fxVolume"];
@@ -207,8 +212,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[settings setObject:bp forKey:@"buttonsPosition"];
     [settings setObject:gc forKey:@"graphicsChoice"];
 	[settings writeToFile:settingsFilePath atomically:YES];
+#ifdef MYDEBUG
 	SLQLOG(@"INFO - GameController: Saving bgVolume=%f, fxVolume=%f, buttonsPosition=%d, graphicsChoice=%d",
            [bv floatValue], [fv floatValue], [bp intValue], [gc intValue]);
+#endif
 }
 
 @end
