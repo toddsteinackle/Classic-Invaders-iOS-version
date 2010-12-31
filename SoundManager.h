@@ -6,7 +6,7 @@
 #import <OpenAL/alc.h>
 #import <AVFoundation/AVFoundation.h>
 
-#define kFadeInterval (1.0f/60)  // Causes the music volume to be updated 60 times per second when music is fading
+#define kFadeInterval (1.0f/60.0f)  // Causes the music volume to be updated 60 times per second when music is fading
 
 // SoundManager provides a basic wrapper for OpenAL and AVAudioPlayer.  It is a singleton
 // class that allows sound clips to be loaded and cached with a key and then played back

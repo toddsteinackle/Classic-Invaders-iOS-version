@@ -121,8 +121,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 			soundCategory = AVAudioSessionCategorySoloAmbient;
 			audioSessionError = nil;
 			[audioSession setCategory:soundCategory error:&audioSessionError];
+#ifdef MYDEBUG
 			if (audioSessionError)
 				NSLog(@"WARNING - SoundManager: Error setting the sound category to SoloAmbientSound");
+#endif
 		}
 
         // Set up OpenAL.  If an error occurs then nil will be returned.
@@ -174,18 +176,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 	// Set up the bufferID that will hold the OpenAL buffer generated
     NSUInteger bufferID;
-
+#ifdef MYDEBUG
 	alError = AL_NO_ERROR;
-
+#endif
 	// Generate a buffer within OpenAL for this sound
 	alGenBuffers(1, &bufferID);
-
+#ifdef MYDEBUG
 	// Check to make sure no errors occurred.
 	if((alError = alGetError()) != AL_NO_ERROR) {
 		NSLog(@"ERROR - SoundManager: Error generating OpenAL buffer with error %x for filename %@\n", alError, aMusicFile);
 
 	}
-
+#endif
     // Set up the variables which are going to be used to hold the format
     // size and frequency of the sound file we are loading along with the actual sound data
 	ALenum  format;
@@ -206,16 +208,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 		// Use the static buffer data API
 		alBufferData(bufferID, format, data, size, frequency);
-
+#ifdef MYDEBUG
 		if((alError = alGetError()) != AL_NO_ERROR) {
 			NSLog(@"ERROR - SoundManager: Error attaching audio to buffer: %x\n", alError);
 		}
-
+#endif
 		// Free the memory we used when getting the audio data
 		if (data)
 			free(data);
 	} else {
+#ifdef MYDEBUG
 		NSLog(@"ERROR - SoundManager: Could not find file '%@.%@'", fileName, fileType);
+#endif
 		if (data)
 			free(data);
 		data = NULL;
@@ -231,17 +235,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 - (void)removeSoundWithKey:(NSString*)aSoundKey {
 
 	// Reset errors in OpenAL
+#ifdef MYDEBUG
 	alError = alGetError();
 	alError = AL_NO_ERROR;
+#endif
 
     // Find the buffer which has been linked to the sound key provided
     NSNumber *numVal = [soundLibrary objectForKey:aSoundKey];
 
     // If the key is not found log it and finish
+#ifdef MYDEBUG
     if(numVal == nil) {
         NSLog(@"WARNING - SoundManager: No sound with key '%@' was found so cannot be removed", aSoundKey);
         return;
     }
+#endif
 
     // Get the buffer number from
     NSUInteger bufferID = [numVal unsignedIntValue];
@@ -267,11 +275,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	alDeleteBuffers(1, &bufferID);
 
 	// Check for any errors
+#ifdef MYDEBUG
 	if((alError = alGetError()) != AL_NO_ERROR) {
 		NSLog(@"ERROR - SoundManager: Could not delete buffer %d with error %x", bufferID, alError);
 		exit(1);
 	}
-
+#endif
 	// Remove the soundkey from the soundLibrary
     [soundLibrary removeObjectForKey:aSoundKey];
 #ifdef MYDEBUG
@@ -290,17 +299,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
     NSString *path = [musicLibrary objectForKey:aMusicKey];
 
     // If the key is found log it and finish
+#ifdef MYDEBUG
     if(path != nil) {
         NSLog(@"WARNING - SoundManager: Music with the key '%@' already exists.", aMusicKey);
         return;
     }
-
+#endif
 	path = [[NSBundle mainBundle] pathForResource:fileName ofType:fileType];
+#ifdef MYDEBUG
 	if (!path) {
 		NSLog(@"WARNING - SoundManager: Cannot find file '%@.%@'", fileName, fileType);
 		return;
 	}
-
+#endif
 	[musicLibrary setObject:path forKey:aMusicKey];
 #ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Loaded background music with key '%@'", aMusicKey);
@@ -309,10 +320,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 - (void)removeMusicWithKey:(NSString*)aMusicKey {
     NSString *path = [musicLibrary objectForKey:aMusicKey];
+#ifdef MYDEBUG
     if(path == NULL) {
         NSLog(@"WARNING - SoundManager: No music found with key '%@' was found so cannot be removed", aMusicKey);
         return;
     }
+#endif
     [musicLibrary removeObjectForKey:aMusicKey];
 #ifdef MYDEBUG
     NSLog(@"INFO - SoundManager: Removed music with key '%@'", aMusicKey);
@@ -322,11 +335,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 - (void)addToPlaylistNamed:(NSString*)aPlaylistName track:(NSString*)aTrackName {
 
 	NSString *path = [musicLibrary objectForKey:aTrackName];
+#ifdef MYDEBUG
 	if (!path) {
 		NSLog(@"WARNING - SoundManager: Track '%@' does not exist in the music library and cannot be added to the play list.");
 		return;
 	}
-
+#endif
 	// See if the playlist already exists
 	NSMutableArray *playlistTracks = [musicPlaylists objectForKey:aPlaylistName];
 
@@ -352,12 +366,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 - (void)startPlaylistNamed:(NSString*)aPlaylistName {
 
 	NSMutableArray *playlistTracks = [musicPlaylists objectForKey:aPlaylistName];
-
+#ifdef MYDEBUG
 	if (!playlistTracks) {
 		NSLog(@"WARNING - SoundManager: No play list exists with the name '%@'", aPlaylistName);
 		return;
 	}
-
+#endif
 	currentPlaylistName = aPlaylistName;
 	currentPlaylistTracks = playlistTracks;
 	usePlaylist = YES;
@@ -419,9 +433,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 }
 
 - (NSUInteger)playSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop {
-
+#ifdef MYDEBUG
 	alError = alGetError(); // clear the error code
-
+#endif
 	// Find the buffer linked to the key which has been passed in
 	NSNumber *numVal = [soundLibrary objectForKey:aSoundKey];
 	if(numVal == nil) return 0;
@@ -432,11 +446,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
     sourceID = [self nextAvailableSource];
 
 	// If 0 is returned then no sound sources were available
+#ifdef MYDEBUG
 	if (sourceID == 0) {
 		NSLog(@"WARNING - SoundManager: No sound sources available to play %@", aSoundKey);
 		return 0;
 	}
-
+#endif
 	// Make sure that the source is clean by resetting the buffer assigned to the source
 	// to 0
 	alSourcei(sourceID, AL_BUFFER, 0);
@@ -462,20 +477,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	alSourcePlay(sourceID);
 
     // Check to see if there were any errors
+#ifdef MYDEBUG
 	alError = alGetError();
 	if(alError != 0) {
 		NSLog(@"ERROR - SoundManager: %d", alError);
 		return 0;
 	}
-
+#endif
 	// Return the source ID so that loops can be stopped etc
 	return sourceID;
 }
 
 - (NSUInteger)playBackgroundSoundWithKey:(NSString*)aSoundKey gain:(float)aGain pitch:(float)aPitch location:(CGPoint)aLocation shouldLoop:(BOOL)aLoop {
-
+#ifdef MYDEBUG
 	alError = alGetError(); // clear the error code
-
+#endif
 	// Find the buffer linked to the key which has been passed in
 	NSNumber *numVal = [soundLibrary objectForKey:aSoundKey];
 	if(numVal == nil) return 0;
@@ -486,11 +502,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
     sourceID = [self nextAvailableSource];
 
 	// If 0 is returned then no sound sources were available
+#ifdef MYDEBUG
 	if (sourceID == 0) {
 		NSLog(@"WARNING - SoundManager: No sound sources available to play %@", aSoundKey);
 		return 0;
 	}
-
+#endif
 	// Make sure that the source is clean by resetting the buffer assigned to the source
 	// to 0
 	alSourcei(sourceID, AL_BUFFER, 0);
@@ -516,12 +533,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	alSourcePlay(sourceID);
 
     // Check to see if there were any errors
+#ifdef MYDEBUG
 	alError = alGetError();
 	if(alError != 0) {
 		NSLog(@"ERROR - SoundManager: %d", alError);
 		return 0;
 	}
-
+#endif
 	// Return the source ID so that loops can be stopped etc
 	return sourceID;
 }
@@ -529,18 +547,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 - (void)stopSoundWithKey:(NSString*)aSoundKey {
 
 	// Reset errors in OpenAL
+#ifdef MYDEBUG
 	alError = alGetError();
 	alError = AL_NO_ERROR;
-
+#endif
     // Find the buffer which has been linked to the sound key provided
     NSNumber *numVal = [soundLibrary objectForKey:aSoundKey];
 
     // If the key is not found log it and finish
+#ifdef MYDEBUG
     if(numVal == nil) {
         NSLog(@"WARNING - SoundManager: No sound with key '%@' was found so cannot be stopped", aSoundKey);
         return;
     }
-
+#endif
     // Get the buffer number from
     NSUInteger bufferID = [numVal unsignedIntValue];
 	NSInteger bufferForSource;
@@ -559,8 +579,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	}
 
 	// Check for any errors
+#ifdef MYDEBUG
 	if((alError = alGetError()) != AL_NO_ERROR)
 		NSLog(@"ERROR - SoundManager: Could not stop sound with key '%@' got error %x", aSoundKey, alError);
+#endif
 }
 
 
@@ -569,12 +591,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	NSError *error;
 
 	NSString *path = [musicLibrary objectForKey:aMusicKey];
-
+#ifdef MYDEBUG
 	if(!path) {
 		NSLog(@"ERROR - SoundManager: The music key '%@' could not be found", aMusicKey);
 		return;
 	}
-
+#endif
 	if(musicPlayer)
 		[musicPlayer release];
 
@@ -582,11 +604,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
 
 	// If the backgroundMusicPlayer object is nil then there was an error
+#ifdef MYDEBUG
 	if(!musicPlayer) {
 		NSLog(@"ERROR - SoundManager: Could not play music for key '%d'", error);
 		return;
 	}
-
+#endif
 	// Set the delegate for this music player to be the sound manager
 	musicPlayer.delegate = self;
 
@@ -699,7 +722,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
 
 	if (!flag) {
+#ifdef MYDEBUG
 		NSLog(@"ERROR - SoundManager: Music finished playing due to an error.");
+#endif
 		return;
 	}
 
@@ -784,7 +809,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 	}
 
 	// We were unable to obtain a device for playing sound so tell the user and return NO.
+#ifdef MYDEBUG
     NSLog(@"ERROR - SoundManager: Unable to allocate a device for sound.");
+#endif
 	return NO;
 }
 
@@ -816,18 +843,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 #endif
         // Set the AudioSession AudioCategory to what has been defined in soundCategory
 		[audioSession setCategory:soundCategory error:&audioSessionError];
+#ifdef MYDEBUG
         if(audioSessionError) {
             NSLog(@"ERROR - SoundManager: Unable to set the audio session category");
             return;
         }
-
+#endif
         // Set the audio session state to true and report any errors
 		[audioSession setActive:YES error:&audioSessionError];
+#ifdef MYDEBUG
 		if (audioSessionError) {
             NSLog(@"ERROR - SoundManager: Unable to set the audio session state to YES with error %d.", result);
             return;
         }
-
+#endif
 		if (musicPlayer) {
 			[musicPlayer play];
 		}
