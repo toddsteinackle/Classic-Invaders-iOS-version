@@ -66,7 +66,7 @@
 	// The game is over and we want to get the players name for the score board.  We are going to a UIAlertview
 	// to do this for us.  The message which is defined as "anything" cannot be blank else the buttons on the
 	// alertview will overlap the textfield.
-	UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@"anything"
+	UIAlertView *playersNameAlertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Name" message:@" "
 																  delegate:self cancelButtonTitle:@"Dismiss"
 														 otherButtonTitles:@"OK", nil];
 
