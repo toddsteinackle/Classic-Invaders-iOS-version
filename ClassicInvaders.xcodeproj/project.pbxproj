@@ -302,7 +302,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8FD15155105A99E600201E1F /* Views */,
+				8F5E0E19112AB45C007EB939 /* ESRenderer.h */,
+				8F5E0E17112AB45C007EB939 /* ES1Renderer.h */,
+				8F5E0E18112AB45C007EB939 /* ES1Renderer.m */,
+				8F5E0E15112AB45C007EB939 /* EAGLView.h */,
+				8F5E0E16112AB45C007EB939 /* EAGLView.m */,
+				8FD15155105A99E600201E1F /* ViewControllers */,
 				1D3623240D0F684500981E51 /* ClassicInvadersAppDelegate.h */,
 				1D3623250D0F684500981E51 /* ClassicInvadersAppDelegate.m */,
 			);
@@ -673,18 +678,13 @@
 			name = "Particle Emitter Config";
 			sourceTree = "<group>";
 		};
-		8FD15155105A99E600201E1F /* Views */ = {
+		8FD15155105A99E600201E1F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				5F6A544711E27D5D006553A4 /* SettingsViewController.h */,
 				5F6A544811E27D5D006553A4 /* SettingsViewController.m */,
-				8F5E0E15112AB45C007EB939 /* EAGLView.h */,
-				8F5E0E16112AB45C007EB939 /* EAGLView.m */,
-				8F5E0E19112AB45C007EB939 /* ESRenderer.h */,
-				8F5E0E17112AB45C007EB939 /* ES1Renderer.h */,
-				8F5E0E18112AB45C007EB939 /* ES1Renderer.m */,
 			);
-			name = Views;
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		8FDCC42710D0C1D5000C15E4 /* Game */ = {
@@ -906,7 +906,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ClassicInvaders;
 				SDKROOT = iphoneos;
@@ -928,7 +928,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PRODUCT_NAME = ClassicInvaders;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3AF561A2-A1D8-4747-BCC4-345D96873308";
 				SDKROOT = iphoneos;
@@ -947,7 +947,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0828C74-AA40-4ED2-BA9D-51AB6AD622C4";
 				SDKROOT = iphoneos;
@@ -970,7 +970,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PRODUCT_NAME = ClassicInvaders;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1BD80478-30E4-468C-AF4D-23DC31BEFD5C";
 				SDKROOT = iphoneos;
@@ -989,9 +989,11 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = AdHoc;
 		};
@@ -1007,7 +1009,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PRODUCT_NAME = ClassicInvaders;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1025,7 +1027,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1043,7 +1045,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E0828C74-AA40-4ED2-BA9D-51AB6AD622C4";
 				SDKROOT = iphoneos;
