@@ -319,8 +319,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 }
 
 - (void)removeMusicWithKey:(NSString*)aMusicKey {
-    NSString *path = [musicLibrary objectForKey:aMusicKey];
 #ifdef MYDEBUG
+    NSString *path = [musicLibrary objectForKey:aMusicKey];
     if(path == NULL) {
         NSLog(@"WARNING - SoundManager: No music found with key '%@' was found so cannot be removed", aMusicKey);
         return;
@@ -333,9 +333,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 }
 
 - (void)addToPlaylistNamed:(NSString*)aPlaylistName track:(NSString*)aTrackName {
-
-	NSString *path = [musicLibrary objectForKey:aTrackName];
 #ifdef MYDEBUG
+    NSString *path = [musicLibrary objectForKey:aTrackName];
 	if (!path) {
 		NSLog(@"WARNING - SoundManager: Track '%@' does not exist in the music library and cannot be added to the play list.");
 		return;
@@ -835,8 +834,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 
 - (void)setActivated:(BOOL)aState {
 
-    OSStatus result;
-
     if(aState) {
 #ifdef MYDEBUG
         NSLog(@"INFO - SoundManager: OpenAL Active");
@@ -852,6 +849,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
         // Set the audio session state to true and report any errors
 		[audioSession setActive:YES error:&audioSessionError];
 #ifdef MYDEBUG
+        OSStatus result;
 		if (audioSessionError) {
             NSLog(@"ERROR - SoundManager: Unable to set the audio session state to YES with error %d.", result);
             return;
