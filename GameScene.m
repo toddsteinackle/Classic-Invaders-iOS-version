@@ -1458,6 +1458,7 @@
 
 #pragma mark GameOver
 		case SceneState_GameOver:
+		case SceneState_GameFinished:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 				[messageBackground_ renderAtPoint:CGPointMake(0, 0)];
 			} else {

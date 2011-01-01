@@ -19,6 +19,8 @@
 // Update the controls on the view with the current values
 - (void)updateControlValues;
 
+- (void)flipView;
+
 @end
 
 @implementation SettingsViewController
@@ -46,6 +48,8 @@
 		// Set up a notification observers
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:@"showSettings" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateControlValues) name:@"updateSettingsSliders" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+
     }
     return self;
 }
@@ -61,27 +65,11 @@
 	// Make sure the controls on the view are updated with the current values
 	[self updateControlValues];
 
-	// If the orientation is in landscape then transform the view
-	if (sharedGameController.interfaceOrientation_ == UIInterfaceOrientationLandscapeRight){
-		[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
-		self.view.transform = CGAffineTransformIdentity;
-		self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            self.view.center = CGPointMake(384, 512);
-        } else {
-            self.view.center = CGPointMake(160, 240);
-        }
-	}
-	if (sharedGameController.interfaceOrientation_ == UIInterfaceOrientationLandscapeLeft){
-		[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
-		self.view.transform = CGAffineTransformIdentity;
-		self.view.transform = CGAffineTransformMakeRotation(-M_PI_2);
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            self.view.center = CGPointMake(384, 512);
-        } else {
-            self.view.center = CGPointMake(160, 240);
-        }
-	}
+	[self flipView];
+}
+
+- (void) orientationChanged:(NSNotification *)notification {
+    [self flipView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -161,6 +149,30 @@
 	fxVolume.value = sharedSoundManager.fxVolume;
 	buttonPositions.selectedSegmentIndex = sharedGameController.buttonPositions_;
     graphicsChoice.selectedSegmentIndex = sharedGameController.graphicsChoice_;
+}
+
+- (void)flipView {
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+	if (orientation == UIDeviceOrientationLandscapeLeft) {
+		[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
+		self.view.transform = CGAffineTransformIdentity;
+		self.view.transform = CGAffineTransformMakeRotation(M_PI_2);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.view.center = CGPointMake(384, 512);
+        } else {
+            self.view.center = CGPointMake(160, 240);
+        }
+	}
+	if (orientation == UIDeviceOrientationLandscapeRight) {
+		[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
+		self.view.transform = CGAffineTransformIdentity;
+		self.view.transform = CGAffineTransformMakeRotation(-M_PI_2);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.view.center = CGPointMake(384, 512);
+        } else {
+            self.view.center = CGPointMake(160, 240);
+        }
+	}
 }
 
 @end
