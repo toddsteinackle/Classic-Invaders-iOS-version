@@ -1456,7 +1456,7 @@
 			[sharedImageRenderManager_ renderImages];
 			break;
 
-#pragma mark GameOver
+#pragma mark GameOver, GameFinished
 		case SceneState_GameOver:
 		case SceneState_GameFinished:
 			if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -1504,7 +1504,10 @@
 						}
 					}
 				}
+			} else {
+				nameToBeEntered_ = FALSE;
 			}
+
 			[statusFont_ renderStringJustifiedInFrame:bottom
 										justification:BitmapFontJustification_MiddleCentered
 												 text:@"Tap to return to menu."];
