@@ -107,7 +107,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SoundManager);
 		musicPlaylists = [[NSMutableDictionary alloc] init];
 
 		// Grab a reference to the AVAudioSession singleton
-		audioSession = [AVAudioSession sharedInstance];
+        audioSession = [AVAudioSession sharedInstance];
+        [audioSession setDelegate:self];
 
 		// Now we have initialized the sound engine using ambient sound, we can check to see if ipod music is already playing.
 		// If that is the case then you can leave the sound category as AmbientSound.  If ipod music is not playing we can set the
