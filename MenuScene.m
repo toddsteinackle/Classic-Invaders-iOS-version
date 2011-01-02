@@ -43,6 +43,7 @@
     [monoMenuFont_ release];
     [monoScoreHighlightFont_ release];
     [monoHelpFont_ release];
+    [mainMenuViewController_ release];
 
 	[super dealloc];
 }
@@ -562,45 +563,6 @@
 	// x and y coordinates
 	CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
-	// We only want to check the touches on the screen when the scene is running.
-	if (state_ == SceneState_Running) {
-		// Check to see if the user touched the start button
-		if (CGRectContainsPoint(startButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			state_ = SceneState_TransitionOut;
-			alpha_ = 0;
-			return;
-		}
-
-		if (CGRectContainsPoint(scoreButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			alpha_ = 0;
-			state_ = SceneState_Scores;
-			return;
-		}
-
-		if (CGRectContainsPoint(helpButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			alpha_ = 0;
-			state_ = SceneState_Help;
-			return;
-		}
-
-        if (CGRectContainsPoint(aboutButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			alpha_ = 0;
-			state_ = SceneState_About;
-			return;
-		}
-
-        if (CGRectContainsPoint(settingButtonBounds_, touchLocation)) {
-			[sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-			alpha_ = 0;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"showSettings" object:self];
-			return;
-		}
-
-	}
     if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_About) {
         if (CGRectContainsPoint(screenBounds_, touchLocation)) {
             [sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];

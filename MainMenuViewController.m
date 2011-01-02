@@ -175,9 +175,6 @@
 @implementation MainMenuViewController (Private)
 
 - (void)show {
-
-    NSLog(@"inside MainMenu show");
-
 	// Add this view as a subview of EAGLView
 	[sharedGameController.eaglView_ addSubview:self.view];
 
