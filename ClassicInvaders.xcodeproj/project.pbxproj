@@ -101,6 +101,12 @@
 		5FB952EF11B42939007EC6BC /* mono50green.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952ED11B42939007EC6BC /* mono50green.png */; };
 		5FB952F611B42AE5007EC6BC /* mono50purple.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952F411B42AE5007EC6BC /* mono50purple.fnt */; };
 		5FB952F711B42AE5007EC6BC /* mono50purple.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952F511B42AE5007EC6BC /* mono50purple.png */; };
+		5FFB3D2C12D0D2E700DF2B61 /* iPadLargeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D2B12D0D2E700DF2B61 /* iPadLargeButton.png */; };
+		5FFB3D3C12D0D6A400DF2B61 /* iPadSmallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D3B12D0D6A400DF2B61 /* iPadSmallButton.png */; };
+		5FFB3D4512D0D9A300DF2B61 /* iPadSettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4412D0D9A300DF2B61 /* iPadSettingsButton.png */; };
+		5FFB3D4B12D0DC1100DF2B61 /* iPhoneLargeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4912D0DC1100DF2B61 /* iPhoneLargeButton.png */; };
+		5FFB3D4C12D0DC1100DF2B61 /* iPhoneSmallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4A12D0DC1100DF2B61 /* iPhoneSmallButton.png */; };
+		5FFB3D4F12D0DD3800DF2B61 /* iPhoneSettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4E12D0DD3800DF2B61 /* iPhoneSettingsButton.png */; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
 		8F8569DC10C3E8F2008E53F8 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F8569DB10C3E8F2008E53F8 /* dist.plist */; };
@@ -248,6 +254,12 @@
 		5FB952ED11B42939007EC6BC /* mono50green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mono50green.png; sourceTree = "<group>"; };
 		5FB952F411B42AE5007EC6BC /* mono50purple.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mono50purple.fnt; sourceTree = "<group>"; };
 		5FB952F511B42AE5007EC6BC /* mono50purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mono50purple.png; sourceTree = "<group>"; };
+		5FFB3D2B12D0D2E700DF2B61 /* iPadLargeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadLargeButton.png; sourceTree = "<group>"; };
+		5FFB3D3B12D0D6A400DF2B61 /* iPadSmallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadSmallButton.png; sourceTree = "<group>"; };
+		5FFB3D4412D0D9A300DF2B61 /* iPadSettingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadSettingsButton.png; sourceTree = "<group>"; };
+		5FFB3D4912D0DC1100DF2B61 /* iPhoneLargeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneLargeButton.png; sourceTree = "<group>"; };
+		5FFB3D4A12D0DC1100DF2B61 /* iPhoneSmallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSmallButton.png; sourceTree = "<group>"; };
+		5FFB3D4E12D0DD3800DF2B61 /* iPhoneSettingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSettingsButton.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
 		8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookAntiqua32.png; sourceTree = "<group>"; };
@@ -649,15 +661,21 @@
 				5F296CE411EA6530002D2B27 /* menu_pss.plist */,
 				5F6A54AE11E2BEB5006553A4 /* iPhone-settings-background.png */,
 				5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */,
+				5FFB3D2B12D0D2E700DF2B61 /* iPadLargeButton.png */,
 				5F296C0211EA3272002D2B27 /* iPadBackgroundEnds.png */,
 				5F296C0311EA3272002D2B27 /* iPadBackgroundLeft.png */,
 				5F296C0411EA3272002D2B27 /* iPadBackgroundRight.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
 				5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */,
+				5FFB3D3B12D0D6A400DF2B61 /* iPadSmallButton.png */,
 				5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */,
 				5FB9529411B418D1007EC6BC /* allBlack-iPad.png */,
+				5FFB3D4912D0DC1100DF2B61 /* iPhoneLargeButton.png */,
+				5FFB3D4A12D0DC1100DF2B61 /* iPhoneSmallButton.png */,
 				5F939A7F11B60118008AD4A3 /* iPadMenuBackground.png */,
 				5F1D43C6114D8DB200797E5B /* pss.png */,
+				5FFB3D4E12D0DD3800DF2B61 /* iPhoneSettingsButton.png */,
+				5FFB3D4412D0D9A300DF2B61 /* iPadSettingsButton.png */,
 				8FFBD21E10EB74600002C000 /* texture.png */,
 				8FB4D43410AD6304003ADC58 /* allBlack.png */,
 			);
@@ -849,6 +867,12 @@
 				5F296CE611EA6530002D2B27 /* menu_pss.plist in Resources */,
 				5F234C3712CF7DB700F26D39 /* MainMenuViewController-iPad.xib in Resources */,
 				5F234D3912CFF3DD00F26D39 /* MainMenuViewController.xib in Resources */,
+				5FFB3D2C12D0D2E700DF2B61 /* iPadLargeButton.png in Resources */,
+				5FFB3D3C12D0D6A400DF2B61 /* iPadSmallButton.png in Resources */,
+				5FFB3D4512D0D9A300DF2B61 /* iPadSettingsButton.png in Resources */,
+				5FFB3D4B12D0DC1100DF2B61 /* iPhoneLargeButton.png in Resources */,
+				5FFB3D4C12D0DC1100DF2B61 /* iPhoneSmallButton.png in Resources */,
+				5FFB3D4F12D0DD3800DF2B61 /* iPhoneSettingsButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
