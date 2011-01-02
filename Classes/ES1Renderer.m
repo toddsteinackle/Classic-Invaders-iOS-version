@@ -136,10 +136,15 @@
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-	// Rotate the OpenGL model view to the left 90 degrees so that everything is rendered in landscape
-	// mode
+	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+    GLfloat direction;
+	if (orientation == UIDeviceOrientationLandscapeRight) {
+        direction = 90;
+    } else {
+        direction = -90;
+    }
 	glTranslatef(backingWidth/2, backingHeight/2, 0);
-	glRotatef(90, 0, 0, 1);
+	glRotatef(direction, 0, 0, 1);
 	glTranslatef(-backingHeight/2,-backingWidth/2,0);
 
 	// Setup the texture environment and blend functions.

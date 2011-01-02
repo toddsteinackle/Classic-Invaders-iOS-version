@@ -94,7 +94,6 @@
 		5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */; };
 		5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */; };
 		5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */; };
-		5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */; };
 		5FA4005711B198A5000555A4 /* playerRebirth.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5FA4005611B198A5000555A4 /* playerRebirth.xml */; };
 		5FB9529511B418D1007EC6BC /* allBlack-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FB9529411B418D1007EC6BC /* allBlack-iPad.png */; };
 		5FB952EE11B42939007EC6BC /* mono50green.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 5FB952EC11B42939007EC6BC /* mono50green.fnt */; };
@@ -247,7 +246,6 @@
 		5FA2CB6C11BB16E500DC14D8 /* iPadAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPadAppIcon.png; sourceTree = "<group>"; };
 		5FA2CB6D11BB16E500DC14D8 /* iPhoneAppIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneAppIcon.png; sourceTree = "<group>"; };
 		5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Landscape.png"; sourceTree = "<group>"; };
-		5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPad-Portrait.png"; sourceTree = "<group>"; };
 		5FA4005611B198A5000555A4 /* playerRebirth.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = playerRebirth.xml; sourceTree = "<group>"; };
 		5FB9529411B418D1007EC6BC /* allBlack-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "allBlack-iPad.png"; sourceTree = "<group>"; };
 		5FB952EC11B42939007EC6BC /* mono50green.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mono50green.fnt; sourceTree = "<group>"; };
@@ -666,7 +664,6 @@
 				5F296C0311EA3272002D2B27 /* iPadBackgroundLeft.png */,
 				5F296C0411EA3272002D2B27 /* iPadBackgroundRight.png */,
 				5F1F1D4F11BB007F004D39CA /* Default.png */,
-				5FA2CBA211BB29D100DC14D8 /* iPad-Portrait.png */,
 				5FFB3D3B12D0D6A400DF2B61 /* iPadSmallButton.png */,
 				5FA2CB8F11BB247C00DC14D8 /* iPad-Landscape.png */,
 				5FB9529411B418D1007EC6BC /* allBlack-iPad.png */,
@@ -855,7 +852,6 @@
 				5FA2CB6E11BB16E500DC14D8 /* iPadAppIcon.png in Resources */,
 				5FA2CB6F11BB16E500DC14D8 /* iPhoneAppIcon.png in Resources */,
 				5FA2CB9011BB247C00DC14D8 /* iPad-Landscape.png in Resources */,
-				5FA2CBA311BB29D100DC14D8 /* iPad-Portrait.png in Resources */,
 				5F6A544B11E27D5D006553A4 /* SettingsViewController.xib in Resources */,
 				5F6A54AF11E2BEB5006553A4 /* iPhone-settings-background.png in Resources */,
 				5F0833CC11E5505100DA5634 /* SettingsViewController-iPad.xib in Resources */,

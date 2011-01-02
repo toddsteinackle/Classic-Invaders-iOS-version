@@ -27,10 +27,10 @@
 
 	[glView_ setMultipleTouchEnabled:YES];
 
-    sharedGameController_.interfaceOrientation_ = UIInterfaceOrientationLandscapeLeft;
+    sharedGameController_.interfaceOrientation_ = UIInterfaceOrientationLandscapeRight;
 	// Start getting device orientation notifications
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeLeft];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
 
     [sharedGameController_ loadSettings];
 
