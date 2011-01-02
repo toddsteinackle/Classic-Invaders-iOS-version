@@ -11,6 +11,7 @@
 @class PackedSpriteSheet;
 @class Animation;
 @class SpriteSheet;
+@class MainMenuViewController;
 
 @interface MenuScene : AbstractScene {
 
@@ -57,6 +58,8 @@
     BitmapFont *monoHelpFont_;
 
     NSArray *highScores_;
+
+    MainMenuViewController *mainMenuViewController_;
 }
 
 @end

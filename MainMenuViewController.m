@@ -1,41 +1,25 @@
 //
-//  SettingsViewController.m
+//  MainMenuViewController.m
 //  ClassicInvaders
 //
-//  Created by Todd Steinackle on 7/5/10.
-//  Copyright 2010 The No Quarter Arcade. All rights reserved.
+//  Created by Todd Steinackle on 1/1/11.
+//  Copyright 2011 The No Quarter Arcade. All rights reserved.
 //
 
-#import "SettingsViewController.h"
+#import "MainMenuViewController.h"
 #import "SoundManager.h"
 #import "GameController.h"
 #import "AbstractScene.h"
 
-@interface SettingsViewController (Private)
+@interface MainMenuViewController (Private)
 
-// Moves the high score view into view when a showHighScore notification is received.
 - (void)show;
-
-// Update the controls on the view with the current values
-- (void)updateControlValues;
 
 @end
 
-@implementation SettingsViewController
+@implementation MainMenuViewController
 
-#pragma mark -
-#pragma mark Deallocation
-
-- (void)dealloc {
-	// Remove observers that have been set up
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSettings" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"updateSettingsSliders" object:nil];
-
-    [super dealloc];
-}
-
-#pragma mark -
-#pragma mark Init view
+@synthesize menuScene;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -44,8 +28,7 @@
 		sharedGameController = [GameController sharedGameController];
 
 		// Set up a notification observers
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:@"showSettings" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateControlValues) name:@"updateSettingsSliders" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(show) name:@"showMainMenu" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 
     }
@@ -59,9 +42,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 	// Set the initial alpha of the view
 	self.view.alpha = 0;
-
-	// Make sure the controls on the view are updated with the current values
-	[self updateControlValues];
 
 	if (sharedGameController.interfaceOrientation_ == UIInterfaceOrientationLandscapeRight) {
 		[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight];
@@ -110,30 +90,6 @@
 	}
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-
-}
-
-#pragma mark -
-#pragma mark UI Actions
-
-- (IBAction)backgroundValueChanged:(UISlider*)sender {
-	sharedSoundManager.bgVolume = [sender value];
-}
-
-- (IBAction)fxValueChanged:(UISlider*)sender {
-	sharedSoundManager.fxVolume = [sender value];
-}
-
-- (IBAction)buttonPositionsChanged:(UISegmentedControl*)sender {
-	sharedGameController.buttonPositions_ = sender.selectedSegmentIndex;
-}
-
-- (IBAction)grahicsChoiceChanged:(UISegmentedControl*)sender {
-    sharedGameController.graphicsChoice_ = sender.selectedSegmentIndex;
-}
-
-
 #pragma mark -
 #pragma mark Rotating and hiding
 
@@ -141,7 +97,7 @@
 	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
-- (IBAction)hide:(id)sender {
+- (void)hide:(id)sender {
 
 	[sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
 
@@ -162,14 +118,65 @@
 	[self.view removeFromSuperview];
 }
 
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+
+    // Release any cached data, images, etc. that aren't in use.
+}
+
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+- (IBAction)newGame:(id)aSender {
+    [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    menuScene.state_ = SceneState_TransitionOut;
+    menuScene.alpha_ = 0;
+    [self hide:self];
+}
+- (IBAction)highScores:(id)aSender {
+    [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    menuScene.state_ = SceneState_Scores;
+    menuScene.alpha_ = 0;
+    [self hide:self];
+}
+- (IBAction)showHelp:(id)aSender {
+    [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    menuScene.state_ = SceneState_Help;
+    menuScene.alpha_ = 0;
+    [self hide:self];
+}
+- (IBAction)showAbout:(id)aSender {
+    [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    menuScene.state_ = SceneState_About;
+    menuScene.alpha_ = 0;
+    [self hide:self];
+}
+- (IBAction)showSettings:(id)aSender {
+    [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    menuScene.alpha_ = 0;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"showSettings" object:self];
+}
+
 @end
 
 #pragma mark -
 #pragma mark Private implementation
 
-@implementation SettingsViewController (Private)
+@implementation MainMenuViewController (Private)
 
 - (void)show {
+
+    NSLog(@"inside MainMenu show");
 
 	// Add this view as a subview of EAGLView
 	[sharedGameController.eaglView_ addSubview:self.view];
@@ -178,15 +185,6 @@
 	[UIView beginAnimations:nil context:NULL];
 	self.view.alpha = 1.0f;
 	[UIView commitAnimations];
-}
-
-- (void)updateControlValues {
-
-	// Set the views control values based on the game controllers values
-	bgVolume.value = sharedSoundManager.bgVolume;
-	fxVolume.value = sharedSoundManager.fxVolume;
-	buttonPositions.selectedSegmentIndex = sharedGameController.buttonPositions_;
-    graphicsChoice.selectedSegmentIndex = sharedGameController.graphicsChoice_;
 }
 
 @end

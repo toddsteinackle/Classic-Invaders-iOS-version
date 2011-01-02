@@ -13,6 +13,7 @@
 #import "SpriteSheet.h"
 #import "Score.h"
 #import "Animation.h"
+#import "MainMenuViewController.h"
 
 @implementation MenuScene
 
@@ -45,12 +46,6 @@
 
 	[super dealloc];
 }
-
-// Set up the strings for the menu items
-# define startString @"New Game"
-# define scoreString @"High Scores"
-# define helpString @"Help"
-# define aboutString @"About"
 
 - (id)init {
 
@@ -222,6 +217,13 @@
 
 		// Set the initial state for the menu
 		state_ = SceneState_Idle;
+
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            mainMenuViewController_ = [[MainMenuViewController alloc] initWithNibName:@"MainMenuViewController-iPad" bundle:[NSBundle mainBundle]];
+        } else {
+            mainMenuViewController_ = [[MainMenuViewController alloc] initWithNibName:@"MainMenuViewController" bundle:[NSBundle mainBundle]];
+        }
+        mainMenuViewController_.menuScene = self;
 	}
 	return self;
 }
@@ -238,7 +240,6 @@
 			break;
 
 		case SceneState_TransitionIn:
-
 			// Update the alpha value of the fadeImage
 			alpha_ -= fadeSpeed_ * aDelta;
 			fadeImage_.color = Color4fMake(1.0, 1.0, 1.0, alpha_);
@@ -246,6 +247,7 @@
 			if(alpha_ < 0.0f) {
 				alpha_ = 0.0f;
 				state_ = SceneState_Running;
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"showMainMenu" object:self];
 			}
 
 			break;
@@ -290,30 +292,6 @@
 	// at the menu.  This is recommended by apple and helps to save power
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        CGFloat x = 80.0f;
-        CGFloat alienScale = 3.0f;
-        CGFloat alienHeight = 30 * alienScale;
-        CGFloat verticalPadding = 90.0f;
-
-        aboutButtonBounds_ = CGRectMake(x, verticalPadding, 900, alienHeight);
-        helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 900, alienHeight);
-        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 900, alienHeight);
-        startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 900, alienHeight);
-        settingButtonBounds_ = CGRectMake(750, 0, 300, 80);
-    } else {
-        CGFloat x = 40.0f;
-        CGFloat alienScale = 1.75f;
-        CGFloat alienHeight = 30 * alienScale;
-        CGFloat verticalPadding = 22.5f;
-
-        aboutButtonBounds_ = CGRectMake(x, verticalPadding, 300, alienHeight);
-        helpButtonBounds_ = CGRectMake(x, alienHeight+verticalPadding*2, 400, alienHeight);
-        scoreButtonBounds_ = CGRectMake(x, alienHeight*2+verticalPadding*3, 400, alienHeight);
-        startButtonBounds_ = CGRectMake(x, alienHeight*3+verticalPadding*4, 400, alienHeight);
-        settingButtonBounds_ = CGRectMake(350, 0, 130, 75);
-    }
-
     highScores_ = sharedGameController_.highScores_;
 #ifdef MYDEBUG
     for (Score *s in highScores_) {
@@ -352,11 +330,6 @@
                 [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
                 [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             }
-            [menuFont_ renderStringJustifiedInFrame:aboutButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:aboutString];
-            [menuFont_ renderStringJustifiedInFrame:helpButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
-            [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
-            [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
-            [menuFont_ renderStringAt:CGPointMake(765, 5) text:@"Settings"];
 
             [sharedImageRenderManager_ renderImages];
         }
@@ -479,13 +452,6 @@
                 [alien6_ renderAtPoint:CGPointMake(x, alienHeight*2+verticalPadding*3) scale:Scale2fMake(animScale, animScale) rotation:0];
                 [alien4_ renderAtPoint:CGPointMake(x, alienHeight*3+verticalPadding*4) scale:Scale2fMake(animScale, animScale) rotation:0];
             }
-
-            [menuFont_ renderStringAt:CGPointMake(200, 30) text:aboutString];
-            [menuFont_ renderStringJustifiedInFrame:helpButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:helpString];
-            [menuFont_ renderStringJustifiedInFrame:scoreButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:scoreString];
-            [menuFont_ renderStringJustifiedInFrame:startButtonBounds_ justification:BitmapFontJustification_MiddleCentered text:startString];
-
-            [monoHelpFont_ renderStringAt:CGPointMake(363, 10) text:@"Settings"];
 
             [sharedImageRenderManager_ renderImages];
         }
@@ -638,7 +604,8 @@
     if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_About) {
         if (CGRectContainsPoint(screenBounds_, touchLocation)) {
             [sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-            state_ = SceneState_Running;
+            alpha_ = 0;
+            state_ = SceneState_TransitionIn;
             return;
         }
     }
