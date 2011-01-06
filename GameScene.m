@@ -73,11 +73,18 @@
 
 	// A normal alterview is in the middle of the screen, so we move it up else the keyboard for the textfield
 	// will be rendered over the alert view
-	CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
-	playersNameAlertView.transform = transform;
+	// Positioning not needed for iOS 4.0 or greater
+	NSString *reqSysVer = @"4.0";
+	NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+	BOOL osVersionSupported = ([currSysVer compare:reqSysVer
+										   options:NSNumericSearch] != NSOrderedAscending);
+	if (!osVersionSupported) {
+		CGAffineTransform transform = CGAffineTransformMakeTranslation(0, 80);
+		playersNameAlertView.transform = transform;
+	}
 
 	// Now we have moved the view we need to create a UITextfield to add to the view
-	UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 45, 260, 20)];
+	UITextField *playersNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(12, 38, 260, 20)];
 
 	// We set the background to white and the tag to 99.  This allows us to reference the text field in the alert
 	// view later on to get the text that is typed in.  We also set it to becomeFirstResponder so that the keyboard
