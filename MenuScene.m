@@ -230,7 +230,8 @@
 }
 
 - (void)updateSceneWithDelta:(float)aDelta {
-	switch (state_) {
+    [mainMenuViewController_ setScoreButton];
+    switch (state_) {
 		case SceneState_Running:
             [alien1_ updateWithDelta:aDelta];
             [alien2_ updateWithDelta:aDelta];

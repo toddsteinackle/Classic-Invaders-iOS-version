@@ -10,6 +10,7 @@
 #import "SoundManager.h"
 #import "GameController.h"
 #import "AbstractScene.h"
+#import "ClassicInvadersAppDelegate.h"
 
 @interface MainMenuViewController (Private)
 
@@ -63,6 +64,16 @@
             self.view.center = CGPointMake(160, 240);
         }
 	}
+    appDelegate = (ClassicInvadersAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.mainMenuViewController_ = self;
+}
+
+- (void)setScoreButton {
+    if (sharedGameController.localPlayerAuthenticated_) {
+        [scoreButton setTitle:@"Leaderboard" forState:UIControlStateNormal];
+    } else {
+        [scoreButton setTitle:@"High Scores" forState:UIControlStateNormal];
+    }
 }
 
 - (void) orientationChanged:(NSNotification *)notification {

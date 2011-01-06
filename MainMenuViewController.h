@@ -11,11 +11,14 @@
 @class SoundManager;
 @class GameController;
 @class AbstractScene;
+@class ClassicInvadersAppDelegate;
 
 @interface MainMenuViewController : UIViewController {
     SoundManager *sharedSoundManager;
 	GameController *sharedGameController;
     AbstractScene *menuScene;
+    ClassicInvadersAppDelegate *appDelegate;
+    IBOutlet UIButton *scoreButton;
 }
 
 @property (nonatomic, assign) AbstractScene *menuScene;
@@ -26,5 +29,6 @@
 - (IBAction)showHelp:(id)aSender;
 - (IBAction)showAbout:(id)aSender;
 - (IBAction)showSettings:(id)aSender;
+- (void)setScoreButton;
 
 @end

@@ -106,6 +106,7 @@
 		5FFB3D4B12D0DC1100DF2B61 /* iPhoneLargeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4912D0DC1100DF2B61 /* iPhoneLargeButton.png */; };
 		5FFB3D4C12D0DC1100DF2B61 /* iPhoneSmallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4A12D0DC1100DF2B61 /* iPhoneSmallButton.png */; };
 		5FFB3D4F12D0DD3800DF2B61 /* iPhoneSettingsButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FFB3D4E12D0DD3800DF2B61 /* iPhoneSettingsButton.png */; };
+		5FFB3DF312D14C2D00DF2B61 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FFB3DF212D14C2D00DF2B61 /* GameKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8F085E6110F0A56E00E5DC0D /* bookAntiqua32.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */; };
 		8F085E6310F0A56E00E5DC0D /* bookAntiqua32.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */; };
 		8F8569DC10C3E8F2008E53F8 /* dist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8F8569DB10C3E8F2008E53F8 /* dist.plist */; };
@@ -258,6 +259,7 @@
 		5FFB3D4912D0DC1100DF2B61 /* iPhoneLargeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneLargeButton.png; sourceTree = "<group>"; };
 		5FFB3D4A12D0DC1100DF2B61 /* iPhoneSmallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSmallButton.png; sourceTree = "<group>"; };
 		5FFB3D4E12D0DD3800DF2B61 /* iPhoneSettingsButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iPhoneSettingsButton.png; sourceTree = "<group>"; };
+		5FFB3DF212D14C2D00DF2B61 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* ClassicInvaders-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ClassicInvaders-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		8F085E5D10F0A56E00E5DC0D /* bookAntiqua32.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bookAntiqua32.fnt; sourceTree = "<group>"; };
 		8F085E5F10F0A56E00E5DC0D /* bookAntiqua32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bookAntiqua32.png; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				18B97166103AAB0F00809077 /* CoreGraphics.framework in Frameworks */,
 				18B97168103AAB0F00809077 /* OpenAL.framework in Frameworks */,
 				18B97330103AAB2F00809077 /* libz.dylib in Frameworks */,
+				5FFB3DF312D14C2D00DF2B61 /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,6 +649,7 @@
 				28FD14FF0DC6FC520079059D /* OpenGLES.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				5FFB3DF212D14C2D00DF2B61 /* GameKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

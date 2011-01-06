@@ -6,11 +6,26 @@
 #import "SoundManager.h"
 #import "GameController.h"
 #import "GameScene.h"
+#import "MainMenuViewController.h"
+#import <GameKit/GameKit.h>
+
+BOOL isGameCenterAvailable()
+{
+    // Check for presence of GKLocalPlayer API.
+    Class gcClass = (NSClassFromString(@"GKLocalPlayer"));
+    // The device must be running running iOS 4.1 or later.
+    NSString *reqSysVer = @"4.1";
+    NSString *currSysVer = [[UIDevice currentDevice] systemVersion];
+    BOOL osVersionSupported = ([currSysVer compare:reqSysVer
+                                           options:NSNumericSearch] != NSOrderedAscending);
+    return (gcClass && osVersionSupported);
+}
 
 @implementation ClassicInvadersAppDelegate
 
 @synthesize window_;
 @synthesize glView_;
+@synthesize mainMenuViewController_;
 
 - (void) dealloc
 {
@@ -21,7 +36,7 @@
 
 - (void) applicationDidFinishLaunching:(UIApplication *)application
 {
-	// Grab a reference to the sound manager
+	// Grab a reference to the game and sound managers
 	sharedGameController_ = [GameController sharedGameController];
 	sharedSoundManager_ = [SoundManager sharedSoundManager];
 
@@ -36,6 +51,75 @@
 
 	// Start the game
 	[glView_ startAnimation];
+
+    sharedGameController_.localPlayerAuthenticated_ = FALSE;
+    if (isGameCenterAvailable()) {
+#ifdef MYDEBUG
+        NSLog(@"Game Center Available");
+#endif
+        [self authenticateLocalPlayer];
+        [self registerForAuthenticationNotification];
+        [mainMenuViewController_ setScoreButton];
+    } else {
+#ifdef MYDEBUG
+        NSLog(@"Game Center Not Available");
+#endif
+        [mainMenuViewController_ setScoreButton];
+    }
+}
+
+- (void) authenticateLocalPlayer
+{
+    [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error) {
+        if (error == nil)
+        {
+            // Insert code here to handle a successful authentication.
+#ifdef MYDEBUG
+            NSLog(@"player authenticated -- initial");
+#endif
+            sharedGameController_.localPlayerAuthenticated_ = TRUE;
+            [mainMenuViewController_ setScoreButton];
+
+        }
+        else
+        {
+            // Your application can process the error parameter to report the error to the player.
+#ifdef MYDEBUG
+            NSLog(@"GC authenticateWithCompletionHandler error");
+#endif
+            sharedGameController_.localPlayerAuthenticated_ = FALSE;
+            [mainMenuViewController_ setScoreButton];
+        }
+    }];
+}
+
+- (void) registerForAuthenticationNotification
+{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver: self
+           selector:@selector(authenticationChanged)
+               name:GKPlayerAuthenticationDidChangeNotificationName
+             object:nil];
+}
+
+- (void) authenticationChanged
+{
+    if ([GKLocalPlayer localPlayer].isAuthenticated) {
+        // Insert code here to handle a successful authentication.
+#ifdef MYDEBUG
+        NSLog(@"player authenticated -- authenticationChanged");
+#endif
+        sharedGameController_.localPlayerAuthenticated_ = TRUE;
+        [mainMenuViewController_ setScoreButton];
+    } else {
+#ifdef MYDEBUG
+        NSLog(@"authenticationChanged player not authenticated");
+#endif
+        // Insert code here to clean up any outstanding Game Center-related classes.
+        sharedGameController_.localPlayerAuthenticated_ = FALSE;
+        [mainMenuViewController_ setScoreButton];
+    }
+
 }
 
 - (void) applicationWillResignActive:(UIApplication *)application

@@ -26,6 +26,7 @@
 #import "ShieldPiece.h"
 #import "Score.h"
 #import "AlienShot.h"
+#import <GameKit/GameKit.h>
 
 #pragma mark -
 #pragma mark Private interface
@@ -396,6 +397,7 @@
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
 	score_ = 0;
+	nameToBeEntered_ = FALSE;
 	for (Score *s in sharedGameController_.highScores_) {
 		s.isMostRecentScore_ = FALSE;
 	}
@@ -1481,7 +1483,7 @@
 									   justification:BitmapFontJustification_BottomCentered
 												text:[NSString stringWithFormat:@"Wave: %d", wave_]];
 			CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
-			if (score_ > 0) {
+			if (score_ > 0 && !sharedGameController_.localPlayerAuthenticated_) {
 				if ([sharedGameController_.highScores_ count] < 10) {
 					[statusFont_ renderStringJustifiedInFrame:bottom
 											   justification:BitmapFontJustification_MiddleCentered
@@ -1504,13 +1506,12 @@
 						}
 					}
 				}
-			} else {
-				nameToBeEntered_ = FALSE;
 			}
 
 			[statusFont_ renderStringJustifiedInFrame:bottom
-										justification:BitmapFontJustification_MiddleCentered
-												 text:@"Tap to return to menu."];
+											justification:BitmapFontJustification_MiddleCentered
+													 text:@"Tap to return to menu."];
+
 			[sharedImageRenderManager_ renderImages];
 			state_ = SceneState_GameFinished;
 			break;
@@ -1737,6 +1738,14 @@
 				[self getPlayerName];
 				nameToBeEntered_ = FALSE;
 				return;
+			}
+			if (score_ > 0 && sharedGameController_.localPlayerAuthenticated_) {
+				if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+					[self reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPadLeaderboard"];
+				} else {
+					[self reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPhoneLeaderboard"];
+				}
+				[sharedGameController_ transitionToSceneWithKey:@"menu"];
 			}
 			[sharedGameController_ transitionToSceneWithKey:@"menu"];
 		}
@@ -2063,6 +2072,18 @@
 			[sharedSoundManager_ stopSoundWithKey:@"bg"];
 			break;
 	}
+}
+
+- (void)reportScore:(int64_t)score forCategory:(NSString*)category
+{
+	GKScore *scoreReporter = [[[GKScore alloc] initWithCategory:category] autorelease];
+	scoreReporter.value = score;
+	[scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+		if (error != nil)
+		{
+			NSLog(@"%@", error);
+		}
+	}];
 }
 
 @end

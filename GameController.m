@@ -39,6 +39,7 @@
 @synthesize interfaceOrientation_;
 @synthesize buttonPositions_;
 @synthesize graphicsChoice_;
+@synthesize localPlayerAuthenticated_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);

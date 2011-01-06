@@ -41,6 +41,8 @@
 	NSString *settingsFilePath;				// Location of the settings file
 
     SettingsViewController *settingsViewController_;			// Displays the settings
+    BOOL gameCenterAvailable;
+    BOOL localPlayerAuthenticated;
 
 }
 
@@ -51,6 +53,7 @@
 @property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation_;
 @property (nonatomic, assign) int buttonPositions_;
 @property (nonatomic, assign) int graphicsChoice_;
+@property (nonatomic, assign) BOOL localPlayerAuthenticated_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class
