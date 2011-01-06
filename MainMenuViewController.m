@@ -36,6 +36,12 @@
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showMainMenu" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
+    [super dealloc];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -141,11 +147,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [super dealloc];
 }
 
 - (IBAction)newGame:(id)aSender {

@@ -30,6 +30,7 @@
 	// Remove observers that have been set up
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"showSettings" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"updateSettingsSliders" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 
     [super dealloc];
 }
