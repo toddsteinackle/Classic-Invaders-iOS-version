@@ -944,7 +944,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ClassicInvaders;
 				SDKROOT = iphoneos;
@@ -966,7 +966,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = ClassicInvaders;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3AF561A2-A1D8-4747-BCC4-345D96873308";
 				SDKROOT = iphoneos;
@@ -1008,7 +1008,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = ClassicInvaders;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1BD80478-30E4-468C-AF4D-23DC31BEFD5C";
 				SDKROOT = iphoneos;
@@ -1047,7 +1047,7 @@
 				"GCC_THUMB_SUPPORT[arch=armv6]" = NO;
 				"GCC_THUMB_SUPPORT[arch=armv7]" = NO;
 				INFOPLIST_FILE = "ClassicInvaders-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PRODUCT_NAME = ClassicInvaders;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
