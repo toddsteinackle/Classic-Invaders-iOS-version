@@ -100,6 +100,5 @@
 - (void)playerKilled;
 - (void)alienKilledWithPosition:(int)position points:(int)points playerFlag:(bool)killedByPlayer;
 - (void)bonusShipDestroyedWithPoints:(int)points;
-- (void)reportScore:(int64_t)score forCategory:(NSString*)category;
 
 @end

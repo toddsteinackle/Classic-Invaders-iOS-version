@@ -41,8 +41,11 @@
 	NSString *settingsFilePath;				// Location of the settings file
 
     SettingsViewController *settingsViewController_;			// Displays the settings
+
+    // Game Center
     BOOL gameCenterAvailable;
     BOOL localPlayerAuthenticated;
+    NSMutableArray *gkScores_;
 
 }
 
@@ -85,5 +88,10 @@
 
 // Saves the current settings
 - (void)saveSettings;
+
+// Game Center
+- (void)reportScore:(int64_t)score forCategory:(NSString*)category;
+- (void)saveGKScores;
+- (void)loadAndReportGKScores;
 
 @end

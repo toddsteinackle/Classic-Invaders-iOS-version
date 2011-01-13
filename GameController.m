@@ -11,6 +11,7 @@
 #import "EAGLView.h"
 #import "Score.h"
 #import "SettingsViewController.h"
+#import <GameKit/GameKit.h>
 
 #pragma mark -
 #pragma mark Private interface
@@ -49,6 +50,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     [gameScenes_ release];
 	[highScores_ release];
     [settingsViewController_ release];
+    [gkScores_ release];
     [super dealloc];
 }
 
@@ -116,6 +118,106 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[s release];
 	[self saveHighScores];
 	[self sortHighScores];
+}
+
+#pragma mark -
+#pragma mark Game Center
+
+- (void)saveGKScores {
+	// Set up the path to the data file that the scores will be saved too.
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	NSString *scoresPath = [documentsDirectory stringByAppendingPathComponent:@"GKScores.dat"];
+
+	// Set up the encoder and storage for scores
+	NSMutableData *scores;
+	NSKeyedArchiver *encoder;
+	scores = [NSMutableData data];
+	encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:scores];
+
+	// Archive the scores
+	[encoder encodeObject:gkScores_ forKey:@"GKScores"];
+
+	// Finish encoding and write the contents of scores to file
+	[encoder finishEncoding];
+	[scores writeToFile:scoresPath atomically:YES];
+	[encoder release];
+}
+
+- (void)loadAndReportGKScores {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+
+	NSMutableData *highScoresData;
+    NSKeyedUnarchiver *decoder;
+
+    // Check to see if the GKScores.dat file exists and if so load the contents into the
+    // highScores array
+    NSString *documentPath = [documentsDirectory stringByAppendingPathComponent:@"GKScores.dat"];
+
+	highScoresData = [NSData dataWithContentsOfFile:documentPath];
+
+	if (highScoresData) {
+		decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:highScoresData];
+		gkScores_ = [[decoder decodeObjectForKey:@"GKScores"] retain];
+		[decoder release];
+#ifdef MYDEBUG
+        NSLog(@"before calling reportScore in loadAndReportGKScores");
+        for (GKScore *gkScore in gkScores_) {
+            NSLog(@"%@", gkScore);
+        }
+#endif
+        for (GKScore *gkScore in gkScores_) {
+
+            [gkScore reportScoreWithCompletionHandler:^(NSError *error) {
+
+                if (error != nil) {
+                    NSLog(@"%@", error);
+                } else {
+                    [gkScores_ removeObject:gkScore];
+                    [self saveGKScores];
+#ifdef MYDEBUG
+                    NSLog(@"%@", gkScore.category);
+                    NSLog(@"score object removed");
+                    for (GKScore *gkScore in gkScores_) {
+                        NSLog(@"%@", gkScore);
+                    }
+#endif
+                }
+
+            }];
+        }
+	}
+}
+
+- (void)reportScore:(int64_t)score forCategory:(NSString*)category
+{
+	GKScore *scoreReporter = [[[GKScore alloc] initWithCategory:category] autorelease];
+	scoreReporter.value = score;
+    [gkScores_ addObject:scoreReporter];
+    [self saveGKScores];
+#ifdef MYDEBUG
+    NSLog(@"before calling Game Center in reportScore");
+    for (GKScore *gkScore in gkScores_) {
+        NSLog(@"%@", gkScore);
+    }
+#endif
+	[scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+
+		if (error != nil) {
+			NSLog(@"%@", error);
+		} else {
+            [gkScores_ removeObject:scoreReporter];
+            [self saveGKScores];
+#ifdef MYDEBUG
+            NSLog(@"score object removed");
+            for (GKScore *gkScore in gkScores_) {
+                NSLog(@"%@", gkScore);
+            }
+#endif
+        }
+
+	}];
 }
 
 #pragma mark -
@@ -262,6 +364,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	// Setup and load the highscores
 	highScores_ = [[NSArray alloc] init];
 	[self loadHighScores];
+
+    gkScores_ = [[NSMutableArray alloc] init];
 
     // Set the initial scenes state
     [currentScene_ transitionIn];

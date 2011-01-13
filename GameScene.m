@@ -26,7 +26,6 @@
 #import "ShieldPiece.h"
 #import "Score.h"
 #import "AlienShot.h"
-#import <GameKit/GameKit.h>
 
 #pragma mark -
 #pragma mark Private interface
@@ -1748,9 +1747,9 @@
 			}
 			if (score_ > 0 && sharedGameController_.localPlayerAuthenticated_) {
 				if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-					[self reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPadLeaderboard"];
+					[sharedGameController_ reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPadLeaderboard"];
 				} else {
-					[self reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPhoneLeaderboard"];
+					[sharedGameController_ reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPhoneLeaderboard"];
 				}
 				[sharedGameController_ transitionToSceneWithKey:@"menu"];
 			}
@@ -2079,18 +2078,6 @@
 			[sharedSoundManager_ stopSoundWithKey:@"bg"];
 			break;
 	}
-}
-
-- (void)reportScore:(int64_t)score forCategory:(NSString*)category
-{
-	GKScore *scoreReporter = [[[GKScore alloc] initWithCategory:category] autorelease];
-	scoreReporter.value = score;
-	[scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
-		if (error != nil)
-		{
-			NSLog(@"%@", error);
-		}
-	}];
 }
 
 @end
