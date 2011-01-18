@@ -11,6 +11,7 @@
 #import "EAGLView.h"
 #import "Score.h"
 #import "SettingsViewController.h"
+#import "LeaderboardViewController.h"
 #import <GameKit/GameKit.h>
 
 #pragma mark -
@@ -41,6 +42,9 @@
 @synthesize buttonPositions_;
 @synthesize graphicsChoice_;
 @synthesize localPlayerAuthenticated_;
+@synthesize leaderBoardScores_;
+@synthesize playerAlias_;
+@synthesize localPlayerScore_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
@@ -51,6 +55,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[highScores_ release];
     [settingsViewController_ release];
     [gkScores_ release];
+    [leaderboardRequest release];
+    [playerAlias_ release];
     [super dealloc];
 }
 
@@ -122,6 +128,101 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 #pragma mark -
 #pragma mark Game Center
+
+- (void)retrieveTopScores {
+
+    if (leaderboardRequest != nil) {
+#ifdef MYDEBUG
+        NSLog(@"leaderboardRequest != nil");
+#endif
+        leaderboardRequest.playerScope = GKLeaderboardPlayerScopeGlobal;
+        leaderboardRequest.timeScope = GKLeaderboardTimeScopeAllTime;
+        leaderboardRequest.range = NSMakeRange(1,25);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            leaderboardRequest.category = @"com.noquarterarcade.classicinvaders.iPadLeaderboard";
+        } else {
+            leaderboardRequest.category = @"com.noquarterarcade.classicinvaders.iPhoneLeaderboard";
+        }
+        [leaderboardRequest loadScoresWithCompletionHandler: ^(NSArray *scores, NSError *error) {
+
+            if (error != nil)
+            {
+                // handle the error.
+                NSLog(@"Scores not retrieved from Game Center.");
+                NSLog(@"%@", error);
+            }
+
+            if (scores != nil)
+            {
+                // process the score information.
+                leaderBoardScores_ = scores;
+                NSMutableArray *playerIDs = [[NSMutableArray alloc] init];
+                for (GKScore *gkScore in leaderBoardScores_) {
+                    [playerIDs addObject:gkScore.playerID];
+                }
+                [self loadPlayerData:playerIDs];
+                [playerIDs release];
+#ifdef MYDEBUG
+                NSLog(@"retrieveTopScores");
+                for (GKScore *gkScore in leaderBoardScores_) {
+                    NSLog(@"%@", gkScore);
+                }
+#endif
+                localPlayerScore_ = leaderboardRequest.localPlayerScore;
+#ifdef MYDEBUG
+                NSLog(@"localPlayerScore_");
+                NSLog(@"%@", localPlayerScore_);
+#endif
+            } else {
+#ifdef MYDEBUG
+                NSLog(@"scores nil");
+#endif
+                leaderBoardScores_ = scores;
+                localPlayerScore_ = leaderboardRequest.localPlayerScore;
+#ifdef MYDEBUG
+                NSLog(@"localPlayerScore_");
+                NSLog(@"%@", localPlayerScore_);
+#endif
+            }
+        }];
+    }
+}
+
+- (void)loadPlayerData:(NSArray *)identifiers {
+
+    [GKPlayer loadPlayersForIdentifiers:identifiers withCompletionHandler:^(NSArray *players, NSError *error) {
+
+        if (error != nil)
+        {
+
+            // Handle the error.
+            NSLog(@"error loading player data");
+            NSLog(@"%@", error);
+
+        }
+
+        if (players != nil)
+        {
+
+            // Process the array of GKPlayer objects.
+            for (GKPlayer *gkPlayer in players) {
+                [playerAlias_ setObject:gkPlayer.alias forKey:gkPlayer.playerID];
+            }
+#ifdef MYDEBUG
+            NSLog(@"loadPlayerData");
+            NSEnumerator *enumerator = [playerAlias_ keyEnumerator];
+            id aKey = nil;
+            while ( (aKey = [enumerator nextObject]) != nil) {
+                id value = [playerAlias_ objectForKey:aKey];
+                NSLog(@"%@: %@", aKey, value);
+            }
+
+#endif
+        }
+
+    }];
+
+}
 
 - (void)saveGKScores {
 	// Set up the path to the data file that the scores will be saved too.
@@ -341,8 +442,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         settingsViewController_ = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController-iPad" bundle:[NSBundle mainBundle]];
+        leaderboardViewController_ = [[LeaderboardViewController alloc] initWithNibName:@"LeaderboardViewController-iPad" bundle:[NSBundle mainBundle]];
     } else {
         settingsViewController_ = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:[NSBundle mainBundle]];
+        leaderboardViewController_ = [[LeaderboardViewController alloc] initWithNibName:@"LeaderboardViewController" bundle:[NSBundle mainBundle]];
     }
 
 	// Settup the menu scenes
@@ -366,6 +469,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	[self loadHighScores];
 
     gkScores_ = [[NSMutableArray alloc] init];
+    leaderboardRequest = [[GKLeaderboard alloc] init];
+    playerAlias_ = [[NSMutableDictionary alloc] init];
 
     // Set the initial scenes state
     [currentScene_ transitionIn];

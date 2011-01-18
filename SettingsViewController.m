@@ -13,7 +13,6 @@
 
 @interface SettingsViewController (Private)
 
-// Moves the high score view into view when a showHighScore notification is received.
 - (void)show;
 
 // Update the controls on the view with the current values

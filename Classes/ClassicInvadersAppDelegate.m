@@ -112,6 +112,7 @@ BOOL isGameCenterAvailable()
         sharedGameController_.localPlayerAuthenticated_ = TRUE;
         [mainMenuViewController_ setScoreButton];
         [sharedGameController_ loadAndReportGKScores];
+        [sharedGameController_ retrieveTopScores];
     } else {
 #ifdef MYDEBUG
         NSLog(@"authenticationChanged player not authenticated");

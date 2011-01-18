@@ -9,6 +9,9 @@
 @class EAGLView;
 @class SoundManager;
 @class SettingsViewController;
+@class LeaderboardViewController;
+@class GKLeaderboard;
+@class GKScore;
 
 // Class responsbile for passing touch and game events to the correct game
 // scene.  A game scene is an object which is responsible for a specific
@@ -41,11 +44,16 @@
 	NSString *settingsFilePath;				// Location of the settings file
 
     SettingsViewController *settingsViewController_;			// Displays the settings
+    LeaderboardViewController *leaderboardViewController_;
 
     // Game Center
     BOOL gameCenterAvailable;
     BOOL localPlayerAuthenticated;
     NSMutableArray *gkScores_;
+    NSArray *leaderBoardScores_;
+    GKLeaderboard *leaderboardRequest;
+    GKScore *localPlayerScore_;
+    NSMutableDictionary *playerAlias_;
 
 }
 
@@ -57,6 +65,9 @@
 @property (nonatomic, assign) int buttonPositions_;
 @property (nonatomic, assign) int graphicsChoice_;
 @property (nonatomic, assign) BOOL localPlayerAuthenticated_;
+@property (nonatomic, retain) NSArray *leaderBoardScores_;
+@property (nonatomic, retain) NSMutableDictionary *playerAlias_;
+@property (nonatomic, retain) GKScore *localPlayerScore_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class
@@ -93,5 +104,7 @@
 - (void)reportScore:(int64_t)score forCategory:(NSString*)category;
 - (void)saveGKScores;
 - (void)loadAndReportGKScores;
+- (void)retrieveTopScores;
+- (void)loadPlayerData:(NSArray *)identifiers;
 
 @end
