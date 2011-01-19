@@ -249,12 +249,8 @@
 			if(alpha_ < 0.0f) {
 				alpha_ = 0.0f;
 				state_ = SceneState_Running;
-                if (sharedGameController_.localPlayerAuthenticated_) {
-                    [sharedGameController_ retrieveTopScores];
-                }
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"showMainMenu" object:self];
 			}
-
 			break;
 
 		case SceneState_TransitionOut:

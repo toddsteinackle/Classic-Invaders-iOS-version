@@ -310,6 +310,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 		} else {
             [gkScores_ removeObject:scoreReporter];
             [self saveGKScores];
+            [self retrieveTopScores];
 #ifdef MYDEBUG
             NSLog(@"score object removed");
             for (GKScore *gkScore in gkScores_) {

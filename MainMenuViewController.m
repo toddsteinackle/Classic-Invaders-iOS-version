@@ -158,7 +158,6 @@
 - (IBAction)highScores:(id)aSender {
     [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
     if (sharedGameController.localPlayerAuthenticated_) {
-        //[self hide:self];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showLeaderBoard" object:self];
     } else {
         menuScene.state_ = SceneState_Scores;
