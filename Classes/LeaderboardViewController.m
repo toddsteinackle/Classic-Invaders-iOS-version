@@ -62,13 +62,13 @@
         background.hidden = TRUE;
         scoreLable.hidden = TRUE;
         rankLable.hidden = TRUE;
+        [playerAlias setText:@""];
+        [playerScore setText:@""];
+        [playerRank setText:@""];
+        [playerDateOfScore setText:@""];
         if ([sharedGameController.leaderBoardScores_ count] == 0) {
             background.hidden = FALSE;
             [background setText:@"Leaderboard not available."];
-            [playerAlias setText:@""];
-            [playerScore setText:@""];
-            [playerRank setText:@""];
-            [playerDateOfScore setText:@""];
         }
     }
 
