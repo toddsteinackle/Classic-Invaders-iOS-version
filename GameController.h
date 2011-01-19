@@ -54,6 +54,7 @@
     GKLeaderboard *leaderboardRequest;
     GKScore *localPlayerScore_;
     NSMutableDictionary *playerAlias_;
+    BOOL scoresRetrieved_;
 
 }
 
@@ -68,6 +69,7 @@
 @property (nonatomic, retain) NSArray *leaderBoardScores_;
 @property (nonatomic, retain) NSMutableDictionary *playerAlias_;
 @property (nonatomic, retain) GKScore *localPlayerScore_;
+@property (nonatomic, assign) BOOL scoresRetrieved_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class

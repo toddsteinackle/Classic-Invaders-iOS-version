@@ -45,6 +45,7 @@
 @synthesize leaderBoardScores_;
 @synthesize playerAlias_;
 @synthesize localPlayerScore_;
+@synthesize scoresRetrieved_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
@@ -169,6 +170,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
                 }
 #endif
                 localPlayerScore_ = leaderboardRequest.localPlayerScore;
+                scoresRetrieved_ = TRUE;
 #ifdef MYDEBUG
                 NSLog(@"localPlayerScore_");
                 NSLog(@"%@", localPlayerScore_);
@@ -179,6 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 #endif
                 leaderBoardScores_ = scores;
                 localPlayerScore_ = leaderboardRequest.localPlayerScore;
+                scoresRetrieved_ = TRUE;
 #ifdef MYDEBUG
                 NSLog(@"localPlayerScore_");
                 NSLog(@"%@", localPlayerScore_);
