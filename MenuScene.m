@@ -566,7 +566,7 @@
     if (state_ == SceneState_Scores || state_ == SceneState_Help || state_ == SceneState_About) {
         if (CGRectContainsPoint(screenBounds_, touchLocation)) {
             [sharedSoundManager_ playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-            alpha_ = 0;
+            alpha_ = .25f;
             state_ = SceneState_TransitionIn;
             return;
         }
