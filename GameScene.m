@@ -110,6 +110,7 @@
 }
 
 - (void)initWave {
+	lastTimeInLoop_ = lastAlienShot_ = lastBonusLaunch_ = 0;
 	++wave_;
 	canPlayerFire_ = FALSE;
 	aliensHaveLanded_ = FALSE;
@@ -399,7 +400,6 @@
 
 - (void)initNewGame {
 	wave_ = 0;
-	lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
 	score_ = 0;
