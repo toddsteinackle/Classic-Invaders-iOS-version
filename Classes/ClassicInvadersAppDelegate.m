@@ -134,6 +134,10 @@ BOOL isGameCenterAvailable()
         [sharedGameController_.currentScene_ initPause];
     }
 	[glView_ stopAnimation];
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+#ifdef MYDEBUG
+    NSLog(@"applicationWillResignActive");
+#endif
 }
 
 - (void) applicationDidBecomeActive:(UIApplication *)application
@@ -142,6 +146,9 @@ BOOL isGameCenterAvailable()
         [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     }
     [glView_ startAnimation];
+#ifdef MYDEBUG
+    NSLog(@"applicationDidBecomeActive");
+#endif
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -152,6 +159,9 @@ BOOL isGameCenterAvailable()
 
 	// Enable the idle timer before we leave
 	[[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+#ifdef MYDEBUG
+    NSLog(@"applicationWillTerminate");
+#endif
 }
 
 @end
