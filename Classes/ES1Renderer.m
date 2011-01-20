@@ -136,13 +136,18 @@
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     GLfloat direction;
-	if (orientation == UIDeviceOrientationLandscapeRight) {
-        direction = 90;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        if (orientation == UIDeviceOrientationLandscapeRight) {
+            direction = 90;
+        } else {
+            direction = -90;
+        }
     } else {
-        direction = -90;
+        direction = 90;
     }
+
 	glTranslatef(backingWidth/2, backingHeight/2, 0);
 	glRotatef(direction, 0, 0, 1);
 	glTranslatef(-backingHeight/2,-backingWidth/2,0);
