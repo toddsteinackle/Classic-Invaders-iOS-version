@@ -58,6 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     [gkScores_ release];
     [leaderboardRequest release];
     [playerAlias_ release];
+    [playerIDs release];
     [super dealloc];
 }
 
@@ -157,12 +158,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
             {
                 // process the score information.
                 leaderBoardScores_ = scores;
-                NSMutableArray *playerIDs = [[NSMutableArray alloc] init];
                 for (GKScore *gkScore in leaderBoardScores_) {
                     [playerIDs addObject:gkScore.playerID];
                 }
                 [self loadPlayerData:playerIDs];
-                [playerIDs release];
 #ifdef MYDEBUG
                 NSLog(@"retrieveTopScores");
                 for (GKScore *gkScore in leaderBoardScores_) {
@@ -475,6 +474,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     gkScores_ = [[NSMutableArray alloc] init];
     leaderboardRequest = [[GKLeaderboard alloc] init];
     playerAlias_ = [[NSMutableDictionary alloc] init];
+    playerIDs = [[NSMutableArray alloc] init];
 
     // Set the initial scenes state
     [currentScene_ transitionIn];

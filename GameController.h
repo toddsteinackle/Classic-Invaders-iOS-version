@@ -55,6 +55,7 @@
     GKScore *localPlayerScore_;
     NSMutableDictionary *playerAlias_;
     BOOL scoresRetrieved_;
+    NSMutableArray *playerIDs;
 
 }
 
