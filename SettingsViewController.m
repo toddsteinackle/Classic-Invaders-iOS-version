@@ -144,6 +144,7 @@
 - (IBAction)hide:(id)sender {
 
 	[sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
+    [sharedGameController saveSettings];
 
 	// Fade out the view using core animation.  We do not want to remove this view from EAGLView
 	// until the fade has ended, so we use the animation delegate and AnimationDidStopSelector

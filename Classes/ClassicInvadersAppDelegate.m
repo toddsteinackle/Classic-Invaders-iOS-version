@@ -153,7 +153,6 @@ BOOL isGameCenterAvailable()
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [sharedGameController_ saveSettings];
 	// Stop the game loop
 	[glView_ stopAnimation];
 
