@@ -110,7 +110,6 @@
 }
 
 - (void)initWave {
-	lastTimeInLoop_ = lastAlienShot_ = lastBonusLaunch_ = 0;
 	++wave_;
 	canPlayerFire_ = FALSE;
 	aliensHaveLanded_ = FALSE;
@@ -400,6 +399,7 @@
 
 - (void)initNewGame {
 	wave_ = 0;
+	lastTimeInLoop_ = 0;
 	playerLives_ = 3;
 	nextFreeGuy_ = freeGuyValue_ = 10000;
 	score_ = 0;
@@ -510,14 +510,14 @@
 
 	[sharedSoundManager_ playSoundWithKey:@"active_bonus" gain:0.25f pitch:1.0 location:CGPointMake(0, 0) shouldLoop:TRUE];
 	bonusLaunchDelay_ = baseLaunchDelay_ + additionalBonusDelay_[randomListCount];
-	if (++randomListCount == randomListLength_) {
+	if (++randomListCount >= randomListLength_) {
 		randomListCount = 0;
 	}
 }
 
 - (void)alienFire {
 	static int alienShotCounter = 0;
-	// check that aliens has waited long enough to fire
+	// check that aliens have waited long enough to fire
 	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay_) {
 		return;
 	}
@@ -539,7 +539,7 @@
 #endif
 			}
 
-			if (++alienShotCounter == numberOfAlienShots_) {
+			if (++alienShotCounter >= numberOfAlienShots_) {
 				alienShotCounter = 0;
 			}
 		}
