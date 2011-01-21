@@ -110,6 +110,7 @@ BOOL isGameCenterAvailable()
         NSLog(@"player authenticated -- authenticationChanged");
 #endif
         sharedGameController_.scoresRetrieved_ = FALSE;
+        sharedGameController_.playerAliasesRetrieved_ = FALSE;
         sharedGameController_.localPlayerAuthenticated_ = TRUE;
         [mainMenuViewController_ setScoreButton];
         [sharedGameController_ loadAndReportGKScores];

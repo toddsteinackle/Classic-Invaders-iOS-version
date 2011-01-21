@@ -71,6 +71,7 @@
 @property (nonatomic, retain) NSMutableDictionary *playerAlias_;
 @property (nonatomic, retain) GKScore *localPlayerScore_;
 @property (nonatomic, assign) BOOL scoresRetrieved_;
+@property (nonatomic, assign) BOOL playerAliasesRetrieved_;
 
 // Class method to return an instance of GameController.  This is needed as this
 // class is a singleton class

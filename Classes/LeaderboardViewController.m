@@ -49,7 +49,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    if (sharedGameController.localPlayerScore_ != nil && sharedGameController.scoresRetrieved_) {
+    if (sharedGameController.localPlayerScore_ != nil && sharedGameController.scoresRetrieved_
+                                                      && sharedGameController.playerAliasesRetrieved_) {
         background.hidden = FALSE;
         [background setText:@""];
         scoreLable.hidden = FALSE;

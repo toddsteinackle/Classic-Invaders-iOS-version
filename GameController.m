@@ -46,6 +46,7 @@
 @synthesize playerAlias_;
 @synthesize localPlayerScore_;
 @synthesize scoresRetrieved_;
+@synthesize playerAliasesRetrieved_;
 
 // Make this class a singleton class
 SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
@@ -210,6 +211,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
             for (GKPlayer *gkPlayer in players) {
                 [playerAlias_ setObject:gkPlayer.alias forKey:gkPlayer.playerID];
             }
+            playerAliasesRetrieved_ = TRUE;
 #ifdef MYDEBUG
             NSLog(@"loadPlayerData");
             NSEnumerator *enumerator = [playerAlias_ keyEnumerator];
@@ -279,6 +281,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
                 } else {
                     [gkScores_ removeObject:gkScore];
                     [self saveGKScores];
+                    scoresRetrieved_ = FALSE;
+                    playerAliasesRetrieved_ = FALSE;
+                    [self retrieveTopScores];
 #ifdef MYDEBUG
                     NSLog(@"%@", gkScore.category);
                     NSLog(@"score object removed");
@@ -312,6 +317,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 		} else {
             [gkScores_ removeObject:scoreReporter];
             [self saveGKScores];
+            scoresRetrieved_ = FALSE;
+            playerAliasesRetrieved_ = FALSE;
             [self retrieveTopScores];
 #ifdef MYDEBUG
             NSLog(@"score object removed");
