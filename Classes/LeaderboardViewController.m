@@ -49,27 +49,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    if ([GKLocalPlayer localPlayer].authenticated) {
-        if (sharedGameController.localPlayerScore_ != nil && sharedGameController.scoresRetrieved_
-            && sharedGameController.playerAliasesRetrieved_) {
-            scoreTableView.hidden = FALSE;
-            [background setText:@""];
-            scoreLable.hidden = FALSE;
-            rankLable.hidden = FALSE;
-            [playerAlias setText:[GKLocalPlayer localPlayer].alias];
-            [playerScore setText:sharedGameController.localPlayerScore_.formattedValue];
-            [playerRank setText:[NSString stringWithFormat:@"%d", sharedGameController.localPlayerScore_.rank]];
-            [playerDateOfScore setText:[dateFormatter stringFromDate:sharedGameController.localPlayerScore_.date]];
-        } else {
-            scoreLable.hidden = TRUE;
-            rankLable.hidden = TRUE;
-            [playerAlias setText:@""];
-            [playerScore setText:@""];
-            [playerRank setText:@""];
-            [playerDateOfScore setText:@""];
-            scoreTableView.hidden = TRUE;
-            [background setText:@"  LEADERBOARD NOT AVAILABLE  "];
-        }
+    if ([GKLocalPlayer localPlayer].authenticated && sharedGameController.localPlayerScore_ != nil
+        && sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_) {
+        scoreTableView.hidden = FALSE;
+        [background setText:@""];
+        scoreLable.hidden = FALSE;
+        rankLable.hidden = FALSE;
+        [playerAlias setText:[GKLocalPlayer localPlayer].alias];
+        [playerScore setText:sharedGameController.localPlayerScore_.formattedValue];
+        [playerRank setText:[NSString stringWithFormat:@"%d", sharedGameController.localPlayerScore_.rank]];
+        [playerDateOfScore setText:[dateFormatter stringFromDate:sharedGameController.localPlayerScore_.date]];
     } else {
         scoreLable.hidden = TRUE;
         rankLable.hidden = TRUE;
@@ -78,7 +67,7 @@
         [playerRank setText:@""];
         [playerDateOfScore setText:@""];
         scoreTableView.hidden = TRUE;
-        [background setText:@"   PLEASE LOGIN TO GAMECENTER FOR THIS FEATURE   "];
+        [background setText:@"  LEADERBOARD NOT AVAILABLE  "];
     }
 
 	// Set the initial alpha of the view
