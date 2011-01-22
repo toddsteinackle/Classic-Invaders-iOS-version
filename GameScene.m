@@ -26,6 +26,7 @@
 #import "ShieldPiece.h"
 #import "Score.h"
 #import "AlienShot.h"
+#import <GameKit/GameKit.h>
 
 #pragma mark -
 #pragma mark Private interface
@@ -1489,7 +1490,7 @@
 									   justification:BitmapFontJustification_BottomCentered
 												text:[NSString stringWithFormat:@"Wave: %d", wave_]];
 			CGRect bottom = CGRectMake(0, 0, screenBounds_.size.width, screenBounds_.size.height/3);
-			if (score_ > 0 && !sharedGameController_.localPlayerAuthenticated_) {
+			if (score_ > 0 && !sharedGameController_.gameCenterAvailable_) {
 				if ([sharedGameController_.highScores_ count] < 10) {
 					[statusFont_ renderStringJustifiedInFrame:bottom
 											   justification:BitmapFontJustification_MiddleCentered
@@ -1740,12 +1741,12 @@
 		CGPoint touchLocation = [sharedGameController_ adjustTouchOrientationForTouch:originalTouchLocation];
 
 		if (state_ == SceneState_GameFinished) {
-			if (nameToBeEntered_) {
+			if (!sharedGameController_.gameCenterAvailable_ && nameToBeEntered_) {
 				[self getPlayerName];
 				nameToBeEntered_ = FALSE;
 				return;
 			}
-			if (score_ > 0 && sharedGameController_.localPlayerAuthenticated_) {
+			if (score_ > 0 && [GKLocalPlayer localPlayer].isAuthenticated) {
 				if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
 					[sharedGameController_ reportScore:(int64_t)score_ forCategory:@"com.noquarterarcade.classicinvaders.iPadLeaderboard"];
 				} else {

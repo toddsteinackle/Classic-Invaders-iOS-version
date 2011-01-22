@@ -49,28 +49,36 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    if (sharedGameController.localPlayerScore_ != nil && sharedGameController.scoresRetrieved_
-                                                      && sharedGameController.playerAliasesRetrieved_) {
-        background.hidden = FALSE;
-        [background setText:@""];
-        scoreLable.hidden = FALSE;
-        rankLable.hidden = FALSE;
-        [playerAlias setText:[GKLocalPlayer localPlayer].alias];
-        [playerScore setText:sharedGameController.localPlayerScore_.formattedValue];
-        [playerRank setText:[NSString stringWithFormat:@"%d", sharedGameController.localPlayerScore_.rank]];
-        [playerDateOfScore setText:[dateFormatter stringFromDate:sharedGameController.localPlayerScore_.date]];
+    if ([GKLocalPlayer localPlayer].authenticated) {
+        if (sharedGameController.localPlayerScore_ != nil && sharedGameController.scoresRetrieved_
+            && sharedGameController.playerAliasesRetrieved_) {
+            scoreTableView.hidden = FALSE;
+            [background setText:@""];
+            scoreLable.hidden = FALSE;
+            rankLable.hidden = FALSE;
+            [playerAlias setText:[GKLocalPlayer localPlayer].alias];
+            [playerScore setText:sharedGameController.localPlayerScore_.formattedValue];
+            [playerRank setText:[NSString stringWithFormat:@"%d", sharedGameController.localPlayerScore_.rank]];
+            [playerDateOfScore setText:[dateFormatter stringFromDate:sharedGameController.localPlayerScore_.date]];
+        } else {
+            scoreLable.hidden = TRUE;
+            rankLable.hidden = TRUE;
+            [playerAlias setText:@""];
+            [playerScore setText:@""];
+            [playerRank setText:@""];
+            [playerDateOfScore setText:@""];
+            scoreTableView.hidden = TRUE;
+            [background setText:@"  LEADERBOARD NOT AVAILABLE  "];
+        }
     } else {
-        background.hidden = TRUE;
         scoreLable.hidden = TRUE;
         rankLable.hidden = TRUE;
         [playerAlias setText:@""];
         [playerScore setText:@""];
         [playerRank setText:@""];
         [playerDateOfScore setText:@""];
-        if ([sharedGameController.leaderBoardScores_ count] == 0) {
-            background.hidden = FALSE;
-            [background setText:@"Leaderboard not available."];
-        }
+        scoreTableView.hidden = TRUE;
+        [background setText:@"   PLEASE LOGIN TO GAMECENTER FOR THIS FEATURE   "];
     }
 
 	// Set the initial alpha of the view
@@ -163,7 +171,7 @@
 		cell.contentView.backgroundColor = [UIColor colorWithRed:0.8 green:0.75 blue:0.6 alpha:0.2];
 	}
 
-	// Retrieve the score information from the game controller
+    // Retrieve the score information from the game controller
     GKScore *score = [sharedGameController.leaderBoardScores_ objectAtIndex:indexPath.row];
 
     // Update the score label

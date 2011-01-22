@@ -41,7 +41,7 @@
 @synthesize interfaceOrientation_;
 @synthesize buttonPositions_;
 @synthesize graphicsChoice_;
-@synthesize localPlayerAuthenticated_;
+@synthesize gameCenterAvailable_;
 @synthesize leaderBoardScores_;
 @synthesize playerAlias_;
 @synthesize localPlayerScore_;

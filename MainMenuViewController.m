@@ -75,7 +75,7 @@
 }
 
 - (void)setScoreButton {
-    if (sharedGameController.localPlayerAuthenticated_) {
+    if (sharedGameController.gameCenterAvailable_) {
         [scoreButton setTitle:@"Leaderboard" forState:UIControlStateNormal];
     } else {
         [scoreButton setTitle:@"High Scores" forState:UIControlStateNormal];
@@ -157,7 +157,7 @@
 }
 - (IBAction)highScores:(id)aSender {
     [sharedSoundManager playSoundWithKey:@"guiTouch" gain:0.3f pitch:1.0f location:CGPointMake(0, 0) shouldLoop:NO ];
-    if (sharedGameController.localPlayerAuthenticated_) {
+    if (sharedGameController.gameCenterAvailable_) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"showLeaderBoard" object:self];
     } else {
         menuScene.state_ = SceneState_Scores;

@@ -66,7 +66,7 @@
 @property (nonatomic, assign) UIInterfaceOrientation interfaceOrientation_;
 @property (nonatomic, assign) int buttonPositions_;
 @property (nonatomic, assign) int graphicsChoice_;
-@property (nonatomic, assign) BOOL localPlayerAuthenticated_;
+@property (nonatomic, assign) BOOL gameCenterAvailable_;
 @property (nonatomic, retain) NSArray *leaderBoardScores_;
 @property (nonatomic, retain) NSMutableDictionary *playerAlias_;
 @property (nonatomic, retain) GKScore *localPlayerScore_;

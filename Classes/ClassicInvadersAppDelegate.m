@@ -52,11 +52,11 @@ BOOL isGameCenterAvailable()
 	// Start the game
 	[glView_ startAnimation];
 
-    sharedGameController_.localPlayerAuthenticated_ = FALSE;
     if (isGameCenterAvailable()) {
 #ifdef MYDEBUG
         NSLog(@"Game Center Available");
 #endif
+        sharedGameController_.gameCenterAvailable_ = TRUE;
         [self authenticateLocalPlayer];
         [self registerForAuthenticationNotification];
         [mainMenuViewController_ setScoreButton];
@@ -64,6 +64,7 @@ BOOL isGameCenterAvailable()
 #ifdef MYDEBUG
         NSLog(@"Game Center Not Available");
 #endif
+        sharedGameController_.gameCenterAvailable_ = FALSE;
         [mainMenuViewController_ setScoreButton];
     }
 }
@@ -77,18 +78,14 @@ BOOL isGameCenterAvailable()
 #ifdef MYDEBUG
             NSLog(@"player authenticated -- initial");
 #endif
-            sharedGameController_.localPlayerAuthenticated_ = TRUE;
-            [mainMenuViewController_ setScoreButton];
-
         }
+
         else
         {
             // Your application can process the error parameter to report the error to the player.
 #ifdef MYDEBUG
             NSLog(@"GC authenticateWithCompletionHandler error");
 #endif
-            sharedGameController_.localPlayerAuthenticated_ = FALSE;
-            [mainMenuViewController_ setScoreButton];
         }
     }];
 }
@@ -111,8 +108,6 @@ BOOL isGameCenterAvailable()
 #endif
         sharedGameController_.scoresRetrieved_ = FALSE;
         sharedGameController_.playerAliasesRetrieved_ = FALSE;
-        sharedGameController_.localPlayerAuthenticated_ = TRUE;
-        [mainMenuViewController_ setScoreButton];
         [sharedGameController_ loadAndReportGKScores];
         [sharedGameController_ retrieveTopScores];
     } else {
@@ -120,8 +115,6 @@ BOOL isGameCenterAvailable()
         NSLog(@"authenticationChanged player not authenticated");
 #endif
         // Insert code here to clean up any outstanding Game Center-related classes.
-        sharedGameController_.localPlayerAuthenticated_ = FALSE;
-        [mainMenuViewController_ setScoreButton];
     }
 
 }
