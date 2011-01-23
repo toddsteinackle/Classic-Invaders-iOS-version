@@ -50,6 +50,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     if ([GKLocalPlayer localPlayer].authenticated && sharedGameController.localPlayerScore_ != nil
+        && [GKLocalPlayer localPlayer].playerID == sharedGameController.localPlayerScore_.playerID
         && sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_) {
         scoreTableView.hidden = FALSE;
         [background setText:@""];

@@ -106,10 +106,7 @@ BOOL isGameCenterAvailable()
 #ifdef MYDEBUG
         NSLog(@"player authenticated -- authenticationChanged");
 #endif
-        sharedGameController_.scoresRetrieved_ = FALSE;
-        sharedGameController_.playerAliasesRetrieved_ = FALSE;
         [sharedGameController_ loadAndReportGKScores];
-        [sharedGameController_ retrieveTopScores];
     } else {
 #ifdef MYDEBUG
         NSLog(@"authenticationChanged player not authenticated");

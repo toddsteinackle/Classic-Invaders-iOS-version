@@ -52,6 +52,7 @@
     NSMutableArray *gkScores_;
     NSArray *leaderBoardScores_;
     GKLeaderboard *leaderboardRequest;
+    GKLeaderboard *localPlayerScoreRequest;
     GKScore *localPlayerScore_;
     NSMutableDictionary *playerAlias_;
     BOOL scoresRetrieved_;

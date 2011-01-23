@@ -58,6 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     [settingsViewController_ release];
     [gkScores_ release];
     [leaderboardRequest release];
+    [localPlayerScoreRequest release];
     [playerAlias_ release];
     [playerIDs release];
     [super dealloc];
@@ -254,7 +255,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
     NSString *documentsDirectory = [paths objectAtIndex:0];
 
 	NSMutableData *highScoresData;
-    NSKeyedUnarchiver *decoder;
 
     // Check to see if the GKScores.dat file exists and if so load the contents into the
     // highScores array
@@ -262,40 +262,89 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
 	highScoresData = [NSData dataWithContentsOfFile:documentPath];
 
-	if (highScoresData) {
-		decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:highScoresData];
-		gkScores_ = [[decoder decodeObjectForKey:@"GKScores"] retain];
-		[decoder release];
+    if (localPlayerScoreRequest != nil) {
 #ifdef MYDEBUG
-        NSLog(@"before calling reportScore in loadAndReportGKScores");
-        for (GKScore *gkScore in gkScores_) {
-            NSLog(@"%@", gkScore);
-        }
+        NSLog(@"localPlayerScoreRequest query");
 #endif
-        for (GKScore *gkScore in gkScores_) {
+        localPlayerScoreRequest.playerScope = GKLeaderboardPlayerScopeGlobal;
+        localPlayerScoreRequest.timeScope = GKLeaderboardTimeScopeAllTime;
+        localPlayerScoreRequest.range = NSMakeRange(1,1);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            localPlayerScoreRequest.category = @"com.noquarterarcade.classicinvaders.iPadLeaderboard";
+        } else {
+            localPlayerScoreRequest.category = @"com.noquarterarcade.classicinvaders.iPhoneLeaderboard";
+        }
+        [localPlayerScoreRequest loadScoresWithCompletionHandler: ^(NSArray *scores, NSError *error) {
 
-            [gkScore reportScoreWithCompletionHandler:^(NSError *error) {
+            if (error != nil)
+            {
+                // handle the error.
+                NSLog(@"localPlayerScore not retrieved from Game Center -- localPlayerScoreRequest.");
+                NSLog(@"%@", error);
+            } else {
+                localPlayerScore_ = localPlayerScoreRequest.localPlayerScore;
 
-                if (error != nil) {
-                    NSLog(@"%@", error);
-                } else {
-                    [gkScores_ removeObject:gkScore];
-                    [self saveGKScores];
-                    scoresRetrieved_ = FALSE;
-                    playerAliasesRetrieved_ = FALSE;
-                    [self retrieveTopScores];
+                if (highScoresData) {
+                    NSKeyedUnarchiver *decoder;
+                    decoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:highScoresData];
+                    gkScores_ = [[decoder decodeObjectForKey:@"GKScores"] retain];
+                    [decoder release];
 #ifdef MYDEBUG
-                    NSLog(@"%@", gkScore.category);
-                    NSLog(@"score object removed");
+                    NSLog(@"before calling reportScore in loadAndReportGKScores");
                     for (GKScore *gkScore in gkScores_) {
                         NSLog(@"%@", gkScore);
                     }
 #endif
-                }
+                    NSMutableArray *itemsToKeep = [NSMutableArray arrayWithCapacity:[gkScores_ count]];
+                    int endFlag = 1;
+                    for (GKScore *gkScore in gkScores_) {
 
-            }];
-        }
-	}
+                        [gkScore reportScoreWithCompletionHandler:^(NSError *error) {
+
+                            if (error != nil) {
+                                NSLog(@"%@", error);
+                            } else {
+#ifdef MYDEBUG
+                                NSLog(@"attempted to resubmit score object");
+#endif
+                                if (endFlag == [gkScores_ count]) {
+                                    sharedGameController.scoresRetrieved_ = FALSE;
+                                    sharedGameController.playerAliasesRetrieved_ = FALSE;
+                                    [sharedGameController retrieveTopScores];
+                                }
+                            }
+
+                        }];
+
+                        if (![localPlayerScore_.playerID isEqualToString:gkScore.playerID]) {
+                            [itemsToKeep addObject:gkScore];
+                        } else {
+                            if (gkScore.value >= localPlayerScore_.value) {
+                                [itemsToKeep addObject:gkScore];
+                            }
+                        }
+#ifdef MYDEBUG
+                        NSLog(@"%d flag", endFlag);
+                        NSLog(@"%d count", [gkScores_ count]);
+#endif
+                        ++endFlag;
+                    }
+                    [gkScores_ setArray:itemsToKeep];
+                    [self saveGKScores];
+#ifdef MYDEBUG
+                    NSLog(@"after calling reportScore in loadAndReportGKScores");
+                    for (GKScore *gkScore in gkScores_) {
+                        NSLog(@"%@", gkScore);
+                    }
+#endif
+                } else {
+                    sharedGameController.scoresRetrieved_ = FALSE;
+                    sharedGameController.playerAliasesRetrieved_ = FALSE;
+                    [sharedGameController retrieveTopScores];
+                }
+            }
+        }];
+    }
 }
 
 - (void)reportScore:(int64_t)score forCategory:(NSString*)category
@@ -315,17 +364,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 		if (error != nil) {
 			NSLog(@"%@", error);
 		} else {
-            [gkScores_ removeObject:scoreReporter];
-            [self saveGKScores];
             scoresRetrieved_ = FALSE;
             playerAliasesRetrieved_ = FALSE;
             [self retrieveTopScores];
-#ifdef MYDEBUG
-            NSLog(@"score object removed");
-            for (GKScore *gkScore in gkScores_) {
-                NSLog(@"%@", gkScore);
-            }
-#endif
         }
 
 	}];
@@ -480,6 +521,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 
     gkScores_ = [[NSMutableArray alloc] init];
     leaderboardRequest = [[GKLeaderboard alloc] init];
+    localPlayerScoreRequest = [[GKLeaderboard alloc] init];
     playerAlias_ = [[NSMutableDictionary alloc] init];
     playerIDs = [[NSMutableArray alloc] init];
 
