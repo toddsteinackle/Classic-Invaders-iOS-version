@@ -48,6 +48,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
 
     if ([GKLocalPlayer localPlayer].authenticated && sharedGameController.localPlayerScore_ != nil
         && [GKLocalPlayer localPlayer].playerID == sharedGameController.localPlayerScore_.playerID
@@ -95,9 +96,6 @@
             self.view.center = CGPointMake(160, 240);
         }
 	}
-}
-
-- (void)viewDidAppear:(BOOL)animated {
 }
 
 - (void) orientationChanged:(NSNotification *)notification {

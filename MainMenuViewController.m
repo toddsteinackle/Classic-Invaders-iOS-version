@@ -42,11 +42,9 @@
     [super dealloc];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
 	// Set the initial alpha of the view
 	self.view.alpha = 0;
 
