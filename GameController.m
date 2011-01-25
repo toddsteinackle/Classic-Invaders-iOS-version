@@ -113,8 +113,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	scores = [NSMutableData data];
 	encoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:scores];
 
-	// Archive the scores
-	[encoder encodeObject:unsortedHighScores_ forKey:@"highScores"];
+	// Archive the top ten scores
+    NSMutableArray *scoresToArchive = [NSMutableArray arrayWithCapacity:10];
+    NSUInteger j = [highScores_ count];
+#ifdef MYDEBUG
+    NSLog(@"[highScores_ count] -- %d", j);
+#endif
+    if (j > 10) {
+        j = 10;
+    }
+    for (NSUInteger i = 0; i < j; ++i) {
+        [scoresToArchive insertObject:[highScores_ objectAtIndex:i] atIndex:i];
+    }
+
+	[encoder encodeObject:scoresToArchive forKey:@"highScores"];
 
 	// Finish encoding and write the contents of scores to file
 	[encoder finishEncoding];
@@ -126,8 +138,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 	Score *s = [[Score alloc] initWithScore:score name:name wave:wave];
 	[unsortedHighScores_ addObject:s];
 	[s release];
+    [self sortHighScores];
 	[self saveHighScores];
-	[self sortHighScores];
 }
 
 #pragma mark -
