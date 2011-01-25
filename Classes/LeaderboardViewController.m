@@ -52,7 +52,9 @@
 
     if ([GKLocalPlayer localPlayer].authenticated && sharedGameController.localPlayerScore_ != nil
         && [GKLocalPlayer localPlayer].playerID == sharedGameController.localPlayerScore_.playerID
-        && sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_) {
+        && sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_
+        && [sharedGameController.leaderBoardScores_ count] != 0)
+    {
         scoreTableView.hidden = FALSE;
         [background setText:@""];
         scoreLable.hidden = FALSE;

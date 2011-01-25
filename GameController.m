@@ -295,10 +295,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
                         NSLog(@"%@", gkScore);
                     }
 #endif
-                    NSMutableArray *itemsToKeep = [NSMutableArray arrayWithCapacity:[gkScores_ count]];
-                    int endFlag = 1;
+                    // get the scores that can be submitted
+                    NSMutableArray *scoresToSubmit = [NSMutableArray arrayWithCapacity:[gkScores_ count]];
                     for (GKScore *gkScore in gkScores_) {
+                        if (localPlayerScore_) {
+                            if ([localPlayerScore_.playerID isEqualToString:gkScore.playerID]
+                                && gkScore.value >= localPlayerScore_.value) {
+                                [scoresToSubmit addObject:gkScore];
+                            }
+                        } else {
+                            if ([[GKLocalPlayer localPlayer].playerID isEqualToString:gkScore.playerID] ) {
+                                [scoresToSubmit addObject:gkScore];
+                            }
+                        }
+                    }
 
+                    if ([scoresToSubmit count] == 0) {
+                        sharedGameController.scoresRetrieved_ = FALSE;
+                        sharedGameController.playerAliasesRetrieved_ = FALSE;
+                        [sharedGameController retrieveTopScores];
+                    }
+
+                    // submit the scores
+                    int endFlag = 1;
+                    for (GKScore *gkScore in scoresToSubmit) {
                         [gkScore reportScoreWithCompletionHandler:^(NSError *error) {
 
                             if (error != nil) {
@@ -307,7 +327,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
 #ifdef MYDEBUG
                                 NSLog(@"attempted to resubmit score object");
 #endif
-                                if (endFlag == [gkScores_ count]) {
+                                if (endFlag == [scoresToSubmit count]) {
                                     sharedGameController.scoresRetrieved_ = FALSE;
                                     sharedGameController.playerAliasesRetrieved_ = FALSE;
                                     [sharedGameController retrieveTopScores];
@@ -315,19 +335,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
                             }
 
                         }];
-
-                        if (![localPlayerScore_.playerID isEqualToString:gkScore.playerID]) {
-                            [itemsToKeep addObject:gkScore];
-                        } else {
-                            if (gkScore.value >= localPlayerScore_.value) {
-                                [itemsToKeep addObject:gkScore];
-                            }
-                        }
 #ifdef MYDEBUG
                         NSLog(@"%d flag", endFlag);
-                        NSLog(@"%d count", [gkScores_ count]);
+                        NSLog(@"%d scoresToSubmit count", [scoresToSubmit count]);
 #endif
                         ++endFlag;
+                    }
+
+                    // items to save after scores have been submitted
+                    NSMutableArray *itemsToKeep = [NSMutableArray arrayWithCapacity:[gkScores_ count]];
+                    for (GKScore *gkScore in gkScores_) {
+                        if (localPlayerScore_) {
+                            if (![localPlayerScore_.playerID isEqualToString:gkScore.playerID]) {
+                                [itemsToKeep addObject:gkScore];
+                            } else {
+                                if (gkScore.value >= localPlayerScore_.value) {
+                                    [itemsToKeep addObject:gkScore];
+                                }
+                            }
+                        } else {
+                            [itemsToKeep addObject:gkScore];
+                        }
                     }
                     [gkScores_ setArray:itemsToKeep];
                     [self saveGKScores];
