@@ -746,7 +746,15 @@
 				lastTimeInLoop_ = 0;
 				lastAlienShot_ = CACurrentMediaTime();
 				if (alienCount_ >= 50) {
-					state_ = SceneState_WaveOver;
+					if (bonus_.state_ != EntityState_Alive
+						&& [self noneAliveWithEntityArray:alienShots_]
+						&& [self noneAliveWithEntityArray:playerShots_]) {
+						lastTimeInLoop_ = CACurrentMediaTime();
+						state_ = SceneState_WaveCleanup;
+						[sharedSoundManager_ playSoundWithKey:@"wave_end" gain:0.6f];
+					} else {
+						state_ = SceneState_WaveOver;
+					}
 					[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 				} else {
 					state_ = SceneState_Running;
@@ -967,6 +975,7 @@
 
 #pragma mark WaveCleanup
 		case SceneState_WaveCleanup:
+			canPlayerFire_ = FALSE;
 			if (CACurrentMediaTime() - lastTimeInLoop_ < 3.0f) {
 				for(Alien *alien in aliens_) {
 					[alien updateWithDelta:aDelta scene:self];
@@ -975,11 +984,10 @@
 				[bonus_ updateWithDelta:aDelta scene:self];
 				[bonus_ movementWithDelta:aDelta];
 				for (Shot *shot in playerShots_) {
-					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
 				for (Shot *shot in alienShots_) {
-					//[shot updateWithDelta:aDelta scene:self];
+					[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
 
@@ -1029,7 +1037,7 @@
 			if (bonus_.state_ == EntityState_Dying || bonus_.state_ == EntityState_Idle) {
 				canPlayerFire_ = FALSE;
 			}
-			if (bonus_.state_ == EntityState_Dying || bonus_.state_ == EntityState_Idle
+			if (bonus_.state_ != EntityState_Alive
 				&& [self noneAliveWithEntityArray:alienShots_]
 				&& [self noneAliveWithEntityArray:playerShots_]) {
 				lastTimeInLoop_ = CACurrentMediaTime();
@@ -1039,19 +1047,17 @@
 #endif
 				[sharedSoundManager_ playSoundWithKey:@"wave_end" gain:0.6f];
 			}
-			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
 			[bonus_ updateWithDelta:aDelta scene:self];
 			[bonus_ movementWithDelta:aDelta];
 
 			for (Shot *shot in playerShots_) {
-				//[shot updateWithDelta:aDelta scene:self];
 				[shot movementWithDelta:aDelta];
 			}
 
 			for (Shot *shot in alienShots_) {
-				//[shot updateWithDelta:aDelta scene:self];
+				[shot updateWithDelta:aDelta scene:self];
 				[shot movementWithDelta:aDelta];
 			}
 
@@ -1100,7 +1106,6 @@
 				}
 			}
 
-			//[player_ updateWithDelta:aDelta scene:self];
 			[player_ movementWithDelta:aDelta];
 
 			[bonus_ updateWithDelta:aDelta scene:self];
@@ -1110,7 +1115,6 @@
 
 			for (Shot *shot in playerShots_) {
 				if (shot.state_ == EntityState_Alive) {
-					//[shot updateWithDelta:aDelta scene:self];
 					[shot movementWithDelta:aDelta];
 				}
 			}
