@@ -195,6 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(GameController);
                 leaderBoardScores_ = scores;
                 localPlayerScore_ = leaderboardRequest.localPlayerScore;
                 scoresRetrieved_ = TRUE;
+                playerAliasesRetrieved_ = TRUE;
 #ifdef MYDEBUG
                 NSLog(@"localPlayerScore_");
                 NSLog(@"%@", localPlayerScore_);

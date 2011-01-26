@@ -11,6 +11,7 @@
 #import "GameController.h"
 #import "AbstractScene.h"
 #import "ClassicInvadersAppDelegate.h"
+#import <GameKit/GameKit.h>
 
 @interface MainMenuViewController (Private)
 
@@ -74,7 +75,19 @@
 
 - (void)setScoreButton {
     if (sharedGameController.gameCenterAvailable_) {
-        [scoreButton setTitle:@"Leaderboard" forState:UIControlStateNormal];
+        if (![GKLocalPlayer localPlayer].authenticated) {
+            [scoreButton setTitle:@"Leaderboard" forState:UIControlStateNormal];
+            [scoreButton setEnabled:FALSE];
+            return;
+        }
+        if (sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_) {
+            [scoreButton setTitle:@"Leaderboard" forState:UIControlStateNormal];
+            [scoreButton setEnabled:TRUE];
+        } else {
+            [scoreButton setTitle:@"Leaderboard Loading" forState:UIControlStateNormal];
+            [scoreButton setEnabled:FALSE];
+        }
+
     } else {
         [scoreButton setTitle:@"High Scores" forState:UIControlStateNormal];
     }
