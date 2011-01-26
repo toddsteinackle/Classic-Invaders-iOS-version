@@ -1030,6 +1030,7 @@
 #pragma mark WaveOver
 		case SceneState_WaveOver:
 
+			[sharedSoundManager_ stopSoundWithKey:@"bg_1"];
 			for(Alien *alien in aliens_) {
 				[alien updateWithDelta:aDelta scene:self];
 			}
