@@ -56,6 +56,7 @@
         && [sharedGameController.leaderBoardScores_ count] != 0)
     {
         scoreTableView.hidden = FALSE;
+        background.hidden = FALSE;
         [background setText:@""];
         scoreLable.hidden = FALSE;
         rankLable.hidden = FALSE;
@@ -63,6 +64,20 @@
         [playerScore setText:sharedGameController.localPlayerScore_.formattedValue];
         [playerRank setText:[NSString stringWithFormat:@"%d", sharedGameController.localPlayerScore_.rank]];
         [playerDateOfScore setText:[dateFormatter stringFromDate:sharedGameController.localPlayerScore_.date]];
+    }
+    else if ([GKLocalPlayer localPlayer].authenticated && sharedGameController.localPlayerScore_ == nil
+               && sharedGameController.scoresRetrieved_ && sharedGameController.playerAliasesRetrieved_
+               && [sharedGameController.leaderBoardScores_ count] != 0)
+    {
+        scoreLable.hidden = TRUE;
+        rankLable.hidden = TRUE;
+        [background setText:@""];
+        [playerAlias setText:@""];
+        [playerScore setText:@""];
+        [playerRank setText:@""];
+        [playerDateOfScore setText:@""];
+        scoreTableView.hidden = FALSE;
+        background.hidden = TRUE;
     } else {
         scoreLable.hidden = TRUE;
         rankLable.hidden = TRUE;
@@ -71,6 +86,7 @@
         [playerRank setText:@""];
         [playerDateOfScore setText:@""];
         scoreTableView.hidden = TRUE;
+        background.hidden = FALSE;
         [background setText:@"  LEADERBOARD NOT AVAILABLE  "];
     }
 
