@@ -114,6 +114,7 @@
 	++wave_;
 	canPlayerFire_ = FALSE;
 	aliensHaveLanded_ = FALSE;
+	alienToFire_ = alienShotCounter_ = 0;
 
 	[player_ release];
 	player_ = [[Player alloc] initWithPixelLocation:CGPointMake(0,0)];
@@ -517,18 +518,16 @@
 }
 
 - (void)alienFire {
-	static int alienShotCounter = 0;
 	// check that aliens have waited long enough to fire
 	if (CACurrentMediaTime() - lastAlienShot_ < alienShotDelay_) {
 		return;
 	}
 	// record time and fire
 	lastAlienShot_ = CACurrentMediaTime();
-	static int alienToFire = 0;
-	++alienToFire;
+	++alienToFire_;
 	for (Alien *alien in aliens_) {
-		if (alien.state_ == EntityState_Alive && alien.canFire_ && alien.fireChance_ == alienToFire) {
-			Shot *shot = [alienShots_ objectAtIndex:alienShotCounter];
+		if (alien.state_ == EntityState_Alive && alien.canFire_ && alien.fireChance_ == alienToFire_) {
+			Shot *shot = [alienShots_ objectAtIndex:alienShotCounter_];
 			if (shot.state_ == EntityState_Idle) {
 				shot.pixelLocation_ = CGPointMake(alien.pixelLocation_.x + alien.alienInitialXShotPostion_,
 												  alien.pixelLocation_.y - alien.alienInitialYShotPostion_);
@@ -540,13 +539,13 @@
 #endif
 			}
 
-			if (++alienShotCounter >= numberOfAlienShots_) {
-				alienShotCounter = 0;
+			if (++alienShotCounter_ >= numberOfAlienShots_) {
+				alienShotCounter_ = 0;
 			}
 		}
 	}
-	if (alienToFire >= alienOddRange_) {
-		alienToFire = 0;
+	if (alienToFire_ >= alienOddRange_) {
+		alienToFire_ = 0;
 	}
 }
 - (void)playerFireShot {

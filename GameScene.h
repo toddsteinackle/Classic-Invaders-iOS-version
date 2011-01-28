@@ -90,6 +90,8 @@
     Image *shipImage_;
     float bgGain_;
     float shipRenderPoint_;
+    int alienShotCounter_;
+    int alienToFire_;
 }
 
 @property (nonatomic, assign) CGFloat screenSidePadding_;
